@@ -1,0 +1,13 @@
+{
+  "helloWorld": "Hello World!",
+  "hello": "こんにちは {userName}",
+  "@hello": {
+    "description": "Greeting for the user",
+    "placeholders": {
+      "userName": {
+        "type": "String",
+        "example": "Bob"
+      }
+    }
+  }
+}
