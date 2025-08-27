@@ -85,34 +85,108 @@ class _MyHomePageState extends State<MyHomePage> {
         // the App.build method, and use it to set our appbar title.
         // title: Text(widget.title),
         // title: Text(AppLocalizations.of(context)!.helloWorld),
-        title: Text(AppLocalizations.of(context)!.hello('Neil')),
+        title: Text(AppLocalizations.of(context)!.hello('Dongs')),
+        centerTitle: true,
       ),
-      body: Center(
-        // Center is a layout widget. It takes a single child and positions it
-        // in the middle of the parent.
-        child: Column(
-          // Column is also a layout widget. It takes a list of children and
-          // arranges them vertically. By default, it sizes itself to fit its
-          // children horizontally, and tries to be as tall as its parent.
-          //
-          // Column has various properties to control how it sizes itself and
-          // how it positions its children. Here we use mainAxisAlignment to
-          // center the children vertically; the main axis here is the vertical
-          // axis because Columns are vertical (the cross axis would be
-          // horizontal).
-          //
-          // TRY THIS: Invoke "debug painting" (choose the "Toggle Debug Paint"
-          // action in the IDE, or press "p" in the console), to see the
-          // wireframe for each widget.
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            const Text('You have pushed the button this many times:'),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headlineMedium,
+      endDrawer: Drawer(
+        child: ListView(
+          children: [
+            SizedBox(
+              height: 50,
+              child: Container(
+                decoration: BoxDecoration(color: Colors.blueAccent),
+                margin: EdgeInsets.all(0.0),
+                padding: EdgeInsets.all(0.0),
+                child: Center(child: Text('Headers')),
+              ),
+            ),
+            Container(
+              // color: Colors.red,
+              child: ListTile(
+                leading: Icon(Icons.settings),
+                title: Text(AppLocalizations.of(context)!.hello('Dongs')),
+              ),
+            ),
+            Container(
+              // color: Colors.blue,
+              child: ListTile(
+                leading: Icon(Icons.settings),
+                title: Text("Reset"),
+                onTap: () {
+                  // setState(() {
+                  //   _counter = 0;
+                  // });
+                },
+              ),
             ),
           ],
         ),
+      ),
+      // body: Center(
+      //   child: Column(
+      //     mainAxisAlignment: MainAxisAlignment.center,
+      //     children: <Widget>[
+      //       const Text('You have pushed the button this many times:'),
+      //       Text(
+      //         '$_counter',
+      //         style: Theme.of(context).textTheme.headlineMedium,
+      //       ),
+      //       TextButton(
+      //         onPressed: () {
+      //           // Handle text button press
+      //         },
+      //         child: Text('Text Button'),
+      //       ),
+      //     ],
+      //   ),
+      // ),
+      body: Column(
+        children: [
+          Expanded(
+            child: Center(
+              child: Column(
+                mainAxisSize:
+                    MainAxisSize.min, // Content wraps tightly and centers
+                children: <Widget>[
+                  const Text('You have pushed the button this many times:'),
+                  Text(
+                    '$_counter',
+                    style: Theme.of(context).textTheme.headlineMedium,
+                  ),
+                ],
+              ),
+            ),
+          ),
+          Padding(
+            // padding: const EdgeInsets.all(40.0),
+            padding: const EdgeInsets.only(
+              top: 40.0,
+              right: 40.0,
+              bottom: 40.0,
+              left: 20.0,
+            ),
+            child: Align(
+              alignment: Alignment.bottomLeft,
+              child: TextButton(
+                style: TextButton.styleFrom(
+                  padding: const EdgeInsets.all(16.0),
+                  backgroundColor: Colors.red,
+                  foregroundColor: Colors.white,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                ),
+                onPressed: () {
+                  setState(() {
+                    _counter = 0;
+                  });
+                  // Handle text button press
+                },
+                child: Text('Reset count'),
+              ),
+            ),
+          ),
+        ],
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: _incrementCounter,
