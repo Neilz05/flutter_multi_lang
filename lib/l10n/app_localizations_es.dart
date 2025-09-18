@@ -15,4 +15,7 @@ class AppLocalizationsEs extends AppLocalizations {
   String hello(String userName) {
     return 'Hello $userName';
   }
+
+  @override
+  String get counterMessage => 'You have pushed the button this many times:';
 }

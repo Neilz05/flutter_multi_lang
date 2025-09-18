@@ -15,4 +15,7 @@ class AppLocalizationsJa extends AppLocalizations {
   String hello(String userName) {
     return 'こんにちは $userName';
   }
+
+  @override
+  String get counterMessage => 'ボタンを何回押しましたか:';
 }

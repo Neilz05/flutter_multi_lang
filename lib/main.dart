@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'l10n/app_localizations.dart';
+import 'settings_page.dart';
+import 'login.dart';
 
 void main() {
   runApp(const MyApp());
@@ -30,7 +32,8 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.blueAccent),
       ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      home: LoginPage(),
+      // home: const MyHomePage(title: 'Flutter Demo Home Page'),
     );
   }
 }
@@ -100,24 +103,34 @@ class _MyHomePageState extends State<MyHomePage> {
                 child: Center(child: Text('Headers')),
               ),
             ),
-            Container(
-              // color: Colors.red,
-              child: ListTile(
-                leading: Icon(Icons.settings),
-                title: Text(AppLocalizations.of(context)!.hello('Dongs')),
-              ),
+            ListTile(
+              leading: Icon(Icons.settings),
+              title: Text(AppLocalizations.of(context)!.hello('Dongs')),
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => SettingsPage()),
+                );
+              },
             ),
-            Container(
-              // color: Colors.blue,
-              child: ListTile(
-                leading: Icon(Icons.settings),
-                title: Text("Reset"),
-                onTap: () {
-                  // setState(() {
-                  //   _counter = 0;
-                  // });
-                },
-              ),
+            ListTile(
+              leading: Icon(Icons.settings),
+              title: Text("Reset"),
+              onTap: () {
+                setState(() {
+                  _counter = 0;
+                });
+              },
+            ),
+            ListTile(
+              leading: Icon(Icons.settings),
+              title: Text('Logout'),
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => LoginPage()),
+                );
+              },
             ),
           ],
         ),
@@ -148,7 +161,8 @@ class _MyHomePageState extends State<MyHomePage> {
                 mainAxisSize:
                     MainAxisSize.min, // Content wraps tightly and centers
                 children: <Widget>[
-                  const Text('You have pushed the button this many times:'),
+                  Text(AppLocalizations.of(context)!.counterMessage),
+                  // const Text('You have pushed the button this many times:'),
                   Text(
                     '$_counter',
                     style: Theme.of(context).textTheme.headlineMedium,
@@ -157,42 +171,65 @@ class _MyHomePageState extends State<MyHomePage> {
               ),
             ),
           ),
-          Padding(
-            // padding: const EdgeInsets.all(40.0),
-            padding: const EdgeInsets.only(
-              top: 40.0,
-              right: 40.0,
-              bottom: 40.0,
-              left: 20.0,
-            ),
-            child: Align(
-              alignment: Alignment.bottomLeft,
-              child: TextButton(
-                style: TextButton.styleFrom(
-                  padding: const EdgeInsets.all(16.0),
-                  backgroundColor: Colors.red,
-                  foregroundColor: Colors.white,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                ),
-                onPressed: () {
-                  setState(() {
-                    _counter = 0;
-                  });
-                  // Handle text button press
-                },
-                child: Text('Reset count'),
-              ),
-            ),
-          ),
+          // Padding(
+          //   // padding: const EdgeInsets.all(40.0),
+          //   padding: const EdgeInsets.only(
+          //     top: 40.0,
+          //     right: 40.0,
+          //     bottom: 40.0,
+          //     left: 20.0,
+          //   ),
+          //   child: Align(
+          //     alignment: Alignment.bottomLeft,
+          //     child: TextButton(
+          //       style: TextButton.styleFrom(
+          //         padding: const EdgeInsets.all(16.0),
+          //         backgroundColor: Colors.red,
+          //         foregroundColor: Colors.white,
+          //         shape: RoundedRectangleBorder(
+          //           borderRadius: BorderRadius.circular(8),
+          //         ),
+          //       ),
+          //       onPressed: () {
+          //         setState(() {
+          //           _counter = 0;
+          //         });
+          //         // Handle text button press
+          //       },
+          //       child: Text('Reset count'),
+          //     ),
+          //   ),
+          // ),
         ],
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+      floatingActionButton: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 30.0),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            FloatingActionButton(
+              onPressed: _incrementCounter,
+              tooltip: 'Increment',
+              child: const Icon(Icons.add),
+            ),
+            FloatingActionButton(
+              onPressed: () {
+                setState(() {
+                  _counter--;
+                });
+              },
+              tooltip: 'Decrement',
+              child: const Icon(Icons.remove),
+            ),
+          ],
+        ),
+      ),
+      // floatingActionButton: FloatingActionButton(
+      //   onPressed: _incrementCounter,
+      //   tooltip: 'Increment',
+      //   child: const Icon(Icons.add),
+      // ), // This trailing comma makes auto-formatting nicer for build methods.
     );
   }
 }

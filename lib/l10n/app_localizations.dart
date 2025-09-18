@@ -111,6 +111,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Hello {userName}'**
   String hello(String userName);
+
+  /// No description provided for @counterMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'You have pushed the button this many times:'**
+  String get counterMessage;
 }
 
 class _AppLocalizationsDelegate

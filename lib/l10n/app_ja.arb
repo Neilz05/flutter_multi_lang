@@ -9,5 +9,6 @@
         "example": "Bob"
       }
     }
-  }
+  },
+  "counterMessage": "ボタンを何回押しましたか:"
 }
