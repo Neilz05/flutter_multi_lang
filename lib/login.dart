@@ -6,6 +6,8 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 
 class LoginPage extends StatefulWidget {
+  const LoginPage({super.key});
+
   @override
   State<LoginPage> createState() => _LoginPageState();
 }
@@ -26,14 +28,6 @@ String encryptJson(String jsonString, String keyString) {
   final encryptedMap = {'iv': iv.base64, 'ciphertext': encrypted.base64};
   return jsonEncode(encryptedMap);
 }
-
-// String decryptJson(String encryptedString, String keyString, String ivBase64) {
-//   final key = encrypt.Key.fromUtf8(keyString);
-//   final iv = encrypt.IV.fromBase64(ivBase64);
-//   final encrypter = encrypt.Encrypter(encrypt.AES(key));
-//   final decrypted = encrypter.decrypt64(encryptedString, iv: iv);
-//   return decrypted;
-// }
 
 String decryptJson(String encryptedJson, String keyString) {
   final key = encrypt.Key.fromUtf8(keyString);
@@ -71,9 +65,7 @@ class _LoginPageState extends State<LoginPage> {
           message = data['message'];
         });
       }
-    } catch (e) {
-      print('Error fetching data: $e');
-    }
+    } catch (e) {}
   }
 
   void _login() {
@@ -91,16 +83,13 @@ class _LoginPageState extends State<LoginPage> {
       'password': hashedPassword,
     };
     String jsonString = jsonEncode(userInfo);
-    print(jsonString); // {"username":"alice","age":30}
 
     String encryptedJson = encryptJson(jsonString, keyString);
     String decryptedJson = decryptJson(
       encryptedJson,
       keyString,
     ); // just for test
-    print('decrypted json is $decryptedJson');
     Map<String, dynamic> userMap = jsonDecode(decryptedJson);
-    print('userMap is ${userMap["username"]}');
     String realPassword = '12345'; // assumed to be from backend
     String realUsername = 'user'; // assumed to be from backend
     if (username == realUsername &&
@@ -111,9 +100,7 @@ class _LoginPageState extends State<LoginPage> {
           builder: (context) => MyHomePage(title: 'Flutter Demo Home Page'),
         ),
       );
-    } else {
-      print('Login failed');
-    }
+    } else {}
   }
 
   @override

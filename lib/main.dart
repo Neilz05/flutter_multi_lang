@@ -209,11 +209,13 @@ class _MyHomePageState extends State<MyHomePage> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             FloatingActionButton(
+              heroTag: 'increment_btn',
               onPressed: _incrementCounter,
               tooltip: 'Increment',
               child: const Icon(Icons.add),
             ),
             FloatingActionButton(
+              heroTag: 'decrement_btn',
               onPressed: () {
                 setState(() {
                   _counter--;

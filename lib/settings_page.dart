@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/constants.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'widgets/widgets.dart';
 
 final storage = FlutterSecureStorage();
 
@@ -10,79 +11,61 @@ class SettingsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Second Page')),
-      body: Center(child: Text('This is the second page!')),
-      bottomNavigationBar: BottomButton(
-        text: 'Continue',
-        onPressed: () {
-          // Your action here
-        },
+      appBar: AppBar(
+        backgroundColor: Colors.blueAccent,
+        title: Text('Second Page'),
       ),
-    );
-  }
-}
-
-class BottomButton extends StatelessWidget {
-  final String text;
-  final VoidCallback onPressed;
-
-  const BottomButton({super.key, required this.text, required this.onPressed});
-
-  @override
-  Widget build(BuildContext context) {
-    // return Row(
-    //   mainAxisAlignment: MainAxisAlignment.center,
-    //   children: [
-    //     SizedBox(
-    //       width: MediaQuery.of(context).size.width * 0.5,
-    //       height: spacing_48,
-    //       child: ElevatedButton(
-    //         onPressed: onPressed,
-    //         style: ElevatedButton.styleFrom(minimumSize: Size(20, spacing_48)),
-    //         child: Text(text),
-    //       ),
-    //     ),
-    //     SizedBox(height: 24),
-    //   ],
-    // );
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.end,
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: [
-        SizedBox(
-          width: MediaQuery.of(context).size.width * 0.5,
-          height: spacing_48,
-          child: ElevatedButton(
-            // onPressed: onPressed,
-            style: ElevatedButton.styleFrom(minimumSize: Size(0, spacing_48)),
-            child: Text(text),
-            onPressed: () async {
-              // Create storage instance
-              // final storage = FlutterSecureStorage();
-
-              // Write value
-              await storage.write(key: 'token', value: 'your_token');
-
-              // Read value
-              String? token = await storage.read(key: 'token');
-              print('token: $token');
-              // Delete value
-              await storage.delete(key: 'token');
-            },
-          ),
+      body: PaddedContainer(
+        padding: EdgeInsets.symmetric(horizontal: 0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            SizedBox(height: 16),
+            PaddedContainer(
+              child: Text(
+                'Settings',
+                style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+              ),
+            ),
+            SizedBox(height: 16),
+            PaddedContainer(
+              color: Colors.white,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text('Enable Feature X'),
+                  OptionSwitch(
+                    initialValue: true,
+                    onChanged: (val) {
+                      if (val) {}
+                    },
+                  ),
+                ],
+              ),
+            ),
+            PaddedContainer(
+              color: Colors.white,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text('Enable Feature Y'),
+                  OptionSwitch(
+                    initialValue: false,
+                    onChanged: (val) {
+                      if (val) {}
+                    },
+                  ),
+                ],
+              ),
+            ),
+            SizedBox(height: 16), // Add some spacing
+            PaddedContainer(
+              child: PrimaryButton(onPressed: () {}, text: 'Apply'),
+            ),
+            // Add more settings options here
+          ],
         ),
-        SizedBox(
-          width: MediaQuery.of(context).size.width * 0.5,
-          height: spacing_48,
-          child: ElevatedButton(
-            // onPressed: onPressed,
-            style: ElevatedButton.styleFrom(minimumSize: Size(0, spacing_48)),
-            child: Text(text),
-            onPressed: () {},
-          ),
-        ),
-        SizedBox(height: 24), // This adds vertical space below the button
-      ],
+      ),
     );
   }
 }
