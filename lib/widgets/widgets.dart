@@ -1,4 +1,5 @@
 import "package:flutter/material.dart";
+import 'package:flutter_application_1/constants.dart';
 
 //stateless widgets
 class PrimaryButton extends StatelessWidget {
@@ -15,7 +16,7 @@ class PrimaryButton extends StatelessWidget {
       child: ElevatedButton(
         onPressed: onPressed,
         style: ElevatedButton.styleFrom(
-          backgroundColor: Colors.blueAccent,
+          backgroundColor: primaryColor,
           foregroundColor: Colors.white,
           padding: EdgeInsets.symmetric(horizontal: 0, vertical: 0),
           // textStyle: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
@@ -69,18 +70,18 @@ class _OptionSwitchState extends State<OptionSwitch> {
     return Switch(
       trackOutlineColor: WidgetStateProperty.resolveWith<Color>((states) {
         if (states.contains(WidgetState.selected)) {
-          return Colors.blueAccent; // Active color
+          return primaryColor; // Active color
         }
         return Colors.grey; // Inactive color
       }),
       // activeColor: Colors.red,
       // trackColor: WidgetStateColor.fromMap({
-      //   WidgetState.selected: Colors.blueAccent,
+      //   WidgetState.selected: primaryColor,
       //   WidgetState.disabled: Colors.grey,
       // }),
       thumbIcon: WidgetStateProperty.all(const Icon(null)),
       thumbColor: WidgetStateProperty.all(Colors.white),
-      activeTrackColor: Colors.blueAccent,
+      activeTrackColor: primaryColor,
       inactiveThumbColor: Colors.black,
       inactiveTrackColor: Colors.grey,
       value: value,

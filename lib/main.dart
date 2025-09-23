@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'l10n/app_localizations.dart';
+import 'package:flutter_application_1/constants.dart';
 import 'settings_page.dart';
 import 'login.dart';
 
@@ -30,6 +31,7 @@ class MyApp extends StatelessWidget {
       locale: const Locale('ja', ''),
       title: 'Flutter Demo Home Page',
       theme: ThemeData(
+        scaffoldBackgroundColor: primaryBackgroundColor,
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.blueAccent),
       ),
       home: LoginPage(),
