@@ -7,8 +7,23 @@
       "userName": {
         "type": "String",
         "example": "Bob"
-      }
+      },
     }
   },
-  "counterMessage": "ボタンを何回押しましたか:"
+
+  "username": "ユーザー名",
+  "password": "パスワード",
+  "login": "ログイン",
+
+  "counterMessage": "ボタンを何回押しましたか:",
+  "apply": "適用",
+  "reset": "リセット",
+  "logout": "ログアウト",
+
+  "settings": "設定",
+  "settingsEnableFeatureX": "機能Xを有効にする",
+  "settingsEnableFeatureY": "機能Yを有効にする",
+  "settingsChangePassword": "パスワードを変更",
+  "settingsLanguage": "言語",
+  "settingsAccount": "アカウント"
 }

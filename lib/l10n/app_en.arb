@@ -10,5 +10,20 @@
       }
     }
   },
-  "counterMessage": "You have pushed the button this many times:"
+  
+  "username": "Username",
+  "password": "Password",
+  "login": "Login",
+
+  "counterMessage": "You have pushed the button this many times:",
+  "apply" : "Apply",
+  "reset": "Reset",
+  "logout": "Logout",
+
+  "settings": "Settings",
+  "settingsEnableFeatureX": "Enable Feature X",
+  "settingsEnableFeatureY": "Enable Feature Y",
+  "settingsChangePassword": "Change Password",
+  "settingsLanguage": "Language",
+  "settingsAccount": "Account"
 }

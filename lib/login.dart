@@ -1,9 +1,12 @@
-import 'package:flutter/material.dart';
-import 'main.dart';
-import 'package:encrypt/encrypt.dart' as encrypt;
-import 'package:crypto/crypto.dart';
 import 'dart:convert';
+
+import 'package:crypto/crypto.dart';
+import 'package:encrypt/encrypt.dart' as encrypt;
+import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+
+import 'package:flutter_application_1/main.dart';
+import 'package:flutter_application_1/utils/utils.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -94,18 +97,11 @@ class _LoginPageState extends State<LoginPage> {
     String realUsername = 'user'; // assumed to be from backend
     if (userMap['username'] == realUsername &&
         userMap['password'] == generateHashPassword(realPassword, salt)) {
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(
-          builder: (context) => MyHomePage(title: 'Flutter Demo Home Page'),
-        ),
-      );
+      navigateTo(context, MyHomePage(title: 'Flutter Demo Home Page'));
     } else {
-      Navigator.pushReplacement(
+      navigateAndReplace(
         context,
-        MaterialPageRoute(
-          builder: (context) => MyHomePage(title: 'Flutter Demo Home Page'),
-        ),
+        MyHomePage(title: 'Flutter Demo Home Page'),
       ); // Temporary bypass for testing
       // Show an error message or handle login failure
       // ScaffoldMessenger.of(
@@ -117,7 +113,7 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Login')),
+      appBar: AppBar(title: Text(context.lang.login)),
       body: Padding(
         padding: const EdgeInsets.all(24.0),
         child: Column(
@@ -127,16 +123,16 @@ class _LoginPageState extends State<LoginPage> {
               Image.network(message!, width: 300, height: 300),
             TextField(
               controller: _usernameController,
-              decoration: InputDecoration(labelText: 'Username'),
+              decoration: InputDecoration(labelText: context.lang.username),
             ),
             SizedBox(height: 16),
             TextField(
               controller: _passwordController,
-              decoration: InputDecoration(labelText: 'Password'),
+              decoration: InputDecoration(labelText: context.lang.password),
               obscureText: true,
             ),
             SizedBox(height: 24),
-            ElevatedButton(onPressed: _login, child: Text('Login')),
+            ElevatedButton(onPressed: _login, child: Text(context.lang.login)),
           ],
         ),
       ),

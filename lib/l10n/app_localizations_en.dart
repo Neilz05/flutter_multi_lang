@@ -17,5 +17,41 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
+  String get username => 'Username';
+
+  @override
+  String get password => 'Password';
+
+  @override
+  String get login => 'Login';
+
+  @override
   String get counterMessage => 'You have pushed the button this many times:';
+
+  @override
+  String get apply => 'Apply';
+
+  @override
+  String get reset => 'Reset';
+
+  @override
+  String get logout => 'Logout';
+
+  @override
+  String get settings => 'Settings';
+
+  @override
+  String get settingsEnableFeatureX => 'Enable Feature X';
+
+  @override
+  String get settingsEnableFeatureY => 'Enable Feature Y';
+
+  @override
+  String get settingsChangePassword => 'Change Password';
+
+  @override
+  String get settingsLanguage => 'Language';
+
+  @override
+  String get settingsAccount => 'Account';
 }

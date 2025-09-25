@@ -1,4 +1,5 @@
 import "package:flutter/material.dart";
+
 import 'package:flutter_application_1/constants.dart';
 
 //stateless widgets
@@ -12,14 +13,17 @@ class PrimaryButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return SizedBox(
       width: double.infinity,
-      height: 32,
+      height: primaryButtonHeight,
       child: ElevatedButton(
         onPressed: onPressed,
         style: ElevatedButton.styleFrom(
           backgroundColor: primaryColor,
           foregroundColor: Colors.white,
           padding: EdgeInsets.symmetric(horizontal: 0, vertical: 0),
-          // textStyle: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+          textStyle: TextStyle(
+            fontSize: primaryButtonFontSize,
+            fontWeight: FontWeight.bold,
+          ),
           // shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8.0)),
         ),
         child: Text(text),

@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'l10n/app_localizations.dart';
+
 import 'package:flutter_application_1/constants.dart';
-import 'settings_page.dart';
-import 'login.dart';
+import 'package:flutter_application_1/l10n/app_localizations.dart';
+import 'package:flutter_application_1/login.dart';
+import 'package:flutter_application_1/settings_page.dart';
+import 'package:flutter_application_1/utils/utils.dart';
 
 void main() {
   runApp(const MyApp());
@@ -90,24 +92,37 @@ class _MyHomePageState extends State<MyHomePage> {
         // the App.build method, and use it to set our appbar title.
         // title: Text(widget.title),
         // title: Text(AppLocalizations.of(context)!.helloWorld),
-        title: Text(AppLocalizations.of(context)!.hello('Dongs')),
+        // title: Text(context.lang.helloWorld),
+        title: Text(context.lang.hello("Dongs")),
+        // title: Text(AppLocalizations.of(context)!.hello('Dongs')),
         centerTitle: true,
       ),
       endDrawer: Drawer(
         child: ListView(
+          padding: EdgeInsets.zero,
           children: [
-            SizedBox(
-              height: 50,
-              child: Container(
-                decoration: BoxDecoration(color: Colors.blueAccent),
-                margin: EdgeInsets.all(0.0),
-                padding: EdgeInsets.all(0.0),
-                child: Center(child: Text('Headers')),
-              ),
+            const UserAccountsDrawerHeader(
+              accountName: Text("Admin"),
+              // accountEmail: const SizedBox.shrink(),
+              accountEmail: Text("sercomm.com"),
+              currentAccountPicture: FlutterLogo(),
             ),
+            // const DrawerHeader(
+            // decoration: BoxDecoration(color: Colors.blueAccent),
+            // child: Text('Menu'),
+            // ),
+            // SizedBox(
+            //   // height: 100,
+            //   child: Container(
+            //     decoration: BoxDecoration(color: Colors.blueAccent),
+            //     // margin: EdgeInsets.all(0.0),
+            //     // padding: EdgeInsets.all(0.0),
+            //     child: Center(child: Text('Headers')),
+            //   ),
+            // ),
             ListTile(
               leading: Icon(Icons.settings),
-              title: Text(AppLocalizations.of(context)!.hello('Dongs')),
+              title: Text(context.lang.settings),
               onTap: () {
                 Navigator.push(
                   context,
@@ -117,7 +132,7 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
             ListTile(
               leading: Icon(Icons.settings),
-              title: Text("Reset"),
+              title: Text(context.lang.reset),
               onTap: () {
                 setState(() {
                   _counter = 0;
@@ -126,7 +141,7 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
             ListTile(
               leading: Icon(Icons.settings),
-              title: Text('Logout'),
+              title: Text(context.lang.logout),
               onTap: () {
                 Navigator.push(
                   context,
