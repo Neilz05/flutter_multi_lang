@@ -16,6 +16,11 @@ void navigateAndReplace(BuildContext context, Widget page) {
   ); //pushReplacement = replaces the current page, meaning we cannot go back to it
 }
 
+bool isMmobileLayout(BuildContext context) {
+  final width = MediaQuery.of(context).size.width;
+  return width < 600; // Example threshold for mobile layout
+}
+
 extension LocalizationHelper on BuildContext {
   /// Shortcut to access localized strings
   AppLocalizations get lang => AppLocalizations.of(this)!;

@@ -7,7 +7,7 @@
       "userName": {
         "type": "String",
         "example": "Bob"
-      },
+      }
     }
   },
 

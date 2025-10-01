@@ -5,6 +5,7 @@ import 'package:encrypt/encrypt.dart' as encrypt;
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
+import 'package:flutter_application_1/constants.dart';
 import 'package:flutter_application_1/main.dart';
 import 'package:flutter_application_1/utils/utils.dart';
 
@@ -49,7 +50,6 @@ class _LoginPageState extends State<LoginPage> {
   String? message;
   final TextEditingController _usernameController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
-
   @override
   void initState() {
     super.initState();
@@ -112,15 +112,31 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        bool isMobile = isMmobileLayout(context);
+        return isMobile
+            ? buildMobileLayout(context)
+            : buildDesktopLayout(context);
+      },
+    );
+  }
+
+  Widget buildMobileLayout(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text(context.lang.login)),
+      // appBar: AppBar(title: Text(context.lang.login)),
       body: Padding(
         padding: const EdgeInsets.all(24.0),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            if (message != null)
-              Image.network(message!, width: 300, height: 300),
+            // if (message != null)
+            // Image.network(message!, width: 300, height: 300),
+            Image.asset(
+              'assets/images/sercomm_logo.png',
+              width: 250,
+              height: 250,
+            ),
             TextField(
               controller: _usernameController,
               decoration: InputDecoration(labelText: context.lang.username),
@@ -131,9 +147,84 @@ class _LoginPageState extends State<LoginPage> {
               decoration: InputDecoration(labelText: context.lang.password),
               obscureText: true,
             ),
-            SizedBox(height: 24),
-            ElevatedButton(onPressed: _login, child: Text(context.lang.login)),
+            SizedBox(height: spacing48),
+            SizedBox(
+              width: double.infinity,
+              child: ElevatedButton(
+                onPressed: _login,
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: primaryColor,
+                  foregroundColor: Theme.of(context).secondaryHeaderColor,
+                  // shape: RoundedRectangleBorder(
+                  //   borderRadius: BorderRadius.zero,
+                  // ),
+                ),
+                child: Text(context.lang.login),
+              ),
+            ),
+            // ElevatedButton(
+            //   onPressed: _login,
+            //   style: ElevatedButton.styleFrom(
+            //     backgroundColor: primaryColor,
+            //     foregroundColor: Theme.of(context).secondaryHeaderColor,
+            //   ),
+            //   child: Text(context.lang.login),
+            // ),
           ],
+        ),
+      ),
+    );
+  }
+
+  Widget buildDesktopLayout(BuildContext context) {
+    return Scaffold(
+      // appBar: AppBar(title: Text(context.lang.login)),
+      body: Padding(
+        padding: const EdgeInsets.all(24.0),
+        child: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              // if (message != null)
+              // Image.network(message!, width: 300, height: 300),
+              Image.asset(
+                'assets/images/sercomm_logo.png',
+                width: 250,
+                height: 250,
+              ),
+              ConstrainedBox(
+                constraints: BoxConstraints(maxWidth: 400),
+                child: TextField(
+                  controller: _usernameController,
+                  decoration: InputDecoration(labelText: context.lang.username),
+                ),
+              ),
+              SizedBox(height: 16),
+              ConstrainedBox(
+                constraints: BoxConstraints(maxWidth: 400),
+                child: TextField(
+                  controller: _passwordController,
+                  decoration: InputDecoration(labelText: context.lang.password),
+                  obscureText: true,
+                ),
+              ),
+              SizedBox(height: spacing48),
+              SizedBox(
+                width: 400,
+                child: ElevatedButton(
+                  onPressed: _login,
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: primaryColor,
+                    foregroundColor: Theme.of(context).secondaryHeaderColor,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.zero,
+                    ),
+                  ),
+                  child: Text(context.lang.login),
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );

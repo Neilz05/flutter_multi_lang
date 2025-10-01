@@ -101,6 +101,12 @@ class _MyHomePageState extends State<MyHomePage> {
         child: ListView(
           padding: EdgeInsets.zero,
           children: [
+            // const Drawer(
+            //   child: DrawerHeader(
+            //     decoration: BoxDecoration(color: Colors.blueAccent),
+            //     child: Text('Menu'),
+            //   ),
+            // ),
             const UserAccountsDrawerHeader(
               accountName: Text("Admin"),
               // accountEmail: const SizedBox.shrink(),
@@ -124,10 +130,7 @@ class _MyHomePageState extends State<MyHomePage> {
               leading: Icon(Icons.settings),
               title: Text(context.lang.settings),
               onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => SettingsPage()),
-                );
+                navigateTo(context, SettingsPage());
               },
             ),
             ListTile(
@@ -143,10 +146,7 @@ class _MyHomePageState extends State<MyHomePage> {
               leading: Icon(Icons.settings),
               title: Text(context.lang.logout),
               onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => LoginPage()),
-                );
+                navigateAndReplace(context, LoginPage());
               },
             ),
           ],
