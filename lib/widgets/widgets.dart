@@ -49,6 +49,28 @@ class PaddedContainer extends StatelessWidget {
   }
 }
 
+class PrimaryElevatedButton extends StatelessWidget {
+  final String text;
+  final VoidCallback? onPressed;
+  const PrimaryElevatedButton({super.key, required this.text, this.onPressed});
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      width: 200,
+      child: ElevatedButton(
+        style: ElevatedButton.styleFrom(
+          backgroundColor: Colors.blueAccent,
+          foregroundColor: Colors.white,
+          padding: EdgeInsets.symmetric(horizontal: 32, vertical: 12),
+        ),
+        onPressed: onPressed,
+        child: Text(text),
+      ),
+    );
+  }
+}
+
 //stateful widgets
 class OptionSwitch extends StatefulWidget {
   final bool initialValue;

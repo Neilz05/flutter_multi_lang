@@ -5,6 +5,7 @@ import 'package:flutter_application_1/constants.dart';
 import 'package:flutter_application_1/l10n/app_localizations.dart';
 import 'package:flutter_application_1/login.dart';
 import 'package:flutter_application_1/settings_page.dart';
+import 'package:flutter_application_1/wifi_welcome_page.dart';
 import 'package:flutter_application_1/utils/utils.dart';
 
 void main() {
@@ -131,6 +132,13 @@ class _MyHomePageState extends State<MyHomePage> {
               title: Text(context.lang.settings),
               onTap: () {
                 navigateTo(context, SettingsPage());
+              },
+            ),
+            ListTile(
+              leading: Icon(Icons.settings),
+              title: Text("Wifi Page"),
+              onTap: () {
+                navigateTo(context, WifiWelcomePage());
               },
             ),
             ListTile(
