@@ -65,7 +65,10 @@ class PrimaryElevatedButton extends StatelessWidget {
           padding: EdgeInsets.symmetric(horizontal: 32, vertical: 12),
         ),
         onPressed: onPressed,
-        child: Text(text),
+        child: Text(
+          text,
+          style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+        ),
       ),
     );
   }

@@ -25,5 +25,10 @@
   "settingsEnableFeatureY": "Enable Feature Y",
   "settingsChangePassword": "Change Password",
   "settingsLanguage": "Language",
-  "settingsAccount": "Account"
+  "settingsAccount": "Account",
+
+  "wifiSpeedTest": "Wifi Speed Test",
+  "wifiDownloadSpeed": "Download Speed",
+  "wifiUploadSpeed": "Upload Speed",
+  "wifiStartSpeedTest": "Start Speed Test"
 }

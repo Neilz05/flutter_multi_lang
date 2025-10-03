@@ -45,6 +45,7 @@ dependencies:
   android_intent_plus: ^6.0.0
   open_settings_plus: ^0.4.0
   flutter_speed_test_plus: ^1.0.10
+  syncfusion_flutter_gauges: ^31.1.19
 
 dev_dependencies:
   flutter_test:

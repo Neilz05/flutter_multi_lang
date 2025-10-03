@@ -187,6 +187,30 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Account'**
   String get settingsAccount;
+
+  /// No description provided for @wifiSpeedTest.
+  ///
+  /// In en, this message translates to:
+  /// **'Wifi Speed Test'**
+  String get wifiSpeedTest;
+
+  /// No description provided for @wifiDownloadSpeed.
+  ///
+  /// In en, this message translates to:
+  /// **'Download Speed'**
+  String get wifiDownloadSpeed;
+
+  /// No description provided for @wifiUploadSpeed.
+  ///
+  /// In en, this message translates to:
+  /// **'Upload Speed'**
+  String get wifiUploadSpeed;
+
+  /// No description provided for @wifiStartSpeedTest.
+  ///
+  /// In en, this message translates to:
+  /// **'Start Speed Test'**
+  String get wifiStartSpeedTest;
 }
 
 class _AppLocalizationsDelegate

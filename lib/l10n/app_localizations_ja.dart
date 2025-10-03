@@ -54,4 +54,16 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get settingsAccount => 'アカウント';
+
+  @override
+  String get wifiSpeedTest => 'WiFi速度テスト';
+
+  @override
+  String get wifiDownloadSpeed => 'ダウンロード速度';
+
+  @override
+  String get wifiUploadSpeed => 'アップロード速度';
+
+  @override
+  String get wifiStartSpeedTest => '速度テスト開始';
 }

@@ -127,50 +127,52 @@ class _LoginPageState extends State<LoginPage> {
       // appBar: AppBar(title: Text(context.lang.login)),
       body: Padding(
         padding: const EdgeInsets.all(24.0),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            // if (message != null)
-            // Image.network(message!, width: 300, height: 300),
-            Image.asset(
-              'assets/images/sercomm_logo.png',
-              width: 250,
-              height: 250,
-            ),
-            TextField(
-              controller: _usernameController,
-              decoration: InputDecoration(labelText: context.lang.username),
-            ),
-            SizedBox(height: 16),
-            TextField(
-              controller: _passwordController,
-              decoration: InputDecoration(labelText: context.lang.password),
-              obscureText: true,
-            ),
-            SizedBox(height: spacing48),
-            SizedBox(
-              width: double.infinity,
-              child: ElevatedButton(
-                onPressed: _login,
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: primaryColor,
-                  foregroundColor: Theme.of(context).secondaryHeaderColor,
-                  // shape: RoundedRectangleBorder(
-                  //   borderRadius: BorderRadius.zero,
-                  // ),
-                ),
-                child: Text(context.lang.login),
+        child: SingleChildScrollView(
+          child: Column(
+            // mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              // if (message != null)
+              // Image.network(message!, width: 300, height: 300),
+              Image.asset(
+                'assets/images/sercomm_logo.png',
+                width: 250,
+                height: 250,
               ),
-            ),
-            // ElevatedButton(
-            //   onPressed: _login,
-            //   style: ElevatedButton.styleFrom(
-            //     backgroundColor: primaryColor,
-            //     foregroundColor: Theme.of(context).secondaryHeaderColor,
-            //   ),
-            //   child: Text(context.lang.login),
-            // ),
-          ],
+              TextField(
+                controller: _usernameController,
+                decoration: InputDecoration(labelText: context.lang.username),
+              ),
+              SizedBox(height: 16),
+              TextField(
+                controller: _passwordController,
+                decoration: InputDecoration(labelText: context.lang.password),
+                obscureText: true,
+              ),
+              SizedBox(height: spacing48),
+              SizedBox(
+                width: double.infinity,
+                child: ElevatedButton(
+                  onPressed: _login,
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: primaryColor,
+                    foregroundColor: Theme.of(context).secondaryHeaderColor,
+                    // shape: RoundedRectangleBorder(
+                    //   borderRadius: BorderRadius.zero,
+                    // ),
+                  ),
+                  child: Text(context.lang.login),
+                ),
+              ),
+              // ElevatedButton(
+              //   onPressed: _login,
+              //   style: ElevatedButton.styleFrom(
+              //     backgroundColor: primaryColor,
+              //     foregroundColor: Theme.of(context).secondaryHeaderColor,
+              //   ),
+              //   child: Text(context.lang.login),
+              // ),
+            ],
+          ),
         ),
       ),
     );
@@ -182,48 +184,54 @@ class _LoginPageState extends State<LoginPage> {
       body: Padding(
         padding: const EdgeInsets.all(24.0),
         child: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              // if (message != null)
-              // Image.network(message!, width: 300, height: 300),
-              Image.asset(
-                'assets/images/sercomm_logo.png',
-                width: 250,
-                height: 250,
-              ),
-              ConstrainedBox(
-                constraints: BoxConstraints(maxWidth: 400),
-                child: TextField(
-                  controller: _usernameController,
-                  decoration: InputDecoration(labelText: context.lang.username),
+          child: SingleChildScrollView(
+            child: Column(
+              // mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                // if (message != null)
+                // Image.network(message!, width: 300, height: 300),
+                Image.asset(
+                  'assets/images/sercomm_logo.png',
+                  width: 250,
+                  height: 250,
                 ),
-              ),
-              SizedBox(height: 16),
-              ConstrainedBox(
-                constraints: BoxConstraints(maxWidth: 400),
-                child: TextField(
-                  controller: _passwordController,
-                  decoration: InputDecoration(labelText: context.lang.password),
-                  obscureText: true,
-                ),
-              ),
-              SizedBox(height: spacing48),
-              SizedBox(
-                width: 400,
-                child: ElevatedButton(
-                  onPressed: _login,
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: primaryColor,
-                    foregroundColor: Theme.of(context).secondaryHeaderColor,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.zero,
+                ConstrainedBox(
+                  constraints: BoxConstraints(maxWidth: 400),
+                  child: TextField(
+                    controller: _usernameController,
+                    decoration: InputDecoration(
+                      labelText: context.lang.username,
                     ),
                   ),
-                  child: Text(context.lang.login),
                 ),
-              ),
-            ],
+                SizedBox(height: 16),
+                ConstrainedBox(
+                  constraints: BoxConstraints(maxWidth: 400),
+                  child: TextField(
+                    controller: _passwordController,
+                    decoration: InputDecoration(
+                      labelText: context.lang.password,
+                    ),
+                    obscureText: true,
+                  ),
+                ),
+                SizedBox(height: spacing48),
+                SizedBox(
+                  width: 400,
+                  child: ElevatedButton(
+                    onPressed: _login,
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: primaryColor,
+                      foregroundColor: Theme.of(context).secondaryHeaderColor,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.zero,
+                      ),
+                    ),
+                    child: Text(context.lang.login),
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
       ),

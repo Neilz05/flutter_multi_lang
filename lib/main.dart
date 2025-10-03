@@ -1,4 +1,6 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/widgets/widgets.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
 import 'package:flutter_application_1/constants.dart';
@@ -7,9 +9,18 @@ import 'package:flutter_application_1/login.dart';
 import 'package:flutter_application_1/settings_page.dart';
 import 'package:flutter_application_1/wifi_welcome_page.dart';
 import 'package:flutter_application_1/utils/utils.dart';
+import 'package:flutter_application_1/wifi_speed_test.dart';
+import 'package:flutter_application_1/wifi_qr_page.dart';
 
 void main() {
   runApp(const MyApp());
+}
+
+class SubtitleLine {
+  final String label;
+  final String value;
+
+  SubtitleLine(this.label, this.value);
 }
 
 class MyApp extends StatelessWidget {
@@ -62,71 +73,23 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-
-  void _incrementCounter() {
-    setState(() {
-      // This call to setState tells the Flutter framework that something has
-      // changed in this State, which causes it to rerun the build method below
-      // so that the display can reflect the updated values. If we changed
-      // _counter without calling setState(), then the build method would not be
-      // called again, and so nothing would appear to happen.
-      _counter++;
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
-    // This method is rerun every time setState is called, for instance as done
-    // by the _incrementCounter method above.
-    //
-    // The Flutter framework has been optimized to make rerunning build methods
-    // fast, so that you can just rebuild anything that needs updating rather
-    // than having to individually change instances of widgets.
     return Scaffold(
       appBar: AppBar(
-        // TRY THIS: Try changing the color here to a specific color (to
-        // Colors.amber, perhaps?) and trigger a hot reload to see the AppBar
-        // change color while the other colors stay the same.
         backgroundColor: Colors.blueAccent,
-        // Here we take the value from the MyHomePage object that was created by
-        // the App.build method, and use it to set our appbar title.
-        // title: Text(widget.title),
-        // title: Text(AppLocalizations.of(context)!.helloWorld),
-        // title: Text(context.lang.helloWorld),
         title: Text(context.lang.hello("Dongs")),
-        // title: Text(AppLocalizations.of(context)!.hello('Dongs')),
         centerTitle: true,
       ),
       endDrawer: Drawer(
         child: ListView(
-          padding: EdgeInsets.zero,
           children: [
-            // const Drawer(
-            //   child: DrawerHeader(
-            //     decoration: BoxDecoration(color: Colors.blueAccent),
-            //     child: Text('Menu'),
-            //   ),
-            // ),
             const UserAccountsDrawerHeader(
               accountName: Text("Admin"),
               // accountEmail: const SizedBox.shrink(),
               accountEmail: Text("sercomm.com"),
               currentAccountPicture: FlutterLogo(),
             ),
-            // const DrawerHeader(
-            // decoration: BoxDecoration(color: Colors.blueAccent),
-            // child: Text('Menu'),
-            // ),
-            // SizedBox(
-            //   // height: 100,
-            //   child: Container(
-            //     decoration: BoxDecoration(color: Colors.blueAccent),
-            //     // margin: EdgeInsets.all(0.0),
-            //     // padding: EdgeInsets.all(0.0),
-            //     child: Center(child: Text('Headers')),
-            //   ),
-            // ),
             ListTile(
               leading: Icon(Icons.settings),
               title: Text(context.lang.settings),
@@ -143,15 +106,6 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
             ListTile(
               leading: Icon(Icons.settings),
-              title: Text(context.lang.reset),
-              onTap: () {
-                setState(() {
-                  _counter = 0;
-                });
-              },
-            ),
-            ListTile(
-              leading: Icon(Icons.settings),
               title: Text(context.lang.logout),
               onTap: () {
                 navigateAndReplace(context, LoginPage());
@@ -160,103 +114,163 @@ class _MyHomePageState extends State<MyHomePage> {
           ],
         ),
       ),
-      // body: Center(
-      //   child: Column(
-      //     mainAxisAlignment: MainAxisAlignment.center,
-      //     children: <Widget>[
-      //       const Text('You have pushed the button this many times:'),
-      //       Text(
-      //         '$_counter',
-      //         style: Theme.of(context).textTheme.headlineMedium,
-      //       ),
-      //       TextButton(
-      //         onPressed: () {
-      //           // Handle text button press
-      //         },
-      //         child: Text('Text Button'),
-      //       ),
-      //     ],
-      //   ),
-      // ),
-      body: Column(
+
+      //body simulating a wifi dashboard page, all data are hardcoded for now
+      body: ListView(
+        padding: EdgeInsets.all(16),
         children: [
-          Expanded(
-            child: Center(
-              child: Column(
-                mainAxisSize:
-                    MainAxisSize.min, // Content wraps tightly and centers
-                children: <Widget>[
-                  Text(AppLocalizations.of(context)!.counterMessage),
-                  // const Text('You have pushed the button this many times:'),
-                  Text(
-                    '$_counter',
-                    style: Theme.of(context).textTheme.headlineMedium,
-                  ),
-                ],
+          SummaryCard(
+            leadingIconData: Icons.wifi,
+            leadingIconColor: Colors.blue,
+            title: 'Connected: MyWiFiNetwork',
+            subtitles: [SubtitleLine('Signal Strength', 'Excellent')],
+            trailingIconData: Icons.check_circle,
+            trailingIconColor: Colors.green,
+          ),
+          const SizedBox(height: 16),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              _SpeedCard(
+                label: "Download",
+                value: "120",
+                unit: "Mbps",
+                icon: Icons.download,
               ),
+              _SpeedCard(
+                label: "Upload",
+                value: "50",
+                unit: "Mbps",
+                icon: Icons.upload,
+              ),
+            ],
+          ),
+          const SizedBox(height: 16),
+          SummaryCard(
+            leadingIconData: Icons.data_usage,
+            leadingIconColor: Colors.orange,
+            title: 'Data Usage',
+            subtitles: [SubtitleLine('Today', '1.2 GB')],
+          ),
+          const SizedBox(height: 16),
+          SummaryCard(
+            leadingIconData: Icons.security,
+            leadingIconColor: Colors.teal,
+            title: 'Security',
+            subtitles: [SubtitleLine('WPA2', 'Secure')],
+          ),
+          const SizedBox(height: 16),
+          SummaryCard(
+            leadingIconData: Icons.devices,
+            leadingIconColor: Colors.purple,
+            title: "Device Info",
+            subtitles: [
+              SubtitleLine('SSID', 'MyWiFiNetwork'),
+              SubtitleLine('IP', '192.168.1.2'),
+            ],
+          ),
+          const SizedBox(height: 16),
+          ElevatedButton.icon(
+            onPressed: () {
+              navigateTo(context, WifiSpeedTest());
+            },
+            icon: Icon(Icons.speed),
+            label: Text('Run Speed Test'),
+            style: ElevatedButton.styleFrom(
+              backgroundColor: Colors.blueAccent,
+              foregroundColor: Colors.white,
+              padding: EdgeInsets.symmetric(horizontal: 32, vertical: 12),
             ),
           ),
-          // Padding(
-          //   // padding: const EdgeInsets.all(40.0),
-          //   padding: const EdgeInsets.only(
-          //     top: 40.0,
-          //     right: 40.0,
-          //     bottom: 40.0,
-          //     left: 20.0,
-          //   ),
-          //   child: Align(
-          //     alignment: Alignment.bottomLeft,
-          //     child: TextButton(
-          //       style: TextButton.styleFrom(
-          //         padding: const EdgeInsets.all(16.0),
-          //         backgroundColor: Colors.red,
-          //         foregroundColor: Colors.white,
-          //         shape: RoundedRectangleBorder(
-          //           borderRadius: BorderRadius.circular(8),
-          //         ),
-          //       ),
-          //       onPressed: () {
-          //         setState(() {
-          //           _counter = 0;
-          //         });
-          //         // Handle text button press
-          //       },
-          //       child: Text('Reset count'),
-          //     ),
-          //   ),
-          // ),
+          const SizedBox(height: 8),
+          ElevatedButton.icon(
+            onPressed: () {
+              navigateTo(context, WifiQrPage());
+            },
+            icon: Icon(Icons.qr_code_scanner),
+            label: Text('Scan WiFi QR'),
+            style: ElevatedButton.styleFrom(
+              backgroundColor: Colors.blueAccent,
+              foregroundColor: Colors.white,
+              padding: EdgeInsets.symmetric(horizontal: 32, vertical: 12),
+            ),
+          ),
         ],
       ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-      floatingActionButton: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 30.0),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    );
+  }
+}
+
+class SummaryCard extends StatelessWidget {
+  final String title;
+  final List<SubtitleLine>
+  subtitles; // we use a list of the class subtitleLine to make it easier to add multiple lines
+  final IconData? leadingIconData;
+  final Color? leadingIconColor;
+  final IconData? trailingIconData;
+  final Color? trailingIconColor;
+
+  const SummaryCard({
+    super.key,
+    required this.title,
+    required this.subtitles,
+    this.leadingIconData,
+    this.leadingIconColor,
+    this.trailingIconData,
+    this.trailingIconColor,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Card(
+      child: ListTile(
+        leading: leadingIconData != null
+            ? Icon(leadingIconData, color: leadingIconColor ?? Colors.purple)
+            : null,
+        title: Text(title),
+        subtitle: Text(
+          subtitles.map((line) => '${line.label}: ${line.value}').join('\n'),
+        ),
+        trailing: trailingIconData != null
+            ? Icon(trailingIconData, color: trailingIconColor ?? Colors.purple)
+            : null,
+      ),
+    );
+  }
+}
+
+class _SpeedCard extends StatelessWidget {
+  final String label;
+  final String value;
+  final String unit;
+  final IconData icon;
+
+  const _SpeedCard({
+    required this.label,
+    required this.value,
+    required this.unit,
+    required this.icon,
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Card(
+      child: Padding(
+        padding: const EdgeInsets.all(48.0),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
           children: [
-            FloatingActionButton(
-              heroTag: 'increment_btn',
-              onPressed: _incrementCounter,
-              tooltip: 'Increment',
-              child: const Icon(Icons.add),
+            Icon(icon, size: 32),
+            const SizedBox(height: 8),
+            Text(
+              '$value $unit',
+              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
             ),
-            FloatingActionButton(
-              heroTag: 'decrement_btn',
-              onPressed: () {
-                setState(() {
-                  _counter--;
-                });
-              },
-              tooltip: 'Decrement',
-              child: const Icon(Icons.remove),
-            ),
+            Text(label),
           ],
         ),
       ),
-      // floatingActionButton: FloatingActionButton(
-      //   onPressed: _incrementCounter,
-      //   tooltip: 'Increment',
-      //   child: const Icon(Icons.add),
-      // ), // This trailing comma makes auto-formatting nicer for build methods.
     );
   }
 }

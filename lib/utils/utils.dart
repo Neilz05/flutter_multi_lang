@@ -18,7 +18,7 @@ void navigateAndReplace(BuildContext context, Widget page) {
 
 bool isMmobileLayout(BuildContext context) {
   final width = MediaQuery.of(context).size.width;
-  return width < 600; // Example threshold for mobile layout
+  return width < 1200; // Example threshold for mobile layout
 }
 
 extension LocalizationHelper on BuildContext {

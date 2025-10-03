@@ -25,5 +25,10 @@
   "settingsEnableFeatureY": "機能Yを有効にする",
   "settingsChangePassword": "パスワードを変更",
   "settingsLanguage": "言語",
-  "settingsAccount": "アカウント"
+  "settingsAccount": "アカウント",
+
+  "wifiSpeedTest": "WiFi速度テスト",
+  "wifiDownloadSpeed": "ダウンロード速度",
+  "wifiUploadSpeed": "アップロード速度",
+  "wifiStartSpeedTest": "速度テスト開始"
 }
