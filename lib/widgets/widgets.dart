@@ -32,6 +32,36 @@ class PrimaryButton extends StatelessWidget {
   }
 }
 
+class VerticalSpacing extends StatelessWidget {
+  final double? height;
+
+  const VerticalSpacing({super.key, this.height});
+
+  @override
+  Widget build(BuildContext context) {
+    if (height == null) {
+      return const SizedBox(height: spacing16); // for slight performance boost
+    } else {
+      return SizedBox(height: height);
+    }
+  }
+}
+
+class HorizontalSpacing extends StatelessWidget {
+  final double? width;
+
+  const HorizontalSpacing({super.key, this.width});
+
+  @override
+  Widget build(BuildContext context) {
+    if (width == null) {
+      return const SizedBox(width: spacing16); // for slight performance boost
+    } else {
+      return SizedBox(width: width);
+    }
+  }
+}
+
 class PaddedContainer extends StatelessWidget {
   final Widget child;
   final EdgeInsetsGeometry padding;
@@ -52,20 +82,29 @@ class PaddedContainer extends StatelessWidget {
 class PrimaryElevatedButton extends StatelessWidget {
   final String text;
   final VoidCallback? onPressed;
-  const PrimaryElevatedButton({super.key, required this.text, this.onPressed});
+  final IconData? icon;
+
+  const PrimaryElevatedButton({
+    super.key,
+    required this.text,
+    this.onPressed,
+    this.icon,
+  });
 
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      width: 200,
-      child: ElevatedButton(
+      width: double.infinity,
+      // width: 250,
+      child: ElevatedButton.icon(
+        icon: icon != null ? Icon(icon) : SizedBox.shrink(),
         style: ElevatedButton.styleFrom(
           backgroundColor: Colors.blueAccent,
           foregroundColor: Colors.white,
           padding: EdgeInsets.symmetric(horizontal: 32, vertical: 12),
         ),
         onPressed: onPressed,
-        child: Text(
+        label: Text(
           text,
           style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
         ),

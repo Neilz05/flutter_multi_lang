@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/widgets/widgets.dart';
+// import 'package:flutter_application_1/widgets/widgets.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
 import 'package:flutter_application_1/constants.dart';
@@ -12,8 +13,13 @@ import 'package:flutter_application_1/utils/utils.dart';
 import 'package:flutter_application_1/wifi_speed_test.dart';
 import 'package:flutter_application_1/wifi_qr_page.dart';
 
-void main() {
-  runApp(const MyApp());
+import 'package:firebase_core/firebase_core.dart';
+import 'firebase_options.dart';
+
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  runApp(MyApp());
 }
 
 class SubtitleLine {
@@ -86,7 +92,6 @@ class _MyHomePageState extends State<MyHomePage> {
           children: [
             const UserAccountsDrawerHeader(
               accountName: Text("Admin"),
-              // accountEmail: const SizedBox.shrink(),
               accountEmail: Text("sercomm.com"),
               currentAccountPicture: FlutterLogo(),
             ),
@@ -98,14 +103,14 @@ class _MyHomePageState extends State<MyHomePage> {
               },
             ),
             ListTile(
-              leading: Icon(Icons.settings),
+              leading: Icon(Icons.wifi),
               title: Text("Wifi Page"),
               onTap: () {
                 navigateTo(context, WifiWelcomePage());
               },
             ),
             ListTile(
-              leading: Icon(Icons.settings),
+              leading: Icon(Icons.logout),
               title: Text(context.lang.logout),
               onTap: () {
                 navigateAndReplace(context, LoginPage());
@@ -127,7 +132,7 @@ class _MyHomePageState extends State<MyHomePage> {
             trailingIconData: Icons.check_circle,
             trailingIconColor: Colors.green,
           ),
-          const SizedBox(height: 16),
+          const VerticalSpacing(),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -145,21 +150,21 @@ class _MyHomePageState extends State<MyHomePage> {
               ),
             ],
           ),
-          const SizedBox(height: 16),
+          const VerticalSpacing(),
           SummaryCard(
             leadingIconData: Icons.data_usage,
             leadingIconColor: Colors.orange,
             title: 'Data Usage',
             subtitles: [SubtitleLine('Today', '1.2 GB')],
           ),
-          const SizedBox(height: 16),
+          const VerticalSpacing(),
           SummaryCard(
             leadingIconData: Icons.security,
             leadingIconColor: Colors.teal,
             title: 'Security',
             subtitles: [SubtitleLine('WPA2', 'Secure')],
           ),
-          const SizedBox(height: 16),
+          const VerticalSpacing(),
           SummaryCard(
             leadingIconData: Icons.devices,
             leadingIconColor: Colors.purple,
@@ -169,31 +174,21 @@ class _MyHomePageState extends State<MyHomePage> {
               SubtitleLine('IP', '192.168.1.2'),
             ],
           ),
-          const SizedBox(height: 16),
-          ElevatedButton.icon(
+          const VerticalSpacing(),
+          PrimaryElevatedButton(
+            text: 'Run Speed Test',
+            icon: Icons.speed,
             onPressed: () {
               navigateTo(context, WifiSpeedTest());
             },
-            icon: Icon(Icons.speed),
-            label: Text('Run Speed Test'),
-            style: ElevatedButton.styleFrom(
-              backgroundColor: Colors.blueAccent,
-              foregroundColor: Colors.white,
-              padding: EdgeInsets.symmetric(horizontal: 32, vertical: 12),
-            ),
           ),
-          const SizedBox(height: 8),
-          ElevatedButton.icon(
+          const VerticalSpacing(height: spacing8),
+          PrimaryElevatedButton(
+            text: 'Scan WiFi QR',
+            icon: Icons.qr_code_scanner,
             onPressed: () {
               navigateTo(context, WifiQrPage());
             },
-            icon: Icon(Icons.qr_code_scanner),
-            label: Text('Scan WiFi QR'),
-            style: ElevatedButton.styleFrom(
-              backgroundColor: Colors.blueAccent,
-              foregroundColor: Colors.white,
-              padding: EdgeInsets.symmetric(horizontal: 32, vertical: 12),
-            ),
           ),
         ],
       ),
@@ -262,7 +257,7 @@ class _SpeedCard extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           children: [
             Icon(icon, size: 32),
-            const SizedBox(height: 8),
+            const VerticalSpacing(height: spacing8),
             Text(
               '$value $unit',
               style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),

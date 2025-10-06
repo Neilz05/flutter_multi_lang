@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 //put constants here to be used by the whole app
 
+const double spacing8 = 8.0;
 const double spacing16 = 16.0;
 const double spacing24 = 24.0;
 const double spacing32 = 32.0;

@@ -8,6 +8,28 @@ import 'package:http/http.dart' as http;
 import 'package:flutter_application_1/constants.dart';
 import 'package:flutter_application_1/main.dart';
 import 'package:flutter_application_1/utils/utils.dart';
+import 'package:flutter_application_1/widgets/widgets.dart';
+
+import 'package:firebase_auth/firebase_auth.dart';
+
+Future<void> signIn(String email, String password) async {
+  try {
+    UserCredential userCredential = await FirebaseAuth.instance
+        .signInWithEmailAndPassword(email: email, password: password);
+    // Login successful, userCredential.user contains user info
+    print('Login successful: ${userCredential.user?.email}');
+  } on FirebaseAuthException catch (e) {
+    print("e.code is ${e.code}");
+    print("e.message is ${e.message}");
+    if (e.code == 'user-not-found') {
+      print('No user found for that email.');
+    } else if (e.code == 'wrong-password') {
+      print('Wrong password provided.');
+    } else {
+      print('Login failed: ${e.message}');
+    }
+  }
+}
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -74,6 +96,9 @@ class _LoginPageState extends State<LoginPage> {
   void _login() {
     String username = _usernameController.text;
     String password = _passwordController.text;
+
+    signIn(username, password);
+
     String salt = "SERCOMMSALT"; // assumed to be from backend
     String keyString =
         'my32lengthsupersecretnooneknows1'; // 32 chars for AES-256, should be from backend
@@ -124,53 +149,35 @@ class _LoginPageState extends State<LoginPage> {
 
   Widget buildMobileLayout(BuildContext context) {
     return Scaffold(
-      // appBar: AppBar(title: Text(context.lang.login)),
+      // body: Center(
       body: Padding(
+        // child: Padding(
         padding: const EdgeInsets.all(24.0),
         child: SingleChildScrollView(
           child: Column(
             // mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              // if (message != null)
-              // Image.network(message!, width: 300, height: 300),
-              Image.asset(
-                'assets/images/sercomm_logo.png',
-                width: 250,
-                height: 250,
-              ),
+              VerticalSpacing(height: spacing48),
+              FadingImage(imagePath: 'assets/images/sercomm_logo.png'),
               TextField(
+                textCapitalization: TextCapitalization.none,
                 controller: _usernameController,
-                decoration: InputDecoration(labelText: context.lang.username),
-              ),
-              SizedBox(height: 16),
-              TextField(
-                controller: _passwordController,
-                decoration: InputDecoration(labelText: context.lang.password),
-                obscureText: true,
-              ),
-              SizedBox(height: spacing48),
-              SizedBox(
-                width: double.infinity,
-                child: ElevatedButton(
-                  onPressed: _login,
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: primaryColor,
-                    foregroundColor: Theme.of(context).secondaryHeaderColor,
-                    // shape: RoundedRectangleBorder(
-                    //   borderRadius: BorderRadius.zero,
-                    // ),
-                  ),
-                  child: Text(context.lang.login),
+                decoration: InputDecoration(
+                  prefixIcon: Icon(Icons.person),
+                  labelText: context.lang.username,
                 ),
               ),
-              // ElevatedButton(
-              //   onPressed: _login,
-              //   style: ElevatedButton.styleFrom(
-              //     backgroundColor: primaryColor,
-              //     foregroundColor: Theme.of(context).secondaryHeaderColor,
-              //   ),
-              //   child: Text(context.lang.login),
-              // ),
+              const VerticalSpacing(height: spacing16),
+              TextField(
+                controller: _passwordController,
+                decoration: InputDecoration(
+                  prefixIcon: Icon(Icons.lock),
+                  labelText: context.lang.password,
+                ),
+                obscureText: true,
+              ),
+              const VerticalSpacing(height: spacing48),
+              PrimaryButton(onPressed: _login, text: context.lang.login),
             ],
           ),
         ),
@@ -186,7 +193,7 @@ class _LoginPageState extends State<LoginPage> {
         child: Center(
           child: SingleChildScrollView(
             child: Column(
-              // mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 // if (message != null)
                 // Image.network(message!, width: 300, height: 300),
@@ -204,7 +211,7 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                   ),
                 ),
-                SizedBox(height: 16),
+                const VerticalSpacing(height: spacing16),
                 ConstrainedBox(
                   constraints: BoxConstraints(maxWidth: 400),
                   child: TextField(
@@ -215,7 +222,7 @@ class _LoginPageState extends State<LoginPage> {
                     obscureText: true,
                   ),
                 ),
-                SizedBox(height: spacing48),
+                const VerticalSpacing(height: spacing48),
                 SizedBox(
                   width: 400,
                   child: ElevatedButton(
@@ -235,6 +242,49 @@ class _LoginPageState extends State<LoginPage> {
           ),
         ),
       ),
+    );
+  }
+}
+
+class FadingImage extends StatefulWidget {
+  final String imagePath;
+  const FadingImage({required this.imagePath, Key? key}) : super(key: key);
+
+  @override
+  State<FadingImage> createState() => _FadingImageState();
+}
+
+class _FadingImageState extends State<FadingImage>
+    with SingleTickerProviderStateMixin {
+  late AnimationController _controller;
+  late Animation<double> _animation;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = AnimationController(
+      vsync: this,
+      duration: const Duration(seconds: 2),
+    )..repeat(reverse: true);
+    _animation = Tween<double>(begin: 0.3, end: 1.0).animate(_controller);
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return AnimatedBuilder(
+      animation: _animation,
+      builder: (context, child) {
+        return Opacity(
+          opacity: _animation.value,
+          child: Image.asset(widget.imagePath, width: 250, height: 250),
+        );
+      },
     );
   }
 }

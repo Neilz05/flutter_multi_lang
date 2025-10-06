@@ -19,7 +19,8 @@ class WifiWelcomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: Text('WiFi Welcome')),
-      body: Center(
+      body: Padding(
+        padding: EdgeInsets.all(spacing16),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -27,8 +28,6 @@ class WifiWelcomePage extends StatelessWidget {
               'Welcome!',
               style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
             ),
-
-            // Add more widgets here
             Spacer(),
             Center(
               child: Column(
@@ -37,9 +36,9 @@ class WifiWelcomePage extends StatelessWidget {
                     text: "Connect via QR",
                     onPressed: () {
                       navigateTo(context, WifiQrPage());
-                      // TODO: navigate to QR code scanner
                     },
                   ),
+                  const VerticalSpacing(),
                   PrimaryElevatedButton(
                     text: "Manual Connect",
                     onPressed: () {
@@ -56,17 +55,18 @@ class WifiWelcomePage extends StatelessWidget {
                       }
                     },
                   ),
-
+                  const VerticalSpacing(),
                   PrimaryElevatedButton(
                     text: "Speed Test",
                     onPressed: () {
                       navigateTo(context, WifiSpeedTest());
                     },
                   ),
+                  const VerticalSpacing(),
                 ],
               ),
             ),
-            SizedBox(height: spacing48),
+            const VerticalSpacing(height: spacing48),
           ],
         ),
       ),

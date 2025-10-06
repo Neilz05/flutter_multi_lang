@@ -1,4 +1,4 @@
-import 'dart:io';
+// import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/widgets/widgets.dart';
@@ -33,6 +33,7 @@ class _WifiSpeedTestState extends State<WifiSpeedTest> {
       appBar: AppBar(title: Text(context.lang.wifiSpeedTest)),
       body: Center(
         child: ListView(
+          padding: EdgeInsets.all(spacing16),
           children: [
             SpeedTestWidget(speed: speed),
             Center(
@@ -44,7 +45,7 @@ class _WifiSpeedTestState extends State<WifiSpeedTest> {
                       Row(
                         children: [
                           Icon(Icons.download, size: 20),
-                          SizedBox(width: 8),
+                          const HorizontalSpacing(width: spacing8),
                           Text(context.lang.wifiDownloadSpeed),
                         ],
                       ),
@@ -54,13 +55,13 @@ class _WifiSpeedTestState extends State<WifiSpeedTest> {
                       ),
                     ],
                   ),
-                  SizedBox(width: spacing48),
+                  const HorizontalSpacing(width: spacing48),
                   Column(
                     children: [
                       Row(
                         children: [
                           Icon(Icons.upload, size: 20),
-                          SizedBox(width: 8),
+                          const HorizontalSpacing(width: spacing8),
                           Text(context.lang.wifiUploadSpeed),
                         ],
                       ),
@@ -73,7 +74,7 @@ class _WifiSpeedTestState extends State<WifiSpeedTest> {
                 ],
               ),
             ),
-            SizedBox(height: spacing24),
+            VerticalSpacing(height: spacing16),
             PrimaryElevatedButton(
               onPressed: () {
                 clearState();
