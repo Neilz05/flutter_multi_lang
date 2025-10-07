@@ -12,9 +12,27 @@ import 'package:flutter_application_1/wifi_welcome_page.dart';
 import 'package:flutter_application_1/utils/utils.dart';
 import 'package:flutter_application_1/wifi_speed_test.dart';
 import 'package:flutter_application_1/wifi_qr_page.dart';
+import 'package:flutter_application_1/admin_users_overview.dart';
 
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+
+Future<bool> isAdminUser() async {
+  final uid = FirebaseAuth.instance.currentUser?.uid;
+  bool isAdmin = false;
+  final doc = await FirebaseFirestore.instance
+      .collection('users')
+      .doc(uid)
+      .get();
+  if (doc.exists && doc.data()?['userType'] == 'admin') {
+    isAdmin = true;
+  } else {
+    isAdmin = false;
+  }
+  return isAdmin;
+}
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -109,11 +127,41 @@ class _MyHomePageState extends State<MyHomePage> {
                 navigateTo(context, WifiWelcomePage());
               },
             ),
+            FutureBuilder(
+              future: isAdminUser(),
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return ListTile(
+                    leading: Icon(Icons.admin_panel_settings),
+                    title: Text("Checking Admin..."),
+                    onTap: () {},
+                  );
+                } else if (snapshot.hasError) {
+                  return ListTile(
+                    leading: Icon(Icons.error),
+                    title: Text("Error checking admin"),
+                    onTap: () {},
+                  );
+                } else if (snapshot.hasData && snapshot.data == true) {
+                  return ListTile(
+                    leading: Icon(Icons.admin_panel_settings),
+                    title: Text("Admin - Users Overview"),
+                    onTap: () {
+                      navigateTo(context, AdminUsersOverview());
+                    },
+                  );
+                } else {
+                  return SizedBox.shrink(); // Return an empty widget if not admin
+                }
+              },
+            ),
             ListTile(
               leading: Icon(Icons.logout),
               title: Text(context.lang.logout),
-              onTap: () {
-                navigateAndReplace(context, LoginPage());
+              onTap: () async {
+                await FirebaseAuth.instance.signOut();
+                if (!context.mounted) return; // Safe check
+                navigateAndReplace(context, const LoginPage());
               },
             ),
           ],

@@ -12,21 +12,20 @@ import 'package:flutter_application_1/widgets/widgets.dart';
 
 import 'package:firebase_auth/firebase_auth.dart';
 
-Future<void> signIn(String email, String password) async {
+bool _isPasswordVisible = false;
+
+Future<String?> signIn(String email, String password) async {
   try {
-    UserCredential userCredential = await FirebaseAuth.instance
-        .signInWithEmailAndPassword(email: email, password: password);
-    // Login successful, userCredential.user contains user info
-    print('Login successful: ${userCredential.user?.email}');
+    await FirebaseAuth.instance.signInWithEmailAndPassword(
+      email: email,
+      password: password,
+    );
+    return null; //return null if successful login
   } on FirebaseAuthException catch (e) {
-    print("e.code is ${e.code}");
-    print("e.message is ${e.message}");
-    if (e.code == 'user-not-found') {
-      print('No user found for that email.');
-    } else if (e.code == 'wrong-password') {
-      print('Wrong password provided.');
+    if (e.code == "invalid-credential") {
+      return "Invalid credential";
     } else {
-      print('Login failed: ${e.message}');
+      return e.message;
     }
   }
 }
@@ -75,6 +74,7 @@ class _LoginPageState extends State<LoginPage> {
   @override
   void initState() {
     super.initState();
+    _isPasswordVisible = false;
     _fetchData();
   }
 
@@ -93,12 +93,39 @@ class _LoginPageState extends State<LoginPage> {
     } catch (e) {}
   }
 
-  void _login() {
+  void _login() async {
     String username = _usernameController.text;
     String password = _passwordController.text;
 
-    signIn(username, password);
-
+    String? error = await signIn(username, password);
+    //using firebase auth for login
+    if (error == null) {
+      navigateAndReplace(context, MyHomePage(title: 'Flutter Demo Home Page'));
+      return;
+    } else {
+      // navigateAndReplace(context, MyHomePage(title: 'Flutter Demo Home Page'));
+      // return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(
+            'Login failed: Please try again',
+            style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+          ),
+          // backgroundColor: Colors.redAccent,
+          behavior: SnackBarBehavior.floating, // or SnackBarBehavior.fixed
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(12),
+          ),
+          duration: Duration(seconds: 3),
+          action: SnackBarAction(
+            label: 'Dismiss',
+            textColor: Colors.white,
+            onPressed: () {},
+          ),
+        ),
+      );
+    }
+    /*
     String salt = "SERCOMMSALT"; // assumed to be from backend
     String keyString =
         'my32lengthsupersecretnooneknows1'; // 32 chars for AES-256, should be from backend
@@ -122,7 +149,7 @@ class _LoginPageState extends State<LoginPage> {
     String realUsername = 'user'; // assumed to be from backend
     if (userMap['username'] == realUsername &&
         userMap['password'] == generateHashPassword(realPassword, salt)) {
-      navigateTo(context, MyHomePage(title: 'Flutter Demo Home Page'));
+      navigateAndReplace(context, MyHomePage(title: 'Flutter Demo Home Page'));
     } else {
       navigateAndReplace(
         context,
@@ -133,6 +160,7 @@ class _LoginPageState extends State<LoginPage> {
       //   context,
       // ).showSnackBar(SnackBar(content: Text('Login failed')));
     }
+    */
   }
 
   @override
@@ -173,8 +201,19 @@ class _LoginPageState extends State<LoginPage> {
                 decoration: InputDecoration(
                   prefixIcon: Icon(Icons.lock),
                   labelText: context.lang.password,
+                  suffixIcon: IconButton(
+                    icon: _isPasswordVisible
+                        ? Icon(Icons.visibility_off)
+                        : Icon(Icons.visibility),
+                    onPressed: () {
+                      setState(() {
+                        _isPasswordVisible = !_isPasswordVisible;
+                      });
+                      // Toggle password visibility
+                    },
+                  ),
                 ),
-                obscureText: true,
+                obscureText: !_isPasswordVisible,
               ),
               const VerticalSpacing(height: spacing48),
               PrimaryButton(onPressed: _login, text: context.lang.login),
