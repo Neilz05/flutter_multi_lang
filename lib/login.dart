@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
 import 'package:flutter_application_1/constants.dart';
+import 'package:flutter_application_1/register.dart';
 import 'package:flutter_application_1/main.dart';
 import 'package:flutter_application_1/utils/utils.dart';
 import 'package:flutter_application_1/widgets/widgets.dart';
@@ -103,27 +104,9 @@ class _LoginPageState extends State<LoginPage> {
       navigateAndReplace(context, MyHomePage(title: 'Flutter Demo Home Page'));
       return;
     } else {
+      showAppSnackbar(context, 'Login failed: Please try again');
       // navigateAndReplace(context, MyHomePage(title: 'Flutter Demo Home Page'));
       // return;
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(
-            'Login failed: Please try again',
-            style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
-          ),
-          // backgroundColor: Colors.redAccent,
-          behavior: SnackBarBehavior.floating, // or SnackBarBehavior.fixed
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(12),
-          ),
-          duration: Duration(seconds: 3),
-          action: SnackBarAction(
-            label: 'Dismiss',
-            textColor: Colors.white,
-            onPressed: () {},
-          ),
-        ),
-      );
     }
     /*
     String salt = "SERCOMMSALT"; // assumed to be from backend
@@ -217,6 +200,22 @@ class _LoginPageState extends State<LoginPage> {
               ),
               const VerticalSpacing(height: spacing48),
               PrimaryButton(onPressed: _login, text: context.lang.login),
+              const VerticalSpacing(height: spacing48),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  InkWell(
+                    onTap: () {
+                      navigateTo(context, RegisterPage());
+                    },
+                    child: Text(
+                      "Click here to register",
+                      // context.lang.noAccountRegister,
+                      style: TextStyle(color: primaryColor),
+                    ),
+                  ),
+                ],
+              ),
             ],
           ),
         ),

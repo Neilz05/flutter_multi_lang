@@ -12,6 +12,7 @@ import 'package:flutter_application_1/wifi_welcome_page.dart';
 import 'package:flutter_application_1/utils/utils.dart';
 import 'package:flutter_application_1/wifi_speed_test.dart';
 import 'package:flutter_application_1/wifi_qr_page.dart';
+import 'package:flutter_application_1/admin_devices_overview.dart';
 import 'package:flutter_application_1/admin_users_overview.dart';
 
 import 'package:firebase_core/firebase_core.dart';
@@ -143,12 +144,23 @@ class _MyHomePageState extends State<MyHomePage> {
                     onTap: () {},
                   );
                 } else if (snapshot.hasData && snapshot.data == true) {
-                  return ListTile(
-                    leading: Icon(Icons.admin_panel_settings),
-                    title: Text("Admin - Users Overview"),
-                    onTap: () {
-                      navigateTo(context, AdminUsersOverview());
-                    },
+                  return Column(
+                    children: [
+                      ListTile(
+                        leading: Icon(Icons.admin_panel_settings),
+                        title: Text("Admin - Users Overview"),
+                        onTap: () {
+                          navigateTo(context, AdminUsersOverview());
+                        },
+                      ),
+                      ListTile(
+                        leading: Icon(Icons.admin_panel_settings),
+                        title: Text("Admin - Devices Overview"),
+                        onTap: () {
+                          navigateTo(context, AdminDevicesOverviewPage());
+                        },
+                      ),
+                    ],
                   );
                 } else {
                   return SizedBox.shrink(); // Return an empty widget if not admin

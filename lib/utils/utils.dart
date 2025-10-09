@@ -16,6 +16,30 @@ void navigateAndReplace(BuildContext context, Widget page) {
   ); //pushReplacement = replaces the current page, meaning we cannot go back to it
 }
 
+void showAppSnackbar(
+  BuildContext context,
+  String message, {
+  Color? backgroundColor,
+}) {
+  ScaffoldMessenger.of(context).showSnackBar(
+    SnackBar(
+      content: Text(
+        message,
+        style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+      ),
+      // backgroundColor: Colors.redAccent,
+      behavior: SnackBarBehavior.floating, // or SnackBarBehavior.fixed
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+      duration: Duration(seconds: 3),
+      action: SnackBarAction(
+        label: 'Dismiss',
+        textColor: Colors.white,
+        onPressed: () {},
+      ),
+    ),
+  );
+}
+
 bool isMmobileLayout(BuildContext context) {
   final width = MediaQuery.of(context).size.width;
   return width < 1200; // Example threshold for mobile layout
