@@ -72,11 +72,11 @@ class AdminDevicesOverviewPage extends StatelessWidget {
               return ListView.builder(
                 itemCount: docs.length,
                 itemBuilder: (context, index) {
-                  final user = docs[index].data() as Map<String, dynamic>;
+                  final device = docs[index].data() as Map<String, dynamic>;
                   final docId = docs[index].id;
                   return Card(
                     child: ListTile(
-                      title: Text('${user['deviceName'] ?? 'No deviceName'}'),
+                      title: Text('${device['deviceName'] ?? 'No deviceName'}'),
                       onTap: () => {
                         navigateTo(
                           context,
@@ -89,16 +89,16 @@ class AdminDevicesOverviewPage extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            'Owner: ${user['deviceOwner'] ?? 'No deviceOwner'}',
+                            'Owner: ${device['deviceOwner'] ?? 'No deviceOwner'}',
                           ),
                           Text(
-                            'Device Type: ${user['deviceType'] ?? 'No deviceType'}',
+                            'Device Type: ${device['deviceType'] ?? 'No deviceType'}',
                           ),
                           Text(
-                            'Device SN: ${user['deviceSerialNumber'] ?? 'No deviceSerialNumber'}',
+                            'Device SN: ${device['deviceSerialNumber'] ?? 'No deviceSerialNumber'}',
                           ),
                           Text(
-                            'Status: ${user['deviceStatus'] ?? 'No deviceStatus'}',
+                            'Status: ${device['deviceStatus'] ?? 'No deviceStatus'}',
                           ),
                         ],
                       ),

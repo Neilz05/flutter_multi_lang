@@ -31,6 +31,7 @@ void showAppSnackbar(
       behavior: SnackBarBehavior.floating, // or SnackBarBehavior.fixed
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
       duration: Duration(seconds: 3),
+      backgroundColor: backgroundColor ?? Colors.blueGrey,
       action: SnackBarAction(
         label: 'Dismiss',
         textColor: Colors.white,

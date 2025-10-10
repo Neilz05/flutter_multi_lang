@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 
 import 'package:flutter_application_1/constants.dart';
-import 'package:flutter_application_1/utils/utils.dart';
-import 'package:flutter_application_1/widgets/widgets.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
@@ -12,6 +10,7 @@ Future<String?> createUser(String email, String password) async {
         .createUserWithEmailAndPassword(email: email, password: password);
     return userCredential.user?.uid;
   } on FirebaseAuthException catch (e) {
+    print("error: ${e.code}");
     return null;
   }
 }
