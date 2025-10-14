@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:flutter_application_1/constants.dart';
+import 'package:flutter_application_1/utils/utils.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
@@ -180,42 +181,22 @@ class AdminUsersOverview extends StatelessWidget {
       );
     }
 
-    void deleteUser(String docId, String? username) {
-      showDialog(
-        context: context,
-        builder: (context) => AlertDialog(
-          title: Text('Delete User'),
-          content: RichText(
-            text: TextSpan(
-              style: TextStyle(color: Colors.black),
-              children: [
-                TextSpan(text: 'Are you sure you want to delete user '),
-                TextSpan(
-                  text: username,
-                  style: TextStyle(fontWeight: FontWeight.bold),
-                ),
-                TextSpan(text: '?'),
-              ],
-            ),
-          ),
-          actions: [
-            TextButton(
-              onPressed: () => Navigator.pop(context),
-              child: Text('Cancel'),
-            ),
-            ElevatedButton(
-              onPressed: () async {
-                await FirebaseFirestore.instance
-                    .collection('users')
-                    .doc(docId)
-                    .delete();
-                Navigator.pop(context);
-              },
-              child: Text('Delete'),
-            ),
-          ],
-        ),
+    void deleteUser(String docId, String? username) async {
+      final confirmed = await showDeleteConfirmationDialog(
+        context,
+        itemName: '$username',
       );
+      if (confirmed) {
+        await FirebaseFirestore.instance
+            .collection('users')
+            .doc(docId)
+            .delete();
+        showAppSnackbar(
+          context,
+          'User $username deleted successfully',
+          backgroundColor: Colors.green,
+        );
+      }
     }
 
     return Scaffold(

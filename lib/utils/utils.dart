@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:flutter_application_1/l10n/app_localizations.dart';
+import 'package:flutter_application_1/constants.dart';
 
 void navigateTo(BuildContext context, Widget page) {
   Navigator.push(
@@ -14,6 +15,10 @@ void navigateAndReplace(BuildContext context, Widget page) {
     context,
     MaterialPageRoute(builder: (context) => page),
   ); //pushReplacement = replaces the current page, meaning we cannot go back to it
+}
+
+void navigateBack(BuildContext context) {
+  Navigator.pop(context);
 }
 
 void showAppSnackbar(
@@ -49,4 +54,44 @@ bool isMmobileLayout(BuildContext context) {
 extension LocalizationHelper on BuildContext {
   /// Shortcut to access localized strings
   AppLocalizations get lang => AppLocalizations.of(this)!;
+}
+
+Future<bool> showDeleteConfirmationDialog(
+  BuildContext context, {
+  String? itemName,
+}) async {
+  return await showDialog<bool>(
+        context: context,
+        builder: (context) => AlertDialog(
+          title: Text('Delete Confirmation'),
+          content: Text(
+            itemName != null
+                ? 'Are you sure you want to delete "$itemName"?'
+                : 'Are you sure you want to delete this item?',
+          ),
+          actions: [
+            // TextButton(
+            //   onPressed: () => Navigator.pop(context, false),
+            //   child: Text('Cancel'),
+            // ),
+            ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                backgroundColor: secondaryBackgroundColor,
+                foregroundColor: primaryColor,
+              ),
+              onPressed: () => Navigator.pop(context, false),
+              child: Text('Cancel'),
+            ),
+            ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.blueAccent,
+                foregroundColor: Colors.white,
+              ),
+              onPressed: () => Navigator.pop(context, true),
+              child: Text('Delete'),
+            ),
+          ],
+        ),
+      ) ??
+      false;
 }
