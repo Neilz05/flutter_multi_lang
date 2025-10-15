@@ -145,7 +145,7 @@ class SpeedTestWidget extends StatelessWidget {
             GaugeRange(
               startValue: 0,
               endValue: speed,
-              color: Colors.blueAccent,
+              color: Theme.of(context).colorScheme.primary,
             ),
           ],
           pointers: <GaugePointer>[NeedlePointer(value: speed)],

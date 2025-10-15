@@ -14,7 +14,9 @@ import 'package:flutter_application_1/wifi_speed_test.dart';
 import 'package:flutter_application_1/wifi_qr_page.dart';
 import 'package:flutter_application_1/admin_devices_overview.dart';
 import 'package:flutter_application_1/admin_users_overview.dart';
+import 'package:flutter_application_1/providers/language_provider.dart';
 import 'package:flutter_application_1/providers/theme_provider.dart';
+import 'package:flutter_application_1/providers/fetch_provider.dart';
 
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
@@ -58,6 +60,7 @@ class MyApp extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final isDarkMode = ref.watch(darkModeProvider);
+    final language = ref.watch(languageProvider);
     return MaterialApp(
       //localication
       localizationsDelegates: const [
@@ -71,7 +74,8 @@ class MyApp extends ConsumerWidget {
         Locale('es', ''), // Spanish
         Locale('ja', ''), // Japanese
       ],
-      locale: const Locale('ja', ''),
+      // locale: const Locale('ja', ''),
+      locale: language,
       title: 'Flutter Demo Home Page',
       theme: ThemeData(
         scaffoldBackgroundColor: primaryBackgroundColor,
@@ -101,27 +105,33 @@ class MyApp extends ConsumerWidget {
   }
 }
 
-class MyHomePage extends StatefulWidget {
+// class MyHomePage extends StatefulWidget {
+//   const MyHomePage({super.key, required this.title});
+
+//   // This widget is the home page of your application. It is stateful, meaning
+//   // that it has a State object (defined below) that contains fields that affect
+//   // how it looks.
+
+//   // This class is the configuration for the state. It holds the values (in this
+//   // case the title) provided by the parent (in this case the App widget) and
+//   // used by the build method of the State. Fields in a Widget subclass are
+//   // always marked "final".
+
+//   final String title;
+
+//   @override
+//   State<MyHomePage> createState() => _MyHomePageState();
+// }
+
+class MyHomePage extends ConsumerWidget {
   const MyHomePage({super.key, required this.title});
-
-  // This widget is the home page of your application. It is stateful, meaning
-  // that it has a State object (defined below) that contains fields that affect
-  // how it looks.
-
-  // This class is the configuration for the state. It holds the values (in this
-  // case the title) provided by the parent (in this case the App widget) and
-  // used by the build method of the State. Fields in a Widget subclass are
-  // always marked "final".
-
   final String title;
-
+  // class _MyHomePageState extends State<MyHomePage> {
+  // final fact = await factProvider.read(factProvider.future);
+  // final fact = await container.read(factProvider.future);
   @override
-  State<MyHomePage> createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
-  @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final factOfTheDay = ref.watch(factProvider);
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.primary,
@@ -207,6 +217,25 @@ class _MyHomePageState extends State<MyHomePage> {
         padding: EdgeInsets.all(16),
         children: [
           SummaryCard(
+            // leadingIconData: Icons.wifi,
+            // leadingIconColor: Colors.blue,
+            title: 'Did you know?',
+            subtitles: [
+              SubtitleLine(
+                'Fact',
+                factOfTheDay.when(
+                  data: (fact) => fact.text,
+                  loading: () => 'Loading fact of the day...',
+                  error: (err, stack) => 'Error loading fact of the day',
+                ),
+              ),
+            ],
+            // subtitles: [SubtitleLine('Signal Strength', 'Excellent')],
+            // trailingIconData: Icons.check_circle,
+            // trailingIconColor: Colors.green,
+          ),
+          const VerticalSpacing(),
+          SummaryCard(
             leadingIconData: Icons.wifi,
             leadingIconColor: Colors.blue,
             title: 'Connected: MyWiFiNetwork',
@@ -280,7 +309,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
 class SummaryCard extends StatelessWidget {
   final String title;
-  final List<SubtitleLine>
+  final List<SubtitleLine>?
   subtitles; // we use a list of the class subtitleLine to make it easier to add multiple lines
   final IconData? leadingIconData;
   final Color? leadingIconColor;
@@ -290,7 +319,7 @@ class SummaryCard extends StatelessWidget {
   const SummaryCard({
     super.key,
     required this.title,
-    required this.subtitles,
+    this.subtitles,
     this.leadingIconData,
     this.leadingIconColor,
     this.trailingIconData,
@@ -306,7 +335,8 @@ class SummaryCard extends StatelessWidget {
             : null,
         title: Text(title),
         subtitle: Text(
-          subtitles.map((line) => '${line.label}: ${line.value}').join('\n'),
+          subtitles?.map((line) => '${line.label}: ${line.value}').join('\n') ??
+              '',
         ),
         trailing: trailingIconData != null
             ? Icon(trailingIconData, color: trailingIconColor ?? Colors.purple)

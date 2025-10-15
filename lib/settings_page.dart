@@ -7,6 +7,7 @@ import 'package:flutter_application_1/widgets/widgets.dart';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_application_1/providers/theme_provider.dart';
+import 'package:flutter_application_1/providers/language_provider.dart';
 
 final storage = FlutterSecureStorage();
 
@@ -48,9 +49,11 @@ class SettingsPage extends ConsumerWidget {
               text: 'Dark Mode',
               trailing: OptionSwitch(
                 initialValue: isDarkMode,
-                onChanged: (val) {
-                  ref.read(darkModeProvider.notifier).state = val;
-                },
+                onChanged: (val) =>
+                    ref.read(darkModeProvider.notifier).setDarkMode(val),
+                // onChanged: (val) {
+                //   ref.read(darkModeProvider.notifier).state = val;
+                // },
               ),
             ),
             SizedBox(height: spacing16), // Add some spacing
@@ -70,7 +73,9 @@ class SettingsPage extends ConsumerWidget {
             ),
             ClickableSettingsRow(
               text: context.lang.settingsLanguage,
-              onPressed: () {},
+              onPressed: () {
+                _showLanguagePicker(context, ref);
+              },
             ),
             SizedBox(height: spacing24),
             // Add more settings options here
@@ -138,4 +143,35 @@ class SettingsRow extends StatelessWidget {
       ),
     );
   }
+}
+
+void _showLanguagePicker(BuildContext context, WidgetRef ref) {
+  showModalBottomSheet(
+    context: context,
+    builder: (context) {
+      final languages = [
+        {'locale': const Locale('en', ''), 'label': 'English'},
+        {'locale': const Locale('ja', ''), 'label': '日本語'},
+      ];
+
+      return SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(vertical: 8.0),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: languages.map((lang) {
+              return ListTile(
+                title: Text(lang['label'] as String),
+                onTap: () {
+                  ref.read(languageProvider.notifier).state =
+                      lang['locale'] as Locale;
+                  Navigator.pop(context);
+                },
+              );
+            }).toList(),
+          ),
+        ),
+      );
+    },
+  );
 }
