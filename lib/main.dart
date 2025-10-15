@@ -14,11 +14,14 @@ import 'package:flutter_application_1/wifi_speed_test.dart';
 import 'package:flutter_application_1/wifi_qr_page.dart';
 import 'package:flutter_application_1/admin_devices_overview.dart';
 import 'package:flutter_application_1/admin_users_overview.dart';
+import 'package:flutter_application_1/providers/theme_provider.dart';
 
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 Future<bool> isAdminUser() async {
   final uid = FirebaseAuth.instance.currentUser?.uid;
@@ -38,7 +41,7 @@ Future<bool> isAdminUser() async {
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
-  runApp(MyApp());
+  runApp(ProviderScope(child: MyApp()));
 }
 
 class SubtitleLine {
@@ -48,12 +51,13 @@ class SubtitleLine {
   SubtitleLine(this.label, this.value);
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends ConsumerWidget {
   const MyApp({super.key});
 
   // This widget is the root of your application.
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final isDarkMode = ref.watch(darkModeProvider);
     return MaterialApp(
       //localication
       localizationsDelegates: const [
@@ -71,8 +75,26 @@ class MyApp extends StatelessWidget {
       title: 'Flutter Demo Home Page',
       theme: ThemeData(
         scaffoldBackgroundColor: primaryBackgroundColor,
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.blueAccent),
+        colorScheme: ColorScheme.fromSeed(
+          seedColor: primaryColor,
+          primary: primaryColor,
+          secondary: secondaryBackgroundColor,
+        ),
       ),
+      darkTheme: ThemeData.dark().copyWith(
+        scaffoldBackgroundColor: Colors.black,
+        // scaffoldBackgroundColor: primaryBackgroundColor,
+        colorScheme: ColorScheme.fromSeed(
+          seedColor: Colors.blueGrey,
+          primary: Colors.blueGrey,
+          secondary: secondaryBackgroundColor,
+          surface: Colors.blueGrey,
+          // surface: Colors.grey.shade900,
+          brightness: Brightness.dark,
+        ),
+      ),
+      themeMode: isDarkMode ? ThemeMode.dark : ThemeMode.light,
+      // themeMode: ThemeMode.system,
       home: LoginPage(),
       // home: const MyHomePage(title: 'Flutter Demo Home Page'),
     );
@@ -102,7 +124,7 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.blueAccent,
+        backgroundColor: Theme.of(context).colorScheme.primary,
         title: Text(context.lang.hello("Dongs")),
         centerTitle: true,
       ),

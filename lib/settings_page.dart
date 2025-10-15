@@ -5,16 +5,20 @@ import 'package:flutter_application_1/constants.dart';
 import 'package:flutter_application_1/utils/utils.dart';
 import 'package:flutter_application_1/widgets/widgets.dart';
 
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_application_1/providers/theme_provider.dart';
+
 final storage = FlutterSecureStorage();
 
-class SettingsPage extends StatelessWidget {
+class SettingsPage extends ConsumerWidget {
   const SettingsPage({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final isDarkMode = ref.watch(darkModeProvider);
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: primaryColor,
+        backgroundColor: Theme.of(context).colorScheme.primary,
         title: Text(context.lang.settings),
       ),
       body: PaddedContainer(
@@ -39,6 +43,15 @@ class SettingsPage extends StatelessWidget {
             SettingsRow(
               text: context.lang.settingsEnableFeatureY,
               trailing: OptionSwitch(initialValue: false, onChanged: (val) {}),
+            ),
+            SettingsRow(
+              text: 'Dark Mode',
+              trailing: OptionSwitch(
+                initialValue: isDarkMode,
+                onChanged: (val) {
+                  ref.read(darkModeProvider.notifier).state = val;
+                },
+              ),
             ),
             SizedBox(height: spacing16), // Add some spacing
             PaddedContainer(
@@ -80,7 +93,7 @@ class ClickableSettingsRow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Material(
-      color: secondaryBackgroundColor,
+      color: Colors.transparent,
       child: InkWell(
         onTap: onPressed,
         child: SettingsRow(
@@ -111,8 +124,11 @@ class SettingsRow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return PaddedContainer(
-      // color: Colors.transparent
-      color: clickable ? Colors.transparent : secondaryBackgroundColor,
+      color: Colors.transparent,
+      // color: clickable ? Colors.transparent : secondaryBackgroundColor,
+      // color: clickable
+      //     ? Colors.transparent
+      //     : Theme.of(context).colorScheme.surface,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [

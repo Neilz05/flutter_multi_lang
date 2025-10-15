@@ -17,7 +17,7 @@ class PrimaryButton extends StatelessWidget {
       child: ElevatedButton(
         onPressed: onPressed,
         style: ElevatedButton.styleFrom(
-          backgroundColor: primaryColor,
+          backgroundColor: Theme.of(context).colorScheme.primary,
           foregroundColor: Colors.white,
           padding: EdgeInsets.symmetric(horizontal: 0, vertical: 0),
           textStyle: TextStyle(
@@ -99,7 +99,7 @@ class PrimaryElevatedButton extends StatelessWidget {
       child: ElevatedButton.icon(
         icon: icon != null ? Icon(icon) : SizedBox.shrink(),
         style: ElevatedButton.styleFrom(
-          backgroundColor: Colors.blueAccent,
+          backgroundColor: Theme.of(context).colorScheme.primary,
           foregroundColor: Colors.white,
           padding: EdgeInsets.symmetric(horizontal: 32, vertical: 12),
         ),
@@ -138,7 +138,7 @@ class _OptionSwitchState extends State<OptionSwitch> {
     return Switch(
       trackOutlineColor: WidgetStateProperty.resolveWith<Color>((states) {
         if (states.contains(WidgetState.selected)) {
-          return primaryColor; // Active color
+          return Theme.of(context).colorScheme.primary; // Active color
         }
         return Colors.grey; // Inactive color
       }),
@@ -149,7 +149,7 @@ class _OptionSwitchState extends State<OptionSwitch> {
       // }),
       thumbIcon: WidgetStateProperty.all(const Icon(null)),
       thumbColor: WidgetStateProperty.all(Colors.white),
-      activeTrackColor: primaryColor,
+      activeTrackColor: Theme.of(context).colorScheme.primary,
       inactiveThumbColor: Colors.black,
       inactiveTrackColor: Colors.grey,
       value: value,
