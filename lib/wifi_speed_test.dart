@@ -2,19 +2,23 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/widgets/widgets.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_speed_test_plus/flutter_speed_test_plus.dart';
 import 'package:syncfusion_flutter_gauges/gauges.dart';
 import 'package:flutter_application_1/constants.dart';
 import 'package:flutter_application_1/utils/utils.dart';
+import 'package:flutter_application_1/providers/speed_test_provider.dart';
 
-class WifiSpeedTest extends StatefulWidget {
+class WifiSpeedTest extends ConsumerStatefulWidget {
+  // class WifiSpeedTest extends StatefulWidget {
   const WifiSpeedTest({super.key});
 
   @override
-  State<WifiSpeedTest> createState() => _WifiSpeedTestState();
+  ConsumerState<WifiSpeedTest> createState() => _WifiSpeedTestState();
 }
 
-class _WifiSpeedTestState extends State<WifiSpeedTest> {
+class _WifiSpeedTestState extends ConsumerState<WifiSpeedTest> {
+  // class _WifiSpeedTestState extends State<WifiSpeedTest> {
   double speed = 0;
   double finalDownloadSpeed = 0;
   double finalUploadSpeed = 0;
@@ -25,6 +29,22 @@ class _WifiSpeedTestState extends State<WifiSpeedTest> {
       finalDownloadSpeed = 0.0;
       finalUploadSpeed = 0.0;
     });
+  }
+
+  void getDownloadAndUploadSpeed(WidgetRef ref) {
+    final speedTest = ref.watch(speedTestProvider);
+    switch (speedTest) {
+      case AsyncData(:final value):
+        speed = value.speed;
+        finalDownloadSpeed = value.downloadSpeed;
+        finalUploadSpeed = value.uploadSpeed;
+      case AsyncLoading():
+        finalDownloadSpeed = 0;
+        finalUploadSpeed = 0;
+      case AsyncError():
+        finalDownloadSpeed = 0;
+        finalUploadSpeed = 0;
+    }
   }
 
   @override
@@ -78,7 +98,9 @@ class _WifiSpeedTestState extends State<WifiSpeedTest> {
             PrimaryElevatedButton(
               onPressed: () {
                 clearState();
-                startSpeedTest();
+                ref.read(speedTestProvider.notifier).startSpeedTest();
+                getDownloadAndUploadSpeed(ref);
+                // startSpeedTest();
               },
               text: context.lang.wifiStartSpeedTest,
             ),
@@ -88,45 +110,45 @@ class _WifiSpeedTestState extends State<WifiSpeedTest> {
     );
   }
 
-  void startSpeedTest() {
-    final speedTest = FlutterInternetSpeedTest();
-    speedTest.startTesting(
-      useFastApi: true, // true by default, uses Fast.com API
-      onStarted: () {
-        print('Speed test started');
-      },
-      onCompleted: (TestResult download, TestResult upload) {
-        print('Download Speed: ${download.transferRate} Mbps');
-        print('Upload Speed: ${upload.transferRate} Mbps');
-      },
-      onProgress: (double percent, TestResult data) {
-        print("${data.transferRate} Mbps");
-        print("${data.type} is the data type");
-        print('Progress: $percent%');
-        setState(() {
-          speed = data.transferRate;
-        });
-      },
-      onError: (String errorMessage, String speedTestError) {
-        print('Error: $errorMessage');
-      },
-      onDownloadComplete: (TestResult data) {
-        setState(() {
-          finalDownloadSpeed = data.transferRate;
-        });
-        print('Download complete: ${data.transferRate} Mbps');
-      },
-      onUploadComplete: (TestResult data) {
-        setState(() {
-          finalUploadSpeed = data.transferRate;
-        });
-        print('Upload complete: ${data.transferRate} Mbps');
-      },
-      onCancel: () {
-        print('Test cancelled');
-      },
-    );
-  }
+  // void startSpeedTest() {
+  //   final speedTest = FlutterInternetSpeedTest();
+  //   speedTest.startTesting(
+  //     useFastApi: true, // true by default, uses Fast.com API
+  //     onStarted: () {
+  //       print('Speed test started');
+  //     },
+  //     onCompleted: (TestResult download, TestResult upload) {
+  //       print('Download Speed: ${download.transferRate} Mbps');
+  //       print('Upload Speed: ${upload.transferRate} Mbps');
+  //     },
+  //     onProgress: (double percent, TestResult data) {
+  //       print("${data.transferRate} Mbps");
+  //       print("${data.type} is the data type");
+  //       print('Progress: $percent%');
+  //       setState(() {
+  //         speed = data.transferRate;
+  //       });
+  //     },
+  //     onError: (String errorMessage, String speedTestError) {
+  //       print('Error: $errorMessage');
+  //     },
+  //     onDownloadComplete: (TestResult data) {
+  //       setState(() {
+  //         finalDownloadSpeed = data.transferRate;
+  //       });
+  //       print('Download complete: ${data.transferRate} Mbps');
+  //     },
+  //     onUploadComplete: (TestResult data) {
+  //       setState(() {
+  //         finalUploadSpeed = data.transferRate;
+  //       });
+  //       print('Upload complete: ${data.transferRate} Mbps');
+  //     },
+  //     onCancel: () {
+  //       print('Test cancelled');
+  //     },
+  //   );
+  // }
 }
 
 class SpeedTestWidget extends StatelessWidget {

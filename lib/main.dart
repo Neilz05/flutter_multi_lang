@@ -16,7 +16,8 @@ import 'package:flutter_application_1/admin_devices_overview.dart';
 import 'package:flutter_application_1/admin_users_overview.dart';
 import 'package:flutter_application_1/providers/language_provider.dart';
 import 'package:flutter_application_1/providers/theme_provider.dart';
-import 'package:flutter_application_1/providers/fetch_provider.dart';
+import 'package:flutter_application_1/providers/fact_provider.dart';
+import 'package:flutter_application_1/providers/speed_test_provider.dart';
 
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
@@ -105,33 +106,54 @@ class MyApp extends ConsumerWidget {
   }
 }
 
-// class MyHomePage extends StatefulWidget {
-//   const MyHomePage({super.key, required this.title});
-
-//   // This widget is the home page of your application. It is stateful, meaning
-//   // that it has a State object (defined below) that contains fields that affect
-//   // how it looks.
-
-//   // This class is the configuration for the state. It holds the values (in this
-//   // case the title) provided by the parent (in this case the App widget) and
-//   // used by the build method of the State. Fields in a Widget subclass are
-//   // always marked "final".
-
-//   final String title;
-
-//   @override
-//   State<MyHomePage> createState() => _MyHomePageState();
-// }
-
-class MyHomePage extends ConsumerWidget {
+class MyHomePage extends ConsumerStatefulWidget {
   const MyHomePage({super.key, required this.title});
+
   final String title;
-  // class _MyHomePageState extends State<MyHomePage> {
-  // final fact = await factProvider.read(factProvider.future);
-  // final fact = await container.read(factProvider.future);
+
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final factOfTheDay = ref.watch(factProvider);
+  ConsumerState<MyHomePage> createState() => _MyHomePageState();
+}
+
+class _MyHomePageState extends ConsumerState<MyHomePage> {
+  @override
+  Widget build(BuildContext context) {
+    String getFactOfTheDay(WidgetRef ref) {
+      final factOfTheDay = ref.watch(factProvider);
+      String factText = '';
+      switch (factOfTheDay) {
+        case AsyncData(:final value):
+          factText = value.text;
+        case AsyncLoading():
+          factText = 'Loading fact of the day...';
+        case AsyncError(:final error):
+          factText = 'Error loading fact of the day: $error';
+      }
+      return factText;
+    }
+
+    String factText = getFactOfTheDay(ref);
+
+    double downloadSpeed = 0;
+    double uploadSpeed = 0;
+
+    void getDownloadAndUploadSpeed(WidgetRef ref) {
+      final speedTest = ref.watch(speedTestProvider);
+      switch (speedTest) {
+        case AsyncData(:final value):
+          downloadSpeed = value.downloadSpeed;
+          uploadSpeed = value.uploadSpeed;
+        case AsyncLoading():
+          downloadSpeed = 0;
+          uploadSpeed = 0;
+        case AsyncError():
+          downloadSpeed = 0;
+          uploadSpeed = 0;
+      }
+    }
+
+    getDownloadAndUploadSpeed(ref);
+    print("SPEED: $downloadSpeed");
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.primary,
@@ -217,22 +239,24 @@ class MyHomePage extends ConsumerWidget {
         padding: EdgeInsets.all(16),
         children: [
           SummaryCard(
-            // leadingIconData: Icons.wifi,
-            // leadingIconColor: Colors.blue,
             title: 'Did you know?',
             subtitles: [
               SubtitleLine(
-                'Fact',
-                factOfTheDay.when(
-                  data: (fact) => fact.text,
-                  loading: () => 'Loading fact of the day...',
-                  error: (err, stack) => 'Error loading fact of the day',
-                ),
+                'Random Fact',
+                // factOfTheDay.when(
+                //   data: (fact) => fact.text,
+                //   loading: () => 'Loading fact of the day...',
+                //   error: (err, stack) => 'Error loading fact of the day',
+                // ),
+                factText,
               ),
             ],
-            // subtitles: [SubtitleLine('Signal Strength', 'Excellent')],
-            // trailingIconData: Icons.check_circle,
-            // trailingIconColor: Colors.green,
+            extraWidget: ElevatedButton(
+              onPressed: () {
+                ref.read(factProvider.notifier).fetchFact();
+              },
+              child: Text('Refresh Fact'),
+            ),
           ),
           const VerticalSpacing(),
           SummaryCard(
@@ -249,13 +273,15 @@ class MyHomePage extends ConsumerWidget {
             children: [
               _SpeedCard(
                 label: "Download",
-                value: "120",
+                value: downloadSpeed.toString(),
+                // value: "120",
                 unit: "Mbps",
                 icon: Icons.download,
               ),
               _SpeedCard(
                 label: "Upload",
-                value: "50",
+                value: uploadSpeed.toString(),
+                // value: "50",
                 unit: "Mbps",
                 icon: Icons.upload,
               ),
@@ -315,7 +341,7 @@ class SummaryCard extends StatelessWidget {
   final Color? leadingIconColor;
   final IconData? trailingIconData;
   final Color? trailingIconColor;
-
+  final Widget? extraWidget;
   const SummaryCard({
     super.key,
     required this.title,
@@ -324,23 +350,37 @@ class SummaryCard extends StatelessWidget {
     this.leadingIconColor,
     this.trailingIconData,
     this.trailingIconColor,
+    this.extraWidget,
   });
 
   @override
   Widget build(BuildContext context) {
     return Card(
-      child: ListTile(
-        leading: leadingIconData != null
-            ? Icon(leadingIconData, color: leadingIconColor ?? Colors.purple)
-            : null,
-        title: Text(title),
-        subtitle: Text(
-          subtitles?.map((line) => '${line.label}: ${line.value}').join('\n') ??
-              '',
-        ),
-        trailing: trailingIconData != null
-            ? Icon(trailingIconData, color: trailingIconColor ?? Colors.purple)
-            : null,
+      child: Column(
+        children: [
+          ListTile(
+            leading: leadingIconData != null
+                ? Icon(
+                    leadingIconData,
+                    color: leadingIconColor ?? Colors.purple,
+                  )
+                : null,
+            title: Text(title),
+            subtitle: Text(
+              subtitles
+                      ?.map((line) => '${line.label}: ${line.value}')
+                      .join('\n') ??
+                  '',
+            ),
+            trailing: trailingIconData != null
+                ? Icon(
+                    trailingIconData,
+                    color: trailingIconColor ?? Colors.purple,
+                  )
+                : null,
+          ),
+          if (extraWidget != null) extraWidget!,
+        ],
       ),
     );
   }
@@ -362,22 +402,42 @@ class _SpeedCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final cardWidth =
+        MediaQuery.of(context).size.width / 2 - 24; // 24 for spacing
     return Card(
-      child: Padding(
-        padding: const EdgeInsets.all(48.0),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Icon(icon, size: 32),
-            const VerticalSpacing(height: spacing8),
-            Text(
-              '$value $unit',
-              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-            ),
-            Text(label),
-          ],
+      child: SizedBox(
+        width: cardWidth,
+        height: 150,
+        child: Center(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Icon(icon, size: 32),
+              const VerticalSpacing(height: spacing8),
+              Text(
+                '$value $unit',
+                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+              ),
+              Text(label),
+            ],
+          ),
         ),
       ),
+      // child: Padding(
+      //   padding: const EdgeInsets.all(48.0),
+      //   child: Column(
+      //     mainAxisSize: MainAxisSize.min,
+      //     children: [
+      //       Icon(icon, size: 32),
+      //       const VerticalSpacing(height: spacing8),
+      //       Text(
+      //         '$value $unit',
+      //         style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+      //       ),
+      //       Text(label),
+      //     ],
+      //   ),
+      // ),
     );
   }
 }

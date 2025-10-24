@@ -163,8 +163,11 @@ void _showLanguagePicker(BuildContext context, WidgetRef ref) {
               return ListTile(
                 title: Text(lang['label'] as String),
                 onTap: () {
-                  ref.read(languageProvider.notifier).state =
-                      lang['locale'] as Locale;
+                  // ref.read(languageProvider.notifier).state =
+                  //     lang['locale'] as Locale;
+                  ref
+                      .read(languageProvider.notifier)
+                      .setLanguage(lang['locale'] as Locale);
                   Navigator.pop(context);
                 },
               );
