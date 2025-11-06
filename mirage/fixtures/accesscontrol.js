@@ -1,4 +1,4 @@
-export const data = [
+const data = [
   {
     parameters: {
       AccessPolicy: "Allow",
@@ -420,3 +420,4 @@ export const data = [
     path: "Device.Hosts.AccessControl.5.Schedule.1."
   }
 ]
+module.exports = { data }; 

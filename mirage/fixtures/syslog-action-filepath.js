@@ -1,4 +1,4 @@
-export const data = [
+const data = [
     {
         "parameters": {
             "Enable": 1,
@@ -48,3 +48,5 @@ export const data = [
         "path": "Device.Syslog.Action.6.LogFile."
     }
 ]
+
+module.exports = { data };

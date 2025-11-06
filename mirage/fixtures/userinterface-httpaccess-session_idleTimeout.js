@@ -1,4 +1,4 @@
-export const data = [  {
+const data = [  {
       "parameters":{
          "ID":"myid HTTPAccess.2.Session.2_idletimeout",
          "IPAddress":"192.168.1.10",
@@ -10,3 +10,5 @@ export const data = [  {
       },
       "path":"Device.UserInterface.HTTPAccess.2.Session.2."
         }]
+
+module.exports = { data };

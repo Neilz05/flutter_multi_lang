@@ -1,4 +1,4 @@
-export const data = [
+const data = [
   {
     "parameters": {
       "ClientNumberOfEntries": 3
@@ -780,3 +780,5 @@ export const data = [
     "path": "Device.DHCPv4.Server.Pool.3.Option.1."
   }
 ];
+
+module.exports = { data };

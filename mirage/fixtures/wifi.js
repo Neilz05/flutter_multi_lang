@@ -1,4 +1,5 @@
-import { data as wifi_x000e50multiap } from './wifi_x000e50multiap';
+// import { data as wifi_x000e50multiap } from './wifi_x000e50multiap';
+const { data : wifi_x000e50multiap } = require('./wifi_x000e50multiap');
 
 const data = [
   {
@@ -6862,4 +6863,5 @@ wifi_x000e50multiap.forEach((entry) => {
   data.push(entry);
 });
 
-export { data };
+// module.exports = { data };
+module.exports = { data };

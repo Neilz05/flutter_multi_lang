@@ -1,4 +1,4 @@
-export const data = [
+const data = [
   {
     "parameters": {
       "IPv4AddressNumberOfEntries": 0,
@@ -300,3 +300,5 @@ export const data = [
     "path": "Device.Hosts.Host.10.WANStats."
   }
 ]
+
+module.exports = { data };

@@ -1,4 +1,5 @@
-export const data = [
+const data = [
+// export const data = [
 
     {
         parameters: {
@@ -255,3 +256,5 @@ export const data = [
         path: 'XPON.ONU.1.SoftwareImage.2'
     }*/
 ];
+
+module.exports = { data };

@@ -1,4 +1,5 @@
-export const data = [
+const data = [
+// export const data = [
   {
     "parameters": {
       "Status": "Up",
@@ -408,3 +409,5 @@ export const data = [
     "path": "Device.Ethernet.VLANTermination.9.Stats."
   }
 ]
+
+module.exports = { data };

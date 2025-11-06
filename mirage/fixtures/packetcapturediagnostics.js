@@ -1,4 +1,4 @@
-export const data = [
+const data = [
   {
     "parameters": {
       "ByteCount": 1000,
@@ -18,3 +18,5 @@ export const data = [
     "path": "PacketCaptureDiagnostics."
   }
 ]; 
+
+module.exports = { data };

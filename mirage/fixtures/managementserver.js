@@ -1,4 +1,4 @@
-export const data = [
+const data = [
   {
     parameters: { 
       URL: 'http://172.31.34.187:8080/openacs/acs',
@@ -7,3 +7,5 @@ export const data = [
     path: 'ManagementServer.',
   },
 ];
+
+module.exports = { data };

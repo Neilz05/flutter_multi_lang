@@ -1,4 +1,4 @@
-export const data = [
+const data = [
   {
     "parameters": {
       "VMWIEnable": 0,
@@ -102,3 +102,6 @@ export const data = [
     "path": "Device.Services.VoiceService.1.CallControl.CallingFeatures.Set.2.Voice2Mail."
   }
 ]
+
+// module.exports = { data };
+module.exports = { data };

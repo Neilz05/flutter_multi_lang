@@ -1,4 +1,4 @@
-export const data = [
+const data = [
   {
     parameters: {
       ExecEnvNumberOfEntries: 1,
@@ -89,3 +89,5 @@ export const data = [
     path: 'SoftwareModules.ExecEnv.1.',
   },
 ];
+
+module.exports = { data };

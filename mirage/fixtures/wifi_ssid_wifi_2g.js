@@ -1,4 +1,5 @@
-export const data = [
+const data = [
+// export const data = [
   {
     "parameters": {
       "Status": "Up",
@@ -17,3 +18,5 @@ export const data = [
     "path": "Device.WiFi.SSID.WiFi-2G."
   }
 ]
+
+module.exports = { data };  

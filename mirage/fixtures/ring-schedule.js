@@ -1,4 +1,4 @@
-export const data =[
+const data =[
     {
         "parameters":{
             "Enable":1,
@@ -25,3 +25,5 @@ export const data =[
     "path": "Device.Services.VoiceService.1.X_PRPLWARE-COM_RingScheduleService.RingSchedule.2.",
     }
 ]
+
+module.exports = { data };

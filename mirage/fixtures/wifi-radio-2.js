@@ -466,4 +466,6 @@ const data = [
     "path": "Device.WiFi.Radio.2.Vendor."
   }
 ]
-export { data };
+
+module.exports = { data };
+// module.exports = { data }; 

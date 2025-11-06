@@ -1,4 +1,4 @@
-export const data = `2025 Oct  2 02:39:09 etisalathub ubus-cli: "-- START --"
+const data = `2025 Oct  2 02:39:09 etisalathub ubus-cli: "-- START --"
 2025 Oct  2 02:39:09 etisalathub ubus-cli: > WANManager.WANMode?
 2025 Oct  2 02:39:09 etisalathub ubus-cli: > !amx exit
 2025 Oct  2 02:39:09 etisalathub ubus-cli: "-- STOP --"
@@ -38,3 +38,5 @@ export const data = `2025 Oct  2 02:39:09 etisalathub ubus-cli: "-- START --"
 2025 Oct  2 02:46:52 etisalathub ubus-cli: "-- START --"
 2025 Oct  2 02:46:52 etisalathub ubus-cli: > WANManager.OperationMode?
 2025 Oct  2 02:46:52 etisalathub ubus-cli: > !amx exit`;
+
+module.exports = { data };

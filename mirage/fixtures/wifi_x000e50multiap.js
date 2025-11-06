@@ -1,6 +1,5 @@
 
-
-export const data = [
+const data = [
    {
       "parameters":{
          "DaisyChainEnable":1,
@@ -71,3 +70,5 @@ export const data = [
       "path":"Device.WiFi.X_000E50_MultiAP.Steering."
    }
 ];
+
+module.exports = { data };

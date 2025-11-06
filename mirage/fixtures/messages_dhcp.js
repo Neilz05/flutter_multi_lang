@@ -1,4 +1,4 @@
-export const data = `2025 Feb 11 06:30:45 prplOS tr181-dhcpv6client: object 'IP.Interface.' available
+const data = `2025 Feb 11 06:30:45 prplOS tr181-dhcpv6client: object 'IP.Interface.' available
 2025 Feb 11 06:30:45 prplOS tr181-dhcpv6client: object 'NetModel.Intf.' available
 2025 Feb 11 06:30:45 prplOS tr181-dhcpv6client: object 'Firewall.' available
 2025 Feb 11 06:30:45 prplOS tr181-dhcpv6client: object 'Users.User.' available
@@ -1441,3 +1441,5 @@ export const data = `2025 Feb 11 06:30:45 prplOS tr181-dhcpv6client: object 'IP.
 2025 Feb 12 01:43:58 prplOS tr181-dhcpv4client: mod-dhc - [!][vlan1036] Intf[vlan1036] REQUEST 172.31.130.64 from 10.10.10.2 [broadcast] - (dhcp_packet_send@dhcp_packet.c:646)
 2025 Feb 12 01:43:58 prplOS tr181-dhcpv4client: mod-dhc - [!]Set next REBIND timeout [38]sec - (dhcp_state_goto_rebinding@dhcp_state.c:673)
 2025 Feb 12 01:43:58 prplOS tr181-dhcpv4client: mod-dhc - [!][vlan1036] Ack received - (dhcp_state_on_ack@dhcp_state.c:797)`
+
+module.exports = { data };

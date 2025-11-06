@@ -1,4 +1,5 @@
-import { data as processStatus } from './device-info-process-status';
+// import { data as processStatus } from './device-info-process-status';
+const { data : processStatus } = require('./device-info-process-status');
 
 const data = [
   {
@@ -66,4 +67,5 @@ processStatus.forEach((entry) => {
   data.push(entry);
 });
 
-export { data };
+// module.exports = { data };
+module.exports = { data };

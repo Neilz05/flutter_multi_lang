@@ -1,5 +1,5 @@
-import { data as onu1 } from './xpon-onu-1';
-
+// import { data as onu1 } from './xpon-onu-1';
+const { data : onu1 } = require('./xpon-onu-1');
 const data = [
     {
         parameters: { ONUNumberOfEntries: 1 },
@@ -11,4 +11,5 @@ onu1.forEach((entry) => {
     data.push(entry);
 });
 
-export { data };
+module.exports = { data };
+// module.exports = { data };

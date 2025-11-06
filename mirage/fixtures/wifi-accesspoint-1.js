@@ -232,4 +232,5 @@ const data = [
   }
 ]
 
-export { data };
+module.exports = { data };
+// module.exports = { data };

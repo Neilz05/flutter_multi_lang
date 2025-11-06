@@ -1,4 +1,5 @@
-export const data = [
+const data = [
+// export const data = [
   {
     parameters: {
       Username: 'root',
@@ -24,3 +25,5 @@ export const data = [
   //   path: 'Users.User.3.'
   // }  /* remove duplicate admin-user */
   ];
+
+module.exports = { data };

@@ -1,4 +1,4 @@
-export const data = [
+const data = [
     {
         parameters: {},
         path: "Syslog."
@@ -45,3 +45,5 @@ export const data = [
         path: "Syslog.Action.messages_remote.LogFile."
     },
 ]
+
+module.exports = { data };

@@ -1,4 +1,4 @@
-export const data = [
+const data = [
   {
     "parameters": {
       "X_SC_SSIDIsolation": 0,
@@ -4816,3 +4816,5 @@ export const data = [
     "path": "Device.WiFi.wps_DefParam."
   }
 ];
+
+module.exports = { data };

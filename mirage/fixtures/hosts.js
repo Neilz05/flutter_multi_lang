@@ -1,4 +1,4 @@
-export const data = [
+const data = [
   {
     "parameters": {
       "HostNumberOfEntries": 8,
@@ -241,3 +241,5 @@ export const data = [
     "path": "Device.Hosts.X_PRPL-COM_HostConfig."
   }
 ]
+
+module.exports = { data };

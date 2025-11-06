@@ -1,4 +1,4 @@
-export const data = [
+const data = [
   { parameters: {}, path: 'Cthulhu.' },
   {
     parameters: {
@@ -164,3 +164,5 @@ export const data = [
     path: 'Cthulhu.Sandbox.Instances.1.UtsNS.',
   },
 ];
+
+module.exports = { data };

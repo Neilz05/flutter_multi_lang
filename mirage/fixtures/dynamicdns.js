@@ -1,4 +1,4 @@
-export const data = [
+const data = [
   {
     "parameters": {
       "SupportedServices": "desec.io,dnshome.de,dnsdynamic.org,mythic-beasts.com,route53-v1,dyndns.org,godaddy.com-v1,dynv6.com,changeip.com,afraid.org-v2-token,google.com,duiadns.net,afraid.org-basicauth,moniker.com,mydns.jp,inwx.de,hosting.de,twodns.de,3322.org,oray.com,strato.com,opendns.com,core-networks.de,dnsmadeeasy.com,dynu.com,dyndns.it,mythic-beasts.com (API v2),udmedia.de,goip.de,all-inkl.com,do.de,he.net,loopia.se,dnsmax.com,thatip.com,dnsomatic.com,afraid.org-keyauth,zoneedit.com,simply.com,domopoli.de,dnsexit.com,nsupdate.info,freedns.42.pl,infomaniak.com,joker.com,no-ip.pl,ddnss.de,duckdns.org,ovh.com,now-dns.com,schokokeks.org,njal.la,bind-nsupdate,namecheap.com,dnsever.com,dy.fi,dhis.org,ipnodns.ru,system-ns.com,no-ip.com,dnspark.com,cloudflare.com-v4,xlhost.de,ddo.jp,regfish.de,sitelutions.com,easydns.com,variomedia.de,myonlineportal.net,selfhost.de,dyn.com,afraid.org-v2-basic,spdyn.de,custom",
@@ -1202,3 +1202,5 @@ export const data = [
     "path": "Device.DynamicDNS.Server.9."
   }
 ];
+
+module.exports = { data };

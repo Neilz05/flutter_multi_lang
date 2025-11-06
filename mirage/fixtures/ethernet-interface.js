@@ -1,4 +1,4 @@
-export const data = [
+const data = [
   {
     "parameters": {
       "X_PRPL-COM_MTUMode": "auto",
@@ -245,3 +245,6 @@ export const data = [
     "path": "Device.Ethernet.Interface.5.X_PRPL-COM_LED."
   }
 ]
+
+// module.exports = { data };
+module.exports = { data };

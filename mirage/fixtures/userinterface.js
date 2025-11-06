@@ -1,4 +1,5 @@
-export const data = [
+const data = [
+// export const data = [
   {
     "parameters": {
       "HTTPAccessNumberOfEntries": 2,
@@ -53,3 +54,5 @@ export const data = [
     "path": "Device.UserInterface.HTTPAccess.2.Session.2."
   }
 ]
+
+module.exports = { data };

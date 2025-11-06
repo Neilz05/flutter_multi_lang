@@ -63,4 +63,7 @@ function generateBlockingRules() {
     return data;
 }
 
-export const data = generateBlockingRules();
+const data = generateBlockingRules(); 
+
+// module.exports = { data };
+module.exports = { data };

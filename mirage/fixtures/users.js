@@ -1,5 +1,5 @@
-import { data as entries} from './users-user';
-
+// import { data as entries} from './users-user';
+const { data : entries } = require('./users-user');
 // let data = [
 //     { parameters: {}, path: 'Users.' },
 // ];
@@ -506,4 +506,5 @@ entries.forEach((entry) => {
     data.push(entry);
 });
 
-export { data };
+module.exports = { data };
+// module.exports = { data };

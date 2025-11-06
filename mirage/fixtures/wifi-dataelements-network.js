@@ -1,4 +1,5 @@
-export const data = [
+const data = [
+// export const data = [
    {
       "parameters":{
          "ID":"78:B3:9F:C3:7A:3B",
@@ -573,3 +574,5 @@ export const data = [
       "path":"Device.WiFi.DataElements.Network.MultiAPSteeringSummaryStats."
    }
 ];
+
+module.exports = { data };

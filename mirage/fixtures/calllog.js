@@ -54,7 +54,7 @@ function generateCallLogEntry(id) {
         path: `Device.Services.VoiceService.1.CallLog.${id}.`
     };
 }
-export const data = Array.from({ length: 100 }, (_, i) => generateCallLogEntry(i + 1))
+const data = Array.from({ length: 100 }, (_, i) => generateCallLogEntry(i + 1))
     .sort((a, b) => new Date(a.parameters.Start) - new Date(b.parameters.Start))
     .map((entry, index) => ({
         ...entry,
@@ -64,3 +64,6 @@ export const data = Array.from({ length: 100 }, (_, i) => generateCallLogEntry(i
         },
         path: `Device.Services.VoiceService.1.CallLog.${index + 1}.`
     }));
+
+//    module.exports = { data };
+module.exports = { data };

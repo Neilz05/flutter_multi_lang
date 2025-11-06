@@ -1,4 +1,4 @@
-export const data = [
+const data = [
   {
     "parameters": {
       "Enable": 1,
@@ -148,3 +148,5 @@ export const data = [
     "path": "Device.Time.Server.3.Stats."
   }
 ];
+
+module.exports = { data };

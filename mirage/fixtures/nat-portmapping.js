@@ -1,4 +1,4 @@
-export const data = [
+const data = [
   {
     "parameters": {
       "Alias": "cpe-PortMapping-1",
@@ -66,3 +66,5 @@ export const data = [
     "path": "Device.NAT.PortMapping.3."
   }
 ]
+
+module.exports = { data };

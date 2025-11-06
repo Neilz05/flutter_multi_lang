@@ -294,4 +294,4 @@ function simulateBackendChanges() {
 // Start the simulation
 simulateBackendChanges();
 
-export { data };
+module.exports = { data };

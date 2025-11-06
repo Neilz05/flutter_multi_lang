@@ -1,4 +1,4 @@
-export const data = [
+const data = [
   {
     "parameters": {
       "RMONStatsNumberOfEntries": 0,
@@ -587,3 +587,5 @@ export const data = [
     "path": "Device.Ethernet.WoL."
   }
 ]
+
+module.exports = { data };

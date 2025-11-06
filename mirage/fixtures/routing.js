@@ -1,4 +1,4 @@
-export const data = [
+const data = [
   {
     "parameters": {
       "RouterNumberOfEntries": 8
@@ -666,3 +666,5 @@ export const data = [
     "path": "Device.Routing.Router.7.IPv6Forwarding.1."
   }
 ];
+
+module.exports = { data };

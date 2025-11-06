@@ -1,6 +1,9 @@
-import { data as capabilities } from './voice-voiceservice-capabilities';
-import { data as callcontrol } from './voice-voiceservice-callcontrol';
-import { data as sip } from './voice-voiceservice-sip';
+// import { data as capabilities } from './voice-voiceservice-capabilities';
+// import { data as callcontrol } from './voice-voiceservice-callcontrol';
+// import { data as sip } from './voice-voiceservice-sip';
+const { data : capabilities } = require('./voice-voiceservice-capabilities');
+const { data : callcontrol } = require('./voice-voiceservice-callcontrol');
+const { data : sip } = require('./voice-voiceservice-sip');
 
 let data = [
   { parameters: {}, path: "Device.Services.VoiceService.1." },
@@ -48,4 +51,5 @@ callcontrol.forEach((entry) => {
     data.push(entry);
 });
 
-export { data };
+module.exports = { data };
+// module.exports = { data };

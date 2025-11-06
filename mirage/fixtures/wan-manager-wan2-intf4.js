@@ -1,4 +1,5 @@
-export const data = [
+const data = [
+// export const data = [
   {
     "parameters": {
       "X_SC_VlanList": "1101,0",
@@ -23,3 +24,5 @@ export const data = [
     "path": "WANManager.WAN.2.Intf.4."
   }
 ];
+
+module.exports = { data };

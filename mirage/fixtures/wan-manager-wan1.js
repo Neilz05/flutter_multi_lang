@@ -1,4 +1,5 @@
-export const data = [
+const data = [
+// export const data = [
   {
     "parameters": {
       "PhysicalType": "Ethernet",
@@ -105,3 +106,5 @@ export const data = [
     "path": "WANManager.WAN.1.Intf.4."
   }
 ];
+
+module.exports = { data };

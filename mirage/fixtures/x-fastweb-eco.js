@@ -1,4 +1,5 @@
-export const data = [
+const data = [
+// export const data = [
     {
     "parameters": {
       "Enable": 1,
@@ -63,3 +64,5 @@ export const data = [
  
   
 ]
+
+module.exports = { data };

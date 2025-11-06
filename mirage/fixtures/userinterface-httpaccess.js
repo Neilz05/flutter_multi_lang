@@ -1,4 +1,4 @@
-export const data = [
+const data = [
   {
     "parameters": {
       "Port": 80,
@@ -161,3 +161,5 @@ export const data = [
     "path": "Device.UserInterface.HTTPAccess.3.X_PRPL-COM_HTTPConfig."
   }
 ]
+
+module.exports = { data };

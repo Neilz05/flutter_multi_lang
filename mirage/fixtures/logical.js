@@ -1,8 +1,8 @@
-export const data = [
+const data = [
   { 
     parameters: {
         Alias: 'wan',
-        LowerLayers: 'Device.IP.Interface.1.'
+        LowerLayers: 'Device.IP.Interface.1????.'
     },
     path: 'Logical.Interface.1.',
   },
@@ -21,3 +21,5 @@ export const data = [
     path: 'Logical.Interface.3.',
   },
 ];
+
+module.exports = { data };

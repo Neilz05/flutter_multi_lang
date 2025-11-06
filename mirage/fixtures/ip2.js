@@ -1,4 +1,4 @@
-export const data = [
+const data = [
     {
         "parameters": {
             "AutoIPEnable": 0,
@@ -1393,3 +1393,5 @@ export const data = [
         "path": "Device.IP.Interface.9.X_PRPL-COM_IPv6Config."
     }
 ]
+
+module.exports = { data };

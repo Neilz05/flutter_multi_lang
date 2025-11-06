@@ -1,4 +1,4 @@
-export const data = [
+const data = [
   {
     parameters: {},
     path: 'PersistentConfiguration.',
@@ -10,3 +10,5 @@ export const data = [
     path: 'PersistentConfiguration.BackupFile.5.',
   },
 ];
+
+module.exports = { data };

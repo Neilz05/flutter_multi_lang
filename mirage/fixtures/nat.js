@@ -112,5 +112,6 @@ let data = [
     "path": "Device.NAT.X_PRPL-COM_StaticNAT."
   }
 ]
+// module.exports = { data };
 
-export { data };
+module.exports = { data };
