@@ -1,0 +1,115 @@
+<div class="card mb-3">
+  <div class="card-header sc" tabindex="0" aria-label="{{t 'SUB_OVERVIEW_ITEM_INTERNET_STATUS'}}">{{t 'SUB_OVERVIEW_ITEM_INTERNET_STATUS'}}</div>
+  <div class="card-body">
+    <div class="row">
+      <div class="col-md-6">
+        <div class="row mb-2 table-entry attr-name" tabindex="0" aria-label="{{t 'PAGE_STATUS_INTERNET_IP_ADDRESS'}}">{{t 'PAGE_STATUS_INTERNET_IP_ADDRESS'}}</div>
+      </div>
+      <div class="col-md-6">
+        {{#each @ip.Interface as |iface|}}
+          {{#if (eq iface.Alias 'wan')}}
+            {{#each iface.IPv4Address as |ipAddr i|}}
+              {{#if (eq i 0)}}
+                <div class="row mb-2 table-entry" tabindex="0" aria-label="{{ipAddr.IPAddress}}">{{ipAddr.IPAddress}}</div>
+              {{/if}}
+            {{/each}}
+          {{/if}}
+        {{/each}}
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-6">
+        <div class="row mb-2 table-entry attr-name" tabindex="0" aria-label="{{t 'PAGE_STATUS_INTERNET_GATEWAY'}}">{{t 'PAGE_STATUS_INTERNET_GATEWAY'}}</div>
+      </div>
+      <div class="col-md-6">
+        <div class="row mb-2 table-entry" tabindex="0" aria-label="{{@routing.gatewayIPAddress}}">{{@routing.gatewayIPAddress}}</div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-6">
+        <div class="row mb-2 table-entry attr-name" tabindex="0" aria-label="{{t 'PAGE_STATUS_INTERNET_PRIMARY_DNS_IPV4'}}">{{t 'PAGE_STATUS_INTERNET_PRIMARY_DNS_IPV4'}}</div>
+      </div>
+      <div class="col-md-6">
+        {{#if (this.checkDNS)}}
+          <div class="row mb-2 table-entry" tabindex="0" aria-label="{{this.primaryDNSServer}}">{{this.primaryDNSServer}}</div>
+        {{else}}
+          {{#each @ip.Interface as |iface|}}
+            {{#if (eq iface.Alias 'wan')}}
+                {{#if (starts-with iface.LowerLayers "Device.PPP.Interface")}}
+                  {{#each @ppp as |interface|}}
+                    {{#if (eq interface.Alias 'wan')}}
+                      {{#let (split-dns interface.IPCP.DNSServers) as |dnsList|}}
+                        {{#if (not-eq (get dnsList 0) '')}}
+                          <div class="row mb-2 table-entry" tabindex="0" aria-label="{{get dnsList 0}}">{{get dnsList 0}}</div>
+                        {{/if}}
+                      {{/let}}
+                    {{/if}}
+                  {{/each}}
+                {{/if}}
+                {{#if (starts-with iface.LowerLayers "Device.Ethernet")}}
+                  {{#each @dhcpv4.Client as |client|}}
+                    {{#let (split-dns client.DNSServers) as |dnsList|}}
+                      {{#if (not-eq (get dnsList 0) '')}}
+                        <div class="row mb-2 table-entry" tabindex="0" aria-label="{{get dnsList 0}}">{{get dnsList 0}}</div>
+                      {{/if}}
+                    {{/let}}
+                  {{/each}}
+                {{/if}}
+            {{/if}}
+          {{/each}}
+        {{/if}}
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-6">
+        <div class="row mb-2 table-entry attr-name" tabindex="0" aria-label="{{t 'PAGE_STATUS_INTERNET_SECONDARY_DNS_IPV4'}}">{{t 'PAGE_STATUS_INTERNET_SECONDARY_DNS_IPV4'}}</div>
+      </div>
+      <div class="col-md-6">
+        {{#if (this.checkDNS)}}
+          <div class="row mb-2 table-entry" tabindex="0" aria-label="{{this.secondaryDNSServer}}">{{this.secondaryDNSServer}}</div>
+        {{else}}
+          {{#each @ip.Interface as |iface|}}
+            {{#if (eq iface.Alias 'wan')}}
+                {{#if (starts-with iface.LowerLayers "Device.PPP.Interface")}}
+                  {{#each @ppp as |interface|}}
+                    {{#if (eq interface.Alias 'wan')}}
+                      {{#let (split-dns interface.IPCP.DNSServers) as |dnsList|}}
+                        {{#if (gt dnsList.length 1)}}
+                          {{#if (not-eq (get dnsList 1) '')}}
+                            <div class="row mb-2 table-entry" tabindex="0" aria-label="{{get dnsList 1}}">{{get dnsList 1}}</div>
+                          {{/if}}
+                        {{/if}}
+                      {{/let}}
+                    {{/if}}
+                  {{/each}}
+                {{/if}}
+                {{#if (starts-with iface.LowerLayers "Device.Ethernet")}}
+                  {{#each @dhcpv4.Client as |client|}}
+                    {{#let (split-dns client.DNSServers) as |dnsList|}}
+                      {{#if (gt dnsList.length 1)}}
+                          {{#if (not-eq (get dnsList 1) '')}}
+                            <div class="row mb-2 table-entry" tabindex="0" aria-label="{{get dnsList 1}}">{{get dnsList 1}}</div>
+                          {{/if}}
+                      {{/if}}
+                    {{/let}}
+                  {{/each}}
+                {{/if}}
+            {{/if}}
+          {{/each}}
+        {{/if}}
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-6">
+        <div class="row mb-2 table-entry attr-name" tabindex="0" aria-label="{{t 'PAGE_STATUS_INTERNET_FIREWALL'}}">{{t 'PAGE_STATUS_INTERNET_FIREWALL'}}</div>
+      </div>
+      <div class="col-md-6">
+        {{#if (eq @firewall.Enable 1)}}
+          <div class="row mb-2 table-entry" tabindex="0" aria-label="{{t 'ON'}}">{{t 'ON'}}</div>
+        {{else}}
+          <div class="row mb-2 table-entry" tabindex="0" aria-label="{{t 'OFF'}}">{{t 'OFF'}}</div>
+        {{/if}}
+      </div>
+    </div>
+  </div>
+</div>

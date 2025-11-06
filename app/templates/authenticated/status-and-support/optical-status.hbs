@@ -1,0 +1,120 @@
+{{page-title "Optical Status"}}
+
+<h2 tabindex="0" aria-label="{{t 'PAGE_OPTICAL_STATUS_TITLE'}}">{{t 'PAGE_OPTICAL_STATUS_TITLE'}}</h2>
+
+<div class="card mb-3">
+  <div class="card-header sc" tabindex="0" aria-label="{{t 'PAGE_OPTICAL_STATUS_INFO'}}">
+    {{t 'PAGE_OPTICAL_STATUS_INFO'}}
+  </div>
+  <div class="card-body">
+    <div class="row">
+      <div class="col-md-4" style="font-weight: bold;" tabindex="0" aria-label="{{t 'PAGE_OPTICAL_STATUS_ONT_INFO'}}">
+        {{t 'PAGE_OPTICAL_STATUS_ONT_INFO'}}
+      </div>
+      <div class="col-md-4" style="font-weight: bold;" tabindex="0" aria-label="{{t 'PAGE_OPTICAL_STATUS_QUERY_VALUE'}}">
+        {{t 'PAGE_OPTICAL_STATUS_QUERY_VALUE'}}
+      </div>
+      <div class="col-md-3" style="font-weight: bold;" tabindex="0" aria-label="{{t 'PAGE_OPTICAL_STATUS_RECOMMENDED_VALUE'}}">
+        {{t 'PAGE_OPTICAL_STATUS_RECOMMENDED_VALUE'}}
+      </div>
+    </div>
+
+    {{#each @model.ONU as |onu i|}}
+      {{#if (eq i 0)}}
+        {{#each onu.ANI as |ani j|}}
+          {{#if (eq j 0)}}
+            {{#each ani.Transceiver as |tr k|}}
+              {{#if (eq k 0)}}
+                <div class="row" style="padding: 2px;">
+                  <div class="col-md-4" tabindex="0" aria-label="{{t 'PAGE_OPTICAL_STATUS_MODULE_NAME'}}">
+                    {{t 'PAGE_OPTICAL_STATUS_MODULE_NAME'}}
+                  </div>
+                  <div class="col-md-4" tabindex="0" aria-label="{{tr.VendorName}}">
+                    {{tr.VendorName}}
+                  </div>
+                  <div class="col-md-4" tabindex="0" aria-label="N/A">
+                    N/A
+                  </div>
+                </div> 
+                <div class="row" style="padding: 2px;">
+                  <div class="col-md-4" tabindex="0" aria-label="{{t 'PAGE_OPTICAL_STATUS_VENDOR_ID'}}">
+                    {{t 'PAGE_OPTICAL_STATUS_VENDOR_ID'}}
+                  </div>
+                  <div class="col-md-4" tabindex="0" aria-label="{{tr.VendorPartNumber}}">
+                    {{tr.VendorPartNumber}}
+                  </div>
+                  <div class="col-md-4" tabindex="0" aria-label="N/A">
+                    N/A
+                  </div>
+                </div>
+                <div class="row" style="padding: 2px;">
+                  <div class="col-md-4" tabindex="0" aria-label="{{t 'PAGE_OPTICAL_STATUS_RECEIVED_POWER'}}">
+                    {{t 'PAGE_OPTICAL_STATUS_RECEIVED_POWER'}}
+                  </div>
+                  <div class="col-md-4" tabindex="0" aria-label="{{if (eq ani.TC.ONUActivation.ONUState 'O1') 'N/A' (concat (multiply tr.RxPower 0.1) ' dBm')}}">
+                    {{#if (eq ani.TC.ONUActivation.ONUState "O1")}}
+                      N/A
+                    {{else}}
+                      {{multiply tr.RxPower 0.1}} dBm
+                    {{/if}}
+                  </div>
+                  <div class="col-md-4" tabindex="0" aria-label="-30 ~ -8 dBm">
+                    -30 ~ -8 dBm
+                  </div>
+                </div>
+                <div class="row" style="padding: 2px;">
+                  <div class="col-md-4" tabindex="0" aria-label="{{t 'PAGE_OPTICAL_STATUS_TRANSMIT_POWER'}}">
+                    {{t 'PAGE_OPTICAL_STATUS_TRANSMIT_POWER'}}
+                  </div>
+                  <div class="col-md-4" tabindex="0" aria-label="{{if (eq ani.TC.ONUActivation.ONUState 'O5') (concat (multiply tr.TxPower 0.1) ' dBm') 'N/A'}}">
+                    {{#if (eq ani.TC.ONUActivation.ONUState "O5")}}
+                      {{multiply tr.TxPower 0.1}} dBm
+                    {{else}}
+                      N/A
+                    {{/if}}
+                  </div>
+                  <div class="col-md-4" tabindex="0" aria-label="0.5 ~ 5 dBm">
+                    0.5 ~ 5 dBm
+                  </div>
+                </div>
+                <div class="row" style="padding: 2px;">
+                  <div class="col-md-4" tabindex="0" aria-label="{{t 'PAGE_OPTICAL_STATUS_WORKING_VOLTAGE'}}">
+                    {{t 'PAGE_OPTICAL_STATUS_WORKING_VOLTAGE'}}
+                  </div>
+                  <div class="col-md-4" tabindex="0" aria-label="{{tr.Voltage}} mV">
+                    {{tr.Voltage}} mV
+                  </div>
+                  <div class="col-md-4" tabindex="0" aria-label="3130 ~ 3470 mV">
+                    3130 ~ 3470 mV
+                  </div>
+                </div>
+                <div class="row" style="padding: 2px;">
+                  <div class="col-md-4" tabindex="0" aria-label="{{t 'PAGE_OPTICAL_STATUS_WORKING_CURRENT'}}">
+                    {{t 'PAGE_OPTICAL_STATUS_WORKING_CURRENT'}}
+                  </div>
+                  <div class="col-md-4" tabindex="0" aria-label="{{tr.Bias}} mA">
+                    {{tr.Bias}} mA
+                  </div>
+                  <div class="col-md-4" tabindex="0" aria-label="0 ~ 90 mA">
+                    0 ~ 90 mA
+                  </div>
+                </div>
+                <div class="row" style="padding: 2px;">
+                  <div class="col-md-4" tabindex="0" aria-label="{{t 'PAGE_OPTICAL_STATUS_TEMPERATURE'}}">
+                    {{t 'PAGE_OPTICAL_STATUS_TEMPERATURE'}}
+                  </div>
+                  <div class="col-md-4" tabindex="0" aria-label="{{tr.Temperature}} °C">
+                    {{tr.Temperature}} °C
+                  </div>
+                  <div class="col-md-4" tabindex="0" aria-label="-10 ~ 85 °C">
+                    -10 ~ 85 °C
+                  </div>
+                </div>
+              {{/if}}
+            {{/each}}
+          {{/if}}
+        {{/each}}
+      {{/if}}
+    {{/each}}
+  </div>
+</div>

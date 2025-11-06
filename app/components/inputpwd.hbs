@@ -1,0 +1,11 @@
+{{#if (eq this.showPassword true)}}
+    <div class="input-group {{@class}}">
+        <Input class="form-control" @type="text" @value={{@value}} ...attributes />
+        <span id='{{this.componentId}}' class="input-group-text" {{on "click" this.eyeControl}} {{on "keyup" this.eaactrl.eyeControlTrigger}} role="button" tabindex="0" aria-label="{{t "MESSAGES_SHOW_PASSWORD"}}"><i class="bi bi-eye"></i></span>
+    </div>
+{{else}}
+    <div class="input-group {{@class}}">
+        <Input class="form-control" @type="password" @value={{@value}} ...attributes />
+        <span id='{{this.componentId}}' class="input-group-text" {{on "click" this.eyeControl}} {{on "keyup" this.eaactrl.eyeControlTrigger}} role="button" tabindex="0" aria-label="{{t "MESSAGES_HIDE_PASSWORD"}}"><i class="bi bi-eye-slash"></i></span>
+    </div>
+{{/if}}

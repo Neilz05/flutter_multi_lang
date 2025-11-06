@@ -1,0 +1,53 @@
+<BsNavbar @type="dark" @backgroundColor="dark" class="mobile_main_bsnavbar" as |navbar|>
+    {{#each @menu as |menuobj index|}}
+        {{#if (eq index 0)}}
+            <LinkTo @route={{menuobj.route}} {{on 'click' (fn @activeTopMenu menuobj )}} {{on 'click' (fn CloseMobileMenuClick )}} class="navbar-brand">
+                <div class="logo" tabindex="-1" aria-label="logo"><span class="label">{{t menuobj.str}}</span></div>
+            </LinkTo>
+        {{/if}}
+    {{/each}}
+    <navbar.toggle />
+    <navbar.content>
+        <navbar.nav as |nav|>
+            {{#each @menu as |menuobj index|}}
+                {{#if (@isMenuItemShow menuobj)}}
+                    {{#if (gt menuobj.submenu.length 0)}}
+                        <nav.dropdown as |dd|>
+                        <dd.toggle>{{t menuobj.str}}<span class="caret"></span></dd.toggle>
+                        <dd.menu as |ddm|>
+                            {{#each menuobj.submenu as |submenuobj subindex|}}
+                                {{#if (not submenuobj.hide)}}
+                                    <ddm.item>
+                                        <ddm.link-to @route={{submenuobj.route}} {{on 'click' (fn @activeTopMenu submenuobj )}} {{on 'click' (fn CloseMobileMenuClick )}}>
+                                            {{t submenuobj.str}}
+                                        </ddm.link-to>
+                                    </ddm.item>
+                                    {{#if (gt submenuobj.submenu.length 0)}}
+                                        <div class="subsubmenu-divider">
+                                        {{#each submenuobj.submenu as |subsubobj subsubindex|}}
+                                            {{#if (not subsubobj.hide)}}
+                                                <ddm.item>
+                                                    <ddm.link-to @route={{subsubobj.route}} {{on 'click' (fn @activeTopMenu subsubobj )}} {{on 'click' (fn CloseMobileMenuClick )}}>
+                                                        {{t subsubobj.str}}
+                                                    </ddm.link-to>
+                                                </ddm.item>
+                                            {{/if}}
+                                        {{/each}}
+                                        </div>
+                                    {{/if}}
+                                {{/if}}
+                            {{/each}}
+                        </dd.menu>
+                        </nav.dropdown>
+                    {{else}}
+                        <nav.item>
+                            <nav.link-to @route={{menuobj.route}} {{on 'click' (fn @activeTopMenu menuobj )}}>
+                                {{t menuobj.str}}
+                            </nav.link-to>
+                        </nav.item>
+                    {{/if}}
+                {{/if}}
+            {{/each}}                   
+        </navbar.nav>
+    </navbar.content>
+</BsNavbar>

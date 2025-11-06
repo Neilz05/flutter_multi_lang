@@ -1,0 +1,32 @@
+<div class="main-submenu">
+  <ul>
+    <LinkTo @route="authenticated.settings.password">
+      <li class="non-header {{if (eq this.submenuTab 'password') 'submenu-active'}}" {{on 'click' (fn this.setSubmenuTab 'password')}}>
+        {{t 'SUB_NAVIGATION_ITEM_PASSWORD'}}
+      </li>
+    </LinkTo>
+    <LinkTo @route="authenticated.settings.lan">
+      <li class="non-header {{if (eq this.submenuTab 'lan') 'submenu-active'}}" {{on 'click' (fn this.setSubmenuTab 'lan')}}>
+        {{t 'SUB_NAVIGATION_ITEM_IPV4'}}
+      </li>
+    </LinkTo>
+    {{!-- <li class="non-header {{if (eq this.submenuTab 'ipv6') 'submenu-active'}}" {{on 'click' (fn this.setSubmenuTab 'ipv6')}}>IPv6</li> --}}
+    <LinkTo @route="authenticated.settings.wan">
+      <li class="non-header {{if (eq this.submenuTab 'wan') 'submenu-active'}}" {{on 'click' (fn this.setSubmenuTab 'wan')}}>
+        {{t 'SUB_NAVIGATION_ITEM_WAN'}}
+      </li>
+    </LinkTo>
+    {{!-- <li class="non-header {{if (eq this.submenuTab 'dns') 'submenu-active'}}" {{on 'click' (fn this.setSubmenuTab 'dns')}}>DNS</li> --}}
+    <LinkTo @route="authenticated.settings.internet-time">
+      <li class="non-header {{if (eq this.submenuTab 'internet-time') 'submenu-active'}}" {{on 'click' (fn this.setSubmenuTab 'internet-time')}}>
+        {{t 'SUB_NAVIGATION_ITEM_INTERNET_TIME'}}
+      </li>
+    </LinkTo>
+    <LinkTo @route="authenticated.settings.gpon">
+      <li class="non-header {{if (eq this.submenuTab 'gpon') 'submenu-active'}}" {{on 'click' (fn this.setSubmenuTab 'gpon')}}>
+        {{t 'SUB_NAVIGATION_ITEM_GPON'}}
+      </li>
+    </LinkTo>
+    {{!-- <li class="non-header {{if (eq this.submenuTab 'static-routing') 'submenu-active'}}" {{on 'click' (fn this.setSubmenuTab 'static-routing')}}>Static Routing</li> --}}
+  </ul>
+</div>

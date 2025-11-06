@@ -1,0 +1,112 @@
+<div class="card mb-3">
+  <div class="card-header sc">GPON</div>
+  <div class="card-body">
+    <div class="row">
+      <div class="col-md-6">
+        <div class="row mb-2" style="padding-left: 10px;">Serial Number</div>
+      </div>
+      <div class="col-md-6" style="display: flex; justify-content: flex-end;">
+        <div class="row mb-2" style="padding-right: 10px;">{{@deviceinfo.SerialNumber}}</div>
+      </div>
+    </div>
+    {{#each @wanmanager.WAN as |wan idx|}}
+      {{#if (eq wan.Alias 'GPON_DHCP')}}
+        <div class="row">
+          <div class="col-md-6">
+            <div class="row mb-2" style="padding-left: 10px;">DHCP Status</div>
+          </div>
+          <div class="col-md-6" style="display: flex; justify-content: flex-end;">
+            <div class="row mb-2" style="padding-right: 10px;">{{wan.Status}}</div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-6">
+            <div class="row mb-2" style="padding-left: 10px;">DHCP PLOAM Password</div>
+          </div>
+          <div class="col-md-6" style="display: flex; justify-content: flex-end;">
+            <div class="row mb-2" style="padding-right: 10px;">
+              {{#if (eq wan.Status 'Up')}}
+                {{#each wan.Intf as |intf id|}}
+                  {{#if (eq id 0)}}
+                    <Input class="form-control" type="text" @value={{intf.Password}}/>
+                  {{/if}}
+                {{/each}}
+              {{else}}
+                <Input disabled class="form-control" type="text" @value=""/>
+              {{/if}}
+            </div>
+          </div>
+        </div>
+      {{/if}}
+    {{/each}}
+    {{#each @wanmanager.WAN as |wan idx|}}
+      {{#if (eq wan.Alias 'GPON_PPP6')}}
+        <div class="row">
+          <div class="col-md-6">
+            <div class="row mb-2" style="padding-left: 10px;">PPP6 Status</div>
+          </div>
+          <div class="col-md-6" style="display: flex; justify-content: flex-end;">
+            <div class="row mb-2" style="padding-right: 10px;">
+              <div class="row mb-2" style="padding-right: 10px;">{{wan.Status}}</div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-6">
+            <div class="row mb-2" style="padding-left: 10px;">PPP6 PLOAM Password</div>
+          </div>
+          <div class="col-md-6" style="display: flex; justify-content: flex-end;">
+            <div class="row mb-2" style="padding-right: 10px;">
+              {{#if (eq wan.Status 'Up')}}
+                {{#each wan.Intf as |intf id|}}
+                  {{#if (eq id 0)}}
+                    <Input class="form-control" type="text" @value={{intf.Password}}/>
+                  {{/if}}
+                {{/each}}
+              {{else}}
+                <Input disabled class="form-control" type="text" @value=""/>
+              {{/if}}
+            </div>
+          </div>
+        </div>
+      {{/if}}
+    {{/each}}
+    <div class="row">
+      <div class="col-md-6">
+        <div class="row mb-2" style="padding-left: 10px;">OLT Type</div>
+      </div>
+      <div class="col-md-6" style="display: flex; justify-content: flex-end;">
+        <div class="row mb-2" style="padding-right: 10px;">
+          <select class="form-select" id="old-type" name="exampleSelect">
+            <option value="" disabled selected>Select an Option</option>
+            <option value="option1">Huawei</option>
+            <option value="option2">Ericsson</option>
+            <option value="option3">ZTE</option>
+            <option value="option4">Nokia</option>
+            <option value="option5">Fiberhome</option>
+            <option value="option6">Eltex</option>
+            <option value="option7">Str</option>
+            <option value="option8">Standard</option>
+            <option value="option9">Others</option>
+          </select>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-6">
+        <div class="row mb-2" style="padding-left: 10px;">OLT AutoDetect</div>
+      </div>
+      <div class="col-md-6" style="display: flex; justify-content: flex-end;">
+        <div class="row mb-2" style="padding-right: 10px;">
+          <select class="form-select" id="old-type" name="exampleSelect">
+            <option value="" disabled selected>Select an Option</option>
+            <option value="option1">Enabled</option>
+            <option value="option2">Disabled</option>
+          </select>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{{!-- disabled="{{unless this.hasChangesRadio "disabled"}}" --}}
+<button type="button" class="btn btn-primary" {{on "click" this.updateGpon}} disabled={{unless this.hasChanges "disabled"}}>Update</button>

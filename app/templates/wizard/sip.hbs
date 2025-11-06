@@ -1,0 +1,213 @@
+<div class="container py-5">
+    <div class="card shadow-sm">
+        <div class="card-body">
+            <h4 class="card-title text-center mb-4" tabindex="0" aria-label="SIP Configuration">SIP Configuration</h4>
+
+            <form>
+                <!-- Primary Registrar -->
+                <div class="row mb-3 align-items-center">
+                    <div class="col-sm-4 text-end fw-bold" tabindex="0" aria-label="Primary Registrar Address">Primary Registrar Address:</div>
+                    <div class="col-sm-4">
+                        {{!-- <input type="text" id="sip_pri_registrar_addr" class="form-control" maxlength="64"> --}}
+
+                        <Input @type="text" class="form-control" id="sip_pri_registrar_addr"
+                            @value={{this.wizard.PrimarySIPChangeSet.RegistrarServer}} />
+                        {{#if (not-eq this.wizard.PrimarySIPChangeSet.error.RegistrarServer.validation NULL)}}
+                        <div class="invalid-feedback" tabindex="0" aria-label="{{this.wizard.PrimarySIPChangeSet.error.RegistrarServer.validation}}">
+                            {{this.wizard.PrimarySIPChangeSet.error.RegistrarServer.validation}}
+                        </div>
+                        {{/if}}
+                    </div>
+                    <div class="col-sm-2 text-end fw-bold" tabindex="0" aria-label="Port">Port:</div>
+                    <div class="col-sm-2">
+                        {{!-- <input type="text" id="sip_pri_registrar_port" class="form-control" maxlength="5"> --}}
+                        <Input @type="text" class="form-control" id="sip_pri_registrar_port"
+                            @value={{this.wizard.PrimarySIPChangeSet.RegistrarServerPort}} />
+
+                        {{#if (not-eq this.wizard.PrimarySIPChangeSet.error.RegistrarServerPort.validation NULL)}}
+                        <div class="invalid-feedback" tabindex="0" aria-label="{{this.wizard.PrimarySIPChangeSet.error.RegistrarServerPort.validation}}">
+                            {{this.wizard.PrimarySIPChangeSet.error.RegistrarServerPort.validation}}
+                        </div>
+                        {{/if}}
+                    </div>
+                </div>
+
+                <!-- Primary Proxy -->
+                <div class="row mb-4 align-items-center">
+                    <div class="col-sm-4 text-end fw-bold" tabindex="0" aria-label="Primary Proxy Server Address">Primary Proxy Server Address:</div>
+                    <div class="col-sm-4">
+                        {{!-- <input type="text" id="sip_pri_proxy_server_addr" class="form-control" maxlength="64">
+                        --}}
+
+                        <Input @type="text" class="form-control" id="sip_pri_proxy_server_addr"
+                            @value={{this.wizard.PrimarySIPChangeSet.ProxyServer}} />
+                        {{#if (not-eq this.wizard.PrimarySIPChangeSet.error.ProxyServer.validation NULL)}}
+                        <div class="invalid-feedback" tabindex="0" aria-label="{{this.wizard.PrimarySIPChangeSet.error.ProxyServer.validation}}">
+                            {{this.wizard.PrimarySIPChangeSet.error.ProxyServer.validation}}
+                        </div>
+                        {{/if}}
+                    </div>
+                    <div class="col-sm-2 text-end fw-bold" tabindex="0" aria-label="Port">Port:</div>
+                    <div class="col-sm-2">
+                        {{!-- <input type="text" id="sip_pri_proxy_server_port" class="form-control" maxlength="5"> --}}
+                        <Input @type="text" class="form-control" id="sip_pri_proxy_server_port"
+                            @value={{this.wizard.PrimarySIPChangeSet.ProxyServerPort}} />
+                        {{#if (not-eq this.wizard.PrimarySIPChangeSet.error.ProxyServerPort.validation NULL)}}
+                        <div class="invalid-feedback" tabindex="0" aria-label="{{this.wizard.PrimarySIPChangeSet.error.ProxyServerPort.validation}}">
+                            {{this.wizard.PrimarySIPChangeSet.error.ProxyServerPort.validation}}
+                        </div>
+                        {{/if}}
+                    </div>
+                </div>
+
+                <!-- Account Headers -->
+                <div class="row text-center fw-bold mb-2">
+                    <div class="col-sm-2"></div>
+                    <div class="col" tabindex="0" aria-label="Caller ID">Caller ID</div>
+                    <div class="col" tabindex="0" aria-label="Phone Number">Phone Number</div>
+                    <div class="col" tabindex="0" aria-label="Username">Username</div>
+                    <div class="col" tabindex="0" aria-label="Password">Password</div>
+                </div>
+
+                <!-- FXS 1 -->
+                <div class="row mb-3 align-items-center">
+                    <div class="col-sm-2 d-flex justify-content-end align-items-center">
+                        <div class="form-check form-switch me-2">
+                            {{!-- <input class="form-check-input" type="checkbox" id="fxs1Enabled" checked> --}}
+                            <Input @type="checkbox" @checked={{(eq this.wizard.ClientSIPChangeSet1.Enable 1)}} {{on 'input' (fn
+                                this.Toggle this.wizard.ClientSIPChangeSet1 'Enable' )}} {{on "keyup" this.eaactrl.btnTrigger}} class="form-check-input" />
+                        </div>
+                        <label for="fxs1Enabled" class="fw-bold mb-0" tabindex="0" aria-label="FXS 1">FXS 1</label>
+                    </div>
+                    <div class="col">
+                        {{!-- <input type="text" id="user_display_name" class="form-control" maxlength="64"> --}}
+                        <Input @type="text" class="form-control" id="user_display_name"
+                            @value={{this.wizard.ClientSIPChangeSet1.X_PRPLWARE-COM_DisplayName}} />
+
+                        {{#if (eq this.wizard.ClientSIPChangeSet1.Enable 1)}}
+                        {{#if (not-eq this.wizard.ClientSIPChangeSet1.error.X_PRPLWARE-COM_DisplayName.validation NULL)}}
+                        <div class="invalid-feedback" tabindex="0" aria-label="{{this.wizard.ClientSIPChangeSet1.error.X_PRPLWARE-COM_DisplayName.validation}}">
+                            {{this.wizard.ClientSIPChangeSet1.error.X_PRPLWARE-COM_DisplayName.validation}}
+                        </div>
+                        {{/if}}
+                        {{/if}}
+
+                    </div>
+                    <div class="col">
+                        {{!-- <input type="text" id="user_phone_number" class="form-control" maxlength="64"> --}}
+                        <Input @type="text" class="form-control" id="user_phone_number"
+                            @value={{this.wizard.ClientSIPChangeSet1.RegisterURI}} />
+
+                        {{#if (eq this.wizard.ClientSIPChangeSet1.Enable 1)}}
+                        {{#if (not-eq this.wizard.ClientSIPChangeSet1.error.RegisterURI.validation NULL)}}
+                        <div class="invalid-feedback" tabindex="0" aria-label="{{this.wizard.ClientSIPChangeSet1.error.RegisterURI.validation}}">
+                            {{this.wizard.ClientSIPChangeSet1.error.RegisterURI.validation}}
+                        </div>
+                        {{/if}}
+                        {{/if}}
+
+                    </div>
+                    <div class="col">
+                        {{!-- <input type="text" id="user_name" class="form-control" maxlength="64"> --}}
+                        <Input @type="text" class="form-control" id="user_name"
+                            @value={{this.wizard.ClientSIPChangeSet1.AuthUserName}} />
+
+                        {{#if (eq this.wizard.ClientSIPChangeSet1.Enable 1)}}
+                        {{#if (not-eq this.wizard.ClientSIPChangeSet1.error.AuthUserName.validation NULL)}}
+                        <div class="invalid-feedback" tabindex="0" aria-label="{{this.wizard.ClientSIPChangeSet1.error.AuthUserName.validation}}">
+                            {{this.wizard.ClientSIPChangeSet1.error.AuthUserName.validation}}
+                        </div>
+                        {{/if}}
+                        {{/if}}
+
+                    </div>
+                    <div class="col">
+                        {{!-- <input type="password" id="user_password" class="form-control" maxlength="64"> --}}
+                        <Input @type="password" class="form-control" id="user_password"
+                            @value={{this.wizard.ClientSIPChangeSet1.AuthPassword}} />
+
+                        {{#if (eq this.wizard.ClientSIPChangeSet1.Enable 1)}}
+                        {{#if (not-eq this.wizard.ClientSIPChangeSet1.error.AuthPassword.validation NULL)}}
+                        <div class="invalid-feedback" tabindex="0" aria-label="{{this.wizard.ClientSIPChangeSet1.error.AuthPassword.validation}}">
+                            {{this.wizard.ClientSIPChangeSet1.error.AuthPassword.validation}}
+                        </div>
+                        {{/if}}
+                        {{/if}}
+
+                    </div>
+                </div>
+
+                <!-- FXS 2 -->
+                <div class="row mb-4 align-items-center">
+                    <div class="col-sm-2 d-flex justify-content-end align-items-center">
+                        <div class="form-check form-switch me-2">
+                            <Input @type="checkbox" @checked={{(eq this.wizard.ClientSIPChangeSet2.Enable 1)}} {{on 'input' (fn
+                                this.Toggle this.wizard.ClientSIPChangeSet2 'Enable' )}} {{on "keyup" this.eaactrl.btnTrigger}} class="form-check-input" />
+                        </div>
+                        <label for="fxs2Enabled" class="fw-bold mb-0" tabindex="0" aria-label="FXS 2">FXS 2</label>
+                    </div>
+                    <div class="col">
+                        <Input @type="text" class="form-control" id="user_display_name2"
+                            @value={{this.wizard.ClientSIPChangeSet2.X_PRPLWARE-COM_DisplayName}} />
+
+                        {{#if (eq this.wizard.ClientSIPChangeSet2.Enable 1)}}
+                        {{#if (not-eq this.wizard.ClientSIPChangeSet2.error.X_PRPLWARE-COM_DisplayName.validation NULL)}}
+                        <div class="invalid-feedback" tabindex="0" aria-label="{{this.wizard.ClientSIPChangeSet2.error.X_PRPLWARE-COM_DisplayName.validation}}">
+                            {{this.wizard.ClientSIPChangeSet2.error.X_PRPLWARE-COM_DisplayName.validation}}
+                        </div>
+                        {{/if}}
+                        {{/if}}
+
+                    </div>
+                    <div class="col">
+                        {{!-- <input type="text" id="user_phone_number2" class="form-control" maxlength="64"> --}}
+                        <Input @type="text" class="form-control" id="user_phone_number2"
+                            @value={{this.wizard.ClientSIPChangeSet2.RegisterURI}} />
+
+                        {{#if (eq this.wizard.ClientSIPChangeSet2.Enable 1)}}
+                        {{#if (not-eq this.wizard.ClientSIPChangeSet2.error.RegisterURI.validation NULL)}}
+                        <div class="invalid-feedback" tabindex="0" aria-label="{{this.wizard.ClientSIPChangeSet2.error.RegisterURI.validation}}">
+                            {{this.wizard.ClientSIPChangeSet2.error.RegisterURI.validation}}
+                        </div>
+                        {{/if}}
+                        {{/if}}
+                    </div>
+                    <div class="col">
+                        {{!-- <input type="text" id="user_name2" class="form-control" maxlength="64"> --}}
+                        <Input @type="text" class="form-control" id="user_name2"
+                            @value={{this.wizard.ClientSIPChangeSet2.AuthUserName}} />
+
+                        {{#if (eq this.wizard.ClientSIPChangeSet2.Enable 1)}}
+                        {{#if (not-eq this.wizard.ClientSIPChangeSet2.error.AuthUserName.validation NULL)}}
+                        <div class="invalid-feedback" tabindex="0" aria-label="{{this.wizard.ClientSIPChangeSet2.error.AuthUserName.validation}}">
+                            {{this.wizard.ClientSIPChangeSet2.error.AuthUserName.validation}}
+                        </div>
+                        {{/if}}
+                        {{/if}}
+
+                    </div>
+                    <div class="col">
+                        {{!-- <input type="password" id="user_password2" class="form-control" maxlength="64"> --}}
+                        <Input @type="password" class="form-control" id="user_password2"
+                            @value={{this.wizard.ClientSIPChangeSet2.AuthPassword}} />
+
+                        {{#if (eq this.wizard.ClientSIPChangeSet2.Enable 1)}}
+                        {{#if (not-eq this.wizard.ClientSIPChangeSet2.error.AuthPassword.validation NULL)}}
+                        <div class="invalid-feedback" tabindex="0" aria-label="{{this.wizard.ClientSIPChangeSet2.error.AuthPassword.validation}}">
+                            {{this.wizard.ClientSIPChangeSet2.error.AuthPassword.validation}}
+                        </div>
+                        {{/if}}
+                        {{/if}}
+
+                    </div>
+                </div>
+                <!-- Navigation Buttons -->
+                <div class="text-center">
+                    <LinkTo @route="wizard.pppoe" class="btn btn-outline-secondary me-3" id="back">Back</LinkTo>
+                    <button type="button" class="btn btn-primary" id="proceed" {{on 'click' this.handleSubmit}}>Proceed</button>
+                </div>
+            </form>
+
+        </div>
+    </div>
+</div>

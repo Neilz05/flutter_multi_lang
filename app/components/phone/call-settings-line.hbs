@@ -1,0 +1,103 @@
+<div class="card mb-3">
+    <div class="card-header sc fs-4">{{t 'PAGE_PHONE_SETTINGS_CALL_SETTINGS'}} {{@line}}</div>
+    <div class="card-body container">
+        <div class="row">
+            <div class="col">
+                {{t 'PAGE_PHONE_SETTINGS_SERVICE'}}
+            </div>
+            <div class="col">
+                {{t 'PAGE_PHONE_SETTINGS_STATUS'}}
+            </div>
+        </div>
+
+        <div class="row border-top mt-1 pt-1">
+            <div class="col">
+                {{t 'PAGE_CALL_SETTINGS_CALL_WAITING_OPTION'}}
+            </div>
+            <div class="col">
+                <label class="switch">
+                    <Input @type="checkbox" class="form-check-input" @checked={{eq @model.CallWaitingEnable 1}}
+                        {{on 'input' (fn this.toggleCallWaiting )}} />
+                    <span class="slider round"></span>
+                </label>
+            </div>
+        </div>
+
+
+
+        <div class="row">
+            <div class="col d-flex align-items-center">
+                <span class="fw-bold">{{t 'PAGE_PHONE_SETTINGS_CALL_FORWARDING'}}</span>
+            </div>
+            <div class="col">
+                <label class="switch">
+                    <input type="checkbox" class="form-check-input" checked={{this.showCallForwardingOptions}}
+                    {{on 'input' (fn this.toggleCallForwarding)}} />
+                    <span class="slider round"></span>
+                </label>
+            </div>
+        </div>
+
+        {{#if this.showCallForwardingOptions}}
+        <div class="row ps-4">
+            <div class="col d-flex align-items-center">
+                <span class="fw-bold">Condition</span>
+            </div>
+            <div class="col">
+                <select class="form-select" style="max-width: 200px;" {{on 'change' (fn
+                    this.updateCallForwardCondition)}}>
+                    <option value="unconditional" selected={{(eq model.CallForwardUnconditionalEnable 1)}}>Unconditional
+                    </option>
+                    <option value="on-busy" selected={{(eq model.CallForwardOnBusyEnable 1)}}>On Busy</option>
+                    <option value="on-no-answer" selected={{(eq model.CallForwardOnNoAnswerEnable 1)}}>On No Answer
+                    </option>
+                </select>
+            </div>
+        </div>
+
+        <div class="row ps-4">
+            <div class="col">
+                {{t 'PAGE_CALL_SETTINGS_NUMBER'}}
+            </div>
+            <div class="col">
+                <input type="text" class="form-input" style="max-width: 50%;" value={{this.CallForwardNumber}}
+                    {{on 'input' (fn this.UpdateCallForwardNumber)}} />
+            </div>
+        </div>
+
+        {{#if (or (eq @model.CallForwardOnBusyEnable 1) (eq @model.CallForwardOnNoAnswerEnable 1))}}
+        <div class="row ps-4">
+            <div class="col">
+                {{t 'PAGE_CALL_SETTINGS_TIMEOUT'}}
+            </div>
+            <div class="col">
+                <input type="text" class="form-input" style="max-width: 50%;" value={{this.CallForwardTimeout}}
+                    {{on 'input' (fn this.updateCallTimeout)}} />
+            </div>
+        </div>
+        {{/if}}
+
+        {{/if}}
+
+        <div class="row">
+            <div class="col">
+                {{t 'PAGE_PHONE_SETTINGS_VOICEMAIL'}}
+            </div>
+            <div class="col">
+                <label class="switch">
+                    <Input @type="checkbox" class="form-check-input" @checked={{eq @model.VoiceMailEnable 1}}
+                        {{on 'input' (fn this.toggle @model 'VoiceMailEnable' )}} />
+                    <span class="slider round"></span>
+                </label>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<BsModalSimple @open={{this.openConflictModal}} @title="Simple Modal" @closeTitle="Cancel" @submitTitle="Apply" @size=""
+    @closeButton={{true}} @fade={{true}} @backdrop={{true}} @backdropClose={{true}} @onSubmit={{this.conflictApply}}
+    @onHide={{this.close}}>
+    You cannot configure call forwarding on busy number and call waiting at the same time. Please unselect one of the
+    two services.
+</BsModalSimple>

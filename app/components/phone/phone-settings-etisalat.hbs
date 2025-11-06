@@ -1,0 +1,17 @@
+<div class="card mb-3">
+  <div class="card-header" tabindex="0" aria-label="{{t 'PAGE_PHONE_SETTINGS_TITLE'}}">{{t 'PAGE_PHONE_SETTINGS_TITLE'}}</div>
+  <div class="card-body">
+    <p tabindex="0" aria-label="{{t 'PAGE_PHONE_SETTINGS_SUBTITLE'}}">{{t 'PAGE_PHONE_SETTINGS_SUBTITLE'}}</p> 
+  </div>
+</div>
+<div class="card mb-3">
+  <div class="card-header" tabindex="0" aria-label="{{t 'PAGE_PHONE_SETTINGS_IMS_SERVER_TITLE'}}">{{t 'PAGE_PHONE_SETTINGS_IMS_SERVER_TITLE'}}</div>
+  <div class="card-body">
+        <Phone::SipEtisalat @addr={{@network.RegistrarServer}} @port={{@network.RegistrarServerPort}} @onError={{this.updateSipErrors}} @label="{{t 'PAGE_PHONE_SETTINGS_IMS_SERVER_SIP_PRIMARY_REGISTRAR'}}"/>
+        <Phone::SipEtisalat @addr={{@network.ProxyServer}} @port={{@network.ProxyServerPort}} @onError={{this.updateSipErrors}} @label="{{t 'PAGE_PHONE_SETTINGS_IMS_SERVER_SIP_PRIMARY_PROXY_SERVER'}}"/>
+        <Phone::SipEtisalat @addr={{@network.OutboundProxy}} @port={{@network.OutboundProxyPort}} @onError={{this.updateSipErrors}} @label="{{t 'PAGE_PHONE_SETTINGS_IMS_SERVER_SIP_PRIMARY_OUTBOUND'}}"/>
+  </div>
+</div>
+{{#each @clients as |client index|}}
+  <Phone::UseracctEtisalat @telClient={{client}} @userCount={{inc index}} @onError={{this.updateUseracctErrors}}/>
+{{/each}}

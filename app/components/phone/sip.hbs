@@ -1,0 +1,14 @@
+<div class="col-md-6">
+  <div class="row mb-2 px-1" tabindex="0" aria-label="{{@title}}">{{yield}}</div>
+  <div class="row mb-2 px-2">
+    <Input class="form-control" @type="text" style="width: 212px;" @value={{@addr}}/>
+  </div>
+</div>
+<div class="col-md-6">
+  <div class="row mb-2 px-1" tabindex="0" aria-label="{{t 'PAGE_PORT_MAPPING_POPUP_ADD_PORT'}}">
+    {{t 'PAGE_PORT_MAPPING_POPUP_ADD_PORT'}}
+  </div>
+  <div class="row mb-2 px-2">
+    <Input class="form-control" type="text" style="width: 100px;" @value={{@port}}/>
+  </div>
+</div>

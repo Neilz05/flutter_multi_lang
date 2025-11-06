@@ -1,0 +1,47 @@
+<div class="row mb-2 table-entry" tabindex="0" aria-label="{{t 'PAGE_SETTINGS_LAN_GUEST_NETWORK'}}">
+  {{t 'PAGE_SETTINGS_LAN_GUEST_NETWORK'}}
+</div>
+<hr>
+<div class="row mb-2 table-entry" tabindex="0" aria-label="{{t 'PAGE_IPV4_NETWORK_SETTINGS_IP_ADDRESS'}}">
+  {{t 'PAGE_IPV4_NETWORK_SETTINGS_IP_ADDRESS'}}
+</div>
+<div class="row mb-2 table-entry">
+  {{#each @ip.Interface as |iface|}}
+    {{#if (eq iface.Alias 'guest')}}
+      {{#each iface.IPv4Address as |ipaddr|}}
+        {{#if (eq ipaddr.Alias 'guest')}}
+          <Ui::IpAddr @ip={{ipaddr.IPAddress}} @id="guestNetwork" @disabled={{false}} @onUpdate={{this.setIpAddr}}/>
+        {{/if}}
+      {{/each}}
+    {{/if}}
+  {{/each}}
+</div>
+<hr>
+<div class="row mb-2 table-entry" tabindex="0" aria-label="{{t 'PAGE_IPV4_NETWORK_SETTINGS_IP_SUBNET_MASK'}}">
+  {{t 'PAGE_IPV4_NETWORK_SETTINGS_IP_SUBNET_MASK'}}
+</div>
+<div class="row mb-2 table-entry">
+  {{#each @ip.Interface as |iface|}}
+    {{#if (eq iface.Alias 'guest')}}
+      {{#each iface.IPv4Address as |ipaddr|}}
+        {{#if (eq ipaddr.Alias 'guest')}}
+        <Ui::IpAddr @ip={{ipaddr.SubnetMask}} @id="guestSubnet" @disabled={{false}} @onUpdate={{this.setSubnetMask}}/>
+        {{/if}}
+      {{/each}}
+    {{/if}}
+  {{/each}}
+</div>
+<hr>
+<div class="row mb-2 table-entry">
+  <div class="col-md-3" tabindex="0" aria-label="{{t 'PAGE_IPV4_NETWORK_SETTINGS_DHCP_SERVER'}}">
+    {{t 'PAGE_IPV4_NETWORK_SETTINGS_DHCP_SERVER'}}
+  </div>
+  <div class="col-md-2">
+    {{did-insert this.loadDhcpServer}}
+    <label class="switch" for="{{this.componentId}}-guestDhcpServer" tabindex="0" aria-label="{{t 'PAGE_IPV4_NETWORK_SETTINGS_DHCP_SERVER'}}" role="button" {{on "keyup" this.eaactrl.onoffTrigger}}>
+    <Input id="{{this.componentId}}-guestDhcpServer" tabindex="-1" @type="checkbox" class="form-check-input" @checked={{this.dhcpServerEnable}}/>
+    <span class="slider round"></span>
+  </label>
+  </div>
+</div>
+

@@ -1,0 +1,73 @@
+<div class="card mb-3">
+  <div class="card-header sc">WiFi 5G Status</div>
+  <div class="card-body">
+    <div class="row">
+      <div class="col-md-3">
+        <div class="row mb-2 table-entry attr-name">Status</div>
+      </div>
+      <div class="col-md-9">
+        {{#each @wifi.Radio as |radio i|}}
+          {{#if (eq i 0)}}
+            <div class="row mb-2 table-entry">{{radio.Status}}</div>
+          {{/if}}
+        {{/each}}
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-3">
+        <div class="row mb-2 table-entry attr-name">SSID</div>
+      </div>
+      <div class="col-md-9">
+        {{#each @wifi.SSID as |ssid i|}}
+          {{#if (eq i 0)}}
+            <div class="row mb-2 table-entry">{{ssid.SSID}}</div>
+          {{/if}}
+        {{/each}}
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-3">
+        <div class="row mb-2 table-entry attr-name">MAC Address</div>
+      </div>
+      <div class="col-md-9">
+        {{#each @wifi.SSID as |ssid i|}}
+          {{#if (eq i 0)}}
+            <div class="row mb-2 table-entry">{{ssid.MACAddress}}</div>
+          {{/if}}
+        {{/each}}
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-3">
+        <div class="row mb-2 table-entry attr-name">Security</div>
+      </div>
+      <div class="col-md-9">
+        <div class="row mb-2 table-entry">{{@wifi.AccessPoint.WiFi-5G.Security.ModeEnabled}}</div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-3">
+        <div class="row mb-2 table-entry attr-name">Channel</div>
+      </div>
+      <div class="col-md-9">
+        {{#each @wifi.Radio as |radio i|}}
+          {{#if (eq i 0)}}
+            <div class="row mb-2 table-entry">{{radio.Channel}}</div>
+          {{/if}}
+        {{/each}}
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-3">
+        <div class="row mb-2 table-entry attr-name">Bandwidth</div>
+      </div>
+      <div class="col-md-9">
+        {{#each @wifi.Radio as |radio i|}}
+          {{#if (eq i 0)}}
+            <div class="row mb-2 table-entry">{{radio.OperatingChannelBandwidth}}</div>
+          {{/if}}
+        {{/each}}
+      </div>
+    </div>
+  </div>
+</div>

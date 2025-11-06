@@ -1,0 +1,201 @@
+<div class="card mb-3">
+  <div class="card-header sc" tabindex="0" aria-label="{{@radio.OperatingFrequencyBand}}">{{@radio.OperatingFrequencyBand}}</div>
+  <div class="card-body">
+    <div class="row">
+      <div class="col-md-6">
+        <div class="row mb-2" style="padding-left: 10px;" tabindex="0" aria-label="{{t 'PAGE_SETTINGS_WIFI_MODE'}}">{{t 'PAGE_SETTINGS_WIFI_MODE'}}</div>
+      </div>
+      <div class="col-md-6" style="display: flex; justify-content: flex-end;">
+        <div class="row mb-2" style="padding-right: 10px;">
+          <Helper::Select class="form-select" 
+            @options={{this.wifiModeOptions}} 
+            @value={{this.operatingStandards}}
+            @optValue="key" 
+            @optLabel="label" 
+            @onChange={{this.setWifiMode}} 
+          />
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-6">
+        <div class="row mb-2" style="padding-left: 10px;" tabindex="0" aria-label="{{t 'PAGE_SETTINGS_BANDWITH'}}">{{t 'PAGE_SETTINGS_BANDWITH'}}</div>
+      </div>
+      <div class="col-md-6" style="display: flex; justify-content: flex-end;">
+        <div class="row mb-2" style="padding-right: 10px;">
+          <Helper::Select class="form-select" 
+            @options={{this.bandwidthOptions}} 
+            @value={{@radio.OperatingChannelBandwidth}} 
+            @optValue="key" 
+            @optLabel="label" 
+            @onChange={{this.setBandwidth}} 
+          />
+        </div>
+      </div>
+    </div>
+    {{#if (eq this.modelType "FG4278Av2_VD")}}
+      <Wifi::Radio2 @radio={{@radio}} />
+    {{/if}}
+    <div class="row">
+      <div class="col-md-6">
+        <div class="row mb-2" style="padding-left: 10px;" tabindex="0" aria-label="{{t 'PAGE_SETTINGS_MAX_DATA_RATE'}} ({{@radio.OperatingFrequencyBand}})">{{t 'PAGE_SETTINGS_MAX_DATA_RATE'}} ({{@radio.OperatingFrequencyBand}})</div>
+      </div>
+      <div class="col-md-6" style="display: flex; justify-content: flex-end;">
+        <div class="row mb-2" style="padding-right: 10px;" tabindex="0" aria-label="{{@radio.MaxBitRate}} Mbit/s">
+          {{@radio.MaxBitRate}} Mbit/s
+        </div>
+      </div>
+    </div>
+    {{#if (and (eq @radio.Alias 'Wl1') (unless (eq @radio.OperatingChannelBandwidth "20MHz") true))}}
+      <div class="row">
+        <div class="col-md-6">
+          <div class="row mb-2" style="padding-left: 10px;" tabindex="0" aria-label="{{t 'PAGE_SETTINGS_COEXISTENCE'}}">{{t 'PAGE_SETTINGS_COEXISTENCE'}}</div>
+        </div>
+        <div class="col-md-6" style="display: flex; justify-content: flex-end;">
+          <div class="row mb-2" style="padding-right: 10px;">
+            <label class="switch" for="{{this.componentId}}-switch1" tabindex="0" aria-label="{{t 'PAGE_SETTINGS_COEXISTENCE'}}" role="button" {{on "keyup" this.eaactrl.onoffTrigger}}>
+              <input id="{{this.componentId}}-switch1" tabindex="-1" class="ember-checkbox ember-view form-check-input" type="checkbox" {{on "change" this.setObssCoexistenceEnable}} checked={{eq @radio.ObssCoexistenceEnable 1}}>
+              <span class="slider round"></span>
+            </label>
+          </div>
+        </div>
+      </div>
+    {{/if}}
+    <div class="row">
+      <div class="col-md-6">
+        <div class="row mb-2" style="padding-left: 10px;" tabindex="0" aria-label="{{t 'PAGE_SETTINGS_TRANSMIT_POWER'}}">{{t 'PAGE_SETTINGS_TRANSMIT_POWER'}}</div>
+      </div>
+      <div class="col-md-6" style="display: flex; justify-content: flex-end;">
+        <div class="row mb-2" style="padding-right: 10px;">
+          <Helper::Select class="form-select" 
+            @options={{this.transmitPowerOptions}} 
+            @value={{@radio.TransmitPower}} 
+            @optValue="key" 
+            @optLabel="label" 
+            @onChange={{this.setTransmitPower}} 
+          />
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-6">
+        <div class="row mb-2" style="padding-left: 10px;" tabindex="0" aria-label="{{t 'PAGE_SETTINGS_BEACON_INTERVAL'}}">{{t 'PAGE_SETTINGS_BEACON_INTERVAL'}}</div>
+      </div>
+      <div class="col-md-6" style="display: flex; justify-content: flex-end;">
+        <div class="row mb-2">
+          <div class="flex-shrink-0" style="padding-right: 10px;">
+            <Input class="form-control {{if this.BeaconPeriodMsg " is-invalid" "" }}"
+              min="100"
+              max="999"
+              @type="number"
+              @value={{this.BeaconPeriod}}
+              {{on "input" this.handleInput}}
+              {{on "blur" this.handleBlur}}
+            />
+            {{#if this.BeaconPeriodMsg}}
+            <div class="invalid-feedback d-block ms-2 text-nowrap flex-shrink-1" tabindex="0" aria-label="{{this.BeaconPeriodMsg}}">
+              {{this.BeaconPeriodMsg}}
+            </div>
+            {{/if}}
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-6">
+        <div class="row mb-2" style="padding-left: 10px;" tabindex="0" aria-label="{{t 'PAGE_SETTINGS_DTIM_INTERVAL'}}">{{t 'PAGE_SETTINGS_DTIM_INTERVAL'}}</div>
+      </div>
+      <div class="col-md-6" style="display: flex; justify-content: flex-end;">
+        <div class="row mb-2">
+          <div class="flex-shrink-0" style="padding-right: 10px;">
+            <Input class="form-control {{if this.DTIMIntervalMsg " is-invalid" "" }}"
+              min="1"
+              max="255"
+              @type="number"
+              @value={{this.DTIMInterval}}
+              {{on "input" this.handleInput}}
+              {{on "blur" this.handleBlur}}
+            />
+            {{#if this.DTIMIntervalMsg}}
+            <div class="invalid-feedback d-block ms-2 text-nowrap flex-shrink-1" tabindex="0" aria-label="{{this.DTIMIntervalMsg}}">
+              {{this.DTIMIntervalMsg}}
+            </div>
+            {{/if}}
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-6">
+        <div class="row mb-2" style="padding-left: 10px;" tabindex="0" aria-label="{{t 'PAGE_SETTINGS_FRAGMENTATION_TRESHOLD'}}">{{t 'PAGE_SETTINGS_FRAGMENTATION_TRESHOLD'}}</div>
+      </div>
+      <div class="col-md-6" style="display: flex; justify-content: flex-end;">
+        <div class="row mb-2">
+          <div class="flex-shrink-0" style="padding-right: 10px;">
+            <Input class="form-control {{if this.FragmentationThresholdMsg " is-invalid" "" }}"
+              min="-1"
+              max="2346"
+              @type="number"
+              @value={{this.FragmentationThreshold}}
+              {{on "input" this.handleInput}}
+              {{on "blur" this.handleBlur}}
+            />
+            {{#if this.FragmentationThresholdMsg}}
+            <div class="invalid-feedback d-block ms-2 text-nowrap flex-shrink-1" tabindex="0" aria-label="{{this.FragmentationThresholdMsg}}">
+              {{this.FragmentationThresholdMsg}}
+            </div>
+            {{/if}}
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-6">
+        <div class="row mb-2" style="padding-left: 10px;" tabindex="0" aria-label="{{t 'PAGE_SETTINGS_RTS_TRESHOLD'}}">{{t 'PAGE_SETTINGS_RTS_TRESHOLD'}}</div>
+      </div>
+      <div class="col-md-6" style="display: flex; justify-content: flex-end;">
+        <div class="row mb-2">
+          <div class="flex-shrink-0" style="padding-right: 10px;">
+            <Input class="form-control {{if this.RtsThresholdMsg " is-invalid" "" }}"
+              min="-1"
+              max="2347"
+              @type="number"
+              @value={{this.RtsThreshold}}
+              {{on "input" this.handleInput}}
+              {{on "blur" this.handleBlur}}
+            />
+            {{#if this.RtsThresholdMsg}}
+            <div class="invalid-feedback d-block ms-2 text-nowrap flex-shrink-1" tabindex="0" aria-label="{{this.RtsThresholdMsg}}">
+              {{this.RtsThresholdMsg}}
+            </div>
+            {{/if}}
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-6">
+        <div class="row mb-2" style="padding-left: 10px;" tabindex="0" aria-label="{{t 'PAGE_SETTINGS_AUTO_CHANNEL_REFRESH'}}">{{t 'PAGE_SETTINGS_AUTO_CHANNEL_REFRESH'}}</div>
+      </div>
+      <div class="col-md-6" style="display: flex; justify-content: flex-end;">
+        <div class="row mb-2">
+          <div class="flex-shrink-0" style="padding-right: 10px;">
+            <Input class="form-control {{if this.AutoChannelRefreshPeriodMsg " is-invalid" "" }}"
+              min="1800"
+              max="99999999999999"
+              @type="number"
+              @value={{this.AutoChannelRefreshPeriod}}
+              {{on "input" this.handleInput}}
+              {{on "blur" this.handleBlur}}
+            />
+            {{#if this.AutoChannelRefreshPeriodMsg}}
+            <div class="invalid-feedback d-block ms-2 text-nowrap flex-shrink-1" tabindex="0" aria-label="{{this.AutoChannelRefreshPeriodMsg}}">
+              {{this.AutoChannelRefreshPeriodMsg}}
+            </div>
+            {{/if}}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

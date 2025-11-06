@@ -1,0 +1,29 @@
+<div class="subsubmenu">
+  <ul>    
+    <LinkTo @route="authenticated.status-and-support.wan-status">
+      <li class="non-header {{if (eq this.subsubmenuTab 'wan-status') 'submenu-active'}}" {{on 'click' (fn this.setSubsubmenuTab 'wan-status')}}>{{t 'SUB_SUB_NAVIGATION_ITEM_WAN_STATUS'}}</li>
+    </LinkTo>
+    <LinkTo @route="authenticated.status-and-support.lan-status">
+      <li class="non-header {{if (eq this.subsubmenuTab 'lan-status') 'submenu-active'}}" {{on 'click' (fn this.setSubsubmenuTab 'lan-status')}}>{{t 'SUB_SUB_NAVIGATION_ITEM_LAN_STATUS'}}</li>
+    </LinkTo>  
+    {{!-- <LinkTo @route="authenticated.status-and-support.wlan-status">
+      <li class="non-header {{if (eq this.subsubmenuTab 'wlan-status') 'submenu-active'}}" {{on 'click' (fn this.setSubsubmenuTab 'wlan-status')}}>{{t 'SUB_SUB_NAVIGATION_ITEM_WLAN_STATUS'}}</li>
+    </LinkTo> --}}
+    <li class="non-header {{if (eq this.subsubmenuTab 'wlan-status') 'submenu-active'}}" >
+      <a href="/status-and-support/wlan-status" {{on 'click' (fn this.setSubsubmenuTab 'wlan-status')}} style="font-weight: normal; color: black;">
+        {{t 'SUB_SUB_NAVIGATION_ITEM_WLAN_STATUS'}}
+      </a>
+    </li>
+    {{#if (eq @voipEnabled 1)}}
+    <LinkTo @route="authenticated.status-and-support.voice-status">
+      <li class="non-header {{if (eq this.subsubmenuTab 'voice-status') 'submenu-active'}}" {{on 'click' (fn this.setSubsubmenuTab 'voice-status')}}>{{t 'SUB_SUB_NAVIGATION_ITEM_VOICE_STATUS'}}</li>
+    </LinkTo>
+    {{/if}}
+    <LinkTo @route="authenticated.status-and-support.gpon-status">
+      <li class="non-header {{if (eq this.subsubmenuTab 'gpon-status') 'submenu-active'}}" {{on 'click' (fn this.setSubsubmenuTab 'gpon-status')}}>{{t 'PAGE_DIAGNOSTIC_UTILITY_POPUP_DIAGNOSIS_GPON_STATUS'}}</li>
+    </LinkTo>
+    <LinkTo @route="authenticated.status-and-support.optical-status">
+      <li class="non-header {{if (eq this.subsubmenuTab 'optical-status') 'submenu-active'}}" {{on 'click' (fn this.setSubsubmenuTab 'optical-status')}}>{{t 'PAGE_OPTICAL_STATUS_TITLE'}}</li>
+    </LinkTo>
+  </ul>
+</div>

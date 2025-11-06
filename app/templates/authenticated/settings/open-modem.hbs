@@ -1,0 +1,32 @@
+{{page-title "DNS"}}
+<div class="card mb-3">
+  <div class="card-header sc">
+    <label class="fs-4 fw-bold ms-3" tabindex="0" aria-label="{{t 'PAGE_GENERIC_MODEM_TITLE'}}">{{t 'PAGE_GENERIC_MODEM_TITLE'}}</label>
+  </div>
+
+  <div class="card-body">
+    <div class="row py-1 ps-3">
+      {{!-- <p tabindex="0" aria-label="{{t 'PAGE_GENERIC_MODEM_SUBTITLE'}}">{{t 'PAGE_GENERIC_MODEM_SUBTITLE'}}</p> --}}
+      <div class="col" tabindex="0" aria-label="{{t 'PAGE_GENERIC_MODEM_CONFIGURATION'}}"><label>{{t 'PAGE_GENERIC_MODEM_CONFIGURATION'}}</label></div>
+      <div class="col">
+         <label class="switch" for="open-modem-enable" tabindex="0" aria-label="{{t 'PAGE_GENERIC_MODEM_CONFIGURATION'}}" role="button" {{on "keyup" this.eaactrl.onoffTrigger}}>
+              {{!-- <Input id="open-modem-enable" tabindex="-1" @type="checkbox" @value={{@model.openmodem.parameters.OpenModemEnable}} @checked={{this.openModemEnable}} class="form-check-input" /> --}}
+              <Input
+  id="open-modem-enable"
+  tabindex="-1"
+  @type="checkbox"
+  @checked={{this.localOpenModem}}
+  class="form-check-input"
+/>
+              <span class="slider round"></span>
+            </label>
+      </div>
+    </div>
+  </div>
+</div>
+
+  <Ui::UpdateButton 
+  @onApply={{this.apply}} 
+  @onCancel={{this.cancel}} 
+  @disabled={{unless this.hasChanges "disabled"}}
+/>

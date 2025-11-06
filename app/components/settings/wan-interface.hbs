@@ -1,0 +1,660 @@
+{{!-- <div {{did-insert this.register}} class="lan-static-dhcp-root"> --}}
+<div class="table-responsive">
+  <table class="table table-bordered">
+    <thead>
+      <tr>
+        <th scope="col" tabindex="0" aria-label="{{t 'PAGE_WAN_INTERFACE_DESCRIPTION'}}">{{t 'PAGE_WAN_INTERFACE_DESCRIPTION'}}</th>
+        <th scope="col" tabindex="0" aria-label="{{t 'PAGE_WAN_INTERFACE_VLAN_ID'}}">{{t 'PAGE_WAN_INTERFACE_VLAN_ID'}}</th>
+        <th scope="col" tabindex="0" aria-label="{{t 'PAGE_WAN_INTERFACE_FIREWALL'}}">{{t 'PAGE_WAN_INTERFACE_FIREWALL'}}</th>
+        <th scope="col" style="width:25%;" tabindex="0" aria-label="{{t 'PAGE_WAN_INTERFACE_STATUS'}}">{{t 'PAGE_WAN_INTERFACE_STATUS'}}</th>
+      </tr>
+    </thead>
+    <tbody class="border border-top">
+      {{#each @xpononu as |xo index|}}
+        {{#if (eq index 0)}}
+          {{#each xo.ANI as |ani indx|}}
+            {{#if (eq indx 0)}}
+              {{did-insert this.setOnuState ani.TC.ONUActivation.ONUState}}
+            {{/if}}
+          {{/each}}
+        {{/if}}
+      {{/each}}
+      {{!-- {{#each @wanmanager.WAN as |wan|}} --}}
+        {{#each this.IntfEntries as |intf idx|}}
+          {{#if (this.showCurrentRow intf.Name @ipinterface)}}
+            <tr class="align-middle">
+              {{#unless (eq (eq this.onuState "O5") (lt idx this.IntfEntriesLength))}}
+              <td class="{{if (or (eq (eq this.onuState "O5") (lt idx this.IntfEntriesLength)) (this.disableWAN intf.Name @ipinterface)) "text-muted"}}"
+              tabindex="0" aria-label="{{intf.Alias}}">
+              {{intf.Alias}}
+              </td>
+              {{#each @ethernetvlantermination as |vlanterm vtid|}}
+                {{#if (eq vtid 0)}}
+                  {{#if (and (eq (mod idx this.IntfEntriesLength) 0) (this.isTagged vlanterm @ppp @ipinterface))}}
+                    <td class="{{if (or (eq (eq this.onuState "O5") (lt idx this.IntfEntriesLength)) (this.disableWAN intf.Name @ipinterface)) "text-muted"}}"
+                    tabindex="0" aria-label="{{vlanterm.VLANID}}">
+                      {{vlanterm.VLANID}}
+                    </td>
+                  {{else if (and (eq (mod idx this.IntfEntriesLength) 0))}}
+                    <td class="{{if (or (eq (eq this.onuState "O5") (lt idx this.IntfEntriesLength)) (this.disableWAN intf.Name @ipinterface)) "text-muted"}}"
+                    tabindex="0" aria-label="0">
+                      0
+                    </td>
+                  {{/if}}
+                {{else if (eq vtid 1)}}
+                  {{#if (and (eq (mod idx this.IntfEntriesLength) 2) (this.isTagged vlanterm @ppp @ipinterface))}}
+                    <td class="{{if (or (eq (eq this.onuState "O5") (lt idx this.IntfEntriesLength)) (this.disableWAN intf.Name @ipinterface)) "text-muted"}}"
+                    tabindex="0" aria-label="{{vlanterm.VLANID}}">
+                      {{vlanterm.VLANID}}
+                    </td>
+                  {{else if (and (eq (mod idx this.IntfEntriesLength) 2))}}
+                    <td class="{{if (or (eq (eq this.onuState "O5") (lt idx this.IntfEntriesLength)) (this.disableWAN intf.Name @ipinterface)) "text-muted"}}"
+                    tabindex="0" aria-label="0">
+                      0
+                    </td>
+                  {{/if}}
+                {{else if (eq vtid 2)}}
+                  {{#if (and (eq (mod idx this.IntfEntriesLength) 1) (this.isTagged vlanterm @ppp @ipinterface))}}
+                    <td class="{{if (or (eq (eq this.onuState "O5") (lt idx this.IntfEntriesLength)) (this.disableWAN intf.Name @ipinterface)) "text-muted"}}"
+                    tabindex="0" aria-label="{{vlanterm.VLANID}}">
+                      {{vlanterm.VLANID}}
+                    </td>
+                  {{else if (and (eq (mod idx this.IntfEntriesLength) 1))}}
+                    <td class="{{if (or (eq (eq this.onuState "O5") (lt idx this.IntfEntriesLength)) (this.disableWAN intf.Name @ipinterface)) "text-muted"}}"
+                    tabindex="0" aria-label="0">
+                      0
+                    </td>
+                  {{/if}}
+                {{else if (eq vtid 3)}}
+                  {{#if (and (eq (mod idx this.IntfEntriesLength) 3) (this.isTagged vlanterm @ppp @ipinterface))}}
+                    <td class="{{if (or (eq (eq this.onuState "O5") (lt idx this.IntfEntriesLength)) (this.disableWAN intf.Name @ipinterface)) "text-muted"}}"
+                    tabindex="0" aria-label="{{vlanterm.VLANID}}">
+                      {{vlanterm.VLANID}}
+                    </td>
+                  {{else if (and (eq (mod idx this.IntfEntriesLength) 3))}}
+                    <td class="{{if (or (eq (eq this.onuState "O5") (lt idx this.IntfEntriesLength)) (this.disableWAN intf.Name @ipinterface)) "text-muted"}}"
+                    tabindex="0" aria-label="0">
+                      0
+                    </td>
+                  {{/if}}
+                {{/if}}
+              {{/each}}
+              {{#each @nat.InterfaceSetting as |ifs i|}}
+                {{#if (eq ifs.Alias "wan")}}
+                  {{#if (eq ifs.Enable 1)}}
+                    <td class="{{if (or (eq (eq this.onuState "O5") (lt idx this.IntfEntriesLength)) (this.disableWAN intf.Name @ipinterface)) "text-muted"}}"
+                    tabindex="0" aria-label="Enabled">
+                      Enabled
+                    </td>
+                  {{else}}
+                    <td class="{{if (or (eq (eq this.onuState "O5") (lt idx this.IntfEntriesLength)) (this.disableWAN intf.Name @ipinterface)) "text-muted"}}"
+                    tabindex="0" aria-label="Disabled">
+                      Disabled
+                    </td>
+                  {{/if}}
+                {{/if}}
+              {{/each}}
+              <td>
+                <div class="d-flex align-items-center justify-content-between gap-1">
+                  {{#each @ipinterface as |ali aliIdx|}}
+                    {{#if (eq intf.Name ali.Alias)}}
+                      {{#each ali.IPv4Address as |ipv4addr|}}
+                        {{#if (eq ipv4addr.Alias "primary")}}
+                          {{#if (eq ipv4addr.IPAddress "")}}
+                            <div class="{{if (or (eq (eq this.onuState "O5") (lt idx this.IntfEntriesLength)) (this.disableWAN intf.Name @ipinterface)) "text-muted"}}"
+                            tabindex="0" aria-label="Down">
+                              Down
+                            </div>
+                          {{else}}
+                            <div class="{{if (or (eq (eq this.onuState "O5") (lt idx this.IntfEntriesLength)) (this.disableWAN intf.Name @ipinterface)) "text-muted"}}"
+                            tabindex="0" aria-label="Up">
+                              Up
+                            </div>
+                          {{/if}}
+                        {{/if}}
+                      {{/each}}
+                      {{#if this.isSuperAdmin}}
+                        {{#each @ethernetvlantermination as |vlanterm vtid|}}
+                          {{#if (eq vtid 0)}}
+                            {{#if (eq (mod idx this.IntfEntriesLength) 0)}}
+                              <button 
+                               disabled={{(or (eq (eq this.onuState "O5") (lt idx this.IntfEntriesLength)) (this.disableWAN intf.Name @ipinterface))}}
+                               class="btn btn-secondary btn-sm ms-auto py-2 px-3" 
+                              tabindex="0" 
+                              aria-label="{{t "MESSAGES_EDIT_BUTTON"}}" 
+                              {{on "keyup" this.eaactrl.btnClick}}
+                               {{on "click" (fn this.updateSettings vlanterm intf idx)}}>
+                               <i class="bi bi-gear"></i>
+                              </button>
+                            {{/if}}
+                          {{else if (eq vtid 1)}}
+                            {{#if (eq (mod idx this.IntfEntriesLength) 2)}}
+                              <button 
+                              disabled={{(or (eq (eq this.onuState "O5") (lt idx this.IntfEntriesLength)) (this.disableWAN intf.Name @ipinterface))}}
+                              class="btn btn-secondary btn-sm ms-auto py-2 px-3" 
+                              tabindex="0" 
+                              aria-label="{{t "MESSAGES_EDIT_BUTTON"}}" 
+                              {{on "keyup" this.eaactrl.btnClick}}
+                              {{on "click" (fn this.updateSettings vlanterm intf idx)}}>
+                                <i class="bi bi-gear"></i>
+                              </button>
+                            {{/if}}
+                          {{else if (eq vtid 2)}}
+                            {{#if (eq (mod idx this.IntfEntriesLength) 1)}}
+                              <button 
+                              disabled={{(or (eq (eq this.onuState "O5") (lt idx this.IntfEntriesLength)) (this.disableWAN intf.Name @ipinterface))}}
+                              class="btn btn-secondary btn-sm ms-auto py-2 px-3" 
+                              tabindex="0" 
+                              aria-label="{{t "MESSAGES_EDIT_BUTTON"}}" 
+                              {{on "keyup" this.eaactrl.btnClick}}
+                              {{on "click" (fn this.updateSettings vlanterm intf idx)}}>
+                                <i class="bi bi-gear"></i>
+                              </button>
+                            {{/if}}
+                          {{else if (eq vtid 3)}}
+                            {{#if (eq (mod idx this.IntfEntriesLength) 3)}}
+                              <button 
+                              disabled={{(or (eq (eq this.onuState "O5") (lt idx this.IntfEntriesLength)) (this.disableWAN intf.Name @ipinterface))}}
+                              class="btn btn-secondary btn-sm ms-auto py-2 px-3" 
+                              tabindex="0" 
+                              aria-label="{{t "MESSAGES_EDIT_BUTTON"}}" 
+                              {{on "keyup" this.eaactrl.btnClick}}
+                              {{on "click" (fn this.updateSettings vlanterm intf idx)}}>
+                                <i class="bi bi-gear"></i>
+                              </button>
+                            {{/if}}
+                          {{/if}}
+                        {{/each}}
+                        <label class="switch" for="{{this.componentId}}-interface-enable-{{aliIdx}}" tabindex="0" role="button" {{on "keyup" this.eaactrl.onoffTrigger}}>
+                          <Input id="{{this.componentId}}-interface-enable-{{aliIdx}}" tabindex="-1" @type="checkbox" @checked={{(eq ali.Enable 1)}} {{on "change" (fn this.interfaceEnableFunc ali)}} class="form-check-input" disabled={{eq (eq this.onuState "O5") (lt idx this.IntfEntriesLength)}}/>
+                          <span class="slider round"></span>
+                        </label>
+                      {{/if}}
+                    {{/if}}
+                  {{/each}}
+                </div>
+              </td>
+              {{else }}
+              <td class="{{if (or (eq (eq this.onuState "O1") (lt idx this.IntfEntriesLength)) (this.disableWAN intf.Name @ipinterface)) "text-muted"}}"
+              tabindex="0" aria-label="{{intf.Alias}}">
+              {{intf.Alias}}
+              </td>
+              {{#each @ethernetvlantermination as |vlanterm vtid|}}
+                {{#if (eq vtid 0)}}
+                  {{#if (and (eq (mod idx this.IntfEntriesLength) 0) (this.isTagged vlanterm @ppp @ipinterface))}}
+                    <td class="{{if (or (eq (eq this.onuState "O1") (lt idx this.IntfEntriesLength)) (this.disableWAN intf.Name @ipinterface)) "text-muted"}}"
+                    tabindex="0" aria-label="{{vlanterm.VLANID}}">
+                      {{vlanterm.VLANID}}
+                    </td>
+                  {{else if (and (eq (mod idx this.IntfEntriesLength) 0))}}
+                    <td class="{{if (or (eq (eq this.onuState "O1") (lt idx this.IntfEntriesLength)) (this.disableWAN intf.Name @ipinterface)) "text-muted"}}"
+                    tabindex="0" aria-label="0">
+                      0
+                    </td>
+                  {{/if}}
+                {{else if (eq vtid 1)}}
+                  {{#if (and (eq (mod idx this.IntfEntriesLength) 2) (this.isTagged vlanterm @ppp @ipinterface))}}
+                    <td class="{{if (or (eq (eq this.onuState "O1") (lt idx this.IntfEntriesLength)) (this.disableWAN intf.Name @ipinterface)) "text-muted"}}"
+                    tabindex="0" aria-label="{{vlanterm.VLANID}}">
+                      {{vlanterm.VLANID}}
+                    </td>
+                  {{else if (and (eq (mod idx this.IntfEntriesLength) 2))}}
+                    <td class="{{if (or (eq (eq this.onuState "O1") (lt idx this.IntfEntriesLength)) (this.disableWAN intf.Name @ipinterface)) "text-muted"}}"
+                    tabindex="0" aria-label="0">
+                      0
+                    </td>
+                  {{/if}}
+                {{else if (eq vtid 2)}}
+                  {{#if (and (eq (mod idx this.IntfEntriesLength) 1) (this.isTagged vlanterm @ppp @ipinterface))}}
+                    <td class="{{if (or (eq (eq this.onuState "O1") (lt idx this.IntfEntriesLength)) (this.disableWAN intf.Name @ipinterface)) "text-muted"}}"
+                    tabindex="0" aria-label="{{vlanterm.VLANID}}">
+                      {{vlanterm.VLANID}}
+                    </td>
+                  {{else if (and (eq (mod idx this.IntfEntriesLength) 1))}}
+                    <td class="{{if (or (eq (eq this.onuState "O1") (lt idx this.IntfEntriesLength)) (this.disableWAN intf.Name @ipinterface)) "text-muted"}}"
+                    tabindex="0" aria-label="0">
+                      0
+                    </td>
+                  {{/if}}
+                {{else if (eq vtid 3)}}
+                  {{#if (and (eq (mod idx this.IntfEntriesLength) 3) (this.isTagged vlanterm @ppp @ipinterface))}}
+                    <td class="{{if (or (eq (eq this.onuState "O1") (lt idx this.IntfEntriesLength)) (this.disableWAN intf.Name @ipinterface)) "text-muted"}}"
+                    tabindex="0" aria-label="{{vlanterm.VLANID}}">
+                      {{vlanterm.VLANID}}
+                    </td>
+                  {{else if (and (eq (mod idx this.IntfEntriesLength) 3))}}
+                    <td class="{{if (or (eq (eq this.onuState "O1") (lt idx this.IntfEntriesLength)) (this.disableWAN intf.Name @ipinterface)) "text-muted"}}"
+                    tabindex="0" aria-label="0">
+                      0
+                    </td>
+                  {{/if}}
+                {{/if}}
+              {{/each}}
+              {{#each @nat.InterfaceSetting as |ifs i|}}
+                {{#if (eq ifs.Alias "wan")}}
+                  {{#if (eq ifs.Enable 1)}}
+                    <td class="{{if (or (eq (eq this.onuState "O1") (lt idx this.IntfEntriesLength)) (this.disableWAN intf.Name @ipinterface)) "text-muted"}}"
+                    tabindex="0" aria-label="Enabled">
+                      Enabled
+                    </td>
+                  {{else}}
+                    <td class="{{if (or (eq (eq this.onuState "O1") (lt idx this.IntfEntriesLength)) (this.disableWAN intf.Name @ipinterface)) "text-muted"}}"
+                    tabindex="0" aria-label="Disabled">
+                      Disabled
+                    </td>
+                  {{/if}}
+                {{/if}}
+              {{/each}}
+              <td>
+                <div class="d-flex align-items-center justify-content-between gap-1">
+                  {{#each @ipinterface as |ali aliIdx|}}
+                    {{#if (eq intf.Name ali.Alias)}}
+                      {{#each ali.IPv4Address as |ipv4addr|}}
+                        {{#if (eq ipv4addr.Alias "primary")}}
+                          {{#if (eq ipv4addr.IPAddress "")}}
+                            <div class="{{if (or (eq (eq this.onuState "O1") (lt idx this.IntfEntriesLength)) (this.disableWAN intf.Name @ipinterface)) "text-muted"}}"
+                            tabindex="0" aria-label="Down">
+                              Down
+                            </div>
+                          {{else}}
+                            <div class="{{if (or (eq (eq this.onuState "O1") (lt idx this.IntfEntriesLength)) (this.disableWAN intf.Name @ipinterface)) "text-muted"}}"
+                            tabindex="0" aria-label="Up">
+                              Up
+                            </div>
+                          {{/if}}
+                        {{/if}}
+                      {{/each}}
+                      {{#if this.isSuperAdmin}}
+                        {{#each @ethernetvlantermination as |vlanterm vtid|}}
+                          {{#if (eq vtid 0)}}
+                            {{#if (eq (mod idx this.IntfEntriesLength) 0)}}
+                              <button 
+                               disabled={{(or (eq (eq this.onuState "O1") (lt idx this.IntfEntriesLength)) (this.disableWAN intf.Name @ipinterface))}}
+                               class="btn btn-secondary btn-sm ms-auto py-2 px-3" 
+                              tabindex="0" 
+                              aria-label="{{t "MESSAGES_EDIT_BUTTON"}}" 
+                              {{on "keyup" this.eaactrl.btnClick}}
+                               {{on "click" (fn this.updateSettings vlanterm intf idx)}}>
+                               <i class="bi bi-gear"></i>
+                              </button>
+                            {{/if}}
+                          {{else if (eq vtid 1)}}
+                            {{#if (eq (mod idx this.IntfEntriesLength) 2)}}
+                              <button 
+                              disabled={{(or (eq (eq this.onuState "O1") (lt idx this.IntfEntriesLength)) (this.disableWAN intf.Name @ipinterface))}}
+                              class="btn btn-secondary btn-sm ms-auto py-2 px-3" 
+                              tabindex="0" 
+                              aria-label="{{t "MESSAGES_EDIT_BUTTON"}}" 
+                              {{on "keyup" this.eaactrl.btnClick}}
+                              {{on "click" (fn this.updateSettings vlanterm intf idx)}}>
+                                <i class="bi bi-gear"></i>
+                              </button>
+                            {{/if}}
+                          {{else if (eq vtid 2)}}
+                            {{#if (eq (mod idx this.IntfEntriesLength) 1)}}
+                              <button 
+                              disabled={{(or (eq (eq this.onuState "O1") (lt idx this.IntfEntriesLength)) (this.disableWAN intf.Name @ipinterface))}}
+                              class="btn btn-secondary btn-sm ms-auto py-2 px-3" 
+                              tabindex="0" 
+                              aria-label="{{t "MESSAGES_EDIT_BUTTON"}}" 
+                              {{on "keyup" this.eaactrl.btnClick}}
+                              {{on "click" (fn this.updateSettings vlanterm intf idx)}}>
+                                <i class="bi bi-gear"></i>
+                              </button>
+                            {{/if}}
+                          {{else if (eq vtid 3)}}
+                            {{#if (eq (mod idx this.IntfEntriesLength) 3)}}
+                              <button 
+                              disabled={{(or (eq (eq this.onuState "O1") (lt idx this.IntfEntriesLength)) (this.disableWAN intf.Name @ipinterface))}}
+                              class="btn btn-secondary btn-sm ms-auto py-2 px-3" 
+                              tabindex="0" 
+                              aria-label="{{t "MESSAGES_EDIT_BUTTON"}}" 
+                              {{on "keyup" this.eaactrl.btnClick}}
+                              {{on "click" (fn this.updateSettings vlanterm intf idx)}}>
+                                <i class="bi bi-gear"></i>
+                              </button>
+                            {{/if}}
+                          {{/if}}
+                        {{/each}}
+                        <label class="switch" for="{{this.componentId}}-interface-enable-{{aliIdx}}" tabindex="0" role="button" {{on "keyup" this.eaactrl.onoffTrigger}}>
+                          <Input id="{{this.componentId}}-interface-enable-{{aliIdx}}" tabindex="-1" @type="checkbox" @checked={{(eq ali.Enable 1)}} {{on "change" (fn this.interfaceEnableFunc ali)}} class="form-check-input" disabled={{eq (eq this.onuState "O1") (lt idx this.IntfEntriesLength)}}/>
+                          <span class="slider round"></span>
+                        </label>
+                      {{/if}}
+                    {{/if}}
+                  {{/each}}
+                </div>
+              </td>
+              {{/unless}}
+            </tr>
+          {{/if}}
+        {{/each}}
+      {{!-- {{/each}} --}}
+    </tbody>
+  </table>
+</div>
+
+<BsModal
+  @open={{this.editModalOpen}}
+  @onSubmit={{this.addStaticAddr}}
+  {{!-- @onHidden={{fn (mut this.editModalOpen) false}} --}}
+as |modal|>
+
+  <modal.header>
+    <h4 class="modal-title" tabindex="0" aria-label="{{t 'PAGE_PAGE_WAN_EDIT_INTERNET_CONNECTION'}}">{{t 'PAGE_PAGE_WAN_EDIT_INTERNET_CONNECTION'}}</h4>
+  </modal.header>
+
+  <modal.body>
+    <div class="container-fluid text-start">
+      <div class="container-fluid text-start">
+
+        <div class="row align-items-center">
+          <div class="col" tabindex="0" aria-label="{{t 'PAGE_PAGE_WAN_DESCRIPTION'}}">{{t 'PAGE_PAGE_WAN_DESCRIPTION'}}</div>
+          <div class="col">
+            {{!-- <Input class="form-control" {{on "change" this.changeDescription}} @value={{this.SelectedEntry.Alias}} /> --}}
+            <div tabindex="0" aria-label="{{this.SelectedEntry.Alias}}">{{this.SelectedEntry.Alias}}</div>
+            {{#if this.macAddrMsg}}
+            <div class="invalid-feedback fw-normal d-block" tabindex="0" aria-label="{{this.macAddrMsg}}">
+              {{this.macAddrMsg}}
+            </div>
+            {{/if}}
+          </div>
+        </div>
+
+        {{#each @nat.InterfaceSetting as |is index|}}
+          {{#if (eq this.SelectedVlanTermination.Alias is.Alias)}}
+            <div class="row align-items-center">
+              <div class="col" tabindex="0" aria-label="{{t 'PAGE_PAGE_WAN_NAT_ENABLE'}}">{{t 'PAGE_PAGE_WAN_NAT_ENABLE'}}</div>
+              <div class="col">
+                <label class="switch" for="{{this.componentId}}-wan-nat-enable" tabindex="0" aria-label="{{t 'PAGE_PAGE_WAN_NAT_ENABLE'}}" role="button" {{on "keyup" this.eaactrl.onoffTrigger}}>
+                  <Input id="{{this.componentId}}-wan-nat-enable" tabindex="-1" @type="checkbox" @checked={{is.Enable}} {{on "change" this.changeNATEnable}} class="form-check-input" />
+                  <span class="slider round"></span>
+                </label>
+              </div>
+            </div>
+          {{/if}}
+        {{/each}}
+
+        <div class="row align-items-center">
+          <div class="col" tabindex="0" aria-label="{{t 'PAGE_PAGE_WAN_PRIORITY'}}">{{t 'PAGE_PAGE_WAN_PRIORITY'}}</div>
+          <div class="col">
+            <Input class="form-control {{if this.priorityMsg "is-invalid" ""}}" {{on "change" this.changePriority}} @value={{this.SelectedVlanTermination.VLANPriority}} />
+            {{#if this.priorityMsg}}
+            <div class="invalid-feedback fw-normal d-block" tabindex="0" aria-label="{{this.priorityMsg}}">
+              {{this.priorityMsg}}
+            </div>
+            {{/if}}
+          </div>
+        </div>
+
+        <div class="row align-items-center">
+          <div class="col" tabindex="0" aria-label="{{t 'PAGE_PAGE_WAN_VLAN_ID'}}">{{t 'PAGE_PAGE_WAN_VLAN_ID'}}</div>
+          <div class="col">
+            {{#if (this.isTagged this.SelectedVlanTermination @ppp @ipinterface)}}
+            <Input class="form-control" {{on "change" this.changeVLANID}} @value={{this.SelectedVlanTermination.VLANID}} />
+            {{else}}
+            <Input class="form-control" {{on "input" this.changeVLANID}} @value="0" />
+            {{/if}}
+            {{#if this.vlanIdMsg}}
+            <div class="invalid-feedback fw-normal d-block" tabindex="0" aria-label="{{this.vlanIdMsg}}">
+              {{this.vlanIdMsg}}
+            </div>
+            {{/if}}
+          </div>
+        </div>
+
+        <div class="row align-items-center">
+          <div class="col" tabindex="0" aria-label="{{t 'PAGE_WAN_EDIT_POPUP_CONNECTION_TYPE_OPTION'}}">{{t 'PAGE_WAN_EDIT_POPUP_CONNECTION_TYPE_OPTION'}}</div>
+          <div class="col">
+            {{#if (eq (this.matchConnectionType this.SelectedEntry.IPv4Mode) "DHCP")}}
+              <div tabindex="0" aria-label="DHCP">DHCP</div>
+            {{else if (eq (this.matchConnectionType this.SelectedEntry.IPv4Mode) "PPPoE")}}
+              <div tabindex="0" aria-label="PPPoE">PPPoE</div>
+            {{else if (eq (this.matchConnectionType this.SelectedEntry.IPv4Mode) "None")}}
+              <div tabindex="0" aria-label="None">None</div>
+            {{/if}}
+            {{!-- <div>{{eq (this.matchConnectionType this.SelectedEntry.IPv4Mode) "DHCP" "PPPoE"}}</div> --}}
+            {{!-- <select class="form-select w-100" {{on "change" this.changeConnType}} disabled="true"> --}}
+              {{!-- {{#each this.ipv4Modes as |mode|}} --}}
+                {{!-- <option value="dhcp4" selected={{eq (this.matchConnectionType this.SelectedEntry.IPv4Mode) "DHCP"}}>DHCP</option>
+                <option value="ppp4" selected={{eq (this.matchConnectionType this.SelectedEntry.IPv4Mode) "PPPoE"}}>PPPoE</option> --}}
+              {{!-- {{/each}} --}}
+            {{!-- </select> --}}
+          </div>
+        </div>
+
+
+        {{#if (eq this.SelectedEntry.IPv4Mode "ppp4")}}
+          {{#each @ppp as |inf i|}}
+            {{#if (eq inf.Alias "wan")}}
+              <div {{did-insert (fn this.setPPPEntry inf)}}>
+              <div class="row align-items-center">
+                <div class="col" tabindex="0" aria-label="Username">Username</div>
+                <div class="col">
+                  <Input class="form-control" @id="wan_username" {{on "change" this.changeUsername}}  @value={{inf.Username}} />
+                  {{#if this.userNameMsg}}
+                  <div class="invalid-feedback fw-normal d-block" tabindex="0" aria-label="{{this.userNameMsg}}">
+                    {{this.userNameMsg}}
+                  </div>
+                  {{/if}}
+                </div>
+              </div>
+
+              <div class="row align-items-center">
+                <div class="col" tabindex="0" aria-label="Password">Password</div>
+                <div class="col">
+                  <Input class="form-control" @id="wan_password" {{on "change" this.changePassword}} @type="password" @value={{inf.Password}} />
+                  {{#if this.passwordMsg}}
+                  <div class="invalid-feedback fw-normal d-block" tabindex="0" aria-label="{{this.passwordMsg}}">
+                    {{this.passwordMsg}}
+                  </div>
+                  {{/if}}
+                </div>
+              </div>
+
+              <div class="row align-items-center">
+                <div class="col" tabindex="0" aria-label="{{t 'PAGE_WAN_ADD_POPUP_SERVICE_NAME_OPTION'}}">{{t 'PAGE_WAN_ADD_POPUP_SERVICE_NAME_OPTION'}}</div>
+                <div class="col">
+                  {{!-- <Input class="form-control" {{on "change" this.changeName}} @value={{inf.Name}} /> --}}
+                  <div tabindex="0" aria-label="{{inf.Name}}">{{inf.Name}}</div>
+                  {{#if this.ipAddrMsg}}
+                  <div class="invalid-feedback fw-normal d-block" tabindex="0" aria-label="{{this.ipAddrMsg}}">
+                    {{this.ipAddrMsg}}
+                  </div>
+                  {{/if}}
+                </div>
+              </div>
+
+              <div class="row align-items-center">
+                <div class="col" tabindex="0" aria-label="{{t 'PAGE_WAN_EDIT_POPUP_AUTHENTICATION_METHOD_OPTION'}}">{{t 'PAGE_WAN_EDIT_POPUP_AUTHENTICATION_METHOD_OPTION'}}</div>
+                <div class="col">
+                  {{!-- <select disabled class="form-select w-100" {{on "click" this.changeAuthProtocol}}> --}}
+                  <div tabindex="0" aria-label="{{inf.AuthenticationProtocol}}">{{inf.AuthenticationProtocol}}</div>
+                    {{!-- {{#each this.authMethods as |meth|}}
+                      <option value={{inf.AuthenticationProtocol}} selected={{eq inf.AuthenticationProtocol meth}}>{{meth}}</option>
+                    {{/each}} --}}
+                  {{!-- </select> --}}
+                </div>
+              </div>
+
+              {{!-- <div class="row align-items-center">
+                <div class="col">{{t 'PAGE_WAN_EDIT_POPUP_CONNECTION_TRIGGER_OPTION'}}</div>
+                <div class="col">
+                  <select class="form-select w-100" {{on "change" this.changeConnTrigger}}>
+                    {{#each this.connectionTriggers as |conn|}}
+                      <option value={{inf.ConnectionTrigger}} selected={{eq inf.ConnectionTrigger conn}}>{{conn}}</option>
+                    {{/each}}
+                  </select>
+                </div>
+              </div> --}}
+
+              <div class="row align-items-center">
+                <div class="col" tabindex="0" aria-label="{{t 'PAGE_WAN_EDIT_POPUP_LCP_ECHO_REQUEST_OPTION'}}">{{t 'PAGE_WAN_EDIT_POPUP_LCP_ECHO_REQUEST_OPTION'}}</div>
+                <div class="col">
+                  <Input class="form-control {{if this.echoMsg "is-invalid" ""}}" {{on "change" this.changeLCPRequest}} {{did-insert this.setLCPRequest}} @value={{inf.LCPEcho}} />
+                  {{#if this.echoMsg}}
+                  <div class="invalid-feedback fw-normal d-block" tabindex="0" aria-label="{{this.echoMsg}}">
+                    {{this.echoMsg}}
+                  </div>
+                  {{/if}}
+                </div>
+              </div>
+
+              <div class="row align-items-center">
+                <div class="col" tabindex="0" aria-label="{{t 'PAGE_WAN_EDIT_POPUP_LCP_ECHO_RETRY_OPTION'}}">{{t 'PAGE_WAN_EDIT_POPUP_LCP_ECHO_RETRY_OPTION'}}</div>
+                <div class="col">
+                  <Input class="form-control" {{on "change" this.changeLCPRetry}}  @value={{inf.LCPEchoRetry}} />
+                  {{#if this.ipAddrMsg}}
+                  <div class="invalid-feedback fw-normal d-block" tabindex="0" aria-label="{{this.ipAddrMsg}}">
+                    {{this.ipAddrMsg}}
+                  </div>
+                  {{/if}}
+                </div>
+              </div>
+
+               <div class="row align-items-center">
+                <div class="col" tabindex="0" aria-label="{{t 'PAGE_WAN_EDIT_POPUP_AUTO_DNS_OPTION'}}">{{t 'PAGE_WAN_EDIT_POPUP_AUTO_DNS_OPTION'}}</div>
+                <div class="col">
+                  <label class="switch" for="{{this.componentId}}-dns-enable" tabindex="0" aria-label="{{t 'PAGE_WAN_EDIT_POPUP_AUTO_DNS_OPTION'}}" role="button" {{on "keyup" this.eaactrl.onoffTrigger}}>
+                    <Input id="{{this.componentId}}-dns-enable" tabindex="-1" @type="checkbox" @checked={{this.dnsServerAuto}}  class="form-check-input" {{on "change" (fn this.toggleBtn)}} />
+                    <span class="slider round"></span>
+                  </label>
+                </div>
+              </div>
+              {{#if (not this.dnsServerAutoIsOn)}}
+                <Ui::DnsInput @label={{t "PAGE_WAN_EDIT_POPUP_PRIMARY_DNS_OPTION"}} @value={{this.primaryDns}} @onChange={{this.updatePrimaryDns}}/>
+                <Ui::DnsInput @label={{t "PAGE_WAN_EDIT_POPUP_SECONDARY_DNS_OPTION"}} @value={{this.secondaryDns}} @onChange={{this.updateSecondaryDns}}/>
+              {{/if}}
+
+              {{#each @nat.InterfaceSetting as |is index|}}
+                {{#if (eq is.Alias "wan")}}
+                  <div class="row align-items-center">
+                    <div class="col"/>
+                    <div class="d-flex justify-content-end">
+                      <button class="btn btn-secondary btn-sm ms-auto py-2 px-3" 
+                        tabindex="0"
+                        aria-label="Clone MAC"
+                        {{on 'keyup' this.eaactrl.btnClick}}
+                        {{on "click" (fn this.cloneMac)}}>
+                        Clone MAC
+                      </button>
+                    </div>
+                  </div>
+
+                  <div class="row align-items-center">
+                    <div class="col" tabindex="0" aria-label="{{t 'PAGE_WAN_ADD_POPUP_WAN_MAC_OPTION'}}">{{t 'PAGE_WAN_ADD_POPUP_WAN_MAC_OPTION'}}</div>
+                    <div class="col">
+                      <Input id="mac-clone-textbox" class="form-control {{if this.invalidMacMsg "is-invalid" ""}}"  {{on "change" this.changeMacToClone}} @value={{@clonedmacaddress}}/>
+                      {{#if this.invalidMacMsg}}
+                      <div class="invalid-feedback fw-normal d-block" tabindex="0" aria-label="{{this.invalidMacMsg}}">
+                        {{this.invalidMacMsg}}
+                      </div>
+                      {{/if}}
+                    </div>
+                  </div>
+                {{/if}}
+              {{/each}}
+              {{!-- <div class="row align-items-center">
+                <div class="col">{{t 'PAGE_WAN_ADD_POPUP_MTU'}}</div>
+                <div class="col">
+                  <Input class="form-control" {{on "change" this.changeMTU}} @value={{inf.MaxMRUSize}} />
+                  <div class="invalid-feedback fw-normal d-block">
+                    {{this.ipAddrMsg}}
+                  </div>
+                </div>
+              </div> --}}
+
+              {{!-- <div class="row align-items-center">
+                <div class="col">{{t 'PAGE_WAN_ADD_POPUP_IDLE_TIME'}}</div>
+                <div class="col">
+                  <Input class="form-control" {{on "change" this.changeIdleTime}} @value={{inf.IdleDisconnectTime}} />
+                  <div class="invalid-feedback fw-normal d-block">
+                    {{this.ipAddrMsg}}
+                  </div>
+                </div>
+              </div> --}}
+            </div>
+            {{/if}}
+          {{/each}}
+        {{else if (eq this.SelectedEntry.IPv4Mode "dhcp4")}}
+          {{#each @client as |cli index|}}
+            {{#if (eq (mod this.SelectedIndex 4) index)}}
+              {{#each cli.SentOption as |so idx|}}
+                {{#if (eq so.Tag 12)}}
+                  <div class="row align-items-center">
+                    <div class="col" tabindex="0" aria-label="{{t 'PAGE_WAN_ADD_POPUP_OPTION_12_HOST_NAME_OPTION'}}">{{t 'PAGE_WAN_ADD_POPUP_OPTION_12_HOST_NAME_OPTION'}}</div>
+                    <div class="col">
+                      <Input class="form-control" {{on "change" (fn this.changeHostname so)}} {{did-insert this.getOption12Value}} @value={{so.Value}} />
+                      {{#if this.ipAddrMsg}}
+                      <div class="invalid-feedback fw-normal d-block" tabindex="0" aria-label="{{this.ipAddrMsg}}">
+                        {{this.ipAddrMsg}}
+                      </div>
+                      {{/if}}
+                    </div>
+                  </div>
+                {{/if}}
+
+                {{#if (eq so.Tag 60)}}
+                  <div class="row align-items-center">
+                    <div class="col" tabindex="0" aria-label="{{t 'PAGE_WAN_ADD_POPUP_OPTION_60_VENDOR_ID_OPTION'}}">{{t 'PAGE_WAN_ADD_POPUP_OPTION_60_VENDOR_ID_OPTION'}}</div>
+                    <div class="col">
+                      <Input class="form-control" {{on "change" (fn this.changeVendorID so)}} {{did-insert this.getOption60Value}} @value={{so.Value}} />
+                      {{#if this.ipAddrMsg}}
+                      <div class="invalid-feedback fw-normal d-block" tabindex="0" aria-label="{{this.ipAddrMsg}}">
+                        {{this.ipAddrMsg}}
+                      </div>
+                      {{/if}}
+                    </div>
+                  </div>
+                {{/if}}
+
+                {{!-- {{#if (eq so.Tag 125)}}
+                  <div class="row align-items-center">
+                    <div class="col">{{t 'PAGE_WAN_EDIT_POPUP_OPTION_125_OPTION'}}</div>
+                    <div class="col">
+                      <label class="switch">
+                        <Input @type="checkbox" @checked={{(eq so.Value 1)}} {{on "change" (fn this.change125 so)}} class="form-check-input" />
+                        <span class="slider round"></span>
+                      </label>
+                    </div>
+                  </div>
+                {{/if}} --}}
+              {{/each}}
+            {{/if}}
+          {{/each}}
+        {{/if}}
+
+      </div>
+    </div>
+  </modal.body>
+
+  <modal.footer>
+    <BsButton @onClick={{this.closeEditModal}} {{on "keyup" this.eaactrl.btnCancel}}>{{t 'PAGE_PORT_MAPPING_POPUP_EDIT_CANCEL'}}</BsButton>
+    <BsButton @type="success" @onClick={{this.saveEditModal}} {{on "keyup" this.eaactrl.btnApply}}>{{t 'PAGE_PORT_MAPPING_POPUP_EDIT_SAVE'}}</BsButton>
+  </modal.footer>
+
+</BsModal>
+
+<BsModal
+  @open={{this.modalMacCloneDoneIsOpen}}
+  @onHidden={{fn (mut this.modalMacCloneDoneIsOpen) false}}
+as |modal|>
+
+  <modal.header>
+    <h4 class="modal-title" tabindex="0" aria-label="{{t 'PAGE_PAGE_WAN_CLONE_MAC_APPLIED_TITLE'}}">{{t "PAGE_PAGE_WAN_CLONE_MAC_APPLIED_TITLE"}}</h4>
+  </modal.header>
+  <modal.body>
+    <div class="container-fluid text-start">
+      {{#if this.modalMacCloneText}}
+      <div class="container-fluid text-start" tabindex="0" aria-label="{{this.modalMacCloneText}}">
+        <div>{{this.modalMacCloneText}}</div>
+      </div>
+      {{/if}}
+    </div>
+  </modal.body>
+
+  <modal.footer>
+    <BsButton @onClick={{modal.close}} tabindex="0" aria-label="{{t 'PAGE_OVERVIEW_MODAL_CLOSE'}}" {{on "keyup" this.eaactrl.btnClick}}>{{t "PAGE_OVERVIEW_MODAL_CLOSE"}}</BsButton>
+  </modal.footer>
+
+</BsModal>

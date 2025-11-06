@@ -1,0 +1,46 @@
+          <div class="col-md-6">
+            <div class="row">
+              <div class="col">
+                <label class="fs-5 fw-bold ms-3">
+                  {{@wifi.header}}
+                </label>
+              </div>
+              <div class="col ms-3">
+                <label class="switch">
+                  <Input @type="checkbox" @checked={{(eq @wifi.ssid.Enable 1)}} class="form-check-input" {{on 'input' (fn
+                    this.Toggle @wifi.ssid 'Enable' )}} />
+                  <span class="slider round"></span>
+                </label>
+              </div>
+            </div>
+            {{#if (eq @wifi.ssid.Enable 1)}}
+              <hr>
+              <Wifi::Ssid2 @ssid={{@wifi.ssidChangeSet}} />
+              <hr>
+              <Wifi::Accesspoint::Security2 @security={{@wifi.securityChangeSet}} @show={{@show}}/>
+              {{!--log "show---" @show --}}
+              {{#if @show.accesspoint}}
+                {{#if @wifi.accesspoint}}
+                  <hr>
+                  <Wifi::Accesspoint2 @accesspoint={{@wifi.accesspoint}} />
+                {{/if}}
+              {{/if}}
+              {{#if (eq @show.wps true)}}
+                <hr>
+                <div class="row ps-3 mt-3 ">
+                  <div class="col">
+                    <label>
+                      {{@wifi.enableWpsLabel}}
+                    </label>
+                  </div>
+                  <div class="col">
+                    <label class="switch">
+                      <Input @type="checkbox" @checked={{(eq @wifi.wps.Enable 1)}} class="form-check-input" {{on 'input' (fn
+                        this.Toggle @wifi.wps 'Enable' )}} />
+                      <span class="slider round"></span>
+                    </label>
+                  </div>
+                </div>
+              {{/if}}
+            {{/if}}
+          </div>

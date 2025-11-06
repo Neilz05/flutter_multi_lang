@@ -1,0 +1,18 @@
+<div class="row mb-2">
+  <div class="col-md-12">
+    {{#if @wan_interface.ethernetLink}}
+      {{#if (eq @wan_interface.ethernetLink.Alias "ethernet_wan")}}
+        <span class="conn-status conn-active" tabindex="0" aria-label="{{t 'PAGE_OVERVIEW_ETHER_CONNECTION'}}">{{t 'PAGE_OVERVIEW_ETHER_CONNECTION'}}</span>
+        {{#if @wan_interface.ethernetInterface}}
+          <span tabindex="0" aria-label="{{@wan_interface.ethernetInterface.CurrentBitRate}}Mbps"><img src="/assets/images/icons/arrow-up.gif" alt="Up" class="header-icon"> {{@wan_interface.ethernetInterface.CurrentBitRate}}Mbps</span>
+          <span tabindex="0" aria-label="{{@wan_interface.ethernetInterface.CurrentBitRate}}Mbps"><img src="/assets/images/icons/arrow-down.gif" alt="Down" class="header-icon"> {{@wan_interface.ethernetInterface.CurrentBitRate}}Mbps</span>
+        {{/if}}
+      {{/if}}
+      {{#if (eq @wan_interface.ethernetLink.Alias "eth_xpon")}}
+        <span class="conn-status conn-active" tabindex="0" aria-label="{{t 'PAGE_OVERVIEW_FTTX_CONNECTION'}}">{{t 'PAGE_OVERVIEW_FTTX_CONNECTION'}}</span>
+      {{/if}}
+    {{else}}
+      <span class="conn-status conn-inactive" tabindex="0" aria-label="{{t 'PAGE_OVERVIEW_NO_CONNECTION'}}">{{t 'PAGE_OVERVIEW_NO_CONNECTION'}}</span>
+    {{/if}}
+  </div>
+</div>

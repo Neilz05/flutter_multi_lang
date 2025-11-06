@@ -1,0 +1,48 @@
+<div class="row align-items-center">
+  <div class="col text-start fw-bold ms-3" tabindex="0" aria-label="{{t 'PAGE_RINGING_SCHEDULE_EDIT_POPUP_TIME_FRAME'}}">{{t 'PAGE_RINGING_SCHEDULE_EDIT_POPUP_TIME_FRAME'}}</div>
+
+  <div class="col-8 d-flex flex-column align-items-end">
+    {{!-- Static Dropdown --}}
+    <select
+      class="form-select w-100"
+      {{on "change" this.updateDayFromSelect}}
+    >
+      <option value="individual_days" selected={{eq this.modelTimeFrame "individual_days"}}>{{t 'PAGE_RINGING_SCHEDULE_EDIT_POPUP_OPTION_INDIVIDUAL_DAYS'}}</option>
+      <option value="every_day" selected={{eq this.modelTimeFrame "every_day"}}>{{t 'PAGE_RINGING_SCHEDULE_EDIT_POPUP_OPTION_EVERY_DAY'}}</option>
+      <option value="every_workday" selected={{eq this.modelTimeFrame "every_workday"}}>{{t 'PAGE_RINGING_SCHEDULE_EDIT_POPUP_EVERY_WORKDAY'}}</option>
+      <option value="all_weekend" selected={{eq this.modelTimeFrame "all_weekend"}}>{{t 'PAGE_RINGING_SCHEDULE_EDIT_POPUP_OPTION_ALL_WEEKEND'}}</option>
+    </select>
+
+    {{!-- Show days checkboxes only when individual_days --}}
+    {{#if (eq this.modelTimeFrame "individual_days")}}
+      <div class="row mt-2">
+        {{#each this.staticDays as |day|}}
+          <div class="col-6">
+            <label class="form-check-label d-flex align-items-start gap-1">
+              <input
+                class="form-check-input"
+                type="checkbox"
+                id={{day}}
+                value={{day}}
+                checked={{this.isSelected day}}
+                {{!-- checked={{includes day (split (changeset-get @modelChangeset (concat "parameters." @param)) ",")}} --}}
+                {{on "change" this.toggleDays}}
+                tabindex="0"
+                aria-label="{{this.capitalize day}}"
+                {{on "keyup" this.eaactrl.checkboxTrigger}}
+              >
+              <label class="form-check-label" for={{day}}>
+                {{this.capitalize day}}
+              </label>
+            </label>
+          </div>
+        {{/each}}
+      </div>
+    {{/if}}
+
+    {{!-- Validation errors --}}
+    {{#each (get @modelChangeset.error.parameters (concat @param ".validation")) as |message|}}
+      <div class="invalid-feedback" tabindex="0" aria-label="{{message}}">{{message}}</div>
+    {{/each}}
+  </div>
+</div>

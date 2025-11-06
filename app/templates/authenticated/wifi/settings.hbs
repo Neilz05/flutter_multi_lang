@@ -1,0 +1,39 @@
+{{page-title "Settings"}}
+
+<div class="card mb-3">
+  <div class="card-header sc">
+    <h1 tabindex="0" aria-label="{{t 'PAGE_SETTINGS_TITLE'}}">{{t 'PAGE_SETTINGS_TITLE'}}</h1>
+  </div>
+  <div class="card-body">
+    <p tabindex="0" aria-label="{{t 'PAGE_SETTINGS_DESCRIPTION'}}">{{t 'PAGE_SETTINGS_DESCRIPTION'}}</p> 
+  </div>
+</div>
+
+<Wifi::Settings @radio={{this.Wl1WiFi}} @componentId="W1" @onError={{this.updateComponentErrors}} @registerComponentFunction={{this.registerClearErrors}}/>
+<Wifi::Settings @radio={{this.Wl0WiFi}} @componentId="W0" @onError={{this.updateComponentErrors}} @registerComponentFunction={{this.registerClearErrors}}/>
+{{#if this.Wl2WiFi}}
+  <Wifi::Settings @radio={{this.Wl2WiFi}} @componentId="W2" @onError={{this.updateComponentErrors}} @registerComponentFunction={{this.registerClearErrors}}/>
+{{/if}}
+
+
+<div class="d-flex justify-content-end">
+  <button
+    type="button"
+    class="btn btn-primary"
+    style="width: fit-content;"
+    {{on "click" this.updateWiFiSettings}}
+    {{on 'keyup' this.eaactrl.btnApply}}
+    disabled={{unless this.hasChanges "disabled"}}
+  >
+    {{t 'PAGE_SETTINGS_APPLY'}}
+  </button>
+  <button
+    type="button"
+    class="btn btn-secondary ms-2"
+    style="width: fit-content;"
+    {{on "click" this.cancelWifiSettings}}
+    {{on 'keyup' this.eaactrl.btnCancel}}
+  >
+    {{t 'PAGE_SETTINGS_CANCEL'}}
+  </button>
+</div>

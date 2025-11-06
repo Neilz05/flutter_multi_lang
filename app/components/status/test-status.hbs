@@ -1,0 +1,11 @@
+{{#each @omci.Gem as |gem index|}} 
+    <div class="col-2">{{gem.GemPortId}}</div>
+    <div class="col-2">{{gem.GemDir}}</div>
+    <div class="col-2">{{gem.GemType}}</div>
+    <div class="col-1">{{gem.GemTcontID}}</div>
+    <div class="col-1">{{gem.Stats.GemTxFrames}}</div>
+    <div class="col-1">{{gem.Stats.GemTxBytes}}</div>
+    <div class="col-1">{{gem.Stats.GemRxFrames}}</div>
+    <div class="col-1">{{gem.Stats.GemRxDisFrames}}</div>
+    <div class="col-1">{{gem.Stats.GemRxBytes}}</div>
+{{/each}}

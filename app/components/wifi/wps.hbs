@@ -1,0 +1,44 @@
+<Ui::CardSection >
+    <Ui::Row @left={{t 'PAGE_WPS_WPS_FUNCTION'}} class="wps-func-style">
+    <label class="switch" for="{{this.componentId}}-wps-enable" tabindex="0" aria-label="{{t 'PAGE_WPS_WPS_FUNCTION'}}" role="button" {{on "keyup" this.eaactrl.onoffTrigger}}>
+    <input id="{{this.componentId}}-wps-enable" class="ember-checkbox ember-view form-check-input" tabindex="-1"
+        type="checkbox"
+        {{on "change" this.setWpsEnable}}
+        checked={{this.getWpsEnable}}
+    >
+    <span class="slider round"></span>
+    </label>
+  </Ui::Row>
+
+{{!-- {{#if this.wpsEnable}} --}}
+  <Ui::CardSection @title={{t 'PAGE_WPS_WPS_PBC'}} @subtitle={{t 'PAGE_WPS_TO_PAIR_YOUR_DEVICE'}}>
+    <Ui::Row @left={{t 'PAGE_WPS_PAIR_WITHIN_2_MINUTES_2'}}>
+      <button tabindex="0" aria-label="{{t 'PAGE_WPS_BUTTON_PAIR'}}" type="button" class="button btn btn-light btn-sm" {{on "click" this.pairDevice}}>{{t 'PAGE_WPS_BUTTON_PAIR'}}</button>
+    </Ui::Row>
+  </Ui::CardSection>
+{{!-- {{/if}} --}}
+
+</Ui::CardSection>
+
+<BsModal @open={{this.modalIsOpen}} @onHide={{this.closeModal}} @backdropClose={{false}} as |Modal|>
+  <Modal.header>
+    <h4 class="modal-title" tabindex="0" aria-label="{{t 'PAGE_WPS_POPUP_TITLE'}}"><i class="glyphicon glyphicon-alert"></i>{{t 'PAGE_WPS_POPUP_TITLE'}}</h4>
+  </Modal.header>
+
+  <Modal.body class="pairing" tabindex="0" aria-label="{{this.pairingStatus}}{{this.pairingMsg}}">
+    {{this.pairingStatus}}
+    <br><br>
+    {{this.pairingMsg}}
+    {{#if this.isLoading}}
+      <Ui::Loader/>
+    {{/if}}
+  </Modal.body>
+  
+  <Modal.body class="error">
+      Error: {{this.errorCode}}
+  </Modal.body>
+
+  <Modal.footer as |footer|>
+    <BsButton @onClick={{this.cancelPairing}} @type="Light" tabindex="0" aria-label="{{t 'PAGE_WPS_CANCEL'}}">{{t 'PAGE_WPS_CANCEL'}}</BsButton>
+  </Modal.footer>
+</BsModal>

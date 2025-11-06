@@ -1,0 +1,7 @@
+<div class="subsubmenu">
+  <ul>  
+    <li class="{{if (eq this.subsubmenuTab 'gpon-debug') 'subsubmenu-active'}}" {{on 'click' (fn this.setSubsubmenuTab 'gpon-debug')}}>GPON Debug</li>
+    <li class="{{if (eq this.subsubmenuTab 'voip-diag') 'subsubmenu-active'}}" {{on 'click' (fn this.setSubsubmenuTab 'voip-diag')}}>VOIP Diagnostics</li>
+    <li class="{{if (eq this.subsubmenuTab 'debug-log') 'subsubmenu-active'}}" {{on 'click' (fn this.setSubsubmenuTab 'debug-log')}}>Debug Log</li>
+  </ul>
+</div>

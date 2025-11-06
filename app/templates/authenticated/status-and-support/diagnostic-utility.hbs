@@ -1,0 +1,207 @@
+{{page-title "Diagnostic Utility"}}
+
+<div class="card mb-3">
+  <div class="card-header sc">
+    <label class="fs-4 fw-bold ms-3" tabindex="0" aria-label="{{t 'PAGE_DIAGNOSTIC_UTILITY_TITLE'}}">
+      {{t 'PAGE_DIAGNOSTIC_UTILITY_TITLE'}}
+    </label>
+  </div>
+  <div class="card-body">
+    <p class="ms-3" tabindex="0" aria-label="{{t 'PAGE_DIAGNOSTIC_UTILITY_SUBTITLE'}}">
+      {{t 'PAGE_DIAGNOSTIC_UTILITY_SUBTITLE'}}
+    </p>
+  </div>
+</div>
+
+<div class="card mb-3">
+  <div class="card-header sc">
+    <label class="ms-3" tabindex="0" aria-label="{{t 'PAGE_DIAGNOSTIC_UTILITY_PING_TEST'}}">
+      {{t 'PAGE_DIAGNOSTIC_UTILITY_PING_TEST'}}
+    </label>
+  </div>
+  <div class="card-body">
+    <div class="row">
+      <p class="ms-3" tabindex="0" aria-label="{{t 'PAGE_DIAGNOSTIC_UTILITY_PING_TEST_TEXT'}}">
+        {{t 'PAGE_DIAGNOSTIC_UTILITY_PING_TEST_TEXT'}}
+      </p>
+    </div>
+    <div class="row ms-3">
+      <div class="col-md-6">
+        <div class="row mb-2">
+          <Input id="pingIp" class="form-control" type="text" tabindex="0" aria-label="Ping IP Input" />
+          {{#unless this.validIp}}
+            <div class="invalid-feedback fw-normal d-block errMsg" tabindex="0" aria-label="{{t 'PAGE_DIAGNOSTIC_UTILITY_PING_TEST_TEXT'}}">
+              {{t 'PAGE_DIAGNOSTIC_UTILITY_PING_TEST_TEXT'}}
+            </div>
+          {{/unless}}
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="row mb-2" style="margin-left: 1rem;">
+          <button
+            type="button"
+            class="btn btn-primary"
+            style="width: fit-content;"
+            {{on "click" this.openPingModal}}
+            {{on "keyup" this.eaactrl.btnTrigger}}
+            tabindex="0"
+            aria-label="{{t 'PAGE_DIAGNOSTIC_UTILITY_PING'}}"
+          >
+            {{t 'PAGE_DIAGNOSTIC_UTILITY_PING'}}
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="card mb-3">
+  <div class="card-header sc"><label class="ms-3">{{t 'PAGE_DIAGNOSTIC_UTILITY_TRACING_TOOL'}}</label></div>
+  <div class="card-body" style="margin-right: 1rem;">
+    {{#if (eq this.tracingToolDiagState "Requested")}}
+      <div class="alert alert-info fw-normal d-block" role="alert" tabindex="0" aria-label="{{t 'PAGE_DIAGNOSTIC_UTILITY_POPUP_TRACING_TOOL_RUNNING'}}">
+        <div class="row ms-3">
+          <div class="col-md-9">
+            {{t 'PAGE_DIAGNOSTIC_UTILITY_POPUP_TRACING_TOOL_RUNNING'}}
+          </div>
+          <div class="col-md-3"><button type="button" class="btn btn-primary" {{on "click" this.stopTracingTool}}>{{t 'PAGE_DIAGNOSTIC_UTILITY_STOP'}}</button></div>
+        </div>
+      </div>
+    {{/if}}
+    <div class="row"><p class="ms-3">{{t 'PAGE_DIAGNOSTIC_UTILITY_TRACING_TOOL_TEXT'}}</p></div>
+    <div class="row ms-3">
+      <div class="col-md-6">
+        <div class="row mb-2">
+          {{t "PAGE_DIAGNOSTIC_UTILITY_CONNECTION_TYPE"}}
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="row mb-2">
+          <select class="form-select" {{on "change" (fn this.updateTracingToolSelect)}}>
+            <option value="" selected={{eq "" this.model.packetcapturediag.Interface}}></option>
+            {{#each @model.ip.Interface as |intf|}}
+              {{#unless (eq intf.Name "")}}
+                <option value={{concat "Device." intf.id}} selected={{eq (concat "Device." intf.id) this.model.packetcapturediag.Interface}}>{{intf.Name}}</option>
+              {{/unless}}
+            {{/each}}
+          </select>
+        </div>
+      </div>
+    </div>
+    {{#if this.tracingToolErr}}
+      <div class="row ms-3">
+        <div class="col-md-12">
+          <div class="alert alert-danger fw-normal d-block errMsg" role="alert" tabindex="0" aria-label="{{t 'PAGE_DIAGNOSTIC_UTILITY_TRACING_TOOL_ERROR'}}">
+            {{t 'PAGE_DIAGNOSTIC_UTILITY_TRACING_TOOL_ERROR'}}
+          </div>
+        </div>
+      </div>
+    {{/if}}
+    <div class="row ms-3">
+      <div class="col-md-6"></div>
+      <div class="col-md-6"><button type="button" class="btn btn-primary" {{on "click" this.openTracingToolModal}}>{{t 'PAGE_DIAGNOSTIC_UTILITY_START'}}</button></div>
+    </div>
+  </div>
+</div>
+
+<BsModal
+  @open={{this.pingModalOpen}}
+  @onSubmit={{this.reloadPage}}
+  {{!-- @onHidden={{fn (mut this.editModalOpen) false}} --}}
+  @onHide={{this.reloadPage}}
+as |modal|>
+
+  <modal.header>
+    {{#if this.pingError}}
+      <h4 class="modal-title" tabindex="0" aria-label="{{t 'PAGE_DIAGNOSTIC_UTILITY_PING_TEST_FAILED'}}">
+        {{t 'PAGE_DIAGNOSTIC_UTILITY_PING_TEST_FAILED'}}
+      </h4>
+    {{else}}
+      <h4 class="modal-title" tabindex="0" aria-label="{{t 'PAGE_DIAGNOSTIC_UTILITY_PING_TEST_SUCCESS'}}">
+        {{t 'PAGE_DIAGNOSTIC_UTILITY_PING_TEST_SUCCESS'}}
+      </h4>
+    {{/if}}
+  </modal.header>
+
+  <modal.body>
+    <div class="container-fluid text-start">
+      <div class="container-fluid text-start">
+        {{#if this.pingError}}
+          <div class="alert alert-danger" role="alert" tabindex="0" aria-label="{{t 'PAGE_DIAGNOSTIC_UTILITY_PING_TEST_ERROR'}}">
+            {{t 'PAGE_DIAGNOSTIC_UTILITY_PING_TEST_ERROR'}}
+          </div>
+        {{else}}
+          <div class="row align-items-center" tabindex="0" aria-label="IPv4 Address: {{this.pingResult.IPAddress}}">
+            <div class="col">IPv4 Address</div>
+            <div class="col">{{this.pingResult.IPAddress}}</div>
+          </div>
+          <div class="row align-items-center" tabindex="0" aria-label="Packet Success Rate: {{this.pingResult.succRate}}">
+            <div class="col">Packet Success Rate</div>
+            <div class="col">{{this.pingResult.succRate}}</div>
+          </div>
+          <div class="row align-items-center" tabindex="0" aria-label="Packet Size: {{this.pingResult.packetSize}}">
+            <div class="col">Packet Size</div>
+            <div class="col">{{this.pingResult.packetSize}}</div>
+          </div>
+          <div class="row align-items-center" tabindex="0" aria-label="Average Roundtrip Time: {{this.pingResult.avgTime}}">
+            <div class="col">Average Roundtrip Time</div>
+            <div class="col">{{this.pingResult.avgTime}}</div>
+          </div>
+        {{/if}}
+      </div>
+    </div>
+  </modal.body>
+
+  <modal.footer>
+    <BsButton
+      @onClick={{modal.submit}}
+      tabindex="0"
+      aria-label="OK"
+      {{on "keyup" this.eaactrl.btnTrigger}}
+    >
+      OK
+    </BsButton>
+    {{!-- <BsButton @onClick={{modal.close}}>{{t 'PAGE_PORT_MAPPING_POPUP_EDIT_CANCEL'}}</BsButton> --}}
+    {{!-- <BsButton @type="success" @onClick={{modal.submit}}>{{t 'PAGE_PORT_MAPPING_POPUP_EDIT_SAVE'}}</BsButton> --}}
+  </modal.footer>
+
+</BsModal>
+
+<BsModal
+  @open={{this.tracingToolModalOpen}}
+  @onSubmit={{modal.close}}
+  @onHide={{modal.close}}
+as |modal|>
+
+  <modal.header>
+    <h4 class="modal-title" tabindex="0" aria-label="{{t 'PAGE_DIAGNOSTIC_UTILITY_TRACING_TOOL_IN_PROGRESS'}}">
+      {{t 'PAGE_DIAGNOSTIC_UTILITY_TRACING_TOOL_IN_PROGRESS'}}
+    </h4>
+  </modal.header>
+
+  <modal.body>
+    <div class="container-fluid text-start">
+      <div class="container-fluid text-start">
+        <div class="row align-items-center" tabindex="0">
+          <p>{{t 'PAGE_DIAGNOSTIC_UTILITY_TRACING_TOOL_POPUP_1'}}</p>
+          <p>{{t 'PAGE_DIAGNOSTIC_UTILITY_TRACING_TOOL_POPUP_2'}}</p>
+        </div>
+      </div>
+      <div class="row justify-content-center align-items-center" tabindex="0">
+        <img src="/assets/images/icon-thinking.gif" alt="Loading" style="width: auto; height: auto;"/>
+      </div>
+    </div>
+  </modal.body>
+
+  <modal.footer>
+    <BsButton
+      @onClick={{modal.close}}
+      tabindex="0"
+      aria-label="OK"
+      {{on "keyup" this.eaactrl.btnTrigger}}
+    >
+      OK
+    </BsButton>
+  </modal.footer>
+
+</BsModal>

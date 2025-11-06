@@ -1,0 +1,36 @@
+<div class="table-responsive">
+  <table class="table table-bordered">
+    <thead>
+      <tr>
+        <th scope="col" tabindex="0" aria-label={{t "PAGE_LAN_STATUS_INTERFACE"}}>{{t "PAGE_LAN_STATUS_INTERFACE"}}</th>
+        <th scope="col" tabindex="0" aria-label={{t "PAGE_WAN_STATUS_RECEIVED_BYTES"}}>{{t "PAGE_WAN_STATUS_RECEIVED_BYTES"}}</th>
+        <th scope="col" tabindex="0" aria-label={{t "PAGE_LAN_STATUS_STATS_PACKETS"}}>{{t "PAGE_LAN_STATUS_STATS_PACKETS"}}</th>
+        <th scope="col" tabindex="0" aria-label={{t "PAGE_LAN_STATUS_STATS_ERRORS"}}>{{t "PAGE_LAN_STATUS_STATS_ERRORS"}}</th>
+        <th scope="col" tabindex="0" aria-label={{t "PAGE_LAN_STATUS_STATS_DROPS"}}>{{t "PAGE_LAN_STATUS_STATS_DROPS"}}</th>
+        <th scope="col" tabindex="0" aria-label={{t "PAGE_WAN_STATUS_TRANSFORMED_BYTES"}}>{{t "PAGE_WAN_STATUS_TRANSFORMED_BYTES"}}</th>
+        <th scope="col" tabindex="0" aria-label={{t "PAGE_LAN_STATUS_STATS_PACKETS"}}>{{t "PAGE_LAN_STATUS_STATS_PACKETS"}}</th>
+        <th scope="col" tabindex="0" aria-label={{t "PAGE_LAN_STATUS_STATS_ERRORS"}}>{{t "PAGE_LAN_STATUS_STATS_ERRORS"}}</th>
+        <th scope="col" tabindex="0" aria-label={{t "PAGE_LAN_STATUS_STATS_DROPS"}}>{{t "PAGE_LAN_STATUS_STATS_DROPS"}}</th>
+      </tr>
+    </thead>
+    <tbody class="border border-top">
+      {{#each this.lans as |iface i|}}
+        {{#if (not iface.Upstream null)}}
+          {{#if (eq iface.Upstream 0)}}
+            <tr>
+              <td tabindex="0" aria-label="LAN{{add i 1}}">LAN{{add i 1}}</td>
+              <td tabindex="0" aria-label={{iface.Stats.BytesReceived}}>{{iface.Stats.BytesReceived}}</td>
+              <td tabindex="0" aria-label={{iface.Stats.PacketsReceived}}>{{iface.Stats.PacketsReceived}}</td>
+              <td tabindex="0" aria-label={{iface.Stats.ErrorsReceived}}>{{iface.Stats.ErrorsReceived}}</td>
+              <td tabindex="0" aria-label={{iface.Stats.DiscardPacketsReceived}}>{{iface.Stats.DiscardPacketsReceived}}</td>
+              <td tabindex="0" aria-label={{iface.Stats.BytesSent}}>{{iface.Stats.BytesSent}}</td>
+              <td tabindex="0" aria-label={{iface.Stats.PacketsSent}}>{{iface.Stats.PacketsSent}}</td>
+              <td tabindex="0" aria-label={{iface.Stats.ErrorsSent}}>{{iface.Stats.ErrorsSent}}</td>
+              <td tabindex="0" aria-label={{iface.Stats.DiscardPacketsSent}}>{{iface.Stats.DiscardPacketsSent}}</td>
+            </tr>
+          {{/if}}
+        {{/if}}
+      {{/each}}
+    </tbody>
+  </table>
+</div>

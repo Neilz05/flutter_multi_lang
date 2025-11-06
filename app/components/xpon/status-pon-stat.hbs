@@ -1,0 +1,16 @@
+                {{!-- <div class="col-md-3"><strong>Frame Up   </strong>{{@sentFrame.PM.FramesReceived}}</div> --}}
+                 {{!-- <div class="col-md-3"><strong>Frame Down   </strong>{{@sentFrame.PM.FramesSent}}</div> --}}
+
+<div class="row mb-2">
+    <div class="col-md-4"><strong>Frame Up</strong></div>
+    <div class="col-md-4"><strong>Frame Down</strong></div>
+    <div class="col-md-4"><strong>OMCI Frames</strong></div>
+</div>                
+<div class="row mb-2">
+    {{#each @ani.TC.GEM.Port as |pm|}}      
+        <div class="col-md-4">{{pm.PM.FramesSent}}</div>
+        <div class="col-md-4">{{pm.PM.FramesReceived}}</div>
+    {{/each}}
+    <Xpon::StatusOmci @baseMsg={{@ani.TC.PM.OMCI.BaselineMessagesReceived}} @extMsg={{@ani.TC.PM.OMCI.ExtendedMessagesReceived}} />
+</div>  
+        

@@ -1,0 +1,21 @@
+<BsNavbar @type="dark" @backgroundColor="dark" class="main_bsnavbar" key={{this.refreshKey}} as |navbar|>
+    <LinkTo @route="authenticated.dashboard" class="navbar-brand"><div class="logo" tabindex="-1" aria-label="logo"><span class="label">prpl</span></div></LinkTo>
+    <navbar.toggle />
+    <navbar.content>
+        <navbar.nav as |nav|>
+            {{#each @menu as |menuobj index|}}
+            {{#if (@isMenuItemShow menuobj)}}
+            <nav.item>
+                <nav.link-to 
+                    class="{{this.checkIsInMenu menuobj}}" 
+                    @route={{menuobj.route}} 
+                    {{on 'click' (fn @activeTopMenu menuobj )}} 
+                    {{on 'click' this.refreshNavigation}}>
+                    {{t menuobj.str}}
+                </nav.link-to>
+            </nav.item>
+            {{/if}}
+            {{/each}}                   
+        </navbar.nav>
+    </navbar.content>
+</BsNavbar>

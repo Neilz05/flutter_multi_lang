@@ -1,0 +1,59 @@
+<div class="configuration-page">
+  <h1>Configuration</h1>
+  <p>
+    Save your settings, restore previously saved settings, and reset your Router to its factory state.
+    <br />
+    Your Router can save your configuration to a computer. We recommend to always save your last changed settings to a computer.
+  </p>
+
+  <div class="configuration-section">
+    <h2>Configuration</h2>
+    <div class="configuration-options">
+      <div class="option">
+        <span>Save settings to computer</span>
+        <button class="btn btn-primary" {{on "click" this.showSaveModal}}>Save</button>
+      </div>
+      <div class="option">
+        <span>Restore settings from a configuration saved on a computer</span>
+        <button class="btn btn-primary">Load</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="factory-settings-section">
+    <h2>Factory Settings</h2>
+    <div class="option">
+      <span>
+        Reset restores the factory default settings of your Router and forces a restart.
+      </span>
+      <button class="btn btn-danger">Reset</button>
+    </div>
+  </div>
+    <div class="modal-overlay">
+      <div class="modal">
+        <h2>Save Configuration to Computer</h2>
+        <label for="comment">Please add a comment describing this configuration:</label>
+        <textarea id="comment"></textarea>
+
+        <label for="password">Password:</label>
+        <input type="password" id="password" />
+
+        <label for="repassword">Re-enter Password:</label>
+        <input type="password" id="repassword" />
+
+        <p>Password Strength: <span class="weak">Very Weak</span></p>
+
+        <p class="info">
+          For security reasons, it is recommended to use a combination of lowercase and uppercase letters, numbers, and the following special characters: ~ ! @ # $ % ^ _.
+        </p>
+
+        <button class="btn-success" {{on "click" this.saveConfiguration}}>Save</button>
+        <button class="btn-cancel" {{on "click" this.closeModal}}>Cancel</button>
+      </div>
+    </div>
+  {{!-- Modal --}}
+  {{log this.isSaveModalVisible}} 
+  {{#if this.isSaveModalVisible}}
+
+  {{/if}}
+</div>

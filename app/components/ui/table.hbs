@@ -1,0 +1,91 @@
+<div class="container-fluid table-responsive">
+  <table class="table">
+    <thead>
+      <tr>
+        {{#each @columns as |col|}}
+          {{#if (eq col.type "actions")}}
+            <th scope="col" class="text-end px-2" tabindex="-1"></th>
+          {{else}}
+          <th scope="col" class="text-nowrap px-2" tabindex="0" aria-label="{{col.header}}">{{col.header}}</th>
+          {{/if}}
+        {{/each}}
+      </tr>
+    </thead>
+
+    <tbody class="table-group-divider">
+      {{#if (and @rows (gt @rows.length 0))}}
+        {{#each @rows key="id" as |row idx|}}
+          <tr class="align-middle text-secondary">
+            {{#each @columns as |col|}}
+              <td>
+                {{!-- === HANDLE CELL TYPES === --}}
+                {{#if (eq col.type "toggle")}}
+                  <div class="d-flex gap-3 justify-content-start">
+                    <span tabindex="0" aria-label="{{get row col.key}}">{{get row col.key}}</span>
+                    {{#if @onToggle}}
+                      <label class="switch" for="{{this.componentId}}-switch-{{idx}}" role="button" {{on "keyup" this.eaactrl.onoffTrigger}} tabindex="0">
+                        <input 
+                          id="{{this.componentId}}-switch-{{idx}}"
+                          tabindex="-1"
+                          type="checkbox" 
+                          checked={{eq (get row col.key) "Enabled"}}    
+                          class="form-check-input"
+                          role="button"
+                          {{on "change" @onToggle}}
+                        >
+                        <span class="slider round"></span>
+                      </label>
+                    {{/if}}
+                  </div>
+                {{else if (eq col.type "input-field")}}
+                    <input 
+                      type="text" 
+                      class="form-control" 
+                      value={{get row col.key}} 
+                      {{on "input" (fn @onInputChange idx col.key)}}
+                    >
+                {{else if (eq col.type "actions")}}
+                  <div class="d-flex gap-1 justify-content-end w-auto">
+                    {{#if @onEdit}}
+                      <button class="btn btn-secondary btn-sm py-2 px-3" {{on "click" (fn this.onEdit row)}} {{on "keyup" this.eaactrl.btnClick}} tabindex="0"  aria-label="{{t "MESSAGES_EDIT_BUTTON"}}" >
+                        <i class="bi bi-gear"></i>
+                      </button>
+                    {{/if}}
+                    {{#if @onDelete}}
+                      <button class="btn btn-danger btn-sm py-2 px-3" {{on "click" (fn this.onDelete row)}} {{on "keyup" this.eaactrl.btnClick}} tabindex="0" aria-label="{{t "MESSAGES_DELETE_BUTTON"}}">
+                        <i class="bi bi-trash"></i>
+                      </button>
+                    {{/if}}
+                  </div>
+                {{else if (eq col.type "status")}}
+                  {{#if (eq (get row col.key) 1)}}
+                    <span tabindex="0" aria-label="{{t "STATUS_ENABLED"}}">{{t "STATUS_ENABLED"}}</span>
+                  {{else}}
+                    <span tabindex="0" aria-label="{{t "STATUS_DISABLED"}}">{{t "STATUS_DISABLED"}}</span>
+                  {{/if}}
+                {{else}}
+                  <span tabindex="0" aria-label="{{get row col.key}}">{{get row col.key}}</span>
+                {{/if}}
+              </td>
+            {{/each}}
+          </tr>
+        {{/each}}
+      {{else}}
+         <tr class="align-middle">
+              <td colspan="5" class="text-center text-muted">
+                  <i tabindex="0" aria-label="{{t 'PAGE_SCHEDULE_TABLE_NO_ENTRIES_FOUND'}}">{{t 'PAGE_SCHEDULE_TABLE_NO_ENTRIES_FOUND'}}</i>
+              </td>
+          </tr>
+      {{/if}}
+    </tbody>
+  </table>
+</div>
+{{#if @onAdd}}
+  <div class="row align-items-center justify-content-end px-3">
+    <div class="col flex-grow-0">
+      <button class="btn btn-primary px-2 py-1" type="button" {{on "click" @onAdd}} tabindex="0" aria-label="{{t 'MESSAGES_ADD_BUTTON'}}" {{on "keyup" this.eaactrl.btnClick}}>
+        <i class="bi bi-plus-square fs-5"></i>
+      </button>
+    </div>
+  </div>
+{{/if}}

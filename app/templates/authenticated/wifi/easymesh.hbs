@@ -1,0 +1,25 @@
+{{page-title "Easy Mesh"}}
+
+<div class="card mb-3">
+    <div class="card-header sc">
+        <label class="fs-4 fw-bold ms-3" tabindex="0" aria-label="{{t 'PAGE_EASY_MESH_TITLE'}}">{{t 'PAGE_EASY_MESH_TITLE'}}</label>
+    </div>
+    <div class="card-body">
+        <div class="row py-1 ps-3">
+            <div class="col">
+                <label tabindex="0" aria-label="{{t 'PAGE_EASY_MESH_ENABLE'}}">{{t 'PAGE_EASY_MESH_ENABLE'}}</label>
+            </div>
+            <div class="col">
+                <label class="switch" for="easymesh-enable" tabindex="0" aria-label="{{t 'PAGE_EASY_MESH_ENABLE'}}" role="button" {{on "keyup" this.eaactrl.onoffTrigger}}>
+                <Input id="easymesh-enable" tabindex="-1" @type="checkbox" class="form-check-input" @checked={{this.easyMeshEnabled}}/>
+                <span class="slider round"></span>
+                </label>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="d-flex justify-content-end">
+  <button type="button" class="btn btn-primary" style="width: fit-content;" {{on "click" this.updateWiFiEasyMesh}} {{on "keyup" this.eaactrl.btnApply}} disabled={{unless this.hasChanges "disabled"}}>{{t 'PAGE_SETTINGS_APPLY'}}</button>
+  <button type="button" class="btn btn-secondary ms-2" style="width: fit-content;" onClick={{this.cancelEasyMesh}} {{on "keyup" this.eaactrl.btnCancel}}>{{t 'PAGE_SETTINGS_CANCEL'}}</button>
+</div>

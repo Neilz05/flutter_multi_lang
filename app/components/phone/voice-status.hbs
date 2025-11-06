@@ -1,0 +1,78 @@
+<div class="card mb-3">
+  <div class="card-header">{{t 'PAGE_VOICE_STATUS_TITLE'}}</div>
+  <div class="card-body">
+    <p>{{t 'PAGE_VOICE_STATUS_SUBTITLE'}}</p>
+  </div>
+</div>
+
+<div class="card mb-3">
+  <div class="card-header">{{t 'PAGE_VOICE_STATUS_YOUR_PHONE_NUMBERS'}}</div>
+  <div class="card-body">
+    <!-- Header Row -->
+    <div class="row"
+      style="border-bottom: 1px solid #ccc; padding-bottom: 10px; margin-bottom: 10px; font-weight: bold;">
+      <div class="col-4">
+        <p>{{t 'PAGE_VOICE_STATUS_NUMBERS_TABLE_PHONE_NUMBER'}}</p>
+      </div>
+      <div class="col-4">
+        <p>{{t 'PAGE_VOICE_STATUS_NUMBERS_TABLE_NAME'}}</p>
+      </div>
+      <div class="col-4">
+        <p>{{t 'PAGE_VOICE_STATUS_NUMBERS_TABLE_STATUS'}}</p>
+      </div>
+    </div>
+    <!-- Data Rows -->
+
+    <div class="row" style="padding: 10px 0; border-bottom: 1px solid #eee;">
+      <!-- Phone Number -->
+      <div class="col-4">
+        {{#each @voicestatus.VoiceService as |voiceService|}}
+        {{!-- First loop for Clients --}}
+        {{#each voiceService.SIP.Client as |client index|}}
+        <p>{{client.AuthUserName}}</p>
+        {{/each}}
+        {{/each}}
+      </div>
+      <!-- Line Status -->
+      <div class="col-4">
+        <p>
+          {{!-- Match client with corresponding line by index or another identifier --}}
+          {{#each @voicestatus.VoiceService as |voiceService1|}}
+          {{#each voiceService1.CallControl.Line as |line|}}
+          {{#if (eq line.CallStatus 'Idle')}}
+        <p>{{t 'PAGE_VOICE_STATUS_NUMBERS_TABLE_IDLE'}}</p>
+        {{else if (eq line.CallStatus 'Dialing')}}
+        <p>{{t 'PAGE_VOICE_STATUS_NUMBERS_TABLE_DIALING'}}</p>
+        {{else if (eq line.CallStatus 'Delivered')}}
+        <p>{{t 'PAGE_VOICE_STATUS_NUMBERS_TABLE_DELIVERED'}}</p>
+        {{else if (eq line.CallStatus 'Connected')}}
+        <p>{{t 'PAGE_VOICE_STATUS_NUMBERS_TABLE_CONNECTED'}}</p>
+        {{else if (eq line.CallStatus 'Alerting')}}
+        <p>{{t 'PAGE_VOICE_STATUS_NUMBERS_TABLE_ALERTING'}}</p>
+        {{else if (eq line.CallStatus 'Disconnected')}}
+        <p>{{t 'PAGE_VOICE_STATUS_NUMBERS_TABLE_DISCONNECTED'}}</p>
+        {{else}}
+        <p>{{t 'PAGE_VOICE_STATUS_NUMBERS_TABLE_UNKNOWN'}}</p>
+        {{/if}}
+        {{/each}}
+        {{/each}}
+        </p>
+      </div>
+      <!-- Service Status -->
+      <div class="col-4">
+        <p>
+          {{#each @voicestatus.VoiceService as |voiceService1|}}
+          {{#each voiceService1.CallControl.Line as |line|}}
+          {{#if (is-equal line.Status "Up")}}
+        <p> <span style="color: green;">●</span> {{t 'PAGE_VOICE_STATUS_NUMBERS_TABLE_ACTIVE'}}</p>
+        {{else}}
+        <p> <span style="color: red;">●</span> {{t 'PAGE_VOICE_STATUS_NUMBERS_TABLE_INACTIVE'}}</p>
+        {{/if}}
+        {{/each}}
+        {{/each}}
+        </p>
+      </div>
+    </div>
+
+  </div>
+</div>

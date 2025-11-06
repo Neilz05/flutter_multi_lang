@@ -1,0 +1,96 @@
+<div>{{{@graphSvg}}}</div>
+<div id="cy" {{did-insert this.setupInterval}}></div>
+<div id="cy-tooltip"></div>
+<div id="cy-container">
+    <div>
+        <p style="padding-bottom: 5px; color:#782572; font-weight: bold;">{{t 'PAGE_WIFI_DATAELEMENTS_DEVICE_ICONS'}}</p>
+        <div id="cy-icons">
+            {{#if this.controllerImageIsHg}}
+                <img src="/assets/images/HG6244B.png" style="width: 30px;" alt="Controller Image">
+            {{else}}
+                <img src="/assets/images/controller.png" style="width: 30px; height: 30px" alt="Controller Image">
+            {{/if}}
+            <p style="padding-top: 5px; font-size: 13px;">{{t 'PAGE_WIFI_DATAELEMENTS_DEVICE_CONTROLLER_AGENT'}}</p>
+        </div>
+        <div id="cy-icons">
+            {{#if this.agentImageIsRp}}
+                <img src="/assets/images/RP562B.png" style="width: 30px;" alt="Agent Image">
+            {{else}}
+                <img src="/assets/images/agent.png" style="width: 30px; height: 30px;" alt="Agent Image">
+            {{/if}}
+            <p style="padding-top: 5px; font-size: 13px;">{{t 'PAGE_WIFI_DATAELEMENTS_DEVICE_AGENT'}}</p>
+        </div>
+        <div id="cy-icons">
+            <img 
+            src="/assets/images/device.png"
+            style="width: 30px; height: 30px;"
+            alt="Client Image">
+            <p style="padding-top: 5px; font-size: 13px;">{{t 'PAGE_WIFI_DATAELEMENTS_DEVICE_CLIENT'}}</p>
+        </div>
+    </div>
+    <div>
+        <p style="padding-bottom: 5px; color:#782572; font-weight: bold;">{{t 'PAGE_WIFI_DATAELEMENTS_CONNECTION_TYPE'}}</p>
+        <div id="cy-lines">
+            <img 
+            src="/assets/images/eth.png"
+            style="width: 100px; height: 20px; padding-top: 5px;"
+            alt="Eth">
+            <p style="font-size: 13px;">{{t 'PAGE_WIFI_DATAELEMENTS_CONNECTION_TYPE_ETH'}}</p>
+        </div>
+        <div id="cy-lines">
+            <img 
+            src="/assets/images/2g.png"
+            style="width: 100px; height: 20px; padding-top: 5px;"
+            alt="Wi-Fi 2.4GHz">
+            <p style="font-size: 13px;">{{t 'PAGE_WIFI_DATAELEMENTS_CONNECTION_TYPE_WIFI24'}}</p>
+        </div>
+        <div id="cy-lines">
+            <img 
+            src="/assets/images/5g.png"
+            style="width: 100px; height: 20px; padding-top: 5px;"
+            alt="Wi-Fi 5GHz">
+            <p style="font-size: 13px;">{{t 'PAGE_WIFI_DATAELEMENTS_CONNECTION_TYPE_WIFI5'}}</p>
+        </div>
+        <div id="cy-lines">
+            <img 
+            src="/assets/images/6g.png"
+            style="width: 100px; height: 20px; padding-top: 5px;"
+            alt="Wi-Fi 5GHz+2.4GHz">
+            <p style="font-size: 13px;">{{t 'PAGE_WIFI_DATAELEMENTS_CONNECTION_TYPE_WIFI6'}}</p>
+        </div>
+        <div id="cy-lines">
+            <img
+            src="/assets/images/mlo.png"
+            style="width: 100px; height: 20px; padding-top: 5px;"
+            alt="Wi-Fi 6GHz">
+            <p style="font-size: 13px;">{{t 'PAGE_WIFI_DATAELEMENTS_CONNECTION_TYPE_WIFIMLO'}}</p>
+        </div>
+    </div>
+    <div>
+        <p style="padding-bottom: 5px; color:#782572; font-weight: bold;">{{t 'PAGE_WIFI_DATAELEMENTS_CONNECTION_STATUS'}}</p>
+        <div id="cy-lines">
+            <img 
+            src="/assets/images/green.png"
+            style="width: 50px; height: 20px; padding-top: 5px;"
+            alt="Good">
+            <p style="font-size: 13px;">{{t 'PAGE_WIFI_DATAELEMENTS_CONNECTION_STATUS_GOOD'}}</p>
+        </div>
+        <div id="cy-lines">
+            <img 
+            src="/assets/images/yellow.png"
+            style="width: 50px; height: 20px; padding-top: 5px;"
+            alt="Warning">
+            <p style="font-size: 13px;">{{t 'PAGE_WIFI_DATAELEMENTS_CONNECTION_STATUS_WARNING'}}</p>
+        </div>
+        <div id="cy-lines">
+            <img 
+            src="/assets/images/red.png"
+            style="width: 50px; height: 20px; padding-top: 5px;"
+            alt="Bad">
+            <p style="font-size: 13px;">{{t 'PAGE_WIFI_DATAELEMENTS_CONNECTION_STATUS_BAD'}}</p>
+        </div>
+    </div>
+</div>
+
+{{!-- <button type="button" class="btn btn-primary" {{on "click" this.handleButtonClick}}>Update</button> --}}
+{{!-- <button class="btn btn-primary"{{on "click" this.updateCytoscape}}>Update</button> --}}

@@ -1,0 +1,57 @@
+{{!-- {{yield}} --}}
+
+{{!-- <div class="row mb-2">
+  {{#each @model.WAN as |wan|}}
+    <div class="col-md-6">
+      <Wan::WanmanagerWan @wan={{wan}} />
+    </div>
+  {{/each}}
+</div> --}}
+
+<div class="card mb-3">
+    <div class="card-header">Optical Transceiver Info</div>
+    <div class="card-body">
+        <div class="row">
+            <div class="row mb-2">
+                <div class="col-md-2"><strong>Ont Info</strong></div>
+                <div class="col-md-5"><strong>Query Value</strong></div>
+                <div class="col-md-5"><strong>Recommended Value</strong></div>
+            </div>
+            <div class="row mb-2">
+                <div class="col-md-2">Module Name</div>
+                <div class="col-md-5">{{@opticalStatus.VendorName}}</div>
+                <div class="col-md-5"></div>
+            </div>
+            <div class="row mb-2">
+                <div class="col-md-2">Vendor ID</div>
+                <div class="col-md-5">{{@opticalStatus.VendorPartNumber}}</div>
+                <div class="col-md-5"></div>
+            </div>
+            <div class="row mb-2">
+                <div class="col-md-2">Transmit Power</div>
+                <div class="col-md-5">{{@opticalStatus.TxPower}}</div>
+                <div class="col-md-5">0 ~ 5dBm</div>
+            </div>
+            <div class="row mb-2">
+                <div class="col-md-2">Received Power</div>
+                <div class="col-md-5">{{@opticalStatus.RxPower}}</div>
+                <div class="col-md-5">-27 ~ -7dBm</div>
+            </div>
+            <div class="row mb-2">
+                <div class="col-md-2">Working Voltage</div>
+                <div class="col-md-5">{{@opticalStatus.Voltage}}</div>
+                <div class="col-md-5">314 ~ 347mV</div>
+            </div>
+            <div class="row mb-2">
+                <div class="col-md-2">Working Current</div>
+                <div class="col-md-5">{{@opticalStatus.Bias}}</div>
+                <div class="col-md-5">0 ~ 60mA</div>
+            </div>
+            <div class="row mb-2">
+                <div class="col-md-2">Working Temperature</div>
+                <div class="col-md-5">{{@opticalStatus.Temperature}}</div>
+                <div class="col-md-5">0 ~ 75°C</div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,317 @@
+<div class="card mb-3">
+  <div class="card-header sc">
+    <div class="row align-items-center justify-content-between">
+      <div class="col">
+        <span class="fs-5" tabindex="0" aria-label="{{t 'PAGE_PORT_MAPPING_TITLE'}}">{{t 'PAGE_PORT_MAPPING_TITLE'}}</span>
+      </div>
+    </div>
+  </div>
+  <div class="card-body">
+    <div class="container-fluid table-responsive">
+      <table class="table table-bordered" style="table-layout: fixed;">
+        <thead>
+          <tr>
+            <th tabindex="0" aria-label="Name">Name</th>
+            <th tabindex="0" aria-label="{{t 'PAGE_PORT_MAPPING_TABLE_SUB_PROTOCOL'}}">{{t 'PAGE_PORT_MAPPING_TABLE_SUB_PROTOCOL'}}</th>
+            <th tabindex="0" aria-label="{{t 'PAGE_PORT_MAPPING_TABLE_SUB_LOCAL_IP'}}">{{t 'PAGE_PORT_MAPPING_TABLE_SUB_LOCAL_IP'}}</th>
+            <th tabindex="0" aria-label="{{t 'PAGE_PORT_MAPPING_TABLE_SUB_INTERNAL_PORT'}}">{{t 'PAGE_PORT_MAPPING_TABLE_SUB_INTERNAL_PORT'}}</th>
+            <th tabindex="0" aria-label="{{t 'PAGE_PORT_MAPPING_TABLE_SUB_EXTERNAL_PORT'}}">{{t 'PAGE_PORT_MAPPING_TABLE_SUB_EXTERNAL_PORT'}}</th>
+            {{#if (not @readOnly)}}
+            <th style="width:10%;"></th>
+            {{/if}}
+          </tr>
+        </thead>
+        <tbody>
+          {{#if (eq this.PortMappingEntries.length 0)}}
+          <tr class="align-middle" tabindex="0" aria-label="No entries found">
+            <i>No entries found</i>
+          </tr>
+          {{/if}}
+          {{#each this.PortMappingEntries as |pm idx|}}
+          <tr class="align-middle">
+            <td tabindex="0" aria-label="{{pm.Alias}}">{{pm.Alias}}</td>
+            <td tabindex="0" aria-label="{{pm.Protocol}}">{{pm.Protocol}}</td>
+            <td tabindex="0" aria-label="{{pm.InternalClient}}">{{pm.InternalClient}}</td>
+            {{#if (or (eq pm.ExternalPort pm.ExternalPortEndRange) (not pm.ExternalPortEndRange))}}
+            <td tabindex="0" aria-label="{{pm.InternalPort}}">{{pm.InternalPort}}</td>
+            <td tabindex="0" aria-label="{{pm.ExternalPort}}">
+              {{pm.ExternalPort}}
+            </td>
+            {{else}}
+            <td tabindex="0" aria-label="{{pm.InternalPort}} - {{(this.TableInternalPortEndRangeValue pm.ExternalPortEndRange pm.ExternalPort pm.InternalPort)}}">
+              {{pm.InternalPort}} - {{(this.TableInternalPortEndRangeValue pm.ExternalPortEndRange pm.ExternalPort pm.InternalPort)}}
+            </td>
+            <td tabindex="0" aria-label="{{pm.ExternalPort}} - {{pm.ExternalPortEndRange}}">
+              {{pm.ExternalPort}} - {{pm.ExternalPortEndRange}}
+            </td>
+            {{/if}}
+            {{#if (not @readOnly)}}
+            <td>
+              <button class="btn btn-secondary btn-sm ms-auto py-2 px-3" {{on 'click' (fn this.OpenEditModal pm)}}><i
+                  class="bi bi-gear"></i></button>
+              <button class="btn btn-danger btn-sm ms-auto py-2 px-3" {{on 'click' (fn this.Delete pm)}}><i
+                  class="bi bi-trash"></i></button>
+            </td>
+            {{/if}}
+          </tr>
+          {{/each}}
+        </tbody>
+      </table>
+    </div>
+    {{#if (not @readOnly)}}
+    <div class="row align-items-center justify-content-end px-3">
+      <div class="col flex-grow-0">
+        <button type="button" class="btn btn-primary px-2 py-1" onClick={{this.OpenAddModal}}><i
+            class="bi bi-plus-square fs-5"></i></button>
+      </div>
+    </div>
+    {{/if}}
+  </div>
+</div>
+
+
+
+{{!-- Modal for Edit functionality --}}
+<BsModal @open={{this.EditModal}} @backdropClose={{false}} class="hide-close-button" as |modal|>
+  <modal.header>
+    <h4 class="modal-title" tabindex="0" aria-label="{{t 'PAGE_PORT_MAPPING_POPUP_EDIT_TITLE'}}">
+      {{t 'PAGE_PORT_MAPPING_POPUP_EDIT_TITLE'}}
+    </h4>
+  </modal.header>
+  <modal.body>
+    <div class="container-fluid text-start">
+      <div class="container-fluid text-start">
+
+        <div class="row align-items-center">
+          <div class="col" tabindex="0" aria-label="Name">Name</div>
+          <div class="col" tabindex="0" aria-label="{{this.SelectedEntry.Alias}}">{{this.SelectedEntry.Alias}}</div>
+        </div>
+
+        <div class="row align-items-center">
+          <div class="col" tabindex="0" aria-label="{{t 'PAGE_PORT_MAPPING_POPUP_EDIT_PROTOCOL'}}">{{t 'PAGE_PORT_MAPPING_POPUP_EDIT_PROTOCOL'}}</div>
+          <div class="col">
+            <select class="form-select w-100" {{on "change" (fn this.UpdateProtocol this.SelectedEntry)}}>
+              <option value="TCP" selected={{(eq this.SelectedEntry.Protocol 'TCP' )}}>TCP</option>
+              <option value="UDP" selected={{(eq this.SelectedEntry.Protocol 'UDP' )}}>UDP</option>
+              {{!-- <option value="TCP/UDP" selected={{(eq this.SelectedEntry.Protocol 'TCP/UDP' )}}>TCP/UDP</option>
+              --}}
+            </select>
+          </div>
+        </div>
+
+        <div class="row align-items-center">
+          <div class="col" tabindex="0" aria-label="{{t 'PAGE_PORT_MAPPING_POPUP_EDIT_DEVICE'}}">{{t 'PAGE_PORT_MAPPING_POPUP_EDIT_DEVICE'}}</div>
+          <div class="col">
+            <select class="form-select w-100" {{on "change" (fn this.UpdateIPFromHost this.SelectedEntry)}}>
+              <option value="None">{{t 'PAGE_PORT_MAPPING_POPUP_EDIT_NO_SPECIFIC'}}</option>
+              {{#each this.HostsListing as |host|}}
+              <option value={{host.IPAddress}} selected={{(eq this.SelectedEntry.InternalClient host.IPAddress)}}>
+                {{host.HostName}}</option>
+              {{/each}}
+            </select>
+          </div>
+        </div>
+
+        <div class="row align-items-center">
+          <div class="col" tabindex="0" aria-label="{{t 'PAGE_PORT_MAPPING_POPUP_EDIT_LOCAL_IP'}}">{{t 'PAGE_PORT_MAPPING_POPUP_EDIT_LOCAL_IP'}}</div>
+          <div class="col">
+            <Input class="form-control {{if this.InternalClientMsg " is-invalid" "" }}"
+              @value={{this.SelectedEntry.InternalClient}} />
+            {{#if this.InternalClientMsg}}
+            <div class="invalid-feedback fw-normal d-block" tabindex="0" aria-label="{{this.InternalClientMsg}}">
+              {{this.InternalClientMsg}}
+            </div>
+            {{/if}}
+          </div>
+        </div>
+
+        <div class="row align-items-center">
+          <div class="col" tabindex="0" aria-label="{{t 'PAGE_PORT_MAPPING_POPUP_EDIT_INTERNAL_PORT'}}">{{t 'PAGE_PORT_MAPPING_POPUP_EDIT_INTERNAL_PORT'}}</div>
+          <div class="col">
+            <div class="d-flex align-items-center">
+              <Input class="form-control {{if this.InternalPortMsg " is-invalid" "" }}"
+                @value={{this.SelectedEntry.InternalPort}} />
+              {{#if this.PortRange}}
+                {{did-insert (fn this.SetupInternalPortEndRange this.SelectedEntry)}}
+                <p class="mx-3 mt-3">to</p><Input class="form-control {{if this.InternalPortMsg " is-invalid" ""}}"
+                  @value={{this.SelectedEntry.InternalPortEndRange}} {{on "change" (fn this.ChangeInternalPortEndRange this.SelectedEntry)}}/>
+              {{/if}}
+            </div>
+            {{#if this.InternalPortMsg}}
+            <div class="invalid-feedback fw-normal d-block" tabindex="0" aria-label="{{this.InternalPortMsg}}">
+              {{this.InternalPortMsg}}
+            </div>
+            {{/if}}
+          </div>
+        </div>
+
+        <div class="row align-items-center">
+          <div class="col" tabindex="0" aria-label="{{t 'PAGE_PORT_MAPPING_POPUP_ADD_TYPE'}}">{{t 'PAGE_PORT_MAPPING_POPUP_ADD_TYPE'}}</div>
+          <div class="col">
+            <div class="form-check form-check-inline">
+              <Input @type="checkbox" @checked={{not this.PortRange}} class="form-check-input" {{on "change" (fn this.UpdatePortRange this.SelectedEntry)}} 
+              tabindex="0" aria-label="{{t 'PAGE_PORT_MAPPING_POPUP_ADD_PORT'}}" {{on "keyup" this.eaactrl.checkboxTrigger}} />
+              {{!-- <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1"
+                value="option1" checked={{not this.PortRange}}> --}}
+              <label class="form-check-label fw-normal" for="inlineRadio1">{{t 'PAGE_PORT_MAPPING_POPUP_ADD_PORT'}}</label>
+            </div>
+            <div class="form-check form-check-inline">
+              <Input @type="checkbox" @checked={{this.PortRange}} class="form-check-input" {{on "change" (fn this.UpdatePortRange this.SelectedEntry)}}
+              tabindex="0" aria-label="{{t 'PAGE_PORT_MAPPING_POPUP_ADD_PORT_RANGE'}}" {{on "keyup" this.eaactrl.checkboxTrigger}} />
+              <label class="form-check-label fw-normal" for="inlineRadio2">{{t 'PAGE_PORT_MAPPING_POPUP_ADD_PORT_RANGE'}}</label>
+            </div>
+          </div>
+        </div>
+
+        <div class="row align-items-center">
+          <div class="col" tabindex="0" aria-label="{{t 'PAGE_PORT_MAPPING_POPUP_EDIT_EXTERNAL_PORT'}}">{{t 'PAGE_PORT_MAPPING_POPUP_EDIT_EXTERNAL_PORT'}}</div>
+          <div class="col">
+            <div class="d-flex align-items-center">
+              <Input class="form-control {{if this.ExternalPortMsg " is-invalid" "" }}"
+                @value={{this.SelectedEntry.ExternalPort}} />
+              {{#if this.PortRange}}
+              <p class="mx-3 mt-3">to</p><Input class="form-control {{if this.ExternalPortMsg " is-invalid" "" }}"
+                @value={{this.SelectedEntry.ExternalPortEndRange}} />
+              {{/if}}
+            </div>
+            {{#if this.ExternalPortMsg}}
+            <div class="invalid-feedback fw-normal d-block" tabindex="0" aria-label="{{this.ExternalPortMsg}}">
+              {{this.ExternalPortMsg}}
+            </div>
+            {{/if}}
+          </div>
+        </div>
+
+
+
+      </div>
+    </div>
+  </modal.body>
+  <modal.footer>
+    <BsButton @onClick={{this.CloseEditModal}}>{{t 'PAGE_PORT_MAPPING_POPUP_EDIT_CANCEL'}}</BsButton>
+    <BsButton @type="success" @onClick={{this.SaveEditModal}}>{{t 'PAGE_PORT_MAPPING_POPUP_EDIT_SAVE'}}</BsButton>
+  </modal.footer>
+
+</BsModal>
+
+{{!-- Modal for Add functionality --}}
+<BsModal @open={{this.AddModal}} @backdropClose={{false}} class="hide-close-button" as |modal|>
+  <modal.header>
+    <h4 class="modal-title" tabindex="0" aria-label="{{t 'PAGE_PORT_MAPPING_POPUP_ADD_TITLE'}}">
+      {{t 'PAGE_PORT_MAPPING_POPUP_ADD_TITLE'}}
+    </h4>
+  </modal.header>
+  <modal.body>
+    <div class="container-fluid text-start">
+
+      <div class="row align-items-center">
+        <div class="col" tabindex="0" aria-label="Name">Name</div>
+        <div class="col">
+          <Input class="form-control {{if this.AliasMsg " is-invalid" "" }}" @value={{this.NewEntry.Alias}} />
+          {{#if this.AliasMsg}}
+          <div class="invalid-feedback fw-normal d-block" tabindex="0" aria-label="{{this.AliasMsg}}">
+            {{this.AliasMsg}}
+          </div>
+          {{/if}}
+        </div>
+      </div>
+
+      <div class="row align-items-center">
+        <div class="col" tabindex="0" aria-label="{{t 'PAGE_PORT_MAPPING_POPUP_ADD_PROTOCOL'}}">{{t 'PAGE_PORT_MAPPING_POPUP_ADD_PROTOCOL'}}</div>
+        <div class="col">
+          <select class="form-select w-100" {{on "change" (fn this.UpdateProtocol this.NewEntry)}}>
+            <option value="TCP" selected={{(eq this.NewEntry.Protocol 'TCP' )}}>TCP</option>
+            <option value="UDP" selected={{(eq this.NewEntry.Protocol 'UDP' )}}>UDP</option>
+            {{!-- <option value="TCP/UDP" selected={{(eq this.NewEntry.Protocol 'TCP/UDP' )}}>TCP/UDP</option> --}}
+          </select>
+        </div>
+      </div>
+
+      <div class="row align-items-center">
+        <div class="col" tabindex="0" aria-label="{{t 'PAGE_PORT_MAPPING_POPUP_ADD_DEVICE'}}">{{t 'PAGE_PORT_MAPPING_POPUP_ADD_DEVICE'}}</div>
+        <div class="col">
+          <select class="form-select w-100" {{on "change" (fn this.UpdateIPFromHost this.NewEntry)}}>
+            <option value="None">{{t 'PAGE_PORT_MAPPING_POPUP_EDIT_NO_SPECIFIC'}}</option>
+            {{#each this.HostsListing as |host|}}
+            <option value={{host.IPAddress}} selected={{(eq this.NewEntry.InternalClient host.IPAddress)}}>
+              {{host.HostName}}</option>
+            {{/each}}
+          </select>
+        </div>
+      </div>
+
+      <div class="row align-items-center">
+        <div class="col" tabindex="0" aria-label="{{t 'PAGE_PORT_MAPPING_POPUP_ADD_LOCAL_IP'}}">{{t 'PAGE_PORT_MAPPING_POPUP_ADD_LOCAL_IP'}}</div>
+        <div class="col">
+          <Input class="form-control {{if this.InternalClientMsg " is-invalid" "" }}"
+            @value={{this.NewEntry.InternalClient}} />
+          <div class="invalid-feedback fw-normal d-block">
+            {{this.InternalClientMsg}}
+          </div>
+        </div>
+      </div>
+
+      <div class="row align-items-center">
+        <div class="col" tabindex="0" aria-label="{{t 'PAGE_PORT_MAPPING_POPUP_ADD_INTERNAL_PORT'}}">{{t 'PAGE_PORT_MAPPING_POPUP_ADD_INTERNAL_PORT'}}</div>
+        <div class="col">
+          <div class="d-flex align-items-center">
+            <Input class="form-control {{if this.InternalPortMsg " is-invalid" "" }}"
+              @value={{this.NewEntry.InternalPort}} />
+            {{#if this.PortRange}}
+              {{did-insert (fn this.SetupInternalPortEndRange this.NewEntry)}}
+              <p class="mx-3 mt-3">to</p><Input class="form-control {{if this.InternalPortMsg " is-invalid" ""}}"
+                @value={{this.NewEntry.InternalPortEndRange}} {{on "change" (fn this.ChangeInternalPortEndRange this.NewEntry)}}/>
+            {{/if}}
+          </div>
+          {{#if this.InternalPortMsg}}
+          <div class="invalid-feedback fw-normal d-block" tabindex="0" aria-label="{{this.InternalPortMsg}}">
+            {{this.InternalPortMsg}}
+          </div>
+          {{/if}}
+        </div>
+      </div>
+
+      <div class="row align-items-center">
+        <div class="col" tabindex="0" aria-label="{{t 'PAGE_PORT_MAPPING_POPUP_ADD_TYPE'}}">{{t 'PAGE_PORT_MAPPING_POPUP_ADD_TYPE'}}</div>
+        <div class="col">
+          <div class="form-check form-check-inline">
+            <Input @type="checkbox" @checked={{not this.PortRange}} class="form-check-input" {{on "change" (fn this.UpdatePortRange this.NewEntry)}} 
+            tabindex="0" aria-label="{{t 'PAGE_PORT_MAPPING_POPUP_ADD_PORT'}}" {{on "keyup" this.eaactrl.checkboxTrigger}} />
+            {{!-- <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1"
+              value="option1" checked={{not this.PortRange}}> --}}
+            <label class="form-check-label fw-normal" for="inlineRadio1">{{t 'PAGE_PORT_MAPPING_POPUP_ADD_PORT'}}</label>
+          </div>
+          <div class="form-check form-check-inline">
+            <Input @type="checkbox" @checked={{this.PortRange}} class="form-check-input" {{on "change" (fn this.UpdatePortRange this.NewEntry)}}
+            tabindex="0" aria-label="{{t 'PAGE_PORT_MAPPING_POPUP_ADD_PORT_RANGE'}}" {{on "keyup" this.eaactrl.checkboxTrigger}} />
+            <label class="form-check-label fw-normal" for="inlineRadio2">{{t 'PAGE_PORT_MAPPING_POPUP_ADD_PORT_RANGE'}}</label>
+          </div>
+        </div>
+      </div>
+
+
+
+
+      <div class="row align-items-center">
+        <div class="col" tabindex="0" aria-label="{{t 'PAGE_PORT_MAPPING_POPUP_ADD_EXTERNAL_PORT'}}">{{t 'PAGE_PORT_MAPPING_POPUP_ADD_EXTERNAL_PORT'}}</div>
+        <div class="col">
+          <div class="d-flex align-items-center">
+            <Input class="form-control {{if this.ExternalPortMsg " is-invalid" "" }}" @value={{this.NewEntry.ExternalPort}} />
+            {{#if this.PortRange}}
+            <p class="mx-3 mt-3">-</p>
+            <Input class="form-control {{if this.ExternalPortMsg " is-invalid" "" }}" @value={{this.NewEntry.ExternalPortEndRange}} />
+            {{/if}}
+          </div>
+          <div class="invalid-feedback fw-normal d-block">
+            {{this.ExternalPortMsg}}
+          </div>
+        </div>
+      </div>
+    </div>
+  </modal.body>
+  <modal.footer>
+    <BsButton @onClick={{this.CloseAddModal}}>{{t 'PAGE_PORT_MAPPING_POPUP_ADD_CANCEL'}}</BsButton>
+    <BsButton @type="success" @onClick={{this.SaveAddModal}}>{{t 'PAGE_PORT_MAPPING_POPUP_ADD_SAVE'}}</BsButton>
+  </modal.footer>
+
+</BsModal>

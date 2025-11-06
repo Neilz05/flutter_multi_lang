@@ -1,0 +1,27 @@
+<div class="main-submenu">
+  <ul>
+      <LinkTo @route="authenticated.internet.firewall">
+        <li class="non-header {{if (eq this.submenuTab 'firewall') 'submenu-active'}}" {{on 'click' (fn this.setSubmenuTab 'firewall')}}>{{t 'SUB_NAVIGATION_ITEM_FIREWALL'}}</li>
+      </LinkTo>
+      {{!-- <li class="non-header {{if (eq this.submenuTab 'dos') 'submenu-active'}}" {{on 'click' (fn this.setSubmenuTab 'dos')}}>DoS</li> --}}
+      {{!-- <li class="non-header {{if (eq this.submenuTab 'parent-control') 'submenu-active'}}" {{on 'click' (fn this.setSubmenuTab 'parent-control')}}>Parent Control</li> --}}
+      <LinkTo @route="authenticated.internet.port-mapping">
+        <li class="non-header {{if (eq this.submenuTab 'port-mapping') 'submenu-active'}}" {{on 'click' (fn this.setSubmenuTab 'port-mapping')}}>{{t 'PAGE_PORT_MAPPING_TITLE'}}</li>
+      </LinkTo>
+      <LinkTo @route="authenticated.internet.dmz">
+        <li class="non-header {{if (eq this.submenuTab 'dmz') 'submenu-active'}}" {{on 'click' (fn this.setSubmenuTab 'dmz')}}>{{t 'SUB_NAVIGATION_ITEM_EXPOSED_HOST'}}</li>
+      </LinkTo>
+      {{!-- <li class="non-header {{if (eq this.submenuTab 'ddns') 'submenu-active'}}" {{on 'click' (fn this.setSubmenuTab 'ddns')}}>DDNS</li> --}}
+      <LinkTo @route="authenticated.internet.upnp">
+        <li class="non-header {{if (eq this.submenuTab 'upnp') 'submenu-active'}}" {{on 'click' (fn this.setSubmenuTab 'upnp')}}>{{t 'SUB_NAVIGATION_ITEM_UPNP'}}</li>
+      </LinkTo>
+      <LinkTo @route="authenticated.internet.ddns">
+        <li class="non-header {{if (eq this.submenuTab 'ddns') 'submenu-active'}}" {{on 'click' (fn this.setSubmenuTab 'ddns')}}>{{t 'SUB_NAVIGATION_ITEM_DDNS'}}</li>
+      </LinkTo>
+
+      
+      <LinkTo @route="authenticated.internet.parental">
+        <li class="non-header {{if (eq this.submenuTab 'parental') 'submenu-active'}}" {{on 'click' (fn this.setSubmenuTab 'parental')}}>{{t 'SUB_NAVIGATION_ITEM_PARENTAL_CONTROL'}}</li>
+      </LinkTo>
+  </ul>
+</div>

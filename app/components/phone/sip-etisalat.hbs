@@ -1,0 +1,22 @@
+<div class="row justify-content-evenly align-items-center">
+  <div class="col-md-6 d-flex justify-content-around align-items-center">
+    <div class="w-50 p-2" tabindex="0" aria-label="{{@label}}">{{@label}}</div>
+    <div class="p-2">
+      <Input class="form-control w-100" type="text" @value={{@addr}} {{on "change" this.validateAddress}}/>
+      <div class="invalid-feedback">
+        {{this.AddressMsg}}
+      </div>
+    </div>
+  </div>
+  <div class="col-md-6 d-flex justify-content-start align-items-center">
+    <div class="p-2" tabindex="0" aria-label="{{t 'PAGE_PHONE_SETTINGS_IMS_SERVER_PORT'}}">{{concat (t 'PAGE_PHONE_SETTINGS_IMS_SERVER_PORT') ':'}}</div>
+    <div class="p-2">
+      <Input class="form-control" type="text" style="width: 100px;" @value={{@port}} {{on "change" this.validatePort}}/>
+      {{#if this.PortMsg}}
+        <div class="invalid-feedback" tabindex="0"  aria-label="{{this.PortMsg}}">
+            {{this.PortMsg}}
+        </div>
+      {{/if}}
+    </div>
+  </div>
+</div>

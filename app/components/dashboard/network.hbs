@@ -1,0 +1,19 @@
+{{#each @hosts.Host as |host|}}
+  <div class="row mb-2">
+    <div class="col-md-6"><strong>Active</strong></div>
+    <div class="col-md-6">{{host.Active}}</div>
+  </div> 
+  <div class="row mb-2">
+    <div class="col-md-6"><strong>MAC Address</strong></div>
+    <div class="col-md-6">{{host.PhysAddress}}</div>
+  </div>
+  <div class="row mb-2">
+    <div class="col-md-6"><strong>Name</strong></div>
+    <div class="col-md-6">{{host.HostName}}</div>
+  </div>
+  <div class="row mb-2">
+    <div class="col-md-6"><strong>Type</strong></div>
+    <div class="col-md-6">{{host.InterfaceType}}</div>
+  </div>
+  <hr />
+{{/each}}

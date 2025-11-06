@@ -1,0 +1,92 @@
+{{page-title "DDNS"}}
+
+<div class="card mb-3">
+  <div class="card-header sc">
+    <label class="fs-4 fw-bold ms-3" tabindex="0" aria-label="{{t 'PAGE_DDNS_TITLE'}}">{{t 'PAGE_DDNS_TITLE'}}</label>
+  </div>
+  <div class="card-body">
+    <div class="row py-1 ps-3">
+      <div class="col" tabindex="0" aria-label="{{t 'PAGE_DDNS_DYNAMIC_DNS'}}"><label>{{t 'PAGE_DDNS_DYNAMIC_DNS'}}</label></div>
+      <div class="col">
+        {{#each @model.Client as |cl i|}}
+          {{#if (eq i 0)}}
+            <label class="switch" for="ddns-enable" tabindex="0" aria-label="{{t 'PAGE_DDNS_DYNAMIC_DNS'}}" role="button" {{on "keyup" this.eaactrl.onoffTrigger}}>
+              <Input id="ddns-enable" tabindex="-1" @type="checkbox" @value={{cl.Enable}} @checked={{this.ddnsEnable}} class="form-check-input" />
+              <span class="slider round"></span>
+            </label>
+          {{/if}}
+        {{/each}}
+      </div>
+    </div>
+    {{#each @model.Client as |cl i|}}
+      {{#if (eq i 0)}}
+        {{#if cl.Enable}} {{!-- Only display this part if DDNS is enabled --}}
+          <div class="row py-1 ps-3">
+            <div class="col" tabindex="0" aria-label="{{t 'PAGE_DDNS_PROVIDER'}}"><label>{{t 'PAGE_DDNS_PROVIDER'}}</label></div>
+            <div class="col">
+              <select class="form-select" {{on "change" (fn this.updateServer)}}>
+                <option value="" selected={{(eq cl.Server "")}}>--- No provider selected ---</option>
+                <optgroup label={{t 'PAGE_DDNS_DROPDOWN_TOP_PROVIDERS'}}>
+                  {{#each this.sortedServerPriority as |server|}}
+                    <option value={{(add "Device." server.id)}} selected={{eq (add "Device." server.id) (add cl.Server ".")}}>{{server.ServiceName}}</option>
+                  {{/each}}
+                </optgroup>
+                <optgroup label={{t 'PAGE_DDNS_DROPDOWN_ALT_PROVIDERS'}}>
+                {{#each this.sortedServerNonPriority as |server|}}
+                  <option value={{(add "Device." server.id)}} selected={{eq (add "Device." server.id) (add cl.Server ".")}}>{{server.ServiceName}}</option>
+                {{/each}}
+                </optgroup>
+              </select>
+            </div>
+          </div>
+          <div class="row py-1 ps-3">
+            <div class="col" tabindex="0" aria-label="{{t 'PAGE_DDNS_DOMAIN_NAME'}}"><label>{{t 'PAGE_DDNS_DOMAIN_NAME'}}</label></div>
+            <div class="col">
+              {{#each cl.Hostname as |hostname j|}}
+                {{#if (eq j 0)}}
+                  <Input class="form-control w-50" type="text" @value={{hostname.Name}} {{on "change" this.validDomainName}}/>
+                  {{#if this.DomainNameMsg}}
+                  <div class="invalid-feedback" tabindex="0" aria-label="{{this.DomainNameMsg}}">
+                    {{this.DomainNameMsg}}
+                  </div>
+                  {{/if}}
+                {{/if}}
+              {{/each}}
+            </div>
+          </div>
+          <div class="row py-1 ps-3">
+            <div class="col" tabindex="0" aria-label="{{t 'PAGE_DDNS_ACCOUNT'}}"><label>{{t 'PAGE_DDNS_ACCOUNT'}}</label></div>
+            <div class="col">
+              <Input class="form-control w-50" type="text" @value={{cl.Username}} {{on "change" this.validUserName}}/>
+              {{#if this.UserNameMsg}}
+              <div class="invalid-feedback" tabindex="0" aria-label="{{this.UserNameMsg}}">
+                {{this.UserNameMsg}}
+              </div>
+              {{/if}}
+            </div>
+          </div>
+          <div class="row py-1 ps-3">
+            <div class="col" tabindex="0" aria-label="{{t 'PAGE_DDNS_PASSWORD'}}"><label>{{t 'PAGE_DDNS_PASSWORD'}}</label></div>
+            <div class="col">
+              <Inputpwd @class="w-50" @value={{cl.Password}} {{on "change" this.validPassword}}/>
+              {{#if this.PasswordMsg}}
+              <div class="invalid-feedback" tabindex="0" aria-label="{{this.PasswordMsg}}">
+                {{this.PasswordMsg}}
+              </div>
+              {{/if}}
+            </div>
+          </div>
+          <div class="row py-1 ps-3">
+            <div class="col" tabindex="0" aria-label="{{t 'PAGE_DDNS_STATUS'}}"><label>{{t 'PAGE_DDNS_STATUS'}}</label></div>
+            <div class="col" tabindex="0" aria-label="{{cl.Status}}"><p>{{cl.Status}}</p></div>
+          </div>
+        {{/if}}
+      {{/if}}
+    {{/each}}
+  </div>
+</div>
+
+<div class="d-flex justify-content-end">
+  <button type="button" class="btn btn-primary" style="width: fit-content;" {{on "click" this.updateDdns}} disabled={{unless this.hasChanges "disabled"}}>{{t 'PAGE_SETTINGS_APPLY'}}</button>
+  <button type="button" class="btn btn-secondary ms-2" style="width: fit-content;" onClick={{this.cancelDdns}}>{{t 'PAGE_SETTINGS_CANCEL'}}</button>
+</div>

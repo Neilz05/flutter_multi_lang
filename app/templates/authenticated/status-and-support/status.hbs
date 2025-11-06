@@ -1,0 +1,45 @@
+<Status::InternetStatus @ip={{@model.ip}} @routing={{@model.routing}} @dhcpv4={{@model.dhcpv4}} @ppp={{@model.ppp}} @dns={{@model.dns}} @firewall={{@model.firewall}} @dnsRelayForwarding={{@model.dns_server}} @dnsRelayConfig={{@model.x_prpl_com_config}}/>
+
+<Status::LanStatus @ip={{@model.ip}} @ethernet={{@model.ethernet}} @dhcpv4={{@model.dhcpv4}} @dhcpv6={{@model.dhcpv6}}/>
+
+<div class="card mb-3">
+  <div class="card-header sc" tabindex="0" aria-label="{{t 'SUB_OVERVIEW_ITEM_SYSTEM_INFO'}}">{{t 'SUB_OVERVIEW_ITEM_SYSTEM_INFO'}}</div>
+  <div class="card-body">
+    <dl class="row">
+      <dt class="col-sm-3" tabindex="0" aria-label="{{t 'PAGE_STATUS_SYSTEM_SERIAL_NUMBER'}}">{{t 'PAGE_STATUS_SYSTEM_SERIAL_NUMBER'}}</dt>
+      <dd class="col-sm-9" tabindex="0" aria-label="{{@model.deviceinfo.SerialNumber}}">{{@model.deviceinfo.SerialNumber}}</dd>
+    </dl>
+    <dl class="row">
+      <dt class="col-sm-3" tabindex="0" aria-label="{{t 'PAGE_STATUS_SYSTEM_SOFTWARE'}}">{{t 'PAGE_STATUS_SYSTEM_SOFTWARE'}}</dt>
+      <dd class="col-sm-9" tabindex="0" aria-label="{{@model.deviceinfo.SoftwareVersion}}">{{@model.deviceinfo.SoftwareVersion}}</dd>
+    </dl>
+    <dl class="row">
+      <dt class="col-sm-3" tabindex="0" aria-label="{{t 'PAGE_STATUS_SYSTEM_BOOTLOADER'}}">{{t 'PAGE_STATUS_SYSTEM_BOOTLOADER'}}</dt>
+      <dd class="col-sm-9" tabindex="0" aria-label="{{@model.deviceinfo.AdditionalSoftwareVersion}}">{{@model.deviceinfo.AdditionalSoftwareVersion}}</dd>
+    </dl>
+    <dl class="row">
+      <dt class="col-sm-3" tabindex="0" aria-label="{{t 'PAGE_STATUS_SYSTEM_PRODUCT'}}">{{t 'PAGE_STATUS_SYSTEM_PRODUCT'}}</dt>
+      <dd class="col-sm-9" tabindex="0" aria-label="{{@model.deviceinfo.ProductClass}} {{@model.deviceinfo.HardwareVersion}}">{{@model.deviceinfo.ProductClass}} {{@model.deviceinfo.HardwareVersion}}</dd>
+    </dl>
+    <dl class="row">
+      <dt class="col-sm-3" tabindex="0" aria-label="{{t 'PAGE_STATUS_SYSTEM_UPTIME'}}">{{t 'PAGE_STATUS_SYSTEM_UPTIME'}}</dt>
+      <dd class="col-sm-9" tabindex="0" aria-label="{{this.formatTime @model.deviceinfo.UpTime}}">{{this.formatTime @model.deviceinfo.UpTime}}</dd>
+    </dl>
+    <dl class="row">
+      <dt class="col-sm-3" tabindex="0" aria-label="{{t 'PAGE_STATUS_SYSTEM_REBOOT_CAUSE'}}">{{t 'PAGE_STATUS_SYSTEM_REBOOT_CAUSE'}}</dt>
+      <dd class="col-sm-9" tabindex="0" aria-label="{{this.bootReason}}">{{this.bootReason}}</dd>
+    </dl>
+    <dl class="row">
+      <dt class="col-sm-3" tabindex="0" aria-label="{{t 'PAGE_STATUS_SYSTEM_CPU_USAGE'}}">{{t 'PAGE_STATUS_SYSTEM_CPU_USAGE'}}</dt>
+      <dd class="col-sm-9" tabindex="0" aria-label="{{@model.deviceinfo.ProcessStatus.CPUUsage}}%">{{@model.deviceinfo.ProcessStatus.CPUUsage}}%</dd>
+    </dl>
+    <dl class="row">
+      <dt class="col-sm-3" tabindex="0" aria-label="{{t 'PAGE_STATUS_SYSTEM_MEMORY_USAGE'}}">{{t 'PAGE_STATUS_SYSTEM_MEMORY_USAGE'}}</dt>
+      <dd class="col-sm-9" tabindex="0" aria-label="{{divide @model.deviceinfo.MemoryStatus.Total @model.deviceinfo.MemoryStatus.Free}}%">{{divide @model.deviceinfo.MemoryStatus.Total @model.deviceinfo.MemoryStatus.Free}}%</dd>
+    </dl>
+    <dl class="row">
+      <dt class="col-sm-3" tabindex="0" aria-label="{{t 'PAGE_STATUS_SYSTEM_CURRENT_LOCAL_TIME'}}">{{t 'PAGE_STATUS_SYSTEM_CURRENT_LOCAL_TIME'}}</dt>
+      <dd class="col-sm-9" tabindex="0" aria-label="{{@model.time.CurrentLocalTime}}">{{@model.time.CurrentLocalTime}}</dd>
+    </dl>
+  </div>
+</div>

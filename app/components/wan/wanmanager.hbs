@@ -1,0 +1,26 @@
+<div class="row mb-2">
+  <div class="col-md-2">
+    <label class="col-form-label">Operation Mode</label>
+  </div>
+  <div class="col-md-4">
+    <Helper::Select class="form-select" @options={{this.opModeOptions}} @value={{@model.OperationMode}} @optValue="key" @optLabel="label" @onChange={{this.setOperationMode}} />
+  </div>
+  <div class="col-md-6"></div>
+</div>
+<div class="row mb-4">
+  <div class="col-md-2">
+    <label class="col-form-label">WAN Mode</label>
+  </div>
+  <div class="col-md-4">
+    <Helper::Select class="form-select" @options={{this.wanModeOptions}} @value={{@model.WANMode}} @optValue="key" @optLabel="label" @onChange={{this.setWanMode}} @disabled={{this.isAutomatic}} />
+  </div>
+  <div class="col-md-6"></div>
+</div>
+<div class="row mb-2">
+  {{#each @model.WAN as |wan|}}
+    <div class="col-md-6">
+      <Wan::WanmanagerWan @wan={{wan}} />
+    </div>
+  {{/each}}
+</div>
+<button type="button" class="btn btn-primary" {{on "click" this.updateWanManager}} disabled={{unless this.hasChanges "disabled"}}>Update</button>

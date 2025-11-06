@@ -1,0 +1,51 @@
+<div class="card mb-3">
+  <div class="card-header sc">
+    <label class="fs-4 fw-bold ms-3" tabindex="0" aria-label="{{t 'PAGE_SETTINGS_WAN_AUTOSENSING_TITLE'}}">{{t 'PAGE_SETTINGS_WAN_AUTOSENSING_TITLE'}}</label>
+  </div>
+  <div class="card-body">
+    <div class="row py-1 ps-3">
+      <div class="col">
+          <label tabindex="0" aria-label="{{t 'PAGE_SETTINGS_WAN_AUTOSENSING_OPERATION_MODE'}}">{{t 'PAGE_SETTINGS_WAN_AUTOSENSING_OPERATION_MODE'}}</label>
+      </div>
+      <div class="col">
+        <select class="form-select" {{on "change" (fn this.updateOperationMode)}}>
+          <option value="Automatic" selected={{(eq @model.OperationMode 'Automatic')}}>{{t 'PAGE_SETTINGS_WAN_AUTOSENSING_OPERATION_MODE_AUTOMATIC'}}</option>
+          <option value="Manual" selected={{(or (eq @model.OperationMode 'Manual') (eq @model.OperationMode 'VlanSenseOnly'))}}>{{t 'PAGE_SETTINGS_WAN_AUTOSENSING_OPERATION_MODE_MANUAL'}}</option>
+        </select>
+      </div>
+    </div>
+    <div class="row py-1 ps-3">
+      <div class="col">
+          <label tabindex="0" aria-label="{{t 'PAGE_SETTINGS_WAN_AUTOSENSING_OPERATION_MODE'}}">{{t 'PAGE_SETTINGS_WAN_AUTOSENSING_WAN_MODE'}}</label>
+      </div>
+      <div class="col">
+        <select class="form-select" {{on "change" (fn this.updateWanMode)}}>
+          <option value="Ethernet_PPP" selected={{(eq @model.WANMode 'Ethernet_PPP' )}}>Ethernet PPP</option>
+          <option value="Ethernet_DHCP" selected={{(eq @model.WANMode 'Ethernet_DHCP' )}}>Ethernet DHCP</option>
+          <option value="GPON_PPP" selected={{(eq @model.WANMode 'GPON_PPP' )}}>GPON PPP</option>
+          <option value="GPON_DHCP" selected={{(eq @model.WANMode 'GPON_DHCP' )}}>GPON DHCP</option>
+        </select>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="d-flex justify-content-end">
+  <button type="button" class="btn btn-primary" style="width: fit-content;" {{on "click" this.updateWanAutosensing}} disabled={{unless this.hasChanges "disabled"}}>{{t 'PAGE_SETTINGS_APPLY'}}</button>
+  <button type="button" class="btn btn-secondary ms-2" style="width: fit-content;" onClick={{this.cancelWanAutosensing}}>{{t 'PAGE_SETTINGS_CANCEL'}}</button>
+</div>
+
+<BsModal
+  @open={{this.wanAutosensingModalOpen}}
+  @closeButton={{false}}
+  @backdropClose={{false}}
+  class="hide-close-button"
+  as |Modal|
+>
+  <Modal.header>
+    {{t 'PAGE_SETTINGS_WAN_AUTOSENSING_POPUP_TITLE'}}
+  </Modal.header>
+  <Modal.body>
+    <div class="reset-loading"></div>
+  </Modal.body>
+</BsModal>

@@ -1,0 +1,103 @@
+<div class="card mb-3">
+  <div class="card-header sc">WiFi 2.4G Status</div>
+  <div class="card-body">
+    <div class="row">
+      <div class="col-md-3">
+        <div class="row mb-2 table-entry attr-name">Status</div>
+      </div>
+      <div class="col-md-9">
+        {{#each @wifi.Radio as |radio i|}}
+          {{#if (eq i 1)}}
+            <div class="row mb-2 table-entry">{{radio.Status}}</div>
+          {{/if}}
+        {{/each}}
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-3">
+        <div class="row mb-2 table-entry attr-name">SSID</div>
+      </div>
+      <div class="col-md-9">
+        {{#each @wifi.SSID as |ssid i|}}
+          {{#if (eq i 2)}}
+            <div class="row mb-2 table-entry">{{ssid.SSID}}</div>
+          {{/if}}
+        {{/each}}
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-3">
+        <div class="row mb-2 table-entry attr-name">MAC Address</div>
+      </div>
+      <div class="col-md-9">
+        {{#each @wifi.SSID as |ssid i|}}
+          {{#if (eq i 2)}}
+            <div class="row mb-2 table-entry">{{ssid.MACAddress}}</div>
+          {{/if}}
+        {{/each}}
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-3">
+        <div class="row mb-2 table-entry attr-name">Security</div>
+      </div>
+      <div class="col-md-9">
+        <div class="row mb-2 table-entry">{{@wifi.AccessPoint.WiFi-2G.Security.ModeEnabled}}</div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-3">
+        <div class="row mb-2 table-entry attr-name">Channel</div>
+      </div>
+      <div class="col-md-9">
+        {{#each @wifi.Radio as |radio i|}}
+          {{#if (eq i 1)}}
+            <div class="row mb-2 table-entry">{{radio.Channel}}</div>
+          {{/if}}
+        {{/each}}
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-3">
+        <div class="row mb-2 table-entry attr-name">Bandwidth</div>
+      </div>
+      <div class="col-md-9">
+        {{#each @wifi.Radio as |radio i|}}
+          {{#if (eq i 1)}}
+            <div class="row mb-2 table-entry">{{radio.OperatingChannelBandwidth}}</div>
+          {{/if}}
+        {{/each}}
+      </div>
+    </div>
+
+
+    {{!--<dl class="row">
+      <dt class="col-sm-3">Serial Number</dt>
+      <dd class="col-sm-9">{{@model.deviceinfo.SerialNumber}}</dd>
+    </dl>
+    <dl class="row">
+      <dt class="col-sm-3">Software Version</dt>
+      <dd class="col-sm-9">{{@model.deviceinfo.SoftwareVersion}}</dd>
+    </dl>
+    <dl class="row">
+      <dt class="col-sm-3">Product Version</dt>
+      <dd class="col-sm-9">{{@model.deviceinfo.ProductClass}} {{@model.deviceinfo.HardwareVersion}}</dd>
+    </dl>
+    <dl class="row">
+      <dt class="col-sm-3">Up Time</dt>
+      <dd class="col-sm-9">{{@model.deviceinfo.UpTime}}</dd>
+    </dl>
+    <dl class="row">
+      <dt class="col-sm-3">CPU Usage</dt>
+      <dd class="col-sm-9">{{@model.deviceinfo.ProcessStatus.CPUUsage}}</dd>
+    </dl>
+    <dl class="row">
+      <dt class="col-sm-3">Memory Usage</dt>
+      <dd class="col-sm-9">{{divide @model.deviceinfo.MemoryStatus.Total @model.deviceinfo.MemoryStatus.Free}}%</dd>
+    </dl>
+    <dl class="row">
+      <dt class="col-sm-3">Current Local Time</dt>
+      <dd class="col-sm-9">{{@model.time.CurrentLocalTime}}</dd>
+    </dl>--}}
+  </div>
+</div>

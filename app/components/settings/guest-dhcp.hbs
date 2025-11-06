@@ -1,0 +1,45 @@
+{{#if this.guestDhcpEnabled}}
+  <div class="row mb-2 table-entry" tabindex="0" aria-label="{{t 'PAGE_SETTINGS_LAN_GUEST_NETWORK'}}">
+    {{t 'PAGE_SETTINGS_LAN_GUEST_NETWORK'}}
+  </div>
+  <hr>
+  <div class="row mb-2 table-entry" tabindex="0" aria-label="{{t 'PAGE_IPV4_DHCP_SERVER_PARAMETERS_ADDRESS_POOL_START_IP'}}">
+    {{t 'PAGE_IPV4_DHCP_SERVER_PARAMETERS_ADDRESS_POOL_START_IP'}}
+  </div>
+  <div class="row mb-2 table-entry">
+    {{#each @server.Pool as |pool|}}
+      {{#if (eq pool.Alias 'guest')}}
+        <Ui::IpAddr @ip={{pool.MinAddress}} @id="guestMinAddr" @disabled1={{true}} @disabled2={{true}} @disabled3={{true}} @onUpdate={{this.setMinAddr}}/>
+      {{/if}}
+    {{/each}}
+  </div>
+  <hr>
+  <div class="row mb-2 table-entry" tabindex="0" aria-label="{{t 'PAGE_IPV4_DHCP_SERVER_PARAMETERS_ADDRESS_POOL_END_IP'}}">
+    {{t 'PAGE_IPV4_DHCP_SERVER_PARAMETERS_ADDRESS_POOL_END_IP'}}
+  </div>
+  <div class="row mb-2 table-entry">
+    {{#each @server.Pool as |pool|}}
+      {{#if (eq pool.Alias 'guest')}}
+        <Ui::IpAddr @ip={{pool.MaxAddress}} @id="guestMaxAddr"  @disabled1={{true}} @disabled2={{true}} @disabled3={{true}} @onUpdate={{this.setMaxAddr}}/>
+      {{/if}}
+    {{/each}} 
+  </div>
+  <hr>
+  <div class="row mb-2 table-entry" tabindex="0" aria-label="{{t 'PAGE_IPV4_DHCP_SERVER_PARAMETERS_LEASE_TIME'}}">
+    {{t 'PAGE_IPV4_DHCP_SERVER_PARAMETERS_LEASE_TIME'}}
+  </div>
+  <div class="row mb-2 table-entry">
+    {{#each @server.Pool as |pool|}}
+      {{#if (eq pool.Alias 'guest')}}
+        <select class="form-select" {{on "change" (fn this.updateSelection)}}>
+          <option value="3600" selected={{(eq pool.LeaseTime 3600)}}>{{t 'PAGE_SETTINGS_LAN_LEASE_TIME_1HR'}}</option>
+          <option value="21600" selected={{(eq pool.LeaseTime 21600)}}>{{t 'PAGE_SETTINGS_LAN_LEASE_TIME_6HR'}}</option>
+          <option value="43200" selected={{(eq pool.LeaseTime 43200)}}>{{t 'PAGE_SETTINGS_LAN_LEASE_TIME_12HR'}}</option>
+          <option value="86400" selected={{(eq pool.LeaseTime 86400)}}>{{t 'PAGE_SETTINGS_LAN_LEASE_TIME_24HR'}}</option>
+          <option value="31536000" selected={{(eq pool.LeaseTime 31536000)}}>{{t 'PAGE_SETTINGS_LAN_LEASE_TIME_1YR'}}</option>
+          <option value="315360000" selected={{(eq pool.LeaseTime 315360000)}}>{{t 'PAGE_SETTINGS_LAN_LEASE_TIME_FOREVER'}}</option>
+        </select>
+      {{/if}}
+    {{/each}}
+  </div>
+{{/if}}

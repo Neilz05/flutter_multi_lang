@@ -1,0 +1,187 @@
+<div class="card mb-3">
+  <div class="card-header sc" tabindex="0" aria-label="{{t 'PAGE_GPON_STATUS_INFORMATION'}}">
+    {{t 'PAGE_GPON_STATUS_INFORMATION'}}
+  </div>
+  <div class="card-body">
+    <div class="row">
+      <div class="col-md-6">
+        <div class="row mb-2 table-entry attr-name" tabindex="0" aria-label="{{t 'PAGE_GPON_STATUS_SERIAL_NUMBER'}}">
+          {{t 'PAGE_GPON_STATUS_SERIAL_NUMBER'}}
+        </div>
+      </div>
+      <div class="col-md-6" style="display: flex;">
+        <div class="row mb-2">
+          {{#each @model.ONU as |onu index|}}
+            {{#if (eq index 0)}}
+              {{#each onu.ANI as |ani i|}}
+                {{#if (eq i 0)}}
+                  <div tabindex="0" aria-label="{{ani.TC.ONUActivation.SerialNumber}}">
+                    {{ani.TC.ONUActivation.SerialNumber}}
+                  </div>
+                {{/if}}
+              {{/each}}
+            {{/if}}
+          {{/each}}            
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-6">
+        <div class="row mb-2 table-entry attr-name" tabindex="0" aria-label="{{t 'PAGE_GPON_STATUS_REGISTRATION_STATE'}}">
+          {{t 'PAGE_GPON_STATUS_REGISTRATION_STATE'}}
+        </div>
+      </div>
+      <div class="col-md-6" style="display: flex;">
+        <div class="row mb-2">
+          {{#each @model.ONU as |onu index|}}
+            {{#if (eq index 0)}}
+              {{#each onu.ANI as |ani i|}}
+                {{#if (eq i 0)}}
+                  <div tabindex="0" aria-label="{{ani.TC.ONUActivation.ONUState}}">
+                    {{ani.TC.ONUActivation.ONUState}}
+                  </div>
+                {{/if}}
+              {{/each}}
+            {{/if}}
+          {{/each}}            
+        </div>
+      </div>
+    </div> 
+  </div>
+</div>
+
+<div class="card mb-3">
+  <div class="card-header sc" tabindex="0" aria-label="{{t 'PAGE_GPON_STATUS_POWER'}}">
+    {{t 'PAGE_GPON_STATUS_POWER'}}
+  </div>
+  <div class="card-body">
+    <div class="row">
+      <div class="col-md-6">
+        <div class="row mb-2 table-entry attr-name" tabindex="0" aria-label="{{t 'PAGE_GPON_STATUS_RECEIVED_POWER'}}">
+          {{t 'PAGE_GPON_STATUS_RECEIVED_POWER'}}
+        </div>
+      </div>
+      <div class="col-md-6" style="display: flex;">
+        <div class="row mb-2">
+          {{#each @model.ONU as |onu index|}}
+            {{#if (eq index 0)}}
+              {{#each onu.ANI as |ani i|}}
+                {{#if (eq i 0)}}
+                  {{#if (eq ani.TC.ONUActivation.ONUState "O1")}}
+                    <div tabindex="0" aria-label="N/A">N/A</div>
+                  {{else}}
+                    {{#each ani.Transceiver as |tr j|}}
+                      {{#if (eq j 0)}}
+                        <div tabindex="0" aria-label="{{multiply tr.RxPower 0.1}} dBm">
+                          {{multiply tr.RxPower 0.1}} dBm
+                        </div>
+                      {{/if}}
+                    {{/each}}
+                  {{/if}}
+                {{/if}}
+              {{/each}}
+            {{/if}}
+          {{/each}}            
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-6">
+        <div class="row mb-2 table-entry attr-name" tabindex="0" aria-label="{{t 'PAGE_GPON_STATUS_TRANSMITTED_POWER'}}">
+          {{t 'PAGE_GPON_STATUS_TRANSMITTED_POWER'}}
+        </div>
+      </div>
+      <div class="col-md-6" style="display: flex;">
+        <div class="row mb-2">
+          {{#each @model.ONU as |onu index|}}
+            {{#if (eq index 0)}}
+              {{#each onu.ANI as |ani i|}}
+                {{#if (eq i 0)}}
+                  {{#if (eq ani.TC.ONUActivation.ONUState "O5")}}
+                    {{#each ani.Transceiver as |tr j|}}
+                      {{#if (eq j 0)}}
+                        <div tabindex="0" aria-label="{{multiply tr.TxPower 0.1}} dBm">
+                          {{multiply tr.TxPower 0.1}} dBm
+                        </div>
+                      {{/if}}
+                    {{/each}}
+                  {{else}}
+                    <div tabindex="0" aria-label="N/A">N/A</div>
+                  {{/if}}
+                {{/if}}
+              {{/each}}
+            {{/if}}
+          {{/each}}         
+        </div>
+      </div>
+    </div> 
+  </div>
+</div>
+
+<div class="card mb-3">
+  <div class="card-header sc" tabindex="0" aria-label="{{t 'PAGE_GPON_STATUS_TCONT_STATE'}}">
+    {{t 'PAGE_GPON_STATUS_TCONT_STATE'}}
+  </div>
+  <div class="card-body">
+    {{#each @model.ONU as |onu index|}}
+      {{#if (eq index 0)}}
+        {{#each onu.ANI as |ani ind|}}
+          {{#if (eq ind 0)}}
+            <Status::TcontStateTable @tc={{ani.TC}} />
+          {{/if}}
+        {{/each}}
+      {{/if}}
+    {{/each}}
+  </div>
+</div>
+
+<div class="card mb-3">
+  <div class="card-header sc" tabindex="0" aria-label="{{t 'PAGE_GPON_STATUS_GEM_PORT_STATE'}}">
+    {{t 'PAGE_GPON_STATUS_GEM_PORT_STATE'}}
+  </div>
+  <div class="card-body">
+    {{#each @model.ONU as |onu index|}}
+      {{#if (eq index 0)}}
+        {{#each onu.ANI as |ani ind|}}
+          {{#if (eq ind 0)}}
+            <Status::GemPortStateTable @gem={{ani.TC.GEM}} />
+          {{/if}}
+        {{/each}}
+      {{/if}}
+    {{/each}}
+  </div>
+</div>
+
+<div class="card mb-3">
+  <div class="card-header sc" tabindex="0" aria-label="{{t 'PAGE_GPON_STATUS_PON_STATISTICS'}}">
+    {{t 'PAGE_GPON_STATUS_PON_STATISTICS'}}
+  </div>
+  <div class="card-body">
+    {{#each @model.ONU as |onu index|}}
+      {{#if (eq index 0)}}
+        {{#each onu.ANI as |ani ind|}}
+          {{#if (eq ind 0)}}
+            <Status::PonStatTable @ani={{ani}} />
+          {{/if}}
+        {{/each}}
+      {{/if}}
+    {{/each}}
+  </div>
+</div>
+
+<div class="card mb-3">
+  <div class="card-header sc" tabindex="0" aria-label="{{t 'PAGE_GPON_STATUS_GEM_PORT_STATISTICS'}}">
+    {{t 'PAGE_GPON_STATUS_GEM_PORT_STATISTICS'}}
+  </div>
+  <div class="card-body">
+    {{#each @model.ONU as |onu index|}}
+      {{#if (eq index 0)}}
+        {{#each onu.ANI as |ani ind|}}
+          {{#if (eq ind 0)}}
+            <Status::GemPortStatTable @gem={{ani.TC.GEM}} />
+          {{/if}}
+        {{/each}}
+      {{/if}}
+    {{/each}} 
+  </div>
+</div>

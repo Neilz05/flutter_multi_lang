@@ -1,0 +1,151 @@
+{{page-title "Number Blocking"}}
+
+<h2 tabindex="0" aria-label="{{t 'PAGE_NUMBER_BLOCKING'}}">{{t 'PAGE_NUMBER_BLOCKING'}}</h2>
+
+<p tabindex="0" aria-label="{{t 'PAGE_NUMBER_BLOCKING_SUBTITLE'}}">{{t 'PAGE_NUMBER_BLOCKING_SUBTITLE'}}</p>
+
+{{log @model}}
+
+<div class="card mb-3">
+    <div class="card-header sc fs-4" tabindex="0" aria-label="{{t 'PAGE_NUMBER_BLOCKING_OUTGOING_CALLS'}}">{{t
+        'PAGE_NUMBER_BLOCKING_OUTGOING_CALLS'}}</div>
+    <div class="card-body container">
+        <div class="row">
+            <div class="col" tabindex="0" aria-label="{{t 'PAGE_NUMBER_BLOCKING_OUTGOING_NUMBER_BLOCKING'}}">
+                {{t 'PAGE_NUMBER_BLOCKING_OUTGOING_NUMBER_BLOCKING'}}
+            </div>
+            <div class="col">
+                <label class="switch" tabindex="0" aria-label="{{t 'PAGE_NUMBER_BLOCKING_OUTGOING_NUMBER_BLOCKING'}}"
+                    role="button" {{on "keyup" this.eaactrl.onoffTrigger}}>
+                    <Input @type="checkbox" class="form-check-input" @checked={{eq @model.outgoingsettings.Enable 1}}
+                        {{on 'input' (fn this.toggle @model.outgoingsettings 'Enable' )}} />
+                    <span class="slider round"></span>
+                </label>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col" tabindex="0" aria-label="{{t 'PAGE_NUMBER_BLOCKING_DO_NOT_ALLOW_CONNECTION'}}">
+                {{t 'PAGE_NUMBER_BLOCKING_DO_NOT_ALLOW_CONNECTION'}}
+            </div>
+            <div class="col">
+                {{#each @model.outgoingnumbers as |md|}}
+                {{#if (not md.isDeleted)}}
+                <div class="row">
+                    <div class="col">
+                        <Input @type="text" class="form-control" placeholder="Enter number" @value={{md.Number}} />
+                    </div>
+                    <div class="col-3 me-4">
+                        <button class="btn btn-danger btn-sm py-2 px-3" {{on 'click' (fn this.deleteNumber md)}}>
+                            <i class="bi bi-trash"></i>
+                        </button>
+                    </div>
+                </div>
+                {{/if}}
+                {{/each}}
+                <div class="row">
+                    <div class="col">
+
+                    </div>
+                    <div class="col-3 me-4">
+                        <button type="button" class="btn btn-primary px-3 py-2" onClick={{this.createOutgoingBlock}}><i
+                                class="bi bi-plus-square fs-5"></i></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="row">
+            <div class="col" tabindex="0" aria-label="{{t 'PAGE_NUMBER_BLOCKING_BLOCK_FOREIGN'}}">
+                {{t 'PAGE_NUMBER_BLOCKING_BLOCK_FOREIGN'}}
+            </div>
+            <div class="col">
+                <label class="switch" tabindex="0" aria-label="{{t 'PAGE_NUMBER_BLOCKING_BLOCK_FOREIGN'}}" role="button"
+                    {{on "keyup" this.eaactrl.onoffTrigger}}>
+                    <Input @type="checkbox" class="form-check-input" @checked={{eq
+                        @model.outgoingsettings.ForeignNumberBlockEnable 1}} {{on 'input' (fn this.toggle
+                        @model.outgoingsettings 'ForeignNumberBlockEnable' )}} />
+                    <span class="slider round"></span>
+                </label>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col" tabindex="0" aria-label="{{t 'PAGE_NUMBER_BLOCKING_BLOCK_SPECIAL'}}">
+                {{t 'PAGE_NUMBER_BLOCKING_BLOCK_SPECIAL'}}
+            </div>
+            <div class="col">
+                <label class="switch" tabindex="0" aria-label="{{t 'PAGE_NUMBER_BLOCKING_BLOCK_SPECIAL'}}" role="button"
+                    {{on "keyup" this.eaactrl.onoffTrigger}}>
+                    <Input @type="checkbox" class="form-check-input" @checked={{eq
+                        @model.outgoingsettings.SpecialRateNumberBlockEnable 1}} {{on 'input' (fn this.toggle
+                        @model.outgoingsettings 'SpecialRateNumberBlockEnable' )}} />
+                    <span class="slider round"></span>
+                </label>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="card mb-3">
+    <div class="card-header sc fs-4" tabindex="0" aria-label="{{t 'PAGE_NUMBER_BLOCKING_INCOMING_CALLS'}}">{{t
+        'PAGE_NUMBER_BLOCKING_INCOMING_CALLS'}}</div>
+    <div class="card-body container">
+        <div class="row">
+            <div class="col" tabindex="0" aria-label="{{t 'PAGE_NUMBER_BLOCKING_INCOMING_NUMBER_BLOCKING'}}">
+                {{t 'PAGE_NUMBER_BLOCKING_INCOMING_NUMBER_BLOCKING'}}
+            </div>
+            <div class="col">
+                <label class="switch" tabindex="0" aria-label="{{t 'PAGE_NUMBER_BLOCKING_INCOMING_NUMBER_BLOCKING'}}"
+                    role="button" {{on "keyup" this.eaactrl.onoffTrigger}}>
+                    <Input @type="checkbox" class="form-check-input" @checked={{eq @model.incomingsettings.Enable 1}}
+                        {{on 'input' (fn this.toggle @model.incomingsettings 'Enable' )}} />
+                    <span class="slider round"></span>
+                </label>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col" tabindex="0" aria-label="{{t 'PAGE_NUMBER_BLOCKING_DO_NOT_ALLOW_CONNECTION'}}">
+                {{t 'PAGE_NUMBER_BLOCKING_DO_NOT_ALLOW_CONNECTION'}}
+            </div>
+            <div class="col">
+                {{#each @model.incomingnumbers as |md|}}
+                <div class="row">
+                    <div class="col">
+                        <Input @type="text" class="form-control" placeholder="Enter number" @value={{md.Number}} />
+                    </div>
+                    <div class="col-3 me-4">
+                        <button class="btn btn-danger btn-sm py-2 px-3" {{on 'click' (fn this.deleteNumber md)}}>
+                            <i class="bi bi-trash"></i>
+                        </button>
+                    </div>
+                </div>
+                {{/each}}
+                <div class="row">
+                    <div class="col">
+
+                    </div>
+                    <div class="col-3 me-4">
+                        <button type="button" class="btn btn-primary px-3 py-2" onClick={{this.createIncomingBlock}}><i
+                                class="bi bi-plus-square fs-5"></i></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="d-flex justify-content-end mb-4">
+    <button type="button" class="btn btn-primary" style="width: fit-content;" disabled={{not this.HasChanges}}
+        {{on 'click' (fn this.Apply)}} {{on 'keyup' this.eaactrl.btnClick}} tabindex="0"
+        aria-label="{{t 'PAGE_SETTINGS_APPLY'}}">
+        {{t 'PAGE_SETTINGS_APPLY'}}
+    </button>
+    <button type="button" class="btn btn-secondary ms-2" style="width: fit-content;" disabled={{not this.HasChanges}}
+        {{on 'click' (fn this.Cancel)}} {{on 'keyup' this.eaactrl.btnClick}} tabindex="0"
+        aria-label="{{t 'PAGE_SETTINGS_CANCEL'}}">
+        {{t 'PAGE_SETTINGS_CANCEL'}}
+    </button>
+</div>

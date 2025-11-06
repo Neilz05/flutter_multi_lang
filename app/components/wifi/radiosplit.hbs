@@ -1,0 +1,107 @@
+<div class="row ps-3 mt-3 align-items-center">
+  <div class="col-6">
+    <label>{{t 'PAGE_GENERAL_WIFI_CHANNEL_CURRENT_CHANNEL'}}</label>
+  </div>
+  <div class="col">
+    {{!-- <Helper::Select class="form-select" @options={{this.channels}} @optValue="key" @optLabel="label" @onChange={{this.setChannel}} @disabled={{this.autoChannelEnabled}} @value={{@radio.Channel}}/> --}}
+    <select class="form-select" {{on "change" this.setChannel}} disabled={{@radio.AutoChannelEnable}}>
+      {{#each this.channels as |channel|}}
+        <option value={{channel}} selected={{(eq @radio.Channel channel)}}>{{channel}}</option>
+      {{/each}}
+    </select>
+
+  </div>
+  <div class="col">
+    <label class="col-form-label">{{t 'PAGE_GENERAL_PAGE_GENERAL_SELECT_AUTO'}}</label>
+    <label class="switch ms-3">
+      <Input @type="checkbox" @checked={{eq @radio.AutoChannelEnable 1}} class="form-check-input" {{on 'input' (fn this.Toggle @radio 'AutoChannelEnable')}}/>
+      <span class="slider round"></span>
+    </label>
+  </div>
+</div>
+
+
+
+{{!-- <div class="p-2 d-flex align-items-center justify-content-between">
+  <label class="col-form-label">Current Channel</label>
+  <Helper::Select class="form-select" @options={{this.channels}} @optValue="key" @optLabel="label" @onChange={{this.setChannel}} @disabled={{this.autoChannelEnabled}}/>
+  <label class="col-form-label">Auto Channel</label>
+  <label class="switch">
+    <Input @type="checkbox" @value={{@radio.AutoChannelEnable}} @checked={{this.autoChannelEnabled}} class="form-check-input" />
+    <span class="slider round"></span>
+  </label>
+</div>
+
+<div class="p-2 d-flex align-items-center justify-content-between">
+  <label class="col-form-label">Max Data Rate: <label class="fw-bold ms-3">{{@radio.MaxBitRate}}</label></label>
+
+</div> --}}
+
+
+
+
+{{!-- <div class="card mb-3">
+  <div class="card-header">
+   {{@radio.OperatingFrequencyBand}} - {{@radio.Name}}
+  </div>
+  <div class="card-body">
+    <div class="row">
+      <div class="col-md-6">
+
+        <div class="row mb-2">
+          <div class="col-md-3"></div>
+          <div class="col-md-9">
+            <Input @type="checkbox" @value="{{@radio.Enable}}" @checked={{this.enabled}} class="form-check-input" />
+            <label class="form-check-label">Enable</label>
+          </div>
+        </div>
+
+        <div class="row mb-2">
+          <div class="col-md-3">
+            <label class="col-form-label">Channel</label>
+          </div>
+          <div class="col-md-3">
+            <Helper::Select class="form-select" @options={{this.channels}} @value={{@radio.Channel}} @optValue="key" @optLabel="label" @onChange={{this.setChannel}} @disabled={{this.autoChannelEnabled}} />
+          </div>
+          <div class="col-md-6">
+            <div class="form-check">
+              <Input @type="checkbox" @value="{{@radio.AutoChannelEnable}}" @checked={{this.autoChannelEnabled}} class="form-check-input" />
+              <label class="form-check-label">Auto</label>
+            </div>
+          </div>
+        </div>
+
+        <div class="row mb-2">
+          <div class="col-md-3">Channel BW</div>
+          <div class="col-md-9">
+            {{@radio.CurrentOperatingChannelBandwidth}}
+          </div>
+        </div>
+
+      </div>
+
+      <div class="col-md-6">
+
+        <div class="row mb-2">
+          <div class="col-md-12">&nbsp;</div>
+        </div>
+
+        <div class="row mb-2">
+          <div class="col-md-3">
+            <label class="col-form-label">Base MAC</label>
+          </div>
+          <div class="col-md-9">
+            <label class="col-form-label">{{@radio.BaseMACAddress}}</label>
+          </div>
+        </div>
+
+        <div class="row mb-2">
+          <div class="col-md-3">Reg. Domain</div>
+          <div class="col-md-9">{{@radio.RegulatoryDomain}}</div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+ --}}

@@ -1,0 +1,288 @@
+
+@mixin FG4278Bv3 {
+  $brand-main-color: #e00800;
+  $brand-main-color-eaa: #e9524c;
+  $brand-black: #191329;
+  $brand-white: #fff;
+  $brand-box-shadow: 0 0 0 0.25rem rgba(243, 155, 155, 0.5);
+  $brand-logo: '/assets/images/brand-logo.png';
+  $brand-font-family: 'Suiss, GE_SS_Two, Roboto, Arial, sans-serif';
+
+  $default-background: $brand-white;
+  $default-color: $brand-black;
+  $main-background: $brand-white;
+  $main-color: $brand-black;
+
+  html, p, div, span, a, h1, h2, h3, h4, h5, h6, ul, li {
+    font-family: $brand-font-family;
+  }
+  h1, h2, h3, .card-header {
+    color: $brand-main-color;
+  }
+  body {
+    background-color: $default-background;
+    color: $default-color;
+  }
+  .main, .card-body, .modal-body {
+    background-color: $main-background;
+    color: $main-color;
+  }
+  a {
+    color: $brand-main-color;
+  }
+  /*
+  .prpl-pwd-logo {
+    display: none;
+  }
+  */
+  .login .prpl-pwd-logo {
+    display: none;
+  }
+  .logo {
+    width: 300px;
+    height: 76px;
+    background-image: url($brand-logo);
+    background-size: 300px 76px;
+  }
+  .navbar-vertical .logo, .main_bsnavbar .logo {
+    width: 160px;
+    height: 40px;
+    background-image: url($brand-logo);
+    background-size: 160px 40px;
+  }
+
+  .main_bsnavbar {
+    background-color: $brand-black !important;
+    font-size: 16px;
+    & .nav-link:hover {
+        color: $brand-main-color;
+        border-bottom: 1px solid $brand-main-color;
+    }
+    & .dropdown-item.active, & .dropdown-item:active {
+      color: $brand-white;
+      background-color: $brand-main-color;
+    }
+  }
+  /*
+  #main {
+    display: block;
+    & #menu-left {
+      display: none;
+    }
+  }
+  */
+  #top-header{
+    & .fw-bold, & h1 {
+      color: $brand-main-color;
+    }
+  }
+  .conn-active {
+      background: $brand-black;
+  }
+
+  .conn-btn {
+      background: $brand-main-color;
+      line-height: 14px;
+  }
+
+  .btn {
+    border-radius: 10px;
+  }
+  .btn-check:focus + .btn, .btn:focus {
+    outline: 0;
+    box-shadow: $brand-box-shadow;
+  }
+  .btn-link {
+    color: $brand-black;
+  }
+  .btn-link:hover {
+    color: $brand-main-color;
+  }
+  .btn-check:checked + .btn-outline-primary, 
+  .btn-check:active + .btn-outline-primary, 
+  .btn-outline-primary:active, 
+  .btn-outline-primary.active, 
+  .btn-outline-primary.dropdown-toggle.show {
+    background-color: $brand-main-color;
+    border-color: $brand-main-color;
+  }
+  .btn-outline-primary {
+    color: $brand-main-color;
+    border-color: $brand-main-color;
+    &:hover {
+      background-color: $brand-main-color;
+      border-color: $brand-main-color;
+    }
+  }
+  .btn-check:checked + .btn-outline-primary:focus, 
+  .btn-check:active + .btn-outline-primary:focus, 
+  .btn-outline-primary:active:focus, 
+  .btn-outline-primary.active:focus, 
+  .btn-outline-primary.dropdown-toggle.show:focus {
+    box-shadow: $brand-box-shadow;
+  }
+  .btn-check:focus + .btn-outline-primary, .btn-outline-primary:focus {
+      box-shadow: $brand-box-shadow;
+  }
+  .btn-primary {
+    background-color: $brand-main-color;
+    border-color: $brand-main-color;
+
+    &:hover {
+      background-color: $brand-main-color;
+      border-color: $brand-main-color;
+    }
+    &:active {
+      background-color: $brand-main-color;
+      border-color: $brand-main-color;
+    }
+    &:active:focus {
+      box-shadow: $brand-box-shadow;
+    }
+    &:disabled {
+      background-color: $brand-black;
+      border-color: $brand-black;
+      opacity: 0.8;
+    }
+  }
+  .btn:disabled, .btn.disabled, fieldset:disabled .btn {
+      pointer-events: none;
+      opacity: 1.0;
+  }
+  input:checked + .slider {
+      background-color: #e00800;
+  }
+  .btn-check:focus + .btn-primary, .btn-primary:focus {
+    color: $brand-white;
+    background-color: $brand-main-color;
+    border-color: $brand-main-color;
+    box-shadow: $brand-box-shadow;
+  }
+
+  .form-control:focus {
+    color: $brand-black;
+    background-color: $brand-white;
+    border-color: $brand-main-color;
+    outline: 0;
+    box-shadow: $brand-box-shadow;
+  }
+  .form-select:focus {
+    box-shadow: $brand-box-shadow;
+  }
+  .form-check-input:focus {
+    border-color: $brand-main-color;
+    box-shadow: $brand-box-shadow;
+  }
+  .form-check-input:checked {
+    background-color: $brand-main-color;
+    border-color: $brand-main-color;
+  }
+
+  #menu-left {
+    background-color: $brand-black;
+    font-family: $brand-font-family;
+    & a {
+      font-size: 16px;
+    }
+    & .nav-item {
+        padding: 10px 0 0 5px;
+    }
+    & .main-submenu {
+      background-color: $brand-white;
+      font-family: $brand-font-family;
+      & ul {
+        padding: 0 0 0 15px;
+      }
+      & li {
+        color: $brand-black;
+      }
+    }
+    & .menu-active {
+      background-color: $brand-black;
+      & a {
+        color: $brand-main-color-eaa;
+        font-family: $brand-font-family;
+      }
+    }
+    & .submenu-active {
+      background-color: $brand-white;
+      border-bottom: 3px solid $brand-main-color;
+      border-radius: 0;
+      & a {
+        color: $brand-main-color;
+        font-family: $brand-font-family;
+      }
+    }
+    & .subsubmenu {
+      background-color: #F5F5F5;
+      & .submenu-active {
+        background-color: $brand-white;
+        border-bottom: 1px solid $brand-black;
+        border-radius: 0;
+      }
+    }
+  }
+
+  .modal-header {
+      background-color: $brand-main-color;
+  }
+  .btn-close {
+      background-color: transparent;
+  }
+  .nav-link {
+      color: $brand-main-color;
+      &:hover {
+          color: $brand-main-color;
+          border-bottom: 1px solid $brand-main-color;
+          border-radius: 0;
+      }
+  }
+  
+  .nav-pills .nav-link.active {
+      background-color: $brand-main-color;
+  }
+  .nav-pills .nav-link.active, .nav-pills .show > .nav-link {
+      background-color: $brand-main-color;
+  }
+  .radio-large {
+    transform: scale(1.5);
+    margin-right: 0.5rem;
+  }
+
+  .accordion-button:not(.collapsed) {
+    color: $brand-white;
+    background-color: $brand-black;
+    opacity: 0.8;
+  }
+  .accordion-button:focus {
+    box-shadow: 0 0 0 0.25rem transparent;
+  }
+  .accordion-button:not(.collapsed)::after {
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%23ffffff'%3e%3cpath fill-rule='evenodd' d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'/%3e%3c/svg%3e");
+  }
+
+  .accordion-button:focus {
+    color: $brand-white;
+    background-color: $brand-black;
+    opacity: 1;
+  }
+
+  // Responsive adjustments
+  // For screens smaller than 992px (Bootstrap md breakpoint)
+  @media (max-width: 992px) {
+    .mobile_main_bsnavbar {
+      & .logo {
+        width: 142px;
+        height: 36px;
+        background-size: 142px 36px;
+      }
+    }
+  }
+  // For screens smaller than 768px (Bootstrap sm breakpoint)
+  @media (max-width: 768px) {
+  }
+
+  input[type="password"]::-ms-reveal {
+    display: none;
+  }
+}

@@ -1,0 +1,344 @@
+<div class="card mb-3">
+  {{did-insert this.getFirstConfigFile}}
+  <div class="card-header sc p-3">
+    <label class="fs-4 fw-bold ms-3" tabindex="0" aria-label="{{t 'PAGE_CONFIG_BACKUP_AND_RESTORE'}}">
+      {{t 'PAGE_CONFIG_BACKUP_AND_RESTORE'}}
+    </label>
+  </div>
+  <div class="card-body">
+    <div class="row py-1 ps-3">
+      <div class="col">
+        <label tabindex="0" aria-label="{{t 'PAGE_CONFIG_SAVE_TO_COMPUTER'}}">
+          {{t 'PAGE_CONFIG_SAVE_TO_COMPUTER'}}
+        </label>
+      </div>
+      <div class="col">
+        <button
+          class="btn btn-primary"
+          {{on "click" this.openBackupModal}}
+          {{on "keyup" this.eaactrl.btnTrigger}}
+          tabindex="0"
+          aria-label="{{t 'PAGE_CONFIG_SAVE_TO_COMPUTER_SUB'}}"
+        >
+          {{t 'PAGE_CONFIG_SAVE_TO_COMPUTER_SUB'}}
+        </button>
+      </div>
+    </div>
+
+    {{#let (file-queue name="files" onFileAdded=this.uploadFile) as |queue|}}
+      <div class="row py-1 ps-3">
+        <div class="col">
+          <label tabindex="0" aria-label="{{t 'PAGE_CONFIG_RESTORE_FROM_CONFIG'}}">
+            {{t 'PAGE_CONFIG_RESTORE_FROM_CONFIG'}}
+          </label>
+        </div>
+        <div class="col">
+          <label
+            for="input-select"
+            class="btn btn-primary"
+            {{on "click" this.clickUploadInput}}
+            {{on "keyup" this.eaactrl.btnTrigger}}
+            tabindex="0"
+            aria-label="{{t 'PAGE_SHARING_POPUP_HARD_DRIVES_UPLOAD'}}"
+          >
+            {{t 'PAGE_SHARING_POPUP_HARD_DRIVES_UPLOAD'}}
+          </label>
+          <input type="file" id="config-input" name="input-select" style="display: none;" {{queue.selectFile}} />
+        </div>
+      </div>
+    {{/let}}
+  </div>
+</div>
+
+<div class="card mb-3">
+  <div class="card-header sc p-3">
+    <label class="fs-4 fw-bold ms-3" tabindex="0" aria-label="{{t 'PAGE_CONFIGURATION_FACTORY_SETTINGS_SECTION_TITLE'}}">
+      {{t 'PAGE_CONFIGURATION_FACTORY_SETTINGS_SECTION_TITLE'}}
+    </label>
+  </div>
+  <div class="card-body">
+    <div class="row py-1 ps-3">
+      <div class="col">
+        <label tabindex="0" aria-label="{{t 'PAGE_CONFIGURATION_FACTORY_SETTINGS_SECTION_RESET_RESTORES_TEXT'}}">
+          {{t 'PAGE_CONFIGURATION_FACTORY_SETTINGS_SECTION_RESET_RESTORES_TEXT'}}
+        </label>
+      </div>
+      <div class="col">
+        <button
+          class="btn btn-primary"
+          {{on "click" this.openResetModal}}
+          {{on "keyup" this.eaactrl.btnTrigger}}
+          tabindex="0"
+          aria-label="{{t 'PAGE_CONFIGURATION_FACTORY_SETTINGS_SECTION_RESET_RESTORES_BUTTON_TEXT'}}"
+        >
+          {{t 'PAGE_CONFIGURATION_FACTORY_SETTINGS_SECTION_RESET_RESTORES_BUTTON_TEXT'}}
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+{{#if (or (eq this.currentUser.modelType "FG4278Av2_VD") (eq this.currentUser.modelType "FG4278Av2"))}}
+<div class="card mb-3">
+  <div class="card-header sc p-3">
+    <label class="fs-4 fw-bold ms-3" tabindex="0" aria-label="{{t 'PAGE_CONFIGURATION_SOFT_RESET_SECTION_TITLE'}}">
+      {{t 'PAGE_CONFIGURATION_SOFT_RESET_SECTION_TITLE'}}
+    </label>
+  </div>
+  <div class="card-body">
+    <div class="row py-1 ps-3">
+      <div class="col">
+        <label tabindex="0" aria-label="{{t 'PAGE_CONFIGURATION_SOFT_RESET_SECTION_RESET_RESTORES_TEXT'}}">
+          {{t 'PAGE_CONFIGURATION_SOFT_RESET_SECTION_RESET_RESTORES_TEXT'}}
+        </label>
+      </div>
+      <div class="col">
+        <button
+          class="btn btn-primary"
+          {{on "click" this.openSoftResetModal}}
+          {{on "keyup" this.eaactrl.btnTrigger}}
+          tabindex="0"
+          aria-label="{{t 'PAGE_CONFIGURATION_SOFT_RESET_SECTION_RESET_RESTORES_BUTTON_TEXT'}}"
+        >
+          {{t 'PAGE_CONFIGURATION_SOFT_RESET_SECTION_RESET_RESTORES_BUTTON_TEXT'}}
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+{{/if}}
+
+<BsModal @open={{this.modalUploadIsOpen}} @closeButton={{false}} @backdropClose={{false}} as |Modal|>
+  <Modal.header>
+    <div tabindex="0" aria-label="{{t 'PAGE_CONFIG_LOAD_FROM_COMPUTER'}}">
+      {{t 'PAGE_CONFIG_LOAD_FROM_COMPUTER'}}
+    </div>
+  </Modal.header>
+    <Modal.body>
+        {{!-- <div class="row">
+            <div class="col-md-6">
+                Created on
+            </div>
+            <div class="col-md-6">
+                <div></div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                Firmware version
+            </div>
+            <div class="col-md-6">
+                <div></div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                Configuration description
+            </div>
+            <div class="col-md-6">
+                <textarea></textarea>
+            </div>
+        </div> --}}
+    <div class="row">
+      <div class="col-md-6" tabindex="0" aria-label="{{t 'PAGE_CONFIGURATION_PASSWORD'}}">
+        {{t 'PAGE_CONFIGURATION_PASSWORD'}}
+      </div>
+      <div class="col-md-6">
+        <input
+          class="form-control"
+          type="password"
+          id="upload-password-text"
+          {{on "input" this.updateUploadPassword}}
+          tabindex="0"
+          aria-label="Upload Password"
+        />
+      </div>
+    </div>
+  </Modal.body>
+  <Modal.footer as |footer|>
+    <BsButton
+      class="btn btn-success"
+      {{on "click" this.startConfigRestore}}
+      {{on "keyup" this.eaactrl.btnTrigger}}
+      tabindex="0"
+      aria-label="{{t 'PAGE_CONFIGURATION_CONFIGURATION_SECTION_RESTORE_CONFIGURATION_BUTTON_TEXT'}}"
+    >
+      {{t 'PAGE_CONFIGURATION_CONFIGURATION_SECTION_RESTORE_CONFIGURATION_BUTTON_TEXT'}}
+    </BsButton>
+    <BsButton
+      {{on "click" this.closeUploadModal}}
+      {{on "keyup" this.eaactrl.btnTrigger}}
+      tabindex="0"
+      aria-label="{{t 'PAGE_CONFIGURATION_LOAD_OLD_CONFIGURATION_START_POPUP_CANCEL_BUTTON'}}"
+    >
+      {{t 'PAGE_CONFIGURATION_LOAD_OLD_CONFIGURATION_START_POPUP_CANCEL_BUTTON'}}
+    </BsButton>
+  </Modal.footer>
+</BsModal>
+
+<BsModal @open={{this.modalResetIsOpen}} @closeButton={{false}} @backdropClose={{false}} as |Modal|>
+  <Modal.header>
+    <div tabindex="0" aria-label="{{t 'PAGE_CONFIGURATION_FACTORY_RESET_POPUP_TITLE'}}">
+      {{t 'PAGE_CONFIGURATION_FACTORY_RESET_POPUP_TITLE'}}
+    </div>
+  </Modal.header>
+  <Modal.body>
+    <div tabindex="0" aria-label="{{t 'PAGE_CONFIGURATION_FACTORY_RESET_POPUP_TEXT'}}">
+      {{t 'PAGE_CONFIGURATION_FACTORY_RESET_POPUP_TEXT'}}
+    </div>
+    <br />
+  </Modal.body>
+  <Modal.footer as |footer|>
+    <BsButton
+      class="btn btn-success"
+      {{on "click" this.openResetProgressModal}}
+      {{on "keyup" this.eaactrl.btnTrigger}}
+      tabindex="0"
+      aria-label="{{t 'PAGE_CONFIGURATION_FACTORY_RESET_POPUP_APPLY'}}"
+    >
+      {{t 'PAGE_CONFIGURATION_FACTORY_RESET_POPUP_APPLY'}}
+    </BsButton>
+    <BsButton
+      {{on "click" this.closeResetModal}}
+      {{on "keyup" this.eaactrl.btnTrigger}}
+      tabindex="0"
+      aria-label="{{t 'PAGE_CONFIGURATION_FACTORY_RESET_POPUP_CANCEL'}}"
+    >
+      {{t 'PAGE_CONFIGURATION_FACTORY_RESET_POPUP_CANCEL'}}
+    </BsButton>
+  </Modal.footer>
+</BsModal>
+
+<BsModal @open={{this.modalResetProgressIsOpen}} @closeButton={{false}} @backdropClose={{false}} as |Modal|>
+  <Modal.header>
+    <div tabindex="0" aria-label="{{t 'PAGE_CONFIGURATION_FACTORY_PROGRESS_POPUP_TITLE'}}">
+      {{t 'PAGE_CONFIGURATION_FACTORY_PROGRESS_POPUP_TITLE'}}
+    </div>
+  </Modal.header>
+  <Modal.body>
+    <div class="reset-loading" aria-hidden="true"></div>
+  </Modal.body>
+    <Modal.footer as |footer|>
+    </Modal.footer>
+</BsModal>
+
+
+<BsModal @open={{this.modalSoftResetIsOpen}} @closeButton={{false}} @backdropClose={{false}} as |Modal|>
+  <Modal.header>
+    <div tabindex="0" aria-label="{{t 'PAGE_CONFIGURATION_SOFT_RESET_POPUP_TITLE'}}">
+      {{t 'PAGE_CONFIGURATION_SOFT_RESET_POPUP_TITLE'}}
+    </div>
+  </Modal.header>
+  <Modal.body>
+    <div tabindex="0" aria-label="{{t 'PAGE_CONFIGURATION_SOFT_RESET_POPUP_TEXT'}}">
+      {{t 'PAGE_CONFIGURATION_SOFT_RESET_POPUP_TEXT'}}
+    </div>
+    <br />
+  </Modal.body>
+  <Modal.footer as |footer|>
+    <BsButton
+      class="btn btn-success"
+      {{on "click" this.openSoftResetProgressModal}}
+      {{on "keyup" this.eaactrl.btnTrigger}}
+      tabindex="0"
+      aria-label="{{t 'PAGE_CONFIGURATION_SOFT_RESET_POPUP_APPLY'}}"
+    >
+      {{t 'PAGE_CONFIGURATION_SOFT_RESET_POPUP_APPLY'}}
+    </BsButton>
+    <BsButton
+      {{on "click" this.closeSoftResetModal}}
+      {{on "keyup" this.eaactrl.btnTrigger}}
+      tabindex="0"
+      aria-label="{{t 'PAGE_CONFIGURATION_SOFT_RESET_POPUP_CANCEL'}}"
+    >
+      {{t 'PAGE_CONFIGURATION_SOFT_RESET_POPUP_CANCEL'}}
+    </BsButton>
+  </Modal.footer>
+</BsModal>
+
+<BsModal @open={{this.modalSoftResetProgressIsOpen}} @closeButton={{false}} @backdropClose={{false}} as |Modal|>
+  <Modal.header>
+    <div tabindex="0" aria-label="{{t 'PAGE_CONFIGURATION_SOFTRESET_PROGRESS_POPUP_TITLE'}}">
+      {{t 'PAGE_CONFIGURATION_SOFTRESET_PROGRESS_POPUP_TITLE'}}
+    </div>
+  </Modal.header>
+  <Modal.body>
+    <div class="reset-loading" aria-hidden="true"></div>
+  </Modal.body>
+    <Modal.footer as |footer|>
+    </Modal.footer>
+</BsModal>
+
+<BsModal @open={{this.configfileError}} as |Modal|>
+  <Modal.header>
+    <div tabindex="0" aria-label="{{t 'PAGE_CONFIG_BACKUP_AND_RESTORE'}}">
+      {{t 'PAGE_CONFIG_BACKUP_AND_RESTORE'}}
+    </div>
+  </Modal.header>
+  <Modal.body>
+    <div tabindex="0" aria-label="{{t 'PAGE_CONFIG_BACKUP_AND_RESTORE_ERROR_FILE'}}">
+      {{t 'PAGE_CONFIG_BACKUP_AND_RESTORE_ERROR_FILE'}}
+    </div>
+  </Modal.body>
+</BsModal>
+
+<BsModal
+  @open={{this.modalUploadInProgressIsOpen}}
+  @onHidden={{fn (mut this.modalUploadInProgressIsOpen) false}}
+as |modal|>
+  <modal.header>
+    <h4 class="modal-title" tabindex="0" aria-label="{{t 'PAGE_CONFIGURATION_SAVING_CONFIGURATION_TO_COMPUTER_POPUP_TITLE'}}">
+      {{t "PAGE_CONFIGURATION_SAVING_CONFIGURATION_TO_COMPUTER_POPUP_TITLE"}}
+    </h4>
+  </modal.header>
+  <modal.body>
+    <div class="container-fluid text-start">
+      <div class="container-fluid text-start">
+        <div tabindex="0" aria-label="{{t 'PAGE_CONFIGURATION_SAVING_CONFIGURATION_TO_COMPUTER_POPUP_TEXT'}}">
+          {{t "PAGE_CONFIGURATION_SAVING_CONFIGURATION_TO_COMPUTER_POPUP_TEXT"}}
+        </div>
+        <div class="reset-loading" aria-hidden="true"></div>
+      </div>
+    </div>
+  </modal.body>
+  <modal.footer>
+    <BsButton
+      @onClick={{modal.close}}
+      {{on "keyup" this.eaactrl.btnTrigger}}
+      tabindex="0"
+      aria-label="{{t 'PAGE_OVERVIEW_MODAL_CLOSE'}}"
+    >
+      {{t "PAGE_OVERVIEW_MODAL_CLOSE"}}
+    </BsButton>
+  </modal.footer>
+</BsModal>
+
+<BsModal
+  @open={{this.modalUploadDoneIsOpen}}
+  @onHidden={{fn (mut this.modalUploadDoneIsOpen) false}}
+as |modal|>
+  <modal.header>
+    <h4 class="modal-title" tabindex="0" aria-label="{{t 'PAGE_CONFIGURATION_CONFIGURATION_APPLIED_POPUP_TITLE'}}">
+      {{t "PAGE_CONFIGURATION_CONFIGURATION_APPLIED_POPUP_TITLE"}}
+    </h4>
+  </modal.header>
+  <modal.body>
+    <div class="container-fluid text-start">
+      <div class="container-fluid text-start">
+        <div tabindex="0" aria-label="{{this.modalUploadIsDoneText}}">
+          {{this.modalUploadIsDoneText}}
+        </div>
+      </div>
+    </div>
+  </modal.body>
+  <modal.footer>
+    <BsButton
+      @onClick={{modal.close}}
+      {{on "keyup" this.eaactrl.btnTrigger}}
+      tabindex="0"
+      aria-label="{{t 'PAGE_OVERVIEW_MODAL_CLOSE'}}"
+    >
+      {{t "PAGE_OVERVIEW_MODAL_CLOSE"}}
+    </BsButton>
+  </modal.footer>
+</BsModal>

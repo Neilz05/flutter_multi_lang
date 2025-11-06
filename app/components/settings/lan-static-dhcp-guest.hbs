@@ -1,0 +1,201 @@
+<div {{did-insert this.register}} class="lan-static-dhcp-root">
+<div class="table-responsive">
+  <table class="table table-bordered">
+    <thead>
+      <tr>
+        <th scope="col" tabindex="0" aria-label="{{t 'PAGE_IPV4_STATIC_DHCP_DEVICE_NAME'}}">{{t 'PAGE_IPV4_STATIC_DHCP_DEVICE_NAME'}}</th>
+        <th scope="col" tabindex="0" aria-label="{{t 'PAGE_IPV4_STATIC_DHCP_MAC_ADDRESS'}}">{{t 'PAGE_IPV4_STATIC_DHCP_MAC_ADDRESS'}}</th>
+        <th scope="col" tabindex="0" aria-label="{{t 'PAGE_IPV4_STATIC_DHCP_IP_ADDRESS'}}">{{t 'PAGE_IPV4_STATIC_DHCP_IP_ADDRESS'}}</th>
+        <th scope="col"></th>
+        {{!-- <th scope="col"></th> --}}
+      </tr>
+    </thead>
+    <tbody class="border border-top">
+      {{#each this.StaticEntries as |staticAddr ind|}}
+        <tr>
+          <td tabindex="0" aria-label="{{staticAddr.Alias}}">{{staticAddr.Alias}}</td>
+          <td tabindex="0" aria-label="{{staticAddr.Chaddr}}">{{staticAddr.Chaddr}}</td>
+          <td tabindex="0" aria-label="{{staticAddr.Yiaddr}}">{{staticAddr.Yiaddr}}</td>
+          {{!-- <td>{{staticAddr.Enable}}</td> --}}
+          <td>
+            <div style="float: right">
+              <button 
+                class="btn btn-secondary btn-sm ms-auto py-2 px-3" 
+                tabindex="0" 
+                aria-label="{{t "MESSAGES_EDIT_BUTTON"}}" 
+                {{on "keyup" this.eaactrl.btnClick}}
+                {{on 'click' (fn this.openEditModal staticAddr)}}>
+                <i class="bi bi-gear"></i>
+              </button>
+              <button 
+                class="btn btn-danger btn-sm ms-auto py-2 px-3" 
+                tabindex="0" 
+                aria-label="{{t "MESSAGES_DELETE_BUTTON"}}" 
+                {{on "keyup" this.eaactrl.btnClick}}
+                {{on 'click' (fn this.deleteStaticAddr staticAddr)}}>
+                <i class="bi bi-trash"></i>
+              </button>
+            </div>
+          </td>
+          {{!-- <td></td> --}}
+        </tr>
+      {{/each}}
+    </tbody>
+  </table>
+    <div class="d-flex justify-content-end">
+      <div class="pb-3">
+        <button 
+          type="button" 
+          class="btn btn-primary px-2 py-1" 
+          tabindex="0" 
+          aria-label="{{t "MESSAGES_ADD_BUTTON"}}" 
+          {{on "keyup" this.eaactrl.btnClick}}
+          onClick={{this.openAddModal}}>
+          <i class="bi bi-plus-square fs-5"></i>
+        </button>
+      </div>
+    </div>
+</div>
+
+<BsModal
+  @open={{this.editModalOpen}}
+  @onSubmit={{this.saveStaticAddr}}
+  @onHidden={{fn (mut this.editModalOpen) false}}
+as |modal|>
+
+  <modal.header>
+    <h4 class="modal-title" tabindex="0" aria-label="{{t 'PAGE_SETTINGS_LAN_POPUP_EDIT_TITLE'}}">{{t 'PAGE_SETTINGS_LAN_POPUP_EDIT_TITLE'}}</h4>
+  </modal.header>
+
+  <modal.body>
+    <div class="container-fluid text-start">
+      <div class="container-fluid text-start">
+
+        <div class="row align-items-center">
+          <div class="col" tabindex="0" aria-label="{{t 'PAGE_PORT_MAPPING_POPUP_EDIT_DEVICE'}}">{{t 'PAGE_PORT_MAPPING_POPUP_EDIT_DEVICE'}}</div>
+          <div class="col">
+            <select class="form-select w-100" {{on "change" (fn this.updateSelection)}}>
+              {{#each this.filterHosts as |host|}}
+                <option value={{host.HostName}}>{{host.HostName}}</option>
+              {{/each}}
+            </select>
+          </div>
+        </div>
+
+        <div class="row align-items-center">
+          <div class="col" tabindex="0" aria-label="{{t 'PAGE_SETTINGS_LAN_POPUP_DEVICE_NAME'}}">{{t 'PAGE_SETTINGS_LAN_POPUP_DEVICE_NAME'}}</div>
+          <div class="col">
+            <div class="col" tabindex="0" aria-label="{{this.selectedEntry.Alias}}">{{this.selectedEntry.Alias}}</div>
+          </div>
+        </div>
+
+        <div class="row align-items-center">
+          <div class="col" tabindex="0" aria-label="{{t 'PAGE_SETTINGS_LAN_POPUP_MAC_ADDRESS'}}">{{t 'PAGE_SETTINGS_LAN_POPUP_MAC_ADDRESS'}}</div>
+          <div class="col">
+            <Input class="form-control {{if this.macAddrMsg " is-invalid" "" }}" @value={{this.selectedEntry.Chaddr}} />
+            {{#if this.macAddrMsg}}
+            <div class="invalid-feedback fw-normal d-block" tabindex="0" aria-label="{{this.macAddrMsg}}">
+              {{this.macAddrMsg}}
+            </div>
+            {{/if}}
+          </div>
+        </div>
+
+        <div class="row align-items-center">
+          <div class="col" tabindex="0" aria-label="{{t 'PAGE_SETTINGS_LAN_POPUP_IP_ADDRESS'}}">{{t 'PAGE_SETTINGS_LAN_POPUP_IP_ADDRESS'}}</div>
+          <div class="col">
+            <Input class="form-control {{if this.ipAddrMsg " is-invalid" "" }}" @value={{this.selectedEntry.Yiaddr}} />
+            {{#if this.ipAddrMsg}}
+            <div class="invalid-feedback fw-normal d-block" tabindex="0" aria-label="{{this.ipAddrMsg}}">
+              {{this.ipAddrMsg}}
+            </div>
+            {{/if}}
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </modal.body>
+
+  <modal.footer>
+    <BsButton {{on "keyup" this.eaactrl.btnCancel}} @onClick={{fn this.handleClose modal.close}}>{{t 'PAGE_PORT_MAPPING_POPUP_EDIT_CANCEL'}}</BsButton>
+    <BsButton @type="success" {{on "keyup" this.eaactrl.btnApply}} @onClick={{modal.submit}}>{{t 'PAGE_PORT_MAPPING_POPUP_EDIT_SAVE'}}</BsButton>
+  </modal.footer>
+
+</BsModal>
+
+{{!-- Add Modal --}}
+
+<BsModal
+  @open={{this.addModalOpen}}
+  @onSubmit={{this.addStaticAddr}}
+  @onHidden={{fn (mut this.editModalOpen) false}}
+as |modal|>
+
+  <modal.header>
+    <h4 class="modal-title" tabindex="0" aria-label="{{t 'PAGE_SETTINGS_LAN_POPUP_ADD_TITLE'}}">{{t 'PAGE_SETTINGS_LAN_POPUP_ADD_TITLE'}}</h4>
+  </modal.header>
+
+  <modal.body>
+    <div class="container-fluid text-start">
+      <div class="container-fluid text-start">
+
+        <div class="row align-items-center">
+          <div class="col" tabindex="0" aria-label="{{t 'PAGE_PORT_MAPPING_POPUP_EDIT_DEVICE'}}">{{t 'PAGE_PORT_MAPPING_POPUP_EDIT_DEVICE'}}</div>
+          <div class="col">
+            <select class="form-select w-100" {{on "change" (fn this.updateSelection)}}>
+              {{#each this.filterHosts as |host|}}
+                <option value={{host.HostName}}>{{host.HostName}}</option>
+              {{/each}}
+              <option value="" selected=true>{{t 'PAGE_PORT_MAPPING_POPUP_EDIT_NO_SPECIFIC'}}</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="row align-items-center">
+          <div class="col" tabindex="0" aria-label="{{t 'PAGE_SETTINGS_LAN_POPUP_DEVICE_NAME'}}">{{t 'PAGE_SETTINGS_LAN_POPUP_DEVICE_NAME'}}</div>
+          <div class="col">
+            <Input class="form-control {{if this.deviceNameMsg " is-invalid" "" }}" @value={{this.deviceName}} />
+            {{#if this.deviceNameMsg}}
+            <div class="invalid-feedback fw-normal d-block" tabindex="0" aria-label="{{this.deviceNameMsg}}">
+              {{this.deviceNameMsg}}
+            </div>
+            {{/if}}
+          </div>
+        </div>
+
+        <div class="row align-items-center">
+          <div class="col" tabindex="0" aria-label="{{t 'PAGE_SETTINGS_LAN_POPUP_MAC_ADDRESS'}}">{{t 'PAGE_SETTINGS_LAN_POPUP_MAC_ADDRESS'}}</div>
+          <div class="col">
+            <Input class="form-control {{if this.macAddrMsg " is-invalid" "" }}" @value={{this.macAddr}} />
+            {{#if this.macAddrMsg}}
+            <div class="invalid-feedback fw-normal d-block" tabindex="0" aria-label="{{this.macAddrMsg}}">
+              {{this.macAddrMsg}}
+            </div>
+            {{/if}}
+          </div>
+        </div>
+
+        <div class="row align-items-center">
+          <div class="col" tabindex="0" aria-label="{{t 'PAGE_SETTINGS_LAN_POPUP_IP_ADDRESS'}}">{{t 'PAGE_SETTINGS_LAN_POPUP_IP_ADDRESS'}}</div>
+          <div class="col">
+            <Input class="form-control {{if this.ipAddrMsg " is-invalid" "" }}" @value={{this.ipAddr}} />
+            {{#if this.ipAddrMsg}}
+            <div class="invalid-feedback fw-normal d-block" tabindex="0" aria-label="{{this.ipAddrMsg}}">
+              {{this.ipAddrMsg}}
+            </div>
+            {{/if}}
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </modal.body>
+
+  <modal.footer>
+    <BsButton {{on "keyup" this.eaactrl.btnCancel}} @onClick={{modal.close}}>{{t 'PAGE_PORT_MAPPING_POPUP_EDIT_CANCEL'}}</BsButton>
+    <BsButton @type="success" {{on "keyup" this.eaactrl.btnApply}} @onClick={{modal.submit}}>{{t 'PAGE_PORT_MAPPING_POPUP_EDIT_SAVE'}}</BsButton>
+  </modal.footer>
+
+</BsModal>
+</div>

@@ -1,0 +1,18 @@
+<Ui::CardSection 
+  @header={{t 'PAGE_PHONE_NUMBERS_TITLE'}} 
+  @subtitle={{t 'PAGE_PHONE_NUMBERS_SUBTITLE'}}
+>
+  <Ui::CardSection @title={{t 'PAGE_PHONE_NUMBERS_TABLE_1_TITLE'}}>
+    <Ui::Table
+      @columns={{this.columns}}
+      @rows={{this.phoneNumbersData}}
+      @onInputChange={{this.handleInputChange}}
+    />
+  </Ui::CardSection>
+</Ui::CardSection>
+
+<Ui::UpdateButton 
+  @onApply={{this.apply}} 
+  @onCancel={{this.cancel}} 
+  @disabled={{unless this.hasChanges "disabled"}}
+/>

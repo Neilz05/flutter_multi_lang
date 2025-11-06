@@ -1,0 +1,99 @@
+{{#if @show.protection_mode}}
+  <div class="row ps-3 mt-3">
+    <label class="col-form-label">{{t 'PAGE_GENERAL_PROTECTION_MODE'}}</label>
+  </div>
+  <div class="row ps-3 mt-3">
+    <Helper::Select class="form-select w-75" @options={{this.encryptionModes}} @value={{@security.ModeEnabled}}
+      @optValue="key" @optLabel="label" @onChange={{this.setEncryptionMode}} />
+  </div>
+{{/if}}
+
+{{#unless (eq @security.ModeEnabled 'None')}}
+
+
+  <div class="row ps-3 mt-3">
+    <label class="col-form-label">{{t 'PAGE_GENERAL_WIFI_PASSWORD'}}</label>
+  </div>
+  <div class="row ps-3 mt-3">
+    <Inputpwd @class="w-75" @value={{@security.KeyPassPhrase}} readonly/>
+    {{!--#each @security.error.KeyPassPhrase.validation as |message|}}
+    <div class="invalid-feedback">{{message}}</div>
+    {{/each--}}    
+  </div>
+  <div class="row ps-3 mt-3">
+    <button type="button" class="button btn btn-light btn-sm" {{on "click" this.showChangePasswordModal}} {{!--disabled={{unless this.selectedUser 'disabled'}}--}}>{{t 'PAGE_PASSWORD_CHANGE_PASSWORD_BUTTON'}}</button>
+  </div>
+
+<BsModal @open={{this.isModalOpen}} @onHide={{this.cancelPassword}} @backdropClose={{false}} as |Modal|>
+  <Modal.header>
+    {{t 'PAGE_PASSWORD_POPUP_TITLE'}}
+  </Modal.header>
+
+  <Modal.body>
+    <label for="new-password">{{t 'PAGE_PASSWORD_POPUP_NEW_PASSWORD'}}</label>
+    <Inputpwd id="new-password" @value={{this.newPassword}} 
+           {{on "input" (fn this.popuphandleInput "newPassword")}} 
+           {{on "input" this.checkPasswordStrength}} />
+
+    <label for="reenter-password">{{t 'PAGE_PASSWORD_POPUP_RE-ENTER_NEW_PASSWORD'}}</label>
+    <Inputpwd id="reenter-password" @value={{this.reenterPassword}} 
+           {{on "input" (fn this.popuphandleInput "reenterPassword")}} />
+
+    <div class="password-strength-container">
+      <p id="password-strength" class="strength0">{{t 'PAGE_PASSWORD_POPUP_PASSWORD_STRENGTH'}}: 
+        <span id="strength-indicator" class="weak">Very Weak</span>
+      </p>
+    </div>
+
+    <div class="password-requirements">
+        <p class="message-info">
+          {{t 'PAGE_GENERAL_PASSWORD_REQUIRMENTS'}} ~ ! @ # $ % ^ & * + = _ [ ] { } ; : \ | € ˜ " ' &lt; &gt; , ?
+        </p>
+        {{#if this.ErrorMsg}}
+          <p class="message-error">
+            {{this.ErrorMsg}}
+          </p>
+        {{/if}}
+        {{#each @security.error.KeyPassPhrase.validation as |message|}}
+            <p class="message-error">
+                {{message}}             
+            </p>
+        {{/each}}    
+
+    </div>
+  </Modal.body>
+
+  <Modal.footer>
+    <BsButton class="save-button" @onClick={{this.savePassword}} @type="Primary">{{t 'PAGE_PASSWORD_POPUP_SAVE_BUTTON'}}</BsButton>
+    <BsButton class="cancel-button" @onClick={{this.cancelPassword}} @type="Light">{{t 'PAGE_PASSWORD_POPUP_CANCEL_BUTTON'}}</BsButton>
+  </Modal.footer>
+</BsModal>
+
+
+
+{{/unless}}
+
+
+{{#if @show.allow}}
+ {{#if @security.X_FASTWEB_Allow}}
+  <div class="row ps-3 mt-3">
+    <label class="col-form-label">{{t 'PAGE_GENERAL_ALLOW'}}</label>
+  </div>
+  <div class="row ps-3 mt-3">
+    <Helper::Select class="form-select w-75" @options={{this.options_allow}} @value={{@security.X_FASTWEB_Allow}}
+      @optValue="key" @optLabel="label" @onChange={{this.setAllow}} />
+  </div>
+ {{/if}}
+{{/if}}
+
+{{#if @show.limitedtime}}
+ {{#if @security.X_FASTWEB_MaximumTime}}
+  <div class="row ps-3 mt-3">
+    <label class="col-form-label">{{t 'PAGE_GENERAL_LIMITED_TIME'}}</label>
+  </div>
+  <div class="row ps-3 mt-3">
+    <Helper::Select class="form-select w-75" @options={{this.options_limitedtime}} @value={{@security.X_FASTWEB_MaximumTime}}
+      @optValue="key" @optLabel="label" @onChange={{this.setLimitedTime}} />
+  </div>
+ {{/if}}
+{{/if}}

@@ -1,0 +1,117 @@
+<div class="card mb-3">
+  <div class="card-header sc p-3" tabindex="0" aria-label="{{t 'PAGE_WLAN_STATUS_5GHZ'}}">
+    {{t 'PAGE_WLAN_STATUS_5GHZ'}}
+  </div>
+  <div class="card-body">
+    <div class="row">
+      <div class="col" tabindex="0" aria-label="{{t 'PAGE_FIREWALL_ENABLE'}}">
+        {{t 'PAGE_FIREWALL_ENABLE'}}
+      </div>
+      <div class="col" tabindex="0" aria-label="{{if this.wifi5gEnableStatus (t 'TRUE') (t 'FALSE')}}">
+        {{#if this.wifi5gEnableStatus}}
+          {{t 'TRUE'}}
+        {{else}}
+          {{t 'FALSE'}}
+        {{/if}}
+      </div>
+    </div>
+
+    {{#if this.wifi5gEnableStatus}}
+      <div class="row">
+        <div class="col" tabindex="0" aria-label="SSID">SSID</div>
+        <div class="col" tabindex="0" aria-label="{{@model.WiFi5GSSID.SSID}}">{{@model.WiFi5GSSID.SSID}}</div>
+      </div>
+      <div class="row">
+        <div class="col" tabindex="0" aria-label="{{t 'PAGE_STATUS_MAIN_WIFI_MAC'}}">
+          {{t 'PAGE_STATUS_MAIN_WIFI_MAC'}}
+        </div>
+        <div class="col text-uppercase" tabindex="0" aria-label="{{@model.WiFi5GSSID.BSSID}}">
+          {{@model.WiFi5GSSID.BSSID}}
+        </div>
+      </div>
+      <div class="row">
+        <div class="col" tabindex="0" aria-label="{{t 'PAGE_GENERAL_PROTECTION_MODE'}}">
+          {{t 'PAGE_GENERAL_PROTECTION_MODE'}}
+        </div>
+        <div class="col" tabindex="0" aria-label="{{@model.WiFi5GAccessPointSecurity.ModeEnabled}}">
+          {{@model.WiFi5GAccessPointSecurity.ModeEnabled}}
+        </div>
+      </div>
+      <div class="row">
+        <div class="col" tabindex="0" aria-label="{{t 'PAGE_GENERAL_WIFI_CHANNEL'}}">
+          {{t 'PAGE_GENERAL_WIFI_CHANNEL'}}
+        </div>
+        <div class="col" tabindex="0" aria-label="{{@model.WiFi5GRadio.Channel}}">
+          {{@model.WiFi5GRadio.Channel}}
+        </div>
+      </div>
+      <div class="row">
+        <div class="col" tabindex="0" aria-label="{{t 'PAGE_SETTINGS_BANDWITH'}}">
+          {{t 'PAGE_SETTINGS_BANDWITH'}}
+        </div>
+        <div class="col" tabindex="0" aria-label="{{@model.WiFi5GRadio.OperatingChannelBandwidth}}">
+          {{@model.WiFi5GRadio.OperatingChannelBandwidth}}
+        </div>
+      </div>
+    {{/if}}
+  </div>
+</div>
+
+<div class="card mb-3">
+  <div class="card-header sc p-3" tabindex="0" aria-label="{{t 'PAGE_WLAN_STATUS_2GHZ'}}">
+    {{t 'PAGE_WLAN_STATUS_2GHZ'}}
+  </div>
+  <div class="card-body">
+    <div class="row">
+      <div class="col" tabindex="0" aria-label="{{t 'PAGE_FIREWALL_ENABLE'}}">
+        {{t 'PAGE_FIREWALL_ENABLE'}}
+      </div>
+      <div class="col" tabindex="0" aria-label="{{if this.wifi2gEnableStatus (t 'TRUE') (t 'FALSE')}}">
+        {{#if this.wifi2gEnableStatus}}
+          {{t 'TRUE'}}
+        {{else}}
+          {{t 'FALSE'}}
+        {{/if}}
+      </div>
+    </div>
+
+    {{#if this.wifi2gEnableStatus}}
+      <div class="row">
+        <div class="col" tabindex="0" aria-label="SSID">SSID</div>
+        <div class="col" tabindex="0" aria-label="{{@model.WiFi2GSSID.SSID}}">{{@model.WiFi2GSSID.SSID}}</div>
+      </div>
+      <div class="row">
+        <div class="col" tabindex="0" aria-label="{{t 'PAGE_STATUS_MAIN_WIFI_MAC'}}">
+          {{t 'PAGE_STATUS_MAIN_WIFI_MAC'}}
+        </div>
+        <div class="col text-uppercase" tabindex="0" aria-label="{{@model.WiFi2GSSID.BSSID}}">
+          {{@model.WiFi2GSSID.BSSID}}
+        </div>
+      </div>
+      <div class="row">
+        <div class="col" tabindex="0" aria-label="{{t 'PAGE_GENERAL_PROTECTION_MODE'}}">
+          {{t 'PAGE_GENERAL_PROTECTION_MODE'}}
+        </div>
+        <div class="col" tabindex="0" aria-label="{{@model.WiFi2GAccessPointSecurity.ModeEnabled}}">
+          {{@model.WiFi2GAccessPointSecurity.ModeEnabled}}
+        </div>
+      </div>
+      <div class="row">
+        <div class="col" tabindex="0" aria-label="{{t 'PAGE_GENERAL_WIFI_CHANNEL'}}">
+          {{t 'PAGE_GENERAL_WIFI_CHANNEL'}}
+        </div>
+        <div class="col" tabindex="0" aria-label="{{@model.WiFi2GRadio.Channel}}">
+          {{@model.WiFi2GRadio.Channel}}
+        </div>
+      </div>
+      <div class="row">
+        <div class="col" tabindex="0" aria-label="{{t 'PAGE_SETTINGS_BANDWITH'}}">
+          {{t 'PAGE_SETTINGS_BANDWITH'}}
+        </div>
+        <div class="col" tabindex="0" aria-label="{{@model.WiFi2GRadio.OperatingChannelBandwidth}}">
+          {{@model.WiFi2GRadio.OperatingChannelBandwidth}}
+        </div>
+      </div>
+    {{/if}}
+  </div>
+</div>

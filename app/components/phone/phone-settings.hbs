@@ -1,0 +1,72 @@
+<div class="card mb-3">
+  <div class="card-header" tabindex="0" aria-label="{{t 'PAGE_PHONE_SETTINGS_TITLE'}}">{{t 'PAGE_PHONE_SETTINGS_TITLE'}}</div>
+  <div class="card-body" tabindex="0" aria-label="{{t 'PAGE_PHONE_SETTINGS_SUBTITLE'}}">
+    <p>{{t 'PAGE_PHONE_SETTINGS_SUBTITLE'}}</p> 
+  </div>
+</div>
+
+<div class="card mb-3">
+  {{#if (or (eq this.modelType 'FG4278Av2') (eq this.modelType 'FG4278Av2_VD'))}}
+    <div class="card-header" tabindex="0" aria-label="{{t 'PAGE_PHONE_SETTINGS_IMS_SERVER_TITLE'}}">{{t 'PAGE_PHONE_SETTINGS_IMS_SERVER_TITLE'}}</div>
+  {{else}}
+    <div class="card-header" tabindex="0" aria-label="{{t 'PAGE_PHONE_SETTINGS_IMS_SERVER_TITLE'}}">{{t 'PAGE_PHONE_SETTINGS_IMS_SERVER_TITLE'}}</div>
+  {{/if}}
+  <div class="card-body">
+    {{!-- {{#each @sip.Network as |network|}}
+      <div class="row">
+        <Phone::Sip @addr={{network.RegistrarServer}} @port={{network.RegistrarServerPort}} @title="{{t 'PAGE_PHONE_SETTINGS_IMS_SERVER_SIP_PRIMARY_REGISTRAR'}}">{{t 'PAGE_PHONE_SETTINGS_IMS_SERVER_SIP_PRIMARY_REGISTRAR'}}</Phone::Sip>
+      </div>
+      <div class="row">
+        <Phone::Sip @addr={{network.ProxyServer}} @port={{network.ProxyServerPort}} @title="{{t 'PAGE_PHONE_SETTINGS_IMS_SERVER_SIP_PRIMARY_PROXY_SERVER'}}">{{t 'PAGE_PHONE_SETTINGS_IMS_SERVER_SIP_PRIMARY_PROXY_SERVER'}}</Phone::Sip>
+      </div>
+      <div class="row">
+        <Phone::Sip @addr={{network.OutboundProxy}} @port={{network.OutboundProxyPort}} @title="{{t 'PAGE_PHONE_SETTINGS_IMS_SERVER_SIP_PRIMARY_OUTBOUND'}}">{{t 'PAGE_PHONE_SETTINGS_IMS_SERVER_SIP_PRIMARY_OUTBOUND'}}</Phone::Sip>
+      </div>
+      <div class="row">
+        <div class="col-md-12">
+          <div class="row mb-2 px-1" tabindex="0" aria-label="{{t 'PAGE_PHONE_SETTINGS_IMS_SERVER_SIP_USER_AGENT_DOMAIN'}}">{{t 'PAGE_PHONE_SETTINGS_IMS_SERVER_SIP_USER_AGENT_DOMAIN'}}</div>
+          <div class="row mb-2 px-2">
+            <Input class="form-control" type="text" style="width: 212px;" @value={{network.UserAgentDomain}}/>
+          </div>
+        </div>
+      </div>
+    {{/each}} --}}
+
+      <div class="row">
+        <Phone::Sip @addr={{@network.RegistrarServer}} @port={{@network.RegistrarServerPort}} @title="{{t 'PAGE_PHONE_SETTINGS_IMS_SERVER_SIP_PRIMARY_REGISTRAR'}}">{{t 'PAGE_PHONE_SETTINGS_IMS_SERVER_SIP_PRIMARY_REGISTRAR'}}</Phone::Sip>
+      </div>
+      <div class="row">
+        <Phone::Sip @addr={{@network.ProxyServer}} @port={{@network.ProxyServerPort}} @title="{{t 'PAGE_PHONE_SETTINGS_IMS_SERVER_SIP_PRIMARY_PROXY_SERVER'}}">{{t 'PAGE_PHONE_SETTINGS_IMS_SERVER_SIP_PRIMARY_PROXY_SERVER'}}</Phone::Sip>
+      </div>
+      <div class="row">
+        <Phone::Sip @addr={{@network.OutboundProxy}} @port={{@network.OutboundProxyPort}} @title="{{t 'PAGE_PHONE_SETTINGS_IMS_SERVER_SIP_PRIMARY_OUTBOUND'}}">{{t 'PAGE_PHONE_SETTINGS_IMS_SERVER_SIP_PRIMARY_OUTBOUND'}}</Phone::Sip>
+      </div>
+
+      {{#if (or (eq this.modelType 'FG4278Av2') (eq this.modelType 'FG4278Av2_VD'))}}
+      <div class="row">
+        <Phone::Sip @addr={{@network2.RegistrarServer}} @port={{@network2.RegistrarServerPort}} @title="{{t 'PAGE_PHONE_SETTINGS_IMS_SERVER_SIP_SECONDARY_REGISTRAR'}}">{{t 'PAGE_PHONE_SETTINGS_IMS_SERVER_SIP_SECONDARY_REGISTRAR'}}</Phone::Sip>
+      </div>
+      <div class="row">
+        <Phone::Sip @addr={{@network2.ProxyServer}} @port={{@network2.ProxyServerPort}} @title="{{t 'PAGE_PHONE_SETTINGS_IMS_SERVER_SIP_SECONDARY_PROXY_SERVER'}}">{{t 'PAGE_PHONE_SETTINGS_IMS_SERVER_SIP_SECONDARY_PROXY_SERVER'}}</Phone::Sip>
+      </div>
+      <div class="row">
+        <Phone::Sip @addr={{@network2.OutboundProxy}} @port={{@network2.OutboundProxyPort}} @title="{{t 'PAGE_PHONE_SETTINGS_IMS_SERVER_SIP_SECONDARY_OUTBOUND'}}">{{t 'PAGE_PHONE_SETTINGS_IMS_SERVER_SIP_SECONDARY_OUTBOUND'}}</Phone::Sip>
+      </div>
+      {{/if}}
+      
+      <div class="row">
+        <div class="col-md-12">
+          <div class="row mb-2 px-1" tabindex="0" aria-label="{{t 'PAGE_PHONE_SETTINGS_IMS_SERVER_SIP_USER_AGENT_DOMAIN'}}">{{t 'PAGE_PHONE_SETTINGS_IMS_SERVER_SIP_USER_AGENT_DOMAIN'}}</div>
+          <div class="row mb-2 px-2">
+            <Input class="form-control" type="text" style="width: 212px;" @value={{@network.UserAgentDomain}}/>
+          </div>
+        </div>
+      </div>
+      
+  </div>
+</div>
+
+
+{{#each @clients as |client index|}}
+  <Phone::Useracct @telClient={{client}} @userCount={{inc index}}/>
+{{/each}}

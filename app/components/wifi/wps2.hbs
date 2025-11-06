@@ -1,0 +1,27 @@
+    <Ui::Row @left={{t 'PAGE_WPS_PAIR_WITHIN_2_MINUTES_2'}}>
+      <button type="button" class="button btn btn-light btn-sm" {{on "click" this.pairDevice}}>{{t 'PAGE_WPS_BUTTON_PAIR'}}</button>
+    </Ui::Row>
+
+
+<BsModal @open={{this.modalIsOpen}} @onHide={{this.closeModal}} @backdropClose={{false}} as |Modal|>
+  <Modal.header>
+    <h4 class="modal-title"><i class="glyphicon glyphicon-alert"></i>{{t 'PAGE_WPS_POPUP_TITLE'}}</h4>
+  </Modal.header>
+
+  <Modal.body class="pairing">
+    {{this.pairingStatus}}
+    <br><br>
+    {{this.pairingMsg}}
+    {{#if this.isLoading}}
+      <Ui::Loader/>
+    {{/if}}
+  </Modal.body>
+  
+  <Modal.body class="error">
+      Error: {{this.errorCode}}
+  </Modal.body>
+
+  <Modal.footer as |footer|>
+    <BsButton @onClick={{this.cancelPairing}} @type="Light">{{t 'PAGE_WPS_CANCEL'}}</BsButton>
+  </Modal.footer>
+</BsModal>

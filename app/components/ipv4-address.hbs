@@ -1,0 +1,42 @@
+<div class="row mb-2">
+  <div class="col-md-3">
+    <label class="col-form-label">{{@address.alias}}</label>
+  </div>
+  <div class="col-md-9">
+   <Input @type="checkbox" @value="{{@address.Enable}}" @checked={{this.enabled}} class="form-check-input" />
+   <label class="form-check-label">Enable</label>
+  </div>
+</div>
+<div class="row mb-2">
+  <div class="col-md-3">
+    <label class="col-form-label">Addressing Type</label>
+  </div>
+  <div class="col-md-9">
+   <Helper::Select class="form-select" @options={{this.options}} @value={{@address.AddressingType}} @optValue="key" @optLabel="label" @onChange={{this.setAddressingType}} @disabled={{this.disabled}} />
+  </div>
+</div>
+<div class="row mb-2">
+  <div class="col-md-3">
+    <label class="col-form-label">IPv4 Address</label>
+  </div>
+  <div class="col-md-9">
+    <Input class="form-control" type="text" @value={{@address.IPAddress}} disabled={{this.disabled}} />
+  </div>
+</div>
+<div class="row mb-2">
+  <div class="col-md-3">
+    <label class="col-form-label">IPv4 Netmask</label>
+  </div>
+  <div class="col-md-9">
+    <Input class="form-control" type="text" @value={{@address.SubnetMask}} disabled={{this.disabled}} />
+  </div>
+</div>
+<div class="row mb-2">
+  <div class="col-md-3">
+  </div>
+  <div class="col-md-7">
+  </div>
+  <div class="col-md-2">
+    <button type="button" class="btn btn-primary" {{on "click" this.updateIp}} disabled={{unless this.hasChanges "disabled"}}>Update</button>
+  </div>
+</div>

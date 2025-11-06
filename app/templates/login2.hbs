@@ -1,0 +1,89 @@
+{{page-title "Login"}}
+{{! Add custom styles for the device image }}
+<style>
+  .device-image-container img {
+    max-height: 80vh;
+    width: auto;
+    max-width: 100%;
+  }
+  .session-timeout-message {
+    border: 2px solid #dc3545 !important;
+    border-radius: 4px;
+    color: #721c24;
+    background-color: #f8d7da;
+    padding: 12px 15px;
+    text-align: center;
+    font-size: 0.95rem;
+    margin: 1rem auto;
+    max-width: 500px;
+  }
+</style>
+
+<form {{on "submit" this.authenticate}} class="container-sm">
+  {{#if this.showPrompt}}
+  <div class="row">
+  <div class="col">&nbsp;</div>
+    <div class="col-md-4">
+      <h1 class="text-center mb-4 text-dark" tabindex="0" aria-label="{{t 'ACTIVATION_PAGE_TITLE_STEP_163'}}">{{t 'ACTIVATION_PAGE_TITLE_STEP_163'}}</h1>
+    </div>
+    <div class="col">&nbsp;</div>
+  </div>
+
+  <div class="row mb-3">
+    <div class="col-12">
+      <div class="session-timeout-message d-flex align-items-center p-0">
+        <div class="d-flex align-items-center" style="background-color: white; padding: 10px; border-radius: 4px 0 0 4px;">
+          <img src="/assets/images/login_timeout.png" alt="Timeout" style="width: 34px; height: 34px; margin-right: 10px;">
+          <span class="text-dark" tabindex="0" aria-label="{{t 'PAGE_LOGIN2_TIMEOUT'}}">{{t 'PAGE_LOGIN2_TIMEOUT'}}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+{{else}}
+  <div class="row">
+    <div class="col">&nbsp;</div>
+    <div class="col-md-4 logo"><span class="label">prpl</span></div>
+    <div class="col">&nbsp;</div>
+  </div>
+  
+  <!-- Welcome text and image -->
+  <div class="row mt-4">
+    <div class="col-12 text-center">
+      <h1 class="mb-3 text-dark" style="font-size: 2rem;" tabindex="0" aria-label="{{t 'PAGE_LOGIN2_TITLE'}}">{{ t 'PAGE_LOGIN2_TITLE' }}</h1>
+      <p class="mb-4" style="max-width: 600px; margin: 0 auto; text-align: center;" tabindex="0" aria-label="{{t 'PAGE_LOGIN2_CONTENT'}}">{{ t 'PAGE_LOGIN2_CONTENT' }}</p>
+      <div style="width: 100%; max-width: 1000px; margin: 20px auto; position: relative;">
+        <div class="language-selector" style="position: absolute; left: 0; bottom: 0; text-align: left; padding: 10px 0;">
+		  <button class="btn btn-link px-2" tabindex="0" aria-label="Italian"{{on "keyup" this.eaactrl.btnClick}} {{on "click" (fn this.UpdateLanguage 'it-it')}}>Italian</button>
+          <button class="btn btn-link px-2" tabindex="0" aria-label="English"{{on "keyup" this.eaactrl.btnClick}} {{on "click" (fn this.UpdateLanguage 'en-us')}}>English</button>          
+        </div>
+        <img src="/assets/images/fastweb_device.png" 
+             alt="Device Image" 
+             style="width: 100%; height: auto; max-height: 50vh; object-fit: contain;">
+      </div>
+    </div>
+  </div>
+  {{/if}}
+  
+  <!-- Hidden form elements for auto-login -->
+  <div class="d-none">
+    <input id='identification' class="form-control" placeholder="Enter Username" value={{this.identification}} {{on "change" this.updateIdentification}}>
+    <input id='password' class="form-control" placeholder="Enter Password" type="password" value={{this.password}} {{on "change" this.updatePassword}}>
+  </div>
+  
+  {{#if this.errorMessage}}
+    <div class="row">
+      <div class="col">&nbsp;</div>
+      <div class="col-md-4 gy-3">
+        <p class="alert alert-danger p-2 text-center">{{this.errorMessage}}</p>
+      </div>
+      <div class="col">&nbsp;</div>
+    </div>
+  {{/if}}
+  
+  <div class="login d-flex flex-column">
+    <div class="row justify-content-end mt-auto">
+      <img src="/assets/images/prpl-pwd-logo.png" class="prpl-pwd-logo">
+    </div>
+  </div>
+</form>

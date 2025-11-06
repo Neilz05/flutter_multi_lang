@@ -1,0 +1,182 @@
+<div class="card mb-3">
+  <div class="card-header sc">
+    <div class="row align-items-center justify-content-between">
+      <div class="col">
+        <span class="fs-5" tabindex="0" aria-label="{{t 'PAGE_EASY_MESH_NODES'}}">{{t 'PAGE_EASY_MESH_NODES'}}</span>
+      </div>
+    </div>
+  </div>
+  <div class="card-body">
+    <div class="container-fluid table-responsive">
+      <table class="table table-bordered" style="table-layout: fixed;">
+        <thead>
+          <tr>
+            <th tabindex="0" aria-label="{{t 'PAGE_EASY_MESH_NODES_NAME'}}">{{t 'PAGE_EASY_MESH_NODES_NAME'}}</th>
+            <th tabindex="0" aria-label="{{t 'PAGE_EASY_MESH_NODES_STATUS'}}">{{t 'PAGE_EASY_MESH_NODES_STATUS'}}</th>
+            <th tabindex="0" aria-label="{{t 'PAGE_EASY_MESH_NODES_NEXTHOP'}}">{{t 'PAGE_EASY_MESH_NODES_NEXTHOP'}}</th>
+            <th tabindex="0" aria-label="{{t 'PAGE_EASY_MESH_NODES_DETAILS'}}">{{t 'PAGE_EASY_MESH_NODES_DETAILS'}}</th>
+            {{!-- <!--th style="width:10%;"></th-->  --}}
+          </tr>
+        </thead>
+        <tbody>
+          {{#if (eq @nodelist.length 0)}}
+          <tr class="align-middle" tabindex="0" aria-label="{{t 'PAGE_EASY_MESH_NO_ENTRY_FOUND'}}">
+             <td colspan="4"><i>{{t 'PAGE_EASY_MESH_NO_ENTRY_FOUND'}}</i></td>
+          </tr>
+          {{/if}}
+          {{#each @nodelist as |one idx|}}
+          {{#with one.node as |pm|}}
+          <tr class="align-middle">
+            <td><Ui::InputWithErrormsg @value={{pm.Name}} @disabled={{false}} @obj={{one}} @onUpdate={{(fn @updateName)}} @errorMessage="{{one.error}}" /></td>
+            <td>              
+              {{#if (eq pm.Active 1)}}
+                <span  tabindex="0" aria-label="{{t 'PAGE_EASY_MESH_NODES_ACTIVE'}}">{{t 'PAGE_EASY_MESH_NODES_ACTIVE'}}</span>
+              {{else}}
+                <span  tabindex="0" aria-label="{{t 'PAGE_EASY_MESH_NODES_INACTIVE'}}">{{t 'PAGE_EASY_MESH_NODES_INACTIVE'}}</span>
+              {{/if}}
+            </td>
+            <td>
+              {{#if (eq one.nextHop.length 0)}}
+                <span  tabindex="0" aria-label="-">-</span>
+              {{else}}
+                <span  tabindex="0" aria-label="{{one.nextHop}}">{{one.nextHop}}</span>                
+              {{/if}}
+            </td>
+            <td>
+              <button type="button" class="button btn btn-light btn-sm" {{on "click" (fn this.OpenShowModal one)}} 
+                      {{on "keyup" this.eaactrl.btnTrigger}}
+                      tabindex="0"
+                      aria-label="{{t 'PAGE_EASY_MESH_SHOW'}}"
+                      >{{t 'PAGE_EASY_MESH_SHOW'}}</button>
+
+            </td>
+            {{!--
+            <!--td>
+              <button class="btn btn-danger btn-sm ms-auto py-2 px-3" {{on 'click' (fn this.Delete pm)}}><i
+                  class="bi bi-trash"></i></button>
+            </td-->
+             --}}
+
+          </tr>
+          {{/with}}
+          {{/each}}
+        </tbody>
+      </table>
+    </div>
+    {{!--
+    <!--div class="row align-items-center justify-content-end px-3">
+      <div class="col flex-grow-0">
+        <button type="button" class="btn btn-primary px-2 py-1" onClick={{this.OpenAddModal}}><i
+            class="bi bi-plus-square fs-5"></i></button>
+      </div>
+    </div-->
+     --}}
+
+  </div>
+</div>
+
+{{!-- Modal for Edit functionality --}}
+<BsModal @open={{this.ShowModal}} as |modal|>
+  <modal.header>
+    <h4 class="modal-title">
+      
+    </h4>
+  </modal.header>
+  <modal.body>
+    <div class="container-fluid text-start">
+      <div class="container-fluid text-start">
+
+        <div class="row align-items-center">
+          <div class="col"  tabindex="0" aria-label="{{t 'PAGE_EASY_MESH_NODES_NAME'}}">{{t 'PAGE_EASY_MESH_NODES_NAME'}}</div>
+          <div class="col"  tabindex="0" aria-label="{{this.SelectedEntry.node.Name}}">{{this.SelectedEntry.node.Name}}</div>
+        </div>
+
+        <div class="row align-items-center">
+          <div class="col"  tabindex="0" aria-label="{{t 'PAGE_EASY_MESH_FWVERSION'}}">{{t 'PAGE_EASY_MESH_FWVERSION'}}</div>
+          <div class="col"  tabindex="0" aria-label="{{this.SelectedEntry.node.SoftwareVersion}}">{{this.SelectedEntry.node.SoftwareVersion}}</div>
+        </div>
+        <div class="row align-items-center">
+          <div class="col"  tabindex="0" aria-label="{{t 'PAGE_EASY_MESH_SERIALNUMBER'}}">{{t 'PAGE_EASY_MESH_SERIALNUMBER'}}</div>
+          <div class="col"  tabindex="0" aria-label="{{this.SelectedEntry.node.SerialNumber}}">{{this.SelectedEntry.node.SerialNumber}}</div>
+        </div>
+
+        <div class="row align-items-center">
+          <div class="col"  tabindex="0" aria-label="{{t 'PAGE_EASY_MESH_MACADDRESS'}}">{{t 'PAGE_EASY_MESH_MACADDRESS'}}</div>
+          <div class="col"  tabindex="0" aria-label="{{this.SelectedEntry.node.MACAddress}}">{{this.SelectedEntry.node.MACAddress}}</div>
+        </div>
+
+        <div class="row align-items-center">
+          <div class="col"  tabindex="0" aria-label="{{t 'PAGE_EASY_MESH_IPADDRESS'}}">{{t 'PAGE_EASY_MESH_IPADDRESS'}}</div>
+          <div class="col"  tabindex="0" aria-label="{{this.SelectedEntry.node.IPAddress}}">{{this.SelectedEntry.node.IPAddress}}</div>
+        </div>
+        <div class="row align-items-center">
+          <div class="col"  tabindex="0" aria-label="{{t 'PAGE_EASY_MESH_NODES_STATUS'}}">{{t 'PAGE_EASY_MESH_NODES_STATUS'}}</div>
+          <div class="col">
+              {{#if (eq this.SelectedEntry.node.Active 1)}}
+                <span  tabindex="0" aria-label="{{t 'PAGE_EASY_MESH_NODES_ACTIVE'}}">{{t 'PAGE_EASY_MESH_NODES_ACTIVE'}}</span>
+              {{else}}
+                <span  tabindex="0" aria-label="{{t 'PAGE_EASY_MESH_NODES_INACTIVE'}}">{{t 'PAGE_EASY_MESH_NODES_INACTIVE'}}</span>
+              {{/if}}
+          </div>
+        </div>
+        <div class="row align-items-center">
+          <div class="col"  tabindex="0" aria-label="{{t 'PAGE_EASY_MESH_NODES_NEXTHOP'}}">{{t 'PAGE_EASY_MESH_NODES_NEXTHOP'}}</div>
+          <div class="col">
+              {{#if (eq this.SelectedEntry.nextHop.length 0)}}
+                <span  tabindex="0" aria-label="-">-</span>
+              {{else}}
+                <span  tabindex="0" aria-label="{{this.SelectedEntry.nextHop}}">{{this.SelectedEntry.nextHop}}</span>
+              {{/if}}
+
+          </div>
+        </div>
+        <div class="row align-items-center">
+          <div class="col"  tabindex="0" aria-label="{{t 'PAGE_EASY_MESH_SIGNALSTRENGTH'}}">{{t 'PAGE_EASY_MESH_SIGNALSTRENGTH'}}</div>
+          <div class="col"  tabindex="0" aria-label="{{this.SelectedEntry.RSSI}}">{{this.SelectedEntry.RSSI}}</div>
+        </div>
+        <div class="row align-items-center">
+          <div class="col"  tabindex="0" aria-label="{{t 'PAGE_EASY_MESH_BACKHAULLINK'}}">{{t 'PAGE_EASY_MESH_BACKHAULLINK'}}</div>
+          <div class="col"  tabindex="0" aria-label="{{this.SelectedEntry.backhaulLink}}">{{this.SelectedEntry.backhaulLink}}</div>
+        </div>
+        <div class="row align-items-center">
+          <div class="col"  tabindex="0" aria-label="{{t 'PAGE_EASY_MESH_ROLE'}}">{{t 'PAGE_EASY_MESH_ROLE'}}</div>
+          <div class="col"  tabindex="0" aria-label="{{this.SelectedEntry.node.Role}}">{{this.SelectedEntry.node.Role}}</div>
+        </div>
+
+      </div>
+    </div>
+  </modal.body>
+  <modal.footer>
+    <BsButton @onClick={{this.CloseShowModal}}>{{t 'PAGE_PORT_MAPPING_POPUP_EDIT_CANCEL'}}</BsButton>
+  </modal.footer>
+
+</BsModal>
+
+
+{{!-- Modal for Add functionality --}}
+<BsModal @open={{this.AddModal}} as |modal|>
+  <modal.header>
+    <h4 class="modal-title">
+      {{t 'PAGE_EASY_MESH_ADD_NODE'}}
+    </h4>
+  </modal.header>
+  <modal.body>
+    <div class="container-fluid text-start">
+
+      <div class="row align-items-center">
+        <div class="col">{{t 'PAGE_EASY_MESH_MACADDRESS'}}</div>
+        <div class="col">
+          <Ui::InputMacaddressWithErrormsg @value={{this.macaddress_onAdd}} @id="emnodeadd" @disabled={{false}} @obj={{null}} @onUpdate={{(fn this.updateMacaddress_onAdd)}}/>
+        </div>
+      </div>
+
+      
+
+    </div>
+  </modal.body>
+  <modal.footer>
+    <BsButton @onClick={{this.CloseAddModal}}>{{t 'PAGE_PORT_MAPPING_POPUP_ADD_CANCEL'}}</BsButton>
+    <BsButton @type="success" @onClick={{this.SaveAddModal}}>{{t 'PAGE_SETTINGS_APPLY'}}</BsButton>
+  </modal.footer>
+
+</BsModal>

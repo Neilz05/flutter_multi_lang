@@ -1,0 +1,51 @@
+{{page-title "Login"}}
+<form {{on "submit" this.authenticate}} class="container-sm">
+  <div class="row">
+    <div class="col">&nbsp;</div>
+    <div class="col-md-4 logo" tabindex="0" aria-label="logo"><span class="label">prpl</span></div>
+    <div class="col">&nbsp;</div>
+  </div>
+  <div class="row">
+    <div class="col">&nbsp;</div>
+    <div class="col-md-3">
+      <label for="identification" class="form-label" tabindex="0" aria-label="Username">Username</label>
+      <input id='identification' class="form-control" placeholder="Enter Username" value={{this.identification}} {{on "change" this.updateIdentification}}>
+      <label for="password"  class="form-label" tabindex="0" aria-label="Password">Password</label>
+      {{#if (eq this.showPassword true)}}
+          <div class="input-group {{@class}}">
+              <Input id='password' class="form-control" placeholder="Enter Password" @type="text" @value={{this.password}} {{on "change" this.updatePassword}}/>
+              <span id='eye' class="input-group-text" {{on "click" this.eyeControl}} {{on "keyup" this.eaactrl.eyeControlTrigger}} role="button" tabindex="0" aria-label="{{t "MESSAGES_SHOW_PASSWORD"}}"><i class="bi bi-eye"></i></span>
+          </div>
+      {{else}}
+          <div class="input-group {{@class}}">
+              <Input id='password' class="form-control" placeholder="Enter Password" @type="password" @value={{this.password}} {{on "change" this.updatePassword}}/>
+              <span id='eye' class="input-group-text" {{on "click" this.eyeControl}} {{on "keyup" this.eaactrl.eyeControlTrigger}} role="button" tabindex="0" aria-label="{{t "MESSAGES_HIDE_PASSWORD"}}"><i class="bi bi-eye-slash"></i></span>
+          </div>
+      {{/if}}
+    </div>
+    <div class="col">&nbsp;</div>
+  </div>
+  <div class="row">
+    <div class="col">&nbsp;</div>
+    <div class="col-md-3 d-grid gap-2">
+      <button type="submit" class="btn btn-primary">Login</button>
+    </div>
+    <div class="col">&nbsp;</div>
+  </div>
+  <div class="row">
+    <div class="col">&nbsp;</div>
+    <div class="col-md-4 gy-3">
+      {{#if this.errorMessage}}
+        <p class="alert alert-danger p-2 text-center">{{this.errorMessage}}</p>
+      {{/if}}
+    </div>
+    <div class="col">&nbsp;</div>
+  </div>
+  <div class="login d-flex flex-column">
+    <div class="row justify-content-end mt-auto">
+      {{#if (eq this.modelType 'Neutral')}}
+      <img src="/assets/images/prpl-pwd-logo.png" class="prpl-pwd-logo" tabindex="0" aria-label="prpl logo">
+      {{/if}}
+    </div>
+  </div>
+</form>

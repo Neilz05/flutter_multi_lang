@@ -1,0 +1,72 @@
+{{!-- {{yield}} --}}
+
+<h4>Status</h4>
+
+<div class="card mb-3">
+    <div class="card-header">GPON Info</div>
+    <div class="card-body">
+        <div class="row">
+            <div class="row mb-2">
+                {{#each @status.ANI as |ani|}}
+                    <Xpon::StatusSerial @serialNum={{ani}}  />
+                {{/each}}
+            </div>
+            <div class="row mb-2">
+                {{#each @status.ANI as |ani|}}
+                    <Xpon::StatusRegStatus @regStatus={{ani.TC}}  />
+                {{/each}}
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="card mb-3">
+    <div class="card-header">GPON Power</div>
+    <div class="card-body">
+        <div class="row">
+            <div class="row mb-2">
+            {{#each @status.ANI as |ani|}}
+                {{#each ani.Transceiver as |transceiver|}}
+                    <Xpon::StatusReceive @receivePower={{transceiver}}/>
+            {{/each}}
+            {{/each}}
+
+            </div>
+            <div class="row mb-2">
+            {{#each @status.ANI as |ani|}}
+                {{#each ani.Transceiver as |transceiver|}}
+                    <Xpon::StatusTransmit @transmitPower={{transceiver}}/>
+            {{/each}}
+            {{/each}}
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="card mb-3">
+    <div class="card-header">Gem Port State</div>
+    <div class="card-body">
+        <div class="row">
+            {{#each @status.ANI as |ani|}}
+                {{#each ani.TC.GEM.Port as |gem|}}
+                    <Xpon::StatusGemport @sentGemport={{gem}}/>
+                {{/each}}
+            {{/each}}
+        </div>
+    </div>
+</div>
+
+<div class="card mb-3">
+    <div class="card-header">PON Statistics
+    </div>
+    <div class="card-body">
+        <div class="row">
+            {{#each @status.ANI as |ani|}}
+                <Xpon::StatusPonStat @ani={{ani}} />
+            {{/each}}
+        </div>
+    </div>
+</div>
+
+
+

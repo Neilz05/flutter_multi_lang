@@ -1,0 +1,72 @@
+{{page-title "DMZ"}}
+
+<div class="card mb-3" {{did-insert (fn this.checkMatchingIp)}}>
+  <div class="card-header sc" tabindex="0" aria-label="{{t 'PAGE_EXPOSED_HOST_TITLE'}}">{{t 'PAGE_EXPOSED_HOST_TITLE'}}</div>
+  <div class="card-body container">
+    <div class="row">
+      <div class="col-md-12" tabindex="0" aria-label="{{t 'PAGE_EXPOSED_HOST_SUBTITLE'}}">
+        <p>{{t 'PAGE_EXPOSED_HOST_SUBTITLE'}}</p>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-6">
+        <p class="fw-bold" tabindex="0" aria-label="{{t 'PAGE_EXPOSED_HOST_EXPOSED_HOST'}}">{{t 'PAGE_EXPOSED_HOST_EXPOSED_HOST'}}</p>  
+      </div>
+      <div class="col-md-6">
+        <label class="switch" for="dmz-enable" tabindex="0" aria-label="{{t 'PAGE_FIREWALL_ENABLE'}}" role="button" {{on "keyup" this.eaactrl.onoffTrigger}}>
+          <Input id="dmz-enable" tabindex="-1" @type="checkbox" class="form-check-input" @checked={{(eq @model.dmz.Enable 1)}} {{on "change" (fn this.toggleValue @model.dmz)}}/>
+          <span class="slider round"></span>
+        </label>  
+      </div>
+    </div>
+
+    {{#if @model.dmz.Enable}}
+      <div class="row">
+        <div class="col-md-6 fw-bold" tabindex="0" aria-label="{{t 'PAGE_EXPOSED_HOST_PUBLIC_IP'}}"><p>{{t 'PAGE_EXPOSED_HOST_PUBLIC_IP'}}</p></div>
+        <div class="col-md-6" tabindex="0" aria-label="{{@model.logical.IPv4Address}}"><p>{{@model.logical.IPv4Address}}</p></div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-6 fw-bold" tabindex="0" aria-label="{{t 'PAGE_PORT_MAPPING_POPUP_EDIT_DEVICE'}}"><p>{{t 'PAGE_PORT_MAPPING_POPUP_EDIT_DEVICE'}}</p></div>
+        <div class="col-md-6">
+          <div class="row mb-2" style="padding-right: 10px;">
+            <select class="form-select w-100" {{on "change" (fn this.updateDmzDevice)}}>
+              <option value="" selected={{this.noMatchingIp}}>{{t 'PAGE_PORT_MAPPING_POPUP_EDIT_NO_SPECIFIC'}}</option>
+              {{#each @model.hosts.Host as |host|}}
+                {{#if (eq host.Active 1)}}
+                  {{#unless (eq host.IPAddress "")}}
+                    <option value={{host.IPAddress}} selected={{(eq host.IPAddress this.dmzLocalIp)}}>
+                      {{host.HostName}}
+                    </option>
+                  {{/unless}}
+                {{/if}}
+              {{/each}}
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-6 fw-bold" tabindex="0" aria-label="{{t 'PAGE_EXPOSED_HOST_LOCAL_IP'}}"><p>{{t 'PAGE_EXPOSED_HOST_LOCAL_IP'}}</p></div>
+        <div class="col-md-6" >
+          <div class="row mb-2">
+            {{#if this.noSpecifDevice}}
+              <Ui::IpAddr @ip={{this.dmzLocalIp}} @id="dmzLocalIp" @disabled={{false}} @onUpdate={{(fn this.updateDmzLocalIp)}}/>
+            {{else}}
+              <Ui::IpAddr @ip={{this.dmzLocalIp}} @id="dmzLocalIp" @disabled={{true}} @onUpdate={{(fn this.updateDmzLocalIp)}}/>
+            {{/if}}
+          </div>
+        </div>
+      </div>
+    {{/if}}
+    
+
+  </div>
+</div>
+
+{{!-- <button type="button" class="btn btn-primary" style="width: fit-content;" disabled={{not @model.dmz.hasDirtyAttributes}} onclick={{(fn this.UpdateDMZ @model.dmz)}}>{{t 'UPDATE'}}</button>  --}}
+
+<div class="d-flex justify-content-end">
+  <button type="button" class="btn btn-primary" style="width: fit-content;" disabled={{not @model.dmz.hasDirtyAttributes}} onclick={{(fn this.UpdateDMZ @model.dmz)}}>{{t 'PAGE_SETTINGS_APPLY'}}</button>
+  <button type="button" class="btn btn-secondary ms-2" style="width: fit-content;" onClick={{this.cancelDmz}}>{{t 'PAGE_SETTINGS_CANCEL'}}</button>
+</div>

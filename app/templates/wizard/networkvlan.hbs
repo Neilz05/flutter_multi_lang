@@ -1,0 +1,142 @@
+<div class="container py-5">
+    <!-- VLAN Form -->
+    <div class="card shadow-sm">
+        <div class="card-body">
+            <h4 class="card-title text-center mb-4" tabindex="0" aria-label="VLAN Configuration">VLAN Configuration</h4>
+
+            <form {{on 'submit' this.handleSubmit}}>
+                <div class="mb-3 row">
+                    <label for="internet_vlan_id" class="col-sm-4 col-form-label text-end" tabindex="0" aria-label="Internet VLAN ID">Internet VLAN ID:</label>
+                    <div class="col-sm-6">
+
+                        {{log this.wizard.InternetVLANChangeSet.VLANID}}
+                        {{log this.wizard.InternetVLANChangeSet.Enable}}
+
+                        {{!-- <input type="text" id="internet_vlan_id" class="form-control" placeholder="e.g., 10"> --}}
+                        {{!-- <Input @type="text" class="form-control" id="internet_vlan_id" placeholder=""
+                            @value={{this.wizard.InternetVLANChangeSet.VLANID}} /> --}}
+
+                        {{#if (this.isUntagged this.wizard.InternetVLANChangeSet)}}
+                        <input type="text" class="form-control" id="internet_vlan_id" placeholder="" value="0" {{on 'input' (fn this.handleInputChange this.wizard.InternetVLANChangeSet)}}/>
+                        {{else}}
+                        <input type="text" class="form-control" id="internet_vlan_id" placeholder="" value={{this.wizard.InternetVLANChangeSet.VLANID}} {{on 'input' (fn this.handleInputChange this.wizard.InternetVLANChangeSet)}}/>
+                        {{/if}}
+
+                        <div class="invalid-feedback">{{this.wizard.InternetVLANChangeSet.error.VLANID.validation}}
+                        </div>
+
+                        {{#if this.wizard.InternetVLANChangeSet.error.VLANID}}
+                        {{#each this.wizard.InternetVLANChangesSet.error.VLANID.validation as |message|}}
+                        <div class="invalid-feedback">{{message}}</div>
+                        {{/each}}
+                        {{/if}}
+                        {{#if this.sameInternetVLANMessage}}
+                        <div class="invalid-feedback">{{this.sameInternetVLANMessage}}</div>
+                        {{/if}}
+                        {{#if this.invalidInternetVLANMessage}}
+                        <div class="invalid-feedback">{{this.invalidInternetVLANMessage}}</div>
+                        {{/if}}
+                    </div>
+                </div>
+
+                <div class="mb-3 row">
+                    <label for="iptv_vlan_id" class="col-sm-4 col-form-label text-end" tabindex="0" aria-label="IPTV VLAN ID">IPTV VLAN ID:</label>
+                    <div class="col-sm-6">
+                        {{!-- <input type="text" id="iptv_vlan_id" class="form-control" placeholder="e.g., 20"> --}}
+                        {{!-- <Input @type="text" class="form-control" id="iptv_vlan_id" placeholder=""
+                            @value={{this.wizard.IPTVVLANChangeSet.VLANID}} /> --}}
+
+                        {{log this.wizard.IPTVVLANChangeSet.VLANID}}
+                        {{log this.wizard.IPTVVLANChangeSet.Enable}}
+
+                        {{#if (this.isUntagged this.wizard.IPTVVLANChangeSet)}}
+                        <input type="text" class="form-control" id="iptv_vlan_id" placeholder="" value="0" {{on 'input' (fn this.handleInputChange this.wizard.IPTVVLANChangeSet)}} />
+                        {{else}}
+                        <input type="text" class="form-control" id="iptv_vlan_id" placeholder="" value={{this.wizard.IPTVVLANChangeSet.VLANID}} {{on 'input' (fn this.handleInputChange this.wizard.IPTVVLANChangeSet)}} />
+                        {{/if}}
+
+
+
+                        {{#if this.wizard.IPTVVLANChangeSet.error.VLANID}}
+                        {{#each this.wizard.IPTVVLANChangeSet.error.VLANID.validation as |message|}}
+                        <div class="invalid-feedback">{{message}}</div>
+                        {{/each}}
+                        {{/if}}
+                        {{#if this.sameIPTVVLANMessage}}
+                        <div class="invalid-feedback">{{this.sameIPTVVLANMessage}}</div>
+                        {{/if}}
+                        {{#if this.invalidIPTVVLANMessage}}
+                        <div class="invalid-feedback">{{this.invalidIPTVVLANMessage}}</div>
+                        {{/if}}
+                    </div>
+                </div>
+
+                <div class="mb-3 row">
+                    <label for="voip_vlan_id" class="col-sm-4 col-form-label text-end" tabindex="0" aria-label="VOIP VLAN ID">VOIP VLAN ID:</label>
+                    <div class="col-sm-6">
+
+                        {{log this.wizard.VOIPVLANChangeSet.VLANID}}
+                        {{log this.wizard.VOIPVLANChangeSet.Enable}}
+
+
+                        {{#if (this.isUntagged this.wizard.VOIPVLANChangeSet)}}
+                        <input type="text" class="form-control" id="voip_vlan_id" placeholder="" value="0" {{on 'input' (fn this.handleInputChange this.wizard.VOIPVLANChangeSet)}}/>
+                        {{else}}
+                        <input type="text" class="form-control" id="voip_vlan_id" placeholder="" value={{this.wizard.VOIPVLANChangeSet.VLANID}} {{on 'input' (fn this.handleInputChange this.wizard.VOIPVLANChangeSet)}}/>
+                        {{/if}}
+
+                        {{#if this.wizard.VOIPVLANChangeSet.error.VLANID}}
+                        {{#each this.wizard.VOIPVLANChangeSet.error.VLANID.validation as |message|}}
+                        <div class="invalid-feedback">{{message}}</div>
+                        {{/each}}
+                        {{/if}}
+                        {{#if this.sameVOIPVLANMessage}}
+                        <div class="invalid-feedback">{{this.sameVOIPVLANMessage}}</div>
+                        {{/if}}
+                        {{#if this.invalidVOIPVLANMessage}}
+                        <div class="invalid-feedback">{{this.invalidVOIPVLANMessage}}</div>
+                        {{/if}}
+                    </div>
+                </div>
+
+                <div class="mb-4 row">
+                    <label for="mgmt_vlan_id" class="col-sm-4 col-form-label text-end" tabindex="0" aria-label="MGMT VLAN ID">MGMT VLAN ID:</label>
+                    <div class="col-sm-6">
+
+                        {{#if (this.isUntagged this.wizard.MGMTVLANChangeSet)}}
+                        <input type="text" class="form-control" id="mgmt_vlan_id" placeholder="" value="0" {{on 'input' (fn this.handleInputChange this.wizard.MGMTVLANChangeSet)}} />
+                        {{else}}
+                        <input type="text" class="form-control" id="mgmt_vlan_id" placeholder="" value={{this.wizard.MGMTVLANChangeSet.VLANID}} {{on 'input' (fn this.handleInputChange this.wizard.MGMTVLANChangeSet)}} />
+                        {{/if}}
+
+                        {{log this.wizard.MGMTVLANChangeSet.VLANID}}
+                        {{log this.wizard.MGMTVLANChangeSet.Enable}}
+
+                        {{#if this.wizard.MGMTVLANChangeSet.error.VLANID}}
+                        {{#each this.wizard.MGMTVLANChangeSet.error.VLANID.validation as |message|}}
+                        <div class="invalid-feedback">{{message}}</div>
+                        {{/each}}
+                        {{/if}}
+                        {{#if this.sameMGMTVLANMessage}}
+                        <div class="invalid-feedback">{{this.sameMGMTVLANMessage}}</div>
+                        {{/if}}
+                        {{#if this.invalidMGMTVLANMessage}}
+                        <div class="invalid-feedback">{{this.invalidMGMTVLANMessage}}</div>
+                        {{/if}}
+                    </div>
+                </div>
+
+                <!-- Info Text -->
+                <div class="text-center text-muted small mb-4" tabindex="0" aria-label="Specify the details of your network VLAN. Leave blank if not required.">
+                    Specify the details of your network VLAN. Leave blank if not required.
+                </div>
+
+                <!-- Action Buttons -->
+                <div class="text-center">
+                    <LinkTo @route="wizard.greeting" class="btn btn-outline-secondary me-3" id="back">Back</LinkTo>
+                    <button type="submit" class="btn btn-primary" id="proceed">Proceed</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

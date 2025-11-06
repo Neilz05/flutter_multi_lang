@@ -1,0 +1,5 @@
+{{#if (eq @host.HostName "")}}
+  <span tabindex="0" aria-label="{{@host.PhysAddress}} {{@host.IPAddress}}">{{@host.PhysAddress}} ({{@host.IPAddress}})</span>
+{{else}}
+  <span tabindex="0" aria-label="{{@host.HostName}} {{@host.IPAddress}}">{{@host.HostName}} ({{@host.IPAddress}})</span>
+{{/if}}

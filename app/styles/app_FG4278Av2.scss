@@ -1,0 +1,20 @@
+@import "ember-bootstrap/bootstrap";
+@import "Neutral.scss";
+@import "FG4278Bv3.scss";
+@import "FG4278Av2.scss";
+@import "FG4278Av2_VD.scss";
+
+$model-type: FG4278Av2; // Neutral, FG4278Bv3, FG4278Av2, FG4278Av2_VD
+
+@if $model-type == Neutral {
+  @include Neutral;
+} @else if $model-type == FG4278Bv3 {
+  @include Neutral;
+  @include FG4278Bv3;
+} @else if $model-type == FG4278Av2 {
+  @include Neutral;
+  @include FG4278Av2;
+} @else if $model-type == FG4278Av2_VD {
+  @include Neutral;
+  @include FG4278Av2_VD;
+}

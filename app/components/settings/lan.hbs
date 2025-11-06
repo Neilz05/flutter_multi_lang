@@ -1,0 +1,177 @@
+<div class="card mb-3">
+  <div class="card-header sc">LAN</div>
+  <div class="card-body">
+    {{#each @ip.Interface as |iface idx|}}
+        {{#if (eq idx 2)}}
+            {{#each iface.IPv4Address as |ipf id|}}
+                {{#if (eq id 0)}}
+                  <div class="row">
+                    <div class="col-md-6">
+                        <div class="row mb-2" style="padding-left: 10px;">IP Address</div>
+                    </div>
+                    <div class="col-md-6" style="display: flex; justify-content: flex-end;">
+                      <div class="row mb-2" style="padding-right: 10px;">
+                        <Input class="form-control" type="text" @value={{ipf.IPAddress}}/>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-6">
+                      <div class="row mb-2" style="padding-left: 10px;">Subnet Mask</div>
+                    </div>
+                    <div class="col-md-6" style="display: flex; justify-content: flex-end;">
+                      <div class="row mb-2" style="padding-right: 10px;">
+                        <Input class="form-control" type="text" @value={{ipf.SubnetMask}}/>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-6">
+                        <div class="row mb-2" style="padding-left: 10px;">Local DNS Server</div>
+                    </div>
+                    <div class="col-md-6" style="display: flex; justify-content: flex-end;">
+                      <div class="row mb-2" style="padding-right: 10px;">
+                        <Input class="form-control" type="text" @value={{ipf.IPAddress}}/>
+                      </div>
+                    </div>
+                  </div>
+                {{/if}}
+            {{/each}}
+        {{/if}}
+    {{/each}}
+    <div class="row">
+      <div class="col-md-6">
+      <div class="row mb-2" style="padding-left: 10px;">DNS Relay Enable</div>
+      </div>
+      <div class="col-md-6" style="display: flex; justify-content: flex-end;">
+        <div class="row mb-2" style="padding-right: 10px;">
+          <label class="switch">
+            <Input @type="checkbox" @value={{@dns.Relay.Enable}} @checked={{this.dnsRelayEnabled}} class="form-check-input" />
+            <span class="slider round"></span>
+          </label>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="card mb-3">
+  <div class="card-header sc">DHCP</div>
+  <div class="card-body">
+    <div class="row">
+      <div class="col-md-6">
+      <div class="row mb-2" style="padding-left: 10px;">DHCP Server Enable</div>
+      </div>
+      <div class="col-md-6" style="display: flex; justify-content: flex-end;">
+        <div class="row mb-2" style="padding-right: 10px;">
+          <label class="switch">
+            <Input @type="checkbox" @value={{@dhcpv4.Server.Enable}} @checked={{this.dhcpv4ServerEnabled}} class="form-check-input" />
+            <span class="slider round"></span>
+          </label>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-6">
+        <div class="row mb-2" style="padding-left: 10px;">Number of Static Addresses</div>
+      </div>
+      <div class="col-md-6" style="display: flex; justify-content: flex-end;">
+        <div class="row mb-2" style="padding-right: 10px;">
+          {{#each @dhcpv4.Server.Pool as |pool idx|}}
+            {{#if (eq idx 1)}} {{!-- Pool.lan only --}}
+              {{pool.StaticAddressNumberOfEntries}}
+            {{/if}}
+          {{/each}}
+        </div>
+      </div>
+    </div>
+    <br>
+    {{#if (eq @dhcpv4.Server.Enable 1)}}
+      <div class="row">
+        <div class="col-md-6">
+          <div class="row mb-2" style="padding-left: 10px;">Min Address</div>
+        </div>
+        <div class="col-md-6" style="display: flex; justify-content: flex-end;">
+          <div class="row mb-2" style="padding-right: 10px;">
+            {{#each @dhcpv4.Server.Pool as |pool idx|}}
+              {{#if (eq idx 1)}} {{!-- Pool.lan only --}}
+                <Input class="form-control" type="text" @value={{pool.MinAddress}}/>
+              {{/if}}
+            {{/each}}
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6">
+        <div class="row mb-2" style="padding-left: 10px;">Max Address</div>
+        </div>
+        <div class="col-md-6" style="display: flex; justify-content: flex-end;">
+          <div class="row mb-2" style="padding-right: 10px;">
+            {{#each @dhcpv4.Server.Pool as |pool idx|}}
+              {{#if (eq idx 1)}} {{!-- Pool.lan only --}}
+                <Input class="form-control" type="text" @value={{pool.MaxAddress}}/>
+              {{/if}}
+            {{/each}}
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6">
+        <div class="row mb-2" style="padding-left: 10px;">Lease Time</div>
+        </div>
+        <div class="col-md-6" style="display: flex; justify-content: flex-end;">
+          <div class="row mb-2" style="padding-right: 10px;">
+            {{#each @dhcpv4.Server.Pool as |pool idx|}}
+              {{#if (eq idx 1)}} {{!-- Pool.lan only --}}
+                <Input class="form-control" type="text" @value={{pool.LeaseTime}}/>
+              {{/if}}
+            {{/each}}
+          </div>
+        </div>
+      </div>
+    {{/if}}
+    <h5>Static Addresses</h5>
+    {{#each @dhcpv4.Server.Pool as |pool id|}}
+      {{#if (eq pool.Alias 'lan')}} {{!-- Pool.X.Alias == lan only --}}
+        {{#each pool.StaticAddress as |stad idx|}}
+          <div class="card mb-3">
+            <div class="card-header">Static Address {{add idx 1}}</div>
+            <div class="card-body">
+              <div class="row">
+                <div class="col-md-6">
+                  <div class="row mb-2" style="padding-left: 10px;">Alias</div>
+                </div>
+                  <div class="col-md-6" style="display: flex; justify-content: flex-end;">
+                  <div class="row mb-2" style="padding-right: 10px;">
+                    <Input class="form-control" type="text" @value={{stad.Alias}}/>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-6">
+                <div class="row mb-2" style="padding-left: 10px;">MAC Address</div>
+                </div>
+                  <div class="col-md-6" style="display: flex; justify-content: flex-end;">
+                  <div class="row mb-2" style="padding-right: 10px;">
+                    <Input class="form-control" type="text" @value={{stad.Chaddr}}/>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-6">
+                <div class="row mb-2" style="padding-left: 10px;">IP Address</div>
+                </div>
+                <div class="col-md-6" style="display: flex; justify-content: flex-end;">
+                  <div class="row mb-2" style="padding-right: 10px;">
+                    <Input class="form-control" type="text" @value={{stad.Yiaddr}}/>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+      {{/each}}
+    {{/if}}
+  {{/each}}
+  </div>
+</div>
+
+<button type="button" class="btn btn-primary" {{on "click" this.updateNetworkLan}} disabled={{unless this.hasChanges "disabled"}}>Update</button>

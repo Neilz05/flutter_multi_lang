@@ -1,0 +1,18 @@
+<div class="card mb-3">
+  <div class="card-header">
+   <StatusIndicator @status={{@wan.Status}} @statusKey="Enabled"/> {{@wan.Alias}}
+  </div>
+  <div class="card-body">
+    <div class="row mb-2">
+      <div class="col-md-3">
+        <label class="col-form-label">Alias</label>
+      </div>
+      <div class="col-md-9">
+        <Input class="form-control" type="text" @value={{@wan.Alias}} />
+      </div>
+    </div>
+    {{#each @wan.Intf as |iface index|}}
+      <Wan::WanmanagerWanInterface @iface={{iface}} @index={{index}} />
+    {{/each}}
+  </div>
+</div>

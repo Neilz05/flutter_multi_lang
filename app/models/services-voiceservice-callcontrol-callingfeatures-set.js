@@ -1,0 +1,40 @@
+import Model, { attr } from '@ember-data/model';
+
+export default class ServicesVoiceServiceCallControlCallingFeaturesSet extends Model {
+    @attr VMWIEnable;
+    @attr AnonymousCallEnable;
+    @attr CFTNumberOfEntries;
+    @attr CallForwardUnconditionalNumber;
+    @attr SCREJNumberOfEntries;
+    @attr "X_PRPLWARE-COM_HotLineNumber";
+    @attr "X_PRPLWARE-COM_HotLineEnable";
+    @attr BlockForwardEnable;
+    @attr IIFCEnable;
+    @attr FollowMeEnable;
+    @attr CallForwardUnconditionalEnable;
+    @attr DoNotDisturbEnable;
+    @attr SCFNumberOfEntries;
+    @attr CallForwardOnNoAnswerRingTimeout;
+    @attr CallerIDNameEnable;
+    @attr CCBSEnable;
+    @attr "X_PRPLWARE-COM_CallholdEnable";
+    @attr VoiceMailEnable;
+    @attr CallerIDEnable;
+    @attr CallTransferEnable;
+    @attr SecretForwarderEnable;
+    @attr MWIEnable;
+    @attr CallForwardOnBusyNumber;
+    @attr AnonymousCallRejectionEnable;
+    @attr RepeatDialEnable;
+    @attr CallPickUpEnable;
+    @attr "X_PRPLWARE-COM_CallerIDBlockEnable";
+    @attr LineMessagesWaiting;
+    @attr CallForwardOnNoAnswerNumber;
+    @attr CallWaitingEnable;
+    @attr CallForwardOnNoAnswerEnable;
+    @attr CallForwardOnBusyEnable;
+    @attr "X_PRPLWARE-COM_HotLineDelay";
+    @attr FollowMeNumberOfEntries;
+    @attr Alias;
+    @attr CallForwardOnBusyRingTimeout;
+}

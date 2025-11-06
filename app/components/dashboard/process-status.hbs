@@ -1,0 +1,14 @@
+<div class="card">
+  <div class="card-body">
+    <div class="row">
+      <div class="col">
+        <h5 class="card-title">CPU</h5>
+        CPU-Usage: {{@status.CPUUsage}}<br />
+        Processes: {{@status.ProcessNumberOfEntries}}
+      </div>
+      <div class="col-5">
+        <Chart::LinearChart @data={{@cpuData}} @numOfValues="25" @key="usage" @maxValue="100" @color="#782572" @height="75" />
+      </div>
+    </div>
+  </div>
+</div>

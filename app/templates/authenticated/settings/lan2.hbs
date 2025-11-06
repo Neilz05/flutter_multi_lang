@@ -1,0 +1,56 @@
+{{page-title "Lan"}}
+
+<div class="card mb-3">
+  <div class="card-header sc" tabindex="0" aria-label="{{t 'PAGE_EVENT_LOG_CATEGORIES_LAN'}}">{{t 'PAGE_EVENT_LOG_CATEGORIES_LAN'}}</div>
+  <div class="card-body">
+    <div class="row">
+      <div class="col-md-6">
+        <Settings::HomeNetwork2 @logicalIface={{@model.logicalInterface}} @ip={{@model.ip}} @server={{@model.dhcpv4.Server}} @dns={{@model.dns}} />
+      </div>
+      <div class="col-md-6">
+        <Settings::GuestNetwork @ip={{@model.ip}} @server={{@model.dhcpv4.Server}} />
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="card mb-3">
+  <div class="card-header sc" tabindex="0" aria-label="{{t 'PAGE_IPV4_DHCP_SERVER_PARAMETERS_TITLE'}}">{{t 'PAGE_IPV4_DHCP_SERVER_PARAMETERS_TITLE'}}</div>
+  <div class="card-body">
+    <div class="row">
+      <div class="col-md-6">
+        <Settings::HomeDhcp @server={{@model.dhcpv4.Server}} />
+      </div>
+      <div class="col-md-6">
+        <Settings::GuestDhcp @server={{@model.dhcpv4.Server}} />
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="card mb-3">
+  <div class="card-header sc" tabindex="0" aria-label="{{t 'PAGE_IPV4_STATIC_DHCP_HOME_NETWORK_TITLE'}}">{{t 'PAGE_IPV4_STATIC_DHCP_HOME_NETWORK_TITLE'}}</div>
+  <div class="card-body">
+    <Settings::LanStaticDhcp @registerComponent={{this.registerHomeDhcpComponent}} @server={{@model.dhcpv4.Server}} @hosts={{@model.hosts}} @homeDelId={{this.homeIDsToBeDeleted}} @onDel={{this.homeIdDel}}/>
+  </div>
+</div>
+
+<div class="card mb-3">
+  <div class="card-header sc" tabindex="0" aria-label="{{t 'PAGE_IPV4_STATIC_DHCP_GUEST_NETWORK_TITLE'}}">{{t 'PAGE_IPV4_STATIC_DHCP_GUEST_NETWORK_TITLE'}}</div>
+  <div class="card-body">
+    <Settings::LanStaticDhcpGuest @registerComponent={{this.registerGuestDhcpComponent}} @server={{@model.dhcpv4.Server}} @hosts={{@model.hosts}} @guestDelId={{this.guestIDsToBeDeleted}} @onDel={{this.guestIdDel}}/>
+  </div>
+</div>
+
+{{#if this.errMessages.length}}
+    {{#each this.errMessages as |error|}}
+        <div class="errMsg alert alert-danger" role="alert" tabindex="0" aria-label="{{error}}">
+            {{error}}
+        </div>
+    {{/each}}
+{{/if}} 
+
+<div class="d-flex justify-content-end">
+    <button disabled={{unless this.hasChanges "disabled"}} type="button" class="btn btn-primary" style="width: fit-content;" {{on "keyup" this.eaactrl.btnApply}} onClick={{this.Apply}}>{{t 'PAGE_SETTINGS_APPLY'}}</button>
+    <button disabled={{unless this.hasChanges "disabled"}} type="button" class="btn btn-secondary ms-2" style="width: fit-content;" {{on "keyup" this.eaactrl.btnCancel}} onClick={{this.Cancel}}>{{t 'PAGE_SETTINGS_CANCEL'}}</button>
+</div>

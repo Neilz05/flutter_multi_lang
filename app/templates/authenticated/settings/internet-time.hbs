@@ -1,0 +1,59 @@
+{{page-title "Internet Time"}}
+
+<div class="card mb-3">
+  <div class="card-header sc" tabindex="0" aria-label="{{t 'PAGE_INTERNET_TIME_TITLE'}}">{{t 'PAGE_INTERNET_TIME_TITLE'}}</div>
+  <div class="card-body">
+    <div class="row">
+      <div class="col-md-6">
+        <div class="row mb-2 table-entry" tabindex="0" aria-label="{{t 'PAGE_INTERNET_TIME_SETTINGS_TIME_ZONE'}}">{{t 'PAGE_INTERNET_TIME_SETTINGS_TIME_ZONE'}}</div>
+      </div>
+      <div class="col-md-6" style="display: flex;">
+        <div class="row mb-2" tabindex="0" aria-label="{{@model.LocalTimeZone}}">
+          {{@model.LocalTimeZone}}          
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-6">
+        <div class="row mb-2 table-entry" tabindex="0" aria-label="{{t 'PAGE_INTERNET_TIME_SETTINGS_SYNC'}}">{{t 'PAGE_INTERNET_TIME_SETTINGS_SYNC'}}</div>
+      </div>
+      <div class="col-md-6" style="display: flex;">
+        <div class="row mb-2">
+          {{#each @model.Client as |cl|}}
+            {{#if (eq cl.Alias "cpe-client-1")}}
+              <label class="switch" for="time-enable" tabindex="0" aria-label="{{t 'PAGE_INTERNET_TIME_SETTINGS_SYNC'}}" role="button" {{on "keyup" this.eaactrl.onoffTrigger}}>
+                <Input id="time-enable" tabindex="-1" @type="checkbox" @value={{cl.Enable}} @checked={{this.syncTimeServer}} class="form-check-input" />
+                <span class="slider round"></span>
+              </label> 
+            {{/if}}
+          {{/each}}
+        </div>
+      </div>
+    </div>
+    {{#each @model.Client as |cl|}}
+      {{#if (eq cl.Alias "cpe-client-1")}}
+        {{#if (eq cl.Enable 1)}}
+          {{#each this.serverArray as |timeServer ind|}}
+            <div class="row">
+              <div class="col-md-6">
+                <div class="row mb-2 table-entry" tabindex="0" aria-label="{{t 'PAGE_INTERNET_TIME_SETTINGS_N_NTP'}} {{add ind 1}}">{{t 'PAGE_INTERNET_TIME_SETTINGS_N_NTP'}} {{add ind 1}}</div>
+              </div>
+              <div class="col-md-6" style="display: flex;">
+                <div class="row mb-2">
+                  <Input class="form-control" type="text" @value={{timeServer}} {{on "input" this.handleInput}}/>
+                </div>
+              </div>
+            </div>
+          {{/each}}
+        {{/if}}
+      {{/if}}
+    {{/each}}
+  </div>
+</div>
+
+{{!-- <button type="button" class="btn btn-primary" {{on "click" this.updateInternetTime}} disabled={{unless this.hasChanges "disabled"}} style="width: 100px;">{{t 'UPDATE'}}</button> --}}
+
+<div class="d-flex justify-content-end">
+  <button type="button" class="btn btn-primary" style="width: fit-content;" {{on "click" this.updateInternetTime}} {{on "keyup" this.eaactrl.btnApply}} disabled={{unless this.hasChanges "disabled"}}>{{t 'PAGE_SETTINGS_APPLY'}}</button>
+  <button type="button" class="btn btn-secondary ms-2" style="width: fit-content;" onClick={{this.cancelInternetTime}} {{on "keyup" this.eaactrl.btnCancel}}>{{t 'PAGE_SETTINGS_CANCEL'}}</button>
+</div>

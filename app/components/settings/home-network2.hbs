@@ -1,0 +1,69 @@
+<div class="row mb-2 table-entry" tabindex="0" aria-label="{{t 'PAGE_SETTINGS_LAN_HOME_NETWORK'}}">
+  {{t 'PAGE_SETTINGS_LAN_HOME_NETWORK'}}
+</div>
+<hr>
+<div class="row mb-2 table-entry" tabindex="0" aria-label="{{t 'PAGE_IPV4_NETWORK_SETTINGS_IP_ADDRESS'}}">
+  {{t 'PAGE_IPV4_NETWORK_SETTINGS_IP_ADDRESS'}}
+</div>
+<div class="row mb-2 table-entry">
+  {{#each @logicalIface as |iface|}}
+    {{#if (eq iface.Alias 'lan')}}
+      <Ui::IpAddr @ip={{this.getIpAddressFromLogical iface.LowerLayers}} @id="homeNetwork" @disabled={{false}} @onUpdate={{this.setIpAddr}}/>
+    {{/if}}
+  {{/each}}
+</div>
+<hr>
+<div class="row mb-2 table-entry" tabindex="0" aria-label="{{t 'PAGE_IPV4_NETWORK_SETTINGS_IP_SUBNET_MASK'}}">
+  {{t 'PAGE_IPV4_NETWORK_SETTINGS_IP_SUBNET_MASK'}}
+</div>
+<div class="row mb-2 table-entry">
+  {{#each @logicalIface as |iface|}}
+    {{#if (eq iface.Alias 'lan')}}
+      <Ui::IpAddr @ip={{this.getSubnetMaskFromLogical iface.LowerLayers}} @id="homeSubnet" @disabled={{false}} @onUpdate={{this.setSubnetMask}}/>
+    {{/if}}
+  {{/each}}
+</div>
+<hr>
+<div class="row mb-2 table-entry">
+  <div class="col-md-3" tabindex="0" aria-label="{{t 'PAGE_IPV4_NETWORK_SETTINGS_DHCP_SERVER'}}">
+    {{t 'PAGE_IPV4_NETWORK_SETTINGS_DHCP_SERVER'}}
+  </div>
+  <div class="col-md-2">
+    <label class="switch" for="{{this.componentId}}-homeDhcpServer" tabindex="0" aria-label="{{t 'PAGE_IPV4_NETWORK_SETTINGS_DHCP_SERVER'}}" role="button" {{on "keyup" this.eaactrl.onoffTrigger}}>
+    <Input id="{{this.componentId}}-homeDhcpServer" tabindex="-1" @type="checkbox" class="form-check-input" @checked={{this.dhcpServerEnable}}/>
+    <span class="slider round"></span>
+  </label>
+  </div>
+</div>
+{{!-- <hr> --}}
+{{!-- <div class="row mb-2 table-entry">
+  <div class="col-md-3" tabindex="0" aria-label="{{t 'PAGE_IPV4_DNS_PROXY'}}">
+    {{t 'PAGE_IPV4_DNS_PROXY'}}
+  </div>
+  <div class="col-md-2">
+    <label class="switch" for="{{this.componentId}}-dnsProxy" tabindex="0" aria-label="{{t 'PAGE_IPV4_DNS_PROXY'}}" role="button" {{on "keyup" this.eaactrl.onoffTrigger}}>
+    <Input id="{{this.componentId}}-dnsProxy" tabindex="-1" @type="checkbox" class="form-check-input" @checked={{this.dnsProxyEnable}}/>
+    <span class="slider round"></span>
+  </label>
+  </div>
+</div>
+{{did-insert this.getDnsProxyStatus}}
+{{#unless this.dnsProxyEnable}}
+<div class="row mb-2 table-entry">
+  <div class="col-md-3" tabindex="0" aria-label="{{t 'PAGE_IPV4_NETWORK_SETTINGS_WAN_SERVERS'}}">
+    {{t 'PAGE_IPV4_NETWORK_SETTINGS_WAN_SERVERS'}}
+  </div>
+</div>
+
+<div class="row mb-2 table-entry">
+  {{#if (gt this.wanServers.length 0)}}
+    {{#each this.wanServers as |server index|}}
+      <Ui::IpAddr @ip={{(if (eq index 0) this.getWanServerIpAddressOne this.getWanServerIpAddressTwo)}} @id={{(add "wanServer-" (inc index))}} @disabled={{false}} @onUpdate={{this.setWanServer}}/>
+    {{/each}}
+  {{else}}
+    <Ui::IpAddr @ip={{this.getWanServerIpAddressOne}} @id="wanServer-1" @disabled={{false}} @onUpdate={{this.setWanServer}}/>
+    <Ui::IpAddr @ip={{this.getWanServerIpAddressTwo}} @id="wanServer-2" @disabled={{false}} @onUpdate={{this.setWanServer}}/>
+  {{/if}}
+</div>
+{{/unless}} --}}
+

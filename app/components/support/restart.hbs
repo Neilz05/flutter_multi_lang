@@ -1,0 +1,46 @@
+<div class="card mb-3">
+  <div class="card-header sc p-3">
+    <label
+      class="fs-4 fw-bold ms-3"
+      tabindex="0"
+      aria-label="{{t 'SUB_NAVIGATION_ITEM_RESTART'}}"
+    >
+      {{t 'SUB_NAVIGATION_ITEM_RESTART'}}
+    </label>
+  </div>
+  <div class="card-body">
+    <div class="row py-1 ps-3">
+      <div class="col">
+        <label tabindex="0" aria-label="{{t 'PAGE_RESTART_RESTART_TEXT'}}">
+          {{t 'PAGE_RESTART_RESTART_TEXT'}}
+        </label>
+      </div>
+      <div class="col">
+        <button
+          class="btn btn-primary"
+          {{on "click" this.pressRestart}}
+          {{on "keyup" this.eaactrl.btnTrigger}}
+          tabindex="0"
+          aria-label="{{t 'PAGE_RESTART_RESTART'}}"
+        >
+          {{t 'PAGE_RESTART_RESTART'}}
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<BsModal
+  @open={{this.isModalOpen}}
+  @closeButton={{false}}
+  @backdropClose={{false}}
+as |Modal|>
+  <Modal.header>
+    <div tabindex="0" aria-label="{{t 'PAGE_RESTART_IN_PROGRESS'}}">
+      {{t 'PAGE_RESTART_IN_PROGRESS'}}
+    </div>
+  </Modal.header>
+  <Modal.body>
+    <div class="reset-loading" aria-hidden="true"></div>
+  </Modal.body>
+</BsModal>

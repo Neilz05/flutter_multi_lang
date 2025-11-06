@@ -1,0 +1,92 @@
+{{page-title "Voice Status"}}
+
+<div class="card mb-3">
+  <div class="card-header sc" tabindex="0" aria-label="{{t 'PAGE_VOICE_STATUS_TITLE'}}">
+    {{t 'PAGE_VOICE_STATUS_TITLE'}}
+  </div>
+  <div class="card-body">
+    <div class="row" style="padding-left: 10px; font-weight: normal;" tabindex="0" aria-label="{{t 'PAGE_VOICE_STATUS_SUBTITLE'}}">
+      {{t 'PAGE_VOICE_STATUS_SUBTITLE'}}      
+    </div>
+  </div>
+</div>
+
+<div class="card mb-3">
+  <div class="card-header sc" tabindex="0" aria-label="{{t 'PAGE_VOICE_STATUS_YOUR_PHONE_NUMBERS'}}">
+    {{t 'PAGE_VOICE_STATUS_YOUR_PHONE_NUMBERS'}}
+  </div>
+  <div class="card-body">
+    <div class="row">
+      <div class="col-md-4" style="font-weight: bold;" tabindex="0" aria-label="{{t 'PAGE_VOICE_STATUS_NUMBERS_TABLE_PHONE_NUMBER'}}">
+        {{t 'PAGE_VOICE_STATUS_NUMBERS_TABLE_PHONE_NUMBER'}}
+      </div>
+      <div class="col-md-4" style="font-weight: bold;" tabindex="0" aria-label="{{t 'PAGE_VOICE_STATUS_NUMBERS_TABLE_NAME'}}">
+        {{t 'PAGE_VOICE_STATUS_NUMBERS_TABLE_NAME'}}
+      </div>
+      <div class="col-md-4" style="font-weight: bold;" tabindex="0" aria-label="{{t 'PAGE_VOICE_STATUS_NUMBERS_TABLE_STATUS'}}">
+        {{t 'PAGE_VOICE_STATUS_NUMBERS_TABLE_STATUS'}}
+      </div>
+    </div>
+    <div style="display: flex; gap: 8px;">
+          <div class="col-md-4">
+            {{#each @model.client as |vsClient|}}
+              {{#unless (eq vsClient.RegisterURI "")}}
+                <div class="row" style="padding-left: 10px; font-weight: normal;" tabindex="0" aria-label="{{vsClient.RegisterURI}}">
+                  {{vsClient.RegisterURI}}
+                </div>
+              {{/unless}}
+            {{/each}}
+          </div>
+          <div class="col-md-4">
+            {{#each @model.line as |vsLine idx|}}
+              {{#if (eq (this.checkRegisterURI idx) 1)}}
+                {{#if (eq vsLine.CallStatus 'Idle')}}
+                <div class="row" style="padding-left: 10px; font-weight: normal;" tabindex="0" aria-label="{{t 'PAGE_VOICE_STATUS_NUMBERS_TABLE_IDLE'}}">
+                  {{t 'PAGE_VOICE_STATUS_NUMBERS_TABLE_IDLE'}}
+                </div>
+                {{else if (eq vsLine.CallStatus 'Dialing')}}
+                <div class="row" style="padding-left: 10px; font-weight: normal;" tabindex="0" aria-label="{{t 'PAGE_VOICE_STATUS_NUMBERS_TABLE_DIALING'}}">
+                  {{t 'PAGE_VOICE_STATUS_NUMBERS_TABLE_DIALING'}}
+                </div>
+                {{else if (eq vsLine.CallStatus 'Delivered')}}
+                <div class="row" style="padding-left: 10px; font-weight: normal;" tabindex="0" aria-label="{{t 'PAGE_VOICE_STATUS_NUMBERS_TABLE_DELIVERED'}}">
+                  {{t 'PAGE_VOICE_STATUS_NUMBERS_TABLE_DELIVERED'}}
+                </div>
+                {{else if (eq vsLine.CallStatus 'Connected')}}
+                <div class="row" style="padding-left: 10px; font-weight: normal;" tabindex="0" aria-label="{{t 'PAGE_VOICE_STATUS_NUMBERS_TABLE_CONNECTED'}}">
+                  {{t 'PAGE_VOICE_STATUS_NUMBERS_TABLE_CONNECTED'}}
+                </div>
+                {{else if (eq vsLine.CallStatus 'Alerting')}}
+                <div class="row" style="padding-left: 10px; font-weight: normal;" tabindex="0" aria-label="{{t 'PAGE_VOICE_STATUS_NUMBERS_TABLE_ALERTING'}}">
+                  {{t 'PAGE_VOICE_STATUS_NUMBERS_TABLE_ALERTING'}}
+                </div>
+                {{else if (eq vsLine.CallStatus 'Disconnected')}}
+                <div class="row" style="padding-left: 10px; font-weight: normal;" tabindex="0" aria-label="{{t 'PAGE_VOICE_STATUS_NUMBERS_TABLE_DISCONNECTED'}}">
+                  {{t 'PAGE_VOICE_STATUS_NUMBERS_TABLE_DISCONNECTED'}}
+                </div>
+                {{else}}
+                <div class="row" style="padding-left: 10px; font-weight: normal;" tabindex="0" aria-label="{{t 'PAGE_VOICE_STATUS_NUMBERS_TABLE_UNKNOWN'}}">
+                  {{t 'PAGE_VOICE_STATUS_NUMBERS_TABLE_UNKNOWN'}}
+                </div>
+                {{/if}}
+              {{/if}}
+            {{/each}}
+          </div>
+          <div class="col-md-4">
+            {{#each @model.line as |vsLine idx|}}
+              {{#if (eq (this.checkRegisterURI idx) 1)}}
+                {{#if (is-equal vsLine.Status "Up")}}
+                  <div class="row" style="padding-left: 10px; font-weight: normal;" tabindex="0" aria-label="{{t 'PAGE_VOICE_STATUS_NUMBERS_TABLE_ACTIVE'}}">
+                    {{t 'PAGE_VOICE_STATUS_NUMBERS_TABLE_ACTIVE'}}
+                  </div>
+                {{else}}
+                  <div class="row" style="padding-left: 10px; font-weight: normal;" tabindex="0" aria-label="{{t 'PAGE_VOICE_STATUS_NUMBERS_TABLE_INACTIVE'}}">
+                    {{t 'PAGE_VOICE_STATUS_NUMBERS_TABLE_INACTIVE'}}
+                  </div>
+                {{/if}}
+              {{/if}}
+            {{/each}}
+          </div> 
+    </div>
+  </div>
+</div>

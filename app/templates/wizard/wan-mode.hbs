@@ -1,0 +1,38 @@
+<div class="container py-5 w-50">
+    <div class="card shadow-sm">
+        <div class="card-body">
+            <h4 class="card-title text-center mb-4" tabindex="0" aria-label="{{t 'WIZARD_WANMODE_SELECTION_TITLE'}}">{{t 'WIZARD_WANMODE_SELECTION_TITLE'}}</h4>
+
+            <form {{on 'submit' this.handleSubmit}}>
+                <div class="mb-4 d-flex flex-column justify-content-center align-items-center">
+                    <div class="d-flex flex-column">
+                        {{#each this.WANOptions as |option idx|}}
+                        <div class="form-check">
+                            <input class="form-check-input radio-large" type="radio" name="inlineRadioOptions" id="inlineRadio{{idx}}"
+                                value={{option}} checked={{(this.isSelected option)}}
+                                {{on 'input' this.updateWANMode}} tabindex="-1">
+                            <label class="form-check-label" for="inlineRadio{{idx}}" tabindex="0" aria-label="{{option}}">{{option}}</label>
+                        </div>
+                        {{/each}}
+                    </div>
+                </div>
+
+                <!-- Info Text -->
+                <div class="text-center text-muted small mb-4" tabindex="0" aria-label="{{t 'WIZARD_WANMODE_SELECTION_SUBTITLE'}}">
+                    {{t 'WIZARD_WANMODE_SELECTION_SUBTITLE'}}
+                </div>
+
+                {{#if this.errorMessage}}
+                <div class="alert alert-danger w-50 text-center mb-4 mx-auto" role="alert" tabindex="0" aria-label="{{this.errorMessage}}">
+                    {{this.errorMessage}}
+                </div>
+                {{/if}}
+
+                <!-- Action Buttons -->
+                <div class="text-center">
+                    <button type="submit" class="btn btn-primary" id="confirm">{{t 'WIZARD_WANMODE_SELECTION_CONFIRM'}}</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

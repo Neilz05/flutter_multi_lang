@@ -1,0 +1,202 @@
+<div class="card mb-3">
+  <div class="card-header sc" tabindex="0" aria-label="{{t 'SUB_SUB_NAVIGATION_ITEM_LAN_STATUS'}}">{{t 'SUB_SUB_NAVIGATION_ITEM_LAN_STATUS'}}</div>
+  <div class="card-body">
+    <div class="row">
+      <div class="col-md-3">
+        <div class="row mb-2 table-entry attr-name" tabindex="0" aria-label="{{t 'PAGE_STATUS_LAN_NETWORK_IPV4'}}">{{t 'PAGE_STATUS_LAN_NETWORK_IPV4'}}</div>
+      </div>
+      <div class="col-md-9">
+        {{#each @ip.Interface as |iface|}}
+        {{#if (eq iface.Alias 'lan')}}
+        {{#each iface.IPv4Address as |ipAddr i|}}
+        {{#if (eq i 0)}}
+        <div class="row mb-2 table-entry" tabindex="0" aria-label="{{ipAddr.IPAddress}}/{{convert-to-cidr ipAddr.SubnetMask}}">{{ipAddr.IPAddress}}/{{convert-to-cidr ipAddr.SubnetMask}}</div>
+        {{/if}}
+        {{/each}}
+        {{/if}}
+        {{/each}}
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-3">
+        <div class="row mb-2 table-entry attr-name" tabindex="0" aria-label="{{t 'PAGE_STATUS_LAN_NETWORK_DEFAULT_GATEWAY'}}">{{t 'PAGE_STATUS_LAN_NETWORK_DEFAULT_GATEWAY'}}</div>
+      </div>
+      <div class="col-md-9">
+        {{#each @ip.Interface as |iface|}}
+        {{#if (eq iface.Alias 'lan')}}
+        {{#each iface.IPv4Address as |ipAddr i|}}
+        {{#if (eq i 0)}}
+        <div class="row mb-2 table-entry" tabindex="0" aria-label="{{ipAddr.IPAddress}}">{{ipAddr.IPAddress}}</div>
+        {{/if}}
+        {{/each}}
+        {{/if}}
+        {{/each}}
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-3">
+        <div class="row mb-2 table-entry attr-name" tabindex="0" aria-label="{{t 'PAGE_STATUS_LAN_NETWORK_MAC'}}">{{t 'PAGE_STATUS_LAN_NETWORK_MAC'}}</div>
+      </div>
+      <div class="col-md-9" tabindex="0" aria-label="{{this.MACAddress}}">
+        {{!-- {{#each @ethernet.Interface as |eIface|}}
+        {{#if (eq eIface.Alias 'ETH0')}}
+        <div class="row mb-2 table-entry">{{eIface.MACAddress}}</div>
+        {{/if}}
+        {{/each}} --}}
+        {{this.MACAddress}}
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-3">
+        <div class="row mb-2 table-entry attr-name" tabindex="0" aria-label="{{t 'PAGE_STATUS_LAN_NETWORK_DHCP'}}">{{t 'PAGE_STATUS_LAN_NETWORK_DHCP'}}</div>
+      </div>
+      <div class="col-md-9">
+        {{#each @dhcpv4.Server.Pool as |pool|}}
+          {{#if (eq pool.Alias "lan")}}
+            {{#if (eq pool.Enable 1)}}
+            <div class="row mb-2 table-entry" tabindex="0" aria-label="{{t 'ON'}}">{{t 'ON'}}</div>
+            {{else}}
+            <div class="row mb-2 table-entry" tabindex="0" aria-label="{{t 'OFF'}}">{{t 'OFF'}}</div>
+            {{/if}}
+          {{/if}}
+        {{/each}}
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-3">
+        <div class="row mb-2 table-entry attr-name" tabindex="0" aria-label="{{t 'PAGE_STATUS_LAN_NETWORK_DHCPV6_SERVER'}}">{{t 'PAGE_STATUS_LAN_NETWORK_DHCPV6_SERVER'}}</div>
+      </div>
+      <div class="col-md-9">
+        {{#if @dhcpv6.Server.Enable}}
+        <div class="row mb-2 table-entry" tabindex="0" aria-label="{{t 'ON'}}">{{t 'ON'}}</div>
+        {{else}}
+        <div class="row mb-2 table-entry" tabindex="0" aria-label="{{t 'OFF'}}">{{t 'OFF'}}</div>
+        {{/if}}
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-3">
+        <div class="row mb-2 table-entry attr-name" tabindex="0" aria-label="{{t 'PAGE_STATUS_LAN_NETWORK_IPV6_DEFAULT_GATEWAY'}}">{{t 'PAGE_STATUS_LAN_NETWORK_IPV6_DEFAULT_GATEWAY'}}</div>
+      </div>
+      <div class="col-md-9" tabindex="0" aria-label="{{this.DefaultGateway}}">
+        {{this.DefaultGateway}}
+      </div>
+    </div>
+
+
+    {{#each this.lans as |iface i|}}
+    {{#if (not iface.Upstream null)}}
+    {{#if (eq iface.Upstream 0)}}
+    <div class="row">
+      <div class="col-md-3">
+        <div class="row mb-2 table-entry attr-name" tabindex="0" aria-label="LAN Port {{add i 1}}">LAN Port {{add i 1}}</div>
+      </div>
+
+      {{#if (eq iface.Status 'Up')}}
+      <div class="col-md-4">
+        <div class="row mb-2 table-entry" tabindex="0" aria-label="{{t 'PAGE_WAN_STATUS_UP'}}">{{t 'PAGE_WAN_STATUS_UP'}}</div>
+      </div>
+      <div class="col-md-4">
+        <div class="row mb-2 table-entry" tabindex="0" aria-label="{{iface.CurrentBitRate}} Mbps">{{iface.CurrentBitRate}} Mbps</div>
+      </div>
+      {{else}}
+      <div class="col-md-4">
+        <div class="row mb-2 table-entry" tabindex="0" aria-label="{{t 'PAGE_WAN_STATUS_DOWN'}}">{{t 'PAGE_WAN_STATUS_DOWN'}}</div>
+      </div>
+      {{/if}}
+
+    </div>
+
+    {{/if}}
+    {{/if}}
+    {{/each}}
+
+
+    {{!-- <div class="row">
+      <div class="col-md-3">
+        <div class="row mb-2 table-entry attr-name">LAN Port 1</div>
+      </div>
+      {{#each @ethernet.Interface as |ethIface|}}
+      {{#if (eq ethIface.Alias 'ETH0')}}
+      {{#if (eq ethIface.Upstream 1)}}
+      <div class="col-md-4">
+        <div class="row mb-2 table-entry">{{t 'PAGE_WAN_STATUS_UP'}}</div>
+      </div>
+      <div class="col-md-4">
+        <div class="row mb-2 table-entry">{{ethIface.CurrentBitRate}} Mbps</div>
+      </div>
+      {{else}}
+      <div class="col-md-4">
+        <div class="row mb-2 table-entry">{{t 'PAGE_WAN_STATUS_DOWN'}}</div>
+      </div>
+      {{/if}}
+      {{/if}}
+      {{/each}}
+    </div>
+
+
+    <div class="row">
+      <div class="col-md-3">
+        <div class="row mb-2 table-entry attr-name">LAN Port 2</div>
+      </div>
+      {{#each @ethernet.Interface as |ethIface|}}
+      {{#if (eq ethIface.Alias 'ETH1')}}
+      {{#if (eq ethIface.Status 'Up')}}
+      <div class="col-md-4">
+        <div class="row mb-2 table-entry">{{t 'PAGE_WAN_STATUS_UP'}}</div>
+      </div>
+      <div class="col-md-4">
+        <div class="row mb-2 table-entry">{{ethIface.CurrentBitRate}} Mbps</div>
+      </div>
+      {{else}}
+      <div class="col-md-4">
+        <div class="row mb-2 table-entry">{{t 'PAGE_WAN_STATUS_DOWN'}}</div>
+      </div>
+      {{/if}}
+      {{/if}}
+      {{/each}}
+    </div>
+    <div class="row">
+      <div class="col-md-3">
+        <div class="row mb-2 table-entry attr-name">LAN Port 3</div>
+      </div>
+      {{#each @ethernet.Interface as |ethIface|}}
+      {{#if (eq ethIface.Alias 'ETH2')}}
+      {{#if (eq ethIface.Status 'Up')}}
+      <div class="col-md-4">
+        <div class="row mb-2 table-entry">{{t 'PAGE_WAN_STATUS_UP'}}</div>
+      </div>
+      <div class="col-md-4">
+        <div class="row mb-2 table-entry">{{ethIface.CurrentBitRate}} Mbps</div>
+      </div>
+      {{else}}
+      <div class="col-md-4">
+        <div class="row mb-2 table-entry">{{t 'PAGE_WAN_STATUS_DOWN'}}</div>
+      </div>
+      {{/if}}
+      {{/if}}
+      {{/each}}
+    </div>
+    <div class="row">
+      <div class="col-md-3">
+        <div class="row mb-2 table-entry attr-name">LAN Port 4</div>
+      </div>
+      {{#each @ethernet.Interface as |ethIface|}}
+      {{#if (eq ethIface.Alias 'ETH3')}}
+      {{#if (eq ethIface.Status 'Up')}}
+      <div class="col-md-4">
+        <div class="row mb-2 table-entry">{{t 'PAGE_WAN_STATUS_UP'}}</div>
+      </div>
+      <div class="col-md-4">
+        <div class="row mb-2 table-entry">{{ethIface.CurrentBitRate}} Mbps</div>
+      </div>
+      {{else}}
+      <div class="col-md-4">
+        <div class="row mb-2 table-entry">{{t 'PAGE_WAN_STATUS_DOWN'}}</div>
+      </div>
+      {{/if}}
+      {{/if}}
+      {{/each}}
+    </div> --}}
+  </div>
+</div>

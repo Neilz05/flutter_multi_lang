@@ -1,0 +1,26 @@
+<h2 tabindex="0" aria-label="{{t 'PAGE_LAN_STATUS_TITLE'}}">{{t 'PAGE_LAN_STATUS_TITLE'}}</h2>
+
+<div class="card mb-3">
+  <div class="card-header sc" tabindex="0" aria-label="{{t 'PAGE_LAN_STATUS_DEVICE_INFO_DHCP_LEASES'}}">
+    {{t 'PAGE_LAN_STATUS_DEVICE_INFO_DHCP_LEASES'}}
+  </div>
+  <div class="card-body">
+    <Status::LanStatusDhcp
+      @pool={{@model.dhcpv4.Server.Pool}}
+      @hostshost={{@model.hostshost}}
+      @localTime={{@model.time.CurrentLocalTime}}
+    />
+  </div>
+</div>
+
+<div class="card mb-3">
+  <div class="card-header sc" tabindex="0" aria-label="LAN Statistics">
+    LAN Statistics
+  </div>
+  <div class="card-body">
+    <Status::LanStatusStatistics
+      @eth={{@model.ethernet}}
+      @modName={{@model.deviceinfo.ModelName}}
+    />
+  </div>
+</div>

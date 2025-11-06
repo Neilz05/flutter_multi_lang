@@ -1,0 +1,118 @@
+{{page-title "Firmware Update"}}
+<!--
+<h2>{{t 'PAGE_FIRMWARE_UPDATE_TITLE'}}</h2>
+<div class="row">
+  <System::FirmwareUpload />
+</div>
+-->
+<div class="card mb-3">
+  <div class="card-header sc p-3">
+    <label class="fs-4 fw-bold ms-3" tabindex="0" aria-label="{{t 'SUB_NAVIGATION_ITEM_FIRMWARE_UPDATE'}}">
+      {{t 'SUB_NAVIGATION_ITEM_FIRMWARE_UPDATE'}}
+    </label>
+  </div>
+  <div class="card-body">
+    <p class="ms-3" tabindex="0" aria-label="{{t 'PAGE_FIRMWARE_UPDATE_SUBTITLE'}}">
+      {{t 'PAGE_FIRMWARE_UPDATE_SUBTITLE'}}
+    </p>
+  </div>
+</div>
+
+<div class="card mb-3">
+  <div class="card-header sc p-3">
+    <span class="ms-3" tabindex="0" aria-label="{{t 'PAGE_FIRMWARE_UPDATE_MANUAL_FIRMWARE_UPDATE_TITLE'}}">
+      {{t 'PAGE_FIRMWARE_UPDATE_MANUAL_FIRMWARE_UPDATE_TITLE'}}
+    </span>
+  </div>
+  <div class="card-body">
+    <div class="row py-1 ps-3">
+      <div class="col">
+        <label tabindex="0" aria-label="{{t 'PAGE_FIRMWARE_UPDATE_MANUAL_FIRMARE_VERSION'}}">
+          {{t 'PAGE_FIRMWARE_UPDATE_MANUAL_FIRMARE_VERSION'}}
+        </label>
+      </div>
+      <div class="col">
+        <span class="fw-bold" tabindex="0" aria-label="{{@model.deviceinfo.SoftwareVersion}}">
+          {{@model.deviceinfo.SoftwareVersion}}
+        </span>
+      </div>
+    </div>
+
+    <div class="row py-1 ps-3">
+      <div class="col">
+        <label tabindex="0" aria-label="{{t 'PAGE_FIRMWARE_UPDATE_MANUAL_FIRMWARE_UPDATE_SELECT_FILE'}}">
+          {{concat (t 'PAGE_FIRMWARE_UPDATE_MANUAL_FIRMWARE_UPDATE_SELECT_FILE') ":"}}
+        </label>
+        <span class={{concat this.statusClass " small"}} tabindex="0" aria-label="{{this.uploadInfo}}">
+          {{this.uploadInfo}}
+        </span>
+        {{#if this.firmwareFile}}
+          <a href="#" class="text-decoration-none" {{on "click" this.clearFile}} {{on "keyup" this.eaactrl.btnTrigger}} tabindex="0" aria-label="Clear selected file">
+            <i class="bi bi-x"></i>
+          </a>
+        {{/if}}
+      </div>
+      <div class="col">
+        {{#if this.firmwareFile}}
+          <button
+            type="button"
+            class="btn btn-primary"
+            {{on "click" this.upgrade}}
+            {{on "keyup" this.eaactrl.btnTrigger}}
+            disabled={{this.loading}}
+            tabindex="0"
+            aria-label="{{t 'PAGE_FIRMWARE_UPDATE_USB_FIRMWARE_UPDATE_INSTALL_UPDATE_BUTTON'}}"
+          >
+            {{t 'PAGE_FIRMWARE_UPDATE_USB_FIRMWARE_UPDATE_INSTALL_UPDATE_BUTTON'}}
+          </button>
+        {{else}}
+          <input id="firmwareInput" type="file" {{on "change" this.handleFileChange}} disabled={{this.loading}} style="display: none;" />
+          <label
+            class="button btn btn-light btn-sm"
+            {{on "click" this.clickUploadInput}}
+            {{on "keyup" this.eaactrl.btnTrigger}}
+            tabindex="0"
+            aria-label="{{t 'PAGE_FIRMWARE_UPDATE_MANUAL_UPLOAD_BTN'}}"
+          >
+            {{t 'PAGE_FIRMWARE_UPDATE_MANUAL_UPLOAD_BTN'}}
+          </label>
+        {{/if}}
+      </div>
+    </div>
+
+    <div class="row py-1 ps-3">
+      <div class="col">
+        {{#if this.errorCode}}
+          <div class="alert alert-danger mt-3" tabindex="0" aria-label="{{t 'PAGE_FIRMWARE_UPDATE_UPLOAD_FIRMWARE_FILE_UPGRADE_FAILED_POPUP_TITLE'}} : {{this.errorCode}}">
+            {{t 'PAGE_FIRMWARE_UPDATE_UPLOAD_FIRMWARE_FILE_UPGRADE_FAILED_POPUP_TITLE'}} : {{this.errorCode}}
+          </div>
+        {{/if}}
+        {{#if this.success}}
+          <div class="alert alert-success mt-3" tabindex="0" aria-label="{{t 'PAGE_FIRMWARE_UPDATE_UPLOAD_FIRMWARE_FILE_UPGRADE_SUCCESSFULLY_POPUP_TITLE'}}">
+            {{t "PAGE_FIRMWARE_UPDATE_UPLOAD_FIRMWARE_FILE_UPGRADE_SUCCESSFULLY_POPUP_TITLE"}}
+          </div>
+        {{/if}}
+      </div>
+    </div>
+  </div>
+</div>
+
+<BsModal 
+  @open={{this.loading}} 
+  @closeButton={{false}} 
+  @backdropClose={{false}} 
+  class="{{if this.loading "hide-close-button"}}" 
+  as |Modal|>
+  <Modal.header>
+    <div tabindex="0" aria-label="{{if this.uploaded (t 'PAGE_FIRMWARE_UPDATE_UPLOAD_FIRMWARE_FILE_INSTALLING_POPUP_TITLE') (t 'PAGE_FIRMWARE_UPDATE_UPLOAD_FIRMWARE_FILE_POPUP_TITLE')}}">
+      {{#if this.uploaded}}
+        {{t 'PAGE_FIRMWARE_UPDATE_UPLOAD_FIRMWARE_FILE_INSTALLING_POPUP_TITLE'}}
+      {{else}}
+        {{t 'PAGE_FIRMWARE_UPDATE_UPLOAD_FIRMWARE_FILE_POPUP_TITLE'}}
+      {{/if}}
+    </div>
+  </Modal.header>
+  <Modal.body>
+    <div class="reset-loading" aria-hidden="true"></div>
+  </Modal.body>
+</BsModal>

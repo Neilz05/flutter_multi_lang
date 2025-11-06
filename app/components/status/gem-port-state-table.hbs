@@ -1,0 +1,22 @@
+<div class="table-responsive">
+  <table class="table table-bordered">
+    <thead>
+      <tr>
+        <th scope="col" tabindex="0" aria-label={{t 'PAGE_GPON_STATUS_GEM_PORT_ID'}}>{{t 'PAGE_GPON_STATUS_GEM_PORT_ID'}}</th>
+        <th scope="col" tabindex="0" aria-label={{t 'PAGE_GPON_STATUS_DIRECTION'}}>{{t 'PAGE_GPON_STATUS_DIRECTION'}}</th>
+        <th scope="col" tabindex="0" aria-label={{t 'PAGE_GPON_STATUS_TYPE'}}>{{t 'PAGE_GPON_STATUS_TYPE'}}</th>
+        <th scope="col" tabindex="0" aria-label={{t 'PAGE_GPON_STATUS_TCONT_ID'}}>{{t 'PAGE_GPON_STATUS_TCONT_ID'}}</th>
+      </tr>
+    </thead>
+    <tbody class="border border-top">
+      {{#each @gem.Port as |gemPort|}}
+        <tr>
+          <td tabindex="0" aria-label={{gemPort.PortID}}>{{gemPort.PortID}}</td>
+          <td tabindex="0" aria-label={{gemPort.Direction}}>{{gemPort.Direction}}</td>
+          <td tabindex="0" aria-label={{gemPort.PortType}}>{{gemPort.PortType}}</td>
+          <td tabindex="0" aria-label={{gemPort.GemTcontID}}>{{gemPort.GemTcontID}}</td>
+        </tr>
+      {{/each}}
+    </tbody>
+  </table>
+</div>

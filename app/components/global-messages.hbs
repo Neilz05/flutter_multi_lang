@@ -1,0 +1,24 @@
+{{#if (eq @active "1")}}
+<div class="global-messages">
+  <!-- Toast message structure -->
+  <div class="toast show" role="alert" aria-live="assertive" aria-atomic="true">
+    <div class="toast-body">
+      <h5>Hello, world! This is a toast message.</h5>
+      <div class="toast-buttons mt-2 pt-2 border-top">
+        <button type="button" class="btn btn-primary btn-sm">Take action</button>
+        <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="toast">Close</button>
+      </div>
+    </div>
+  </div>
+  <div class="toast show" role="alert" aria-live="assertive" aria-atomic="true">
+    <div class="toast-body">
+      <h5>Hello, world! This is a toast message2.Hello, world! This is a toast message2.Hello, world! This is a toast message2.Hello, world! This is a toast message2.</h5>
+      <div class="toast-buttons mt-2 pt-2 border-top">
+        <button type="button" class="btn btn-primary btn-sm">Take action2</button>
+        <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="toast">Close2</button>
+      </div>
+    </div>
+  </div>
+  <!-- Toast message structure end -->
+</div>
+{{/if}}

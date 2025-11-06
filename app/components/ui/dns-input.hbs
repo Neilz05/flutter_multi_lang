@@ -1,0 +1,28 @@
+<div class="row mb-3 align-items-center">
+  <div class="col">
+    <label tabindex="0" aria-label="{{@label}}">{{@label}}</label>
+  </div>
+  <div class="col d-flex">
+    {{#each this.segments as |segment index|}}
+      <Input
+        @type="text"
+        maxlength='3'
+        @value={{segment.value}}
+        class="form-control text-center px-0"
+        style="max-width: 70px;"
+        pattern="[0-9]*"
+        {{on "input" (fn this.updateSegment index)}}
+      />
+      {{#unless (eq index 3)}}
+        <span class="align-self-center">.</span>
+      {{/unless}}
+    {{/each}}
+  </div>
+</div>
+ {{#if this.errorMessage}}
+  <div class="invalid-feedback fw-normal d-block">
+    <div class="mt-1 text-danger text-end error-message" tabindex="0" aria-label="{{this.errorMessage}}">
+      {{this.errorMessage}}
+    </div>
+  </div>
+{{/if}}

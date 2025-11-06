@@ -1,0 +1,151 @@
+<h2>{{t 'PAGE_GENERAL_TITLE'}}</h2>
+
+<div class="mb-5 px-5 fs-5">
+  {{t 'PAGE_GENERAL_SUBTITLE'}}
+</div>
+
+
+
+<div class="card mb-3">
+  <div class="card-body">
+    <Ui::Row @left={{t 'PAGE_GENERAL_ACTIVE_WIFI'}}>
+        <label class="switch">
+          <Input @type="checkbox" @checked={{this.activeWifiValue}} class="form-check-input" {{on 'input'
+            (fn this.setActiveWifi (not this.activeWifiValue) )}} />
+          <span class="slider round"></span>
+        </label>
+    </Ui::Row>
+    <hr>
+    <Wifi::Wps2 @accesspoint={{@model.wifi.AccessPoint}}/>
+  
+  </div>
+</div>
+
+{{#if (eq this.activeWifiValue true)}}
+<div class="card mb-3">
+  <div class="card-header sc">{{t 'PAGE_GENERAL_MAINWIFI_NETWORK_CONFIGURATION'}}</div>
+  <div class="card-body">
+    {{#if (not this.isEndUserAndBasicMode)}}
+     <div class="row">
+      <div class="col-md-6">
+        <div class="row py-1 ps-3">
+          <div class="col">
+            <label>{{t 'PAGE_GENERAL_UNIFY_NETWORK'}}</label>
+          </div>
+          <div class="col">
+            <label class="switch">
+              <Input @type="checkbox" @checked={{(eq @model.SplitSSIDDisable_main.Enable 1)}} class="form-check-input" {{on 'input' (fn
+                this.ToggleUnifyNetwork_main @model.SplitSSIDDisable_main 'Enable' )}} />
+              <span class="slider round"></span>
+            </label>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6"></div>     
+     </div>
+    {{/if}}
+
+    <div class="row">
+        {{#if this.isEndUserAndBasicMode}}       
+            {{#each this.combinedwifiArray_main_enduserBasic as |wifi|}}
+                <Wifi::Networkconfig @wifi={{wifi}} @show={{wifi.show}} />
+            {{/each}} 
+        {{else}} 
+
+          {{#if (eq @model.SplitSSIDDisable_main.Enable 1)}}
+            {{#each this.combinedwifiArray_main as |wifi|}}
+              <Wifi::Networkconfig @wifi={{wifi}} @show={{wifi.show}} />
+            {{/each}}       
+          {{else}}  
+            {{#each this.splitwifiArray_main as |wifi|}}
+              <Wifi::Networkconfig @wifi={{wifi}} @show={{wifi.show}}  />
+            {{/each}}   
+          {{/if}}
+        {{/if}} 
+    </div>
+  </div>
+</div>
+
+
+<div class="card mb-3">
+  <div class="card-header sc">{{t 'PAGE_GENERAL_GUESTWIFI_NETWORK_CONFIGURATION'}}</div>
+  <div class="card-body">
+    <div class="row">
+        {{#if this.isEndUserAndBasicMode}}
+            {{#each this.combinedwifiArray_guest_enduserBasic as |wifi|}}
+              <Wifi::Networkconfig @wifi={{wifi}} @show={{wifi.show}} />
+            {{/each}}   
+        {{else}}
+            {{#each this.combinedwifiArray_guest as |wifi|}}
+              <Wifi::Networkconfig @wifi={{wifi}} @show={{wifi.show}} />
+            {{/each}}   
+        {{/if}} 
+    </div>
+  </div>
+</div>
+
+{{#if this.isEndUserAndBasicMode}}
+<div class="card mb-3">
+  <div class="card-header sc">{{t 'PAGE_GENERAL_COMPATWIFI_NETWORK_CONFIGURATION'}}</div>
+  <div class="card-body">
+ 
+    <div class="row">  
+        {{#each this.combinedwifiArray_compat_enduserBasic as |wifi|}}
+          <Wifi::Networkconfig @wifi={{wifi}} @show={{wifi.show}}/>
+        {{/each}}   
+    </div>
+  </div>
+</div>
+
+{{else}}
+<div class="card mb-3">
+  <div class="card-header sc">{{t 'PAGE_GENERAL_CUSTOMWIFI_NETWORK_CONFIGURATION'}}</div>
+  <div class="card-body">
+    <div class="row">
+      <div class="col-md-6">
+        <div class="row py-1 ps-3">
+          <div class="col">
+            <label>{{t 'PAGE_GENERAL_UNIFY_NETWORK'}}</label>
+          </div>
+          <div class="col">
+            <label class="switch">
+              <Input @type="checkbox" @checked={{(eq @model.SplitSSIDDisable_custom.Enable 1)}} class="form-check-input" {{on 'input' (fn
+                this.ToggleUnifyNetwork_custom @model.SplitSSIDDisable_custom 'Enable' )}} />
+              <span class="slider round"></span>
+            </label>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6"></div>     
+    </div>
+
+    <div class="row">
+      {{#if (eq @model.SplitSSIDDisable_custom.Enable 1)}}
+        {{#each this.combinedwifiArray_custom as |wifi|}}
+          <Wifi::Networkconfig @wifi={{wifi}} @show={{wifi.show}}/>
+        {{/each}}   
+      {{else}}   
+        {{#each this.splitwifiArray_custom as |wifi|}}
+          <Wifi::Networkconfig @wifi={{wifi}} @show={{wifi.show}}/>
+        {{/each}}   
+      {{/if}}
+    </div>
+  </div>
+</div>
+{{/if}} 
+
+{{/if}}
+
+
+
+
+<div class="d-flex justify-content-end mb-4">
+  <button type="button" class="btn btn-primary" style="width: fit-content;" disabled={{not this.HasChanges}}
+    {{on 'click' (fn this.Apply)}}>
+    {{t 'PAGE_SETTINGS_APPLY'}}
+  </button>
+  <button type="button" class="btn btn-secondary ms-2" style="width: fit-content;" disabled={{not this.HasChanges}}
+    {{on 'click' (fn this.Cancel)}}>
+    {{t 'PAGE_SETTINGS_CANCEL'}}
+  </button>
+</div>

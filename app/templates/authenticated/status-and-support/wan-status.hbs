@@ -1,0 +1,148 @@
+<div class="card mb-3">
+  <div class="card-header sc" tabindex="0" aria-label="{{t 'PAGE_WAN_STATUS_WAN_CONNECTION_DETAILS'}}">
+    {{t 'PAGE_WAN_STATUS_WAN_CONNECTION_DETAILS'}}
+  </div>
+  <div class="card-body">
+    <div class="table-responsive">
+      <table class="table table-bordered">
+        <thead>
+          <tr>
+            <th scope="col" tabindex="0" aria-label="{{t 'PAGE_LAN_STATUS_INTERFACE'}}">{{t 'PAGE_LAN_STATUS_INTERFACE'}}</th>
+            <th scope="col" tabindex="0" aria-label="{{t 'PAGE_LAN_STATUS_STATUS'}}">{{t 'PAGE_LAN_STATUS_STATUS'}}</th>
+            <th scope="col" tabindex="0" aria-label="{{t 'PAGE_WAN_STATUS_CONNECTION_UPTIME'}}">{{t 'PAGE_WAN_STATUS_CONNECTION_UPTIME'}}</th>
+            <th scope="col" tabindex="0" aria-label="{{t 'PAGE_WAN_STATUS_IPV4_ADDRESS'}}">{{t 'PAGE_WAN_STATUS_IPV4_ADDRESS'}}</th>
+            <th scope="col" tabindex="0" aria-label="{{t 'PAGE_IPV4_NETWORK_SETTINGS_IP_SUBNET_MASK'}}">{{t 'PAGE_IPV4_NETWORK_SETTINGS_IP_SUBNET_MASK'}}</th>
+            <th scope="col" tabindex="0" aria-label="{{t 'PAGE_WAN_STATUS_DNS_SERVER'}}">{{t 'PAGE_WAN_STATUS_DNS_SERVER'}}</th>
+          </tr>
+        </thead>
+        <tbody class="border border-top">
+          {{#each this.IntfEntries as |iface idx|}}
+            <tr class="align-middle">
+              <th scope="row" tabindex="0" aria-label="{{iface.Alias}}">{{iface.Alias}}</th>
+              {{#if (or (eq iface.Enable 0) (eq iface.Status "Unknown"))}}
+              <td tabindex="0" aria-label="Disabled">Disabled</td>
+              {{else}}
+              <td tabindex="0" aria-label="{{iface.Status}}">{{iface.Status}}</td>
+              {{/if}}
+              {{#if (eq iface.Status 'Up')}}
+                <td tabindex="0" aria-label="{{iface.LastChange}}">{{iface.LastChange}}</td>
+              {{else}}
+                <td tabindex="0" aria-label="0">0</td>
+              {{/if}}
+              {{#each iface.IPv4Address as |ip4 id|}}
+                {{#if (eq id 0)}}
+                <td tabindex="0" aria-label="{{ip4.IPAddress}}">{{ip4.IPAddress}}</td>
+                <td tabindex="0" aria-label="{{ip4.SubnetMask}}">{{ip4.SubnetMask}}</td>
+                {{/if}}
+              {{/each}}
+              <td>
+                {{#if (eq iface.Alias 'wan')}}
+                  {{#if (this.checkDNS)}}
+                    <div tabindex="0" aria-label="{{this.primaryDNSServer}}">{{this.primaryDNSServer}}</div>
+                    <div tabindex="0" aria-label="{{this.secondaryDNSServer}}">{{this.secondaryDNSServer}}</div>
+                  {{else}}
+                    {{#each (this.getDNSServerByAlias iface.Alias) as |dns|}}
+                      <div tabindex="0" aria-label="{{dns}}">{{dns}}</div>
+                    {{/each}}
+                  {{/if}}
+                {{else}}
+                  {{#each (this.getDNSServerByAlias iface.Alias) as |dns|}}
+                    <div tabindex="0" aria-label="{{dns}}">{{dns}}</div>
+                  {{/each}}
+                {{/if}}
+              </td>
+            </tr>
+          {{/each}}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<div class="card mb-3">
+  <div class="card-header sc" tabindex="0" aria-label="{{t 'PAGE_WAN_STATUS_IPV6_WAN_CONNECTION_DETAILS'}}">
+    {{t 'PAGE_WAN_STATUS_IPV6_WAN_CONNECTION_DETAILS'}}
+  </div>
+  <div class="card-body">
+    <div class="table-responsive">
+      <table class="table table-bordered">
+        <thead>
+          <tr>
+            <th scope="col" tabindex="0" aria-label="{{t 'PAGE_LAN_STATUS_INTERFACE'}}">{{t 'PAGE_LAN_STATUS_INTERFACE'}}</th>
+            <th scope="col" tabindex="0" aria-label="{{t 'PAGE_LAN_STATUS_IPV6_GLOBAL_ADDR'}}">{{t 'PAGE_LAN_STATUS_IPV6_GLOBAL_ADDR'}}</th>
+            <th scope="col" tabindex="0" aria-label="{{t 'PAGE_LAN_STATUS_IPV6_LINK_LOCAL_ADDR'}}">{{t 'PAGE_LAN_STATUS_IPV6_LINK_LOCAL_ADDR'}}</th>
+            <th scope="col" tabindex="0" aria-label="{{t 'PAGE_LAN_STATUS_IPV6_DNS_SERVERS'}}">{{t 'PAGE_LAN_STATUS_IPV6_DNS_SERVERS'}}</th>
+          </tr>
+        </thead>
+        <tbody class="border border-top">
+          {{#each @model.ip.Interface as |iface|}}
+            {{#if (eq iface.Alias "wan")}}
+              <tr class="align-middle">
+                <th scope="row" tabindex="0" aria-label="{{iface.Alias}}">{{iface.Alias}}</th>
+                <td>
+                  {{#each iface.IPv6Address as |ipv6 id|}}
+                    {{#unless (eq ipv6.Alias "LLA")}}
+                      <div tabindex="0" aria-label="{{ipv6.IPAddress}}">{{ipv6.IPAddress}}</div>
+                    {{/unless}}
+                  {{/each}}
+                </td>
+                <td>
+                  {{#each iface.IPv6Address as |ipv6 id|}}
+                    {{#if (eq ipv6.Alias "LLA")}}
+                      <div tabindex="0" aria-label="{{ipv6.IPAddress}}">{{ipv6.IPAddress}}</div>
+                    {{/if}}
+                  {{/each}}
+                </td>
+                <td>
+                  <div tabindex="0" aria-label="{{{this.dnsServers}}}">{{{this.dnsServers}}}</div>
+                </td>
+              </tr>
+            {{/if}}
+          {{/each}}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<div class="card mb-3">
+  <div class="card-header sc" tabindex="0" aria-label="{{t 'PAGE_WAN_STATUS_WAN_STATISTICS'}}">
+    {{t 'PAGE_WAN_STATUS_WAN_STATISTICS'}}
+  </div>
+  <div class="card-body">
+    <div class="table-responsive">
+      <table class="table table-bordered">
+        <thead>
+          <tr>
+            <th scope="col" tabindex="0" aria-label="{{t 'PAGE_WAN_STATUS_ALIAS'}}">{{t 'PAGE_WAN_STATUS_ALIAS'}}</th>
+            <th scope="col" tabindex="0" aria-label="{{t 'PAGE_WAN_STATUS_TYPE'}}">{{t 'PAGE_WAN_STATUS_TYPE'}}</th>
+            <th scope="col" tabindex="0" aria-label="{{t 'PAGE_WAN_STATUS_RECEIVED_BYTES'}}">{{t 'PAGE_WAN_STATUS_RECEIVED_BYTES'}}</th>
+            <th scope="col" tabindex="0" aria-label="{{t 'PAGE_WAN_STATUS_RECEIVED_PACKETS'}}">{{t 'PAGE_WAN_STATUS_RECEIVED_PACKETS'}}</th>
+            <th scope="col" tabindex="0" aria-label="{{t 'PAGE_WAN_STATUS_RECEIVED_ERROR'}}">{{t 'PAGE_WAN_STATUS_RECEIVED_ERROR'}}</th>
+            <th scope="col" tabindex="0" aria-label="{{t 'PAGE_WAN_STATUS_RECEIVED_DROP_PACKETS'}}">{{t 'PAGE_WAN_STATUS_RECEIVED_DROP_PACKETS'}}</th>
+            <th scope="col" tabindex="0" aria-label="{{t 'PAGE_WAN_STATUS_TRANSFORMED_BYTES'}}">{{t 'PAGE_WAN_STATUS_TRANSFORMED_BYTES'}}</th>
+            <th scope="col" tabindex="0" aria-label="{{t 'PAGE_WAN_STATUS_TRANSFORMED_PACKETS'}}">{{t 'PAGE_WAN_STATUS_TRANSFORMED_PACKETS'}}</th>
+            <th scope="col" tabindex="0" aria-label="{{t 'PAGE_WAN_STATUS_TRANSFORMED_ERROR'}}">{{t 'PAGE_WAN_STATUS_TRANSFORMED_ERROR'}}</th>
+            <th scope="col" tabindex="0" aria-label="{{t 'PAGE_WAN_STATUS_TRANSFORMED_DROP_PACKETS'}}">{{t 'PAGE_WAN_STATUS_TRANSFORMED_DROP_PACKETS'}}</th>
+          </tr>
+        </thead>
+        <tbody class="border border-top">
+          {{#each this.IntfEntries as |iface idx|}}
+            <tr>
+              <th scope="row" tabindex="0" aria-label="{{iface.Alias}}">{{iface.Alias}}</th>
+              <td tabindex="0" aria-label="{{iface.Type}}">{{iface.Type}}</td>
+              <td tabindex="0" aria-label="{{iface.Stats.BytesReceived}}">{{iface.Stats.BytesReceived}}</td>
+              <td tabindex="0" aria-label="{{iface.Stats.PacketsReceived}}">{{iface.Stats.PacketsReceived}}</td>
+              <td tabindex="0" aria-label="{{iface.Stats.ErrorsReceived}}">{{iface.Stats.ErrorsReceived}}</td>
+              <td tabindex="0" aria-label="{{iface.Stats.DiscardPacketsReceived}}">{{iface.Stats.DiscardPacketsReceived}}</td>
+              <td tabindex="0" aria-label="{{iface.Stats.BytesSent}}">{{iface.Stats.BytesSent}}</td>
+              <td tabindex="0" aria-label="{{iface.Stats.PacketsSent}}">{{iface.Stats.PacketsSent}}</td>
+              <td tabindex="0" aria-label="{{iface.Stats.ErrorsSent}}">{{iface.Stats.ErrorsSent}}</td>
+              <td tabindex="0" aria-label="{{iface.Stats.DiscardPacketsSent}}">{{iface.Stats.DiscardPacketsSent}}</td>
+            </tr>
+          {{/each}}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

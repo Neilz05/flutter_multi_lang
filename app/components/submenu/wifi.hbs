@@ -1,0 +1,47 @@
+<div class="main-submenu">
+  <ul>
+    <LinkTo @route="authenticated.wifi.general">
+      <li class="non-header {{if (eq this.submenuTab 'general') 'submenu-active'}}" {{on 'click' (fn this.setSubmenuTab 'general')}}>
+        {{t 'SUB_NAVIGATION_ITEM_GENERAL'}}
+      </li>
+    </LinkTo>
+
+    <LinkTo @route="authenticated.wifi.easymesh">
+      <li class="non-header {{if (eq this.submenuTab 'easymesh') 'submenu-active'}}" {{on 'click' (fn this.setSubmenuTab 'easymesh')}}>
+        {{t 'SUB_NAVIGATION_ITEM_EASY_MESH'}}
+      </li>
+    </LinkTo>
+
+    <LinkTo @route="authenticated.wifi.data-elements">
+      <li class="non-header {{if (eq this.submenuTab 'data-elements') 'submenu-active'}}" {{on 'click' (fn this.setSubmenuTab 'data-elements')}}>
+        {{t 'SUB_NAVIGATION_ITEM_MESH_TOPOLOGY'}}
+      </li>
+    </LinkTo>
+
+    {{!-- <li class="non-header {{if (eq this.submenuTab 'schedule') 'submenu-active'}}" {{on 'click' (fn this.setSubmenuTab 'schedule')}}>Schedule</li> --}}
+    <LinkTo @route="authenticated.wifi.wps">
+      <li class="non-header {{if (eq this.submenuTab 'wps') 'submenu-active'}}" {{on 'click' (fn this.setSubmenuTab 'wps')}}>
+        {{t 'SUB_NAVIGATION_ITEM_WPS'}}
+      </li>
+    </LinkTo>
+    <LinkTo @route="authenticated.wifi.macfilter">
+      <li class="non-header {{if (eq this.submenuTab 'mac-filter') 'submenu-active'}}" {{on 'click' (fn this.setSubmenuTab 'mac-filter')}}>
+        {{t 'SUB_NAVIGATION_ITEM_MAC_FILTER'}}
+      </li>
+    </LinkTo>
+
+    <LinkTo @route="authenticated.wifi.settings">
+      <li class="non-header {{if (eq this.submenuTab 'settings') 'submenu-active'}}" {{on 'click' (fn this.setSubmenuTab 'settings')}}>
+        {{t 'SUB_NAVIGATION_ITEM_SETTINGS'}}
+        
+      </li>
+    </LinkTo>
+
+    <LinkTo @route="authenticated.wifi.schedule">
+      <li class="non-header {{if (eq this.submenuTab 'schedule') 'submenu-active'}}" {{on 'click' (fn this.setSubmenuTab 'schedule')}}>
+        {{t 'PAGE_SCHEDULE_TITLE'}}
+      </li>
+    </LinkTo>
+    {{!-- <li class="non-header {{if (eq this.submenuTab 'analyser') 'submenu-active'}}" {{on 'click' (fn this.setSubmenuTab 'analyser')}}>Analyser</li> --}}
+  </ul>
+</div>

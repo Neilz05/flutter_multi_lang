@@ -1,0 +1,33 @@
+{{#if @modalLabel}}
+<div class="row align-items-center">
+    <div class="col text-start fw-bold ms-3" tabindex="0" aria-label="{{@modalLabel}}">{{@modalLabel}}</div>
+      <div class="col-8 d-flex flex-column align-items-end">
+        <div class="d-flex align-items-center gap-2">
+          <label class="switch" for="{{this.componentId}}-switch1" tabindex="0" aria-label="{{@modalLabel}}" role="button" {{on "keyup" this.eaactrl.onoffTrigger}}>
+            {{#if @onToggle}}
+              <Input id="{{this.componentId}}-switch1" tabindex="-1" @type="checkbox" class="form-check-input" @checked={{@checked}}  {{on "change" @onToggle}} />
+            {{else}}
+              <Input id="{{this.componentId}}-switch1" tabindex="-1" @type="checkbox" class="form-check-input" @checked={{@checked}}/>
+            {{/if}}
+            <span class="slider round"></span>
+        </label>
+        </div>
+    </div>
+</div>
+{{else}}
+<div class="row mb-2">
+    <div class="col-md-5">
+        <p class="fw-bold ms-3" tabindex="0" aria-label="{{@label}}">{{@label}}</p>
+    </div>
+    <div class="col-md-7">
+        <label class="switch" for="{{this.componentId}}-switch2" tabindex="0" aria-label="{{@label}}" role="button" {{on "keyup" this.eaactrl.onoffTrigger}} >
+            {{#if @onToggle}}
+              <Input id="{{this.componentId}}-switch2" tabindex="-1" @type="checkbox" class="form-check-input" @checked={{@checked}}  {{on "change" @onToggle}} />
+            {{else}}
+            <Input id="{{this.componentId}}-switch2" tabindex="-1" @type="checkbox" class="form-check-input" @checked={{@checked}}/>
+            {{/if}}
+            <span class="slider round"></span>
+        </label>
+    </div>
+</div>
+{{/if}}

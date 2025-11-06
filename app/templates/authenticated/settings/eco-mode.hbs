@@ -1,0 +1,151 @@
+{{page-title "Eco Mode"}}
+
+<Ui::CardSection @header={{t 'PAGE_SETTINGS_ECO_MODE_TITLE'}}>
+
+  <Ui::ToggleButton @label={{t 'PAGE_SETTINGS_ECO_MODE_ACTIVATE'}} @checked={{this.ecoModeToggle}}></Ui::ToggleButton>
+
+  <Ui::RenderIf @data={{@model.eco}}>
+    <div class="row mb-2">
+        <div class="col-md-5">
+            <p class="fw-bold ms-3">{{t 'PAGE_SETTINGS_ECO_MODE_TYPE'}}</p>
+        </div>
+        <div class="col-md-7">
+              <Helper::Select class="form-select" 
+            @options={{this.ecoModeOptions}} 
+            @value={{this.ecoMode}} 
+            @optLabel="label" 
+            @optValue="key"
+            @onChange={{this.updateEcoMode}} 
+        />
+        </div>
+    </div>
+    <Ui::CardSection @title={{t 'PAGE_SETTINGS_ECO_MODE_TABLE_TITLE'}}>
+        <Ui::Table
+            @title={{t 'PAGE_SETTINGS_ECO_MODE_TABLE_TITLE'}}
+            @columns={{this.columns}}
+            @rows={{this.ecoSchedData}}
+            @onDelete={{this.delete}}
+            @onEdit={{this.edit}}
+            @onAdd={{fn this.open null "add"}}
+            @model={{@model.eco_schedule}}
+        />
+    </Ui::CardSection>
+  </Ui::RenderIf>
+
+</Ui::CardSection>
+  
+<Ui::UpdateButton
+    @onApply={{this.applyChanges}}
+    @disabled={{unless this.hasChanges 'disabled'}}
+    @onCancel={{this.cancel}}
+    >
+</Ui::UpdateButton>
+
+<BsModal
+  @open={{or (eq this.modalOpen "add") (eq this.modalOpen "edit")}}
+  @onSubmit={{this.submitModal}}
+  @onHide={{this.hideModal}}
+  as |modal|
+>
+  <modal.header>
+    <h4 class="modal-title">{{this.modalHeaderText}}</h4>
+  </modal.header>
+
+  <modal.body>
+    <Ui::DaySelector 
+      @modelChangeset={{this.modelChangeset}} 
+      @param="WeekDay"
+      @paramTimeMode="Mode"
+      @daysStringType="short"
+    />
+    <Ui::ToggleButton @modalLabel={{t 'PAGE_SETTINGS_ECO_MODE_POPUP_ENABLE'}} @checked={{changeset-get this.modelChangeset "parameters.Enable"}}  @onToggle={{(fn this.updateChangeset this.modelChangeset "parameters.Enable")}}/>
+    {{!-- dropdown mode --}}
+    <div class="row align-items-center">
+      <div class="col text-start fw-bold ms-3">
+        {{t 'PAGE_SETTINGS_ECO_MODE_POPUP_MODE'}}
+      </div>
+      <div class="col-8 d-flex flex-column align-items-end">
+        <Helper::Select class="form-select" 
+          @options={{this.ecoModeOptions}} 
+          @value={{changeset-get this.modelChangeset "parameters.ModeEnabled"}} 
+          @optLabel="label" 
+          @optValue="key"
+          @onChange={{this.updateModeTypeSchedRule}} 
+        />
+      </div>
+    </div>
+
+    {{!-- name input --}}
+    <div class="row align-items-center">
+      <div class="col text-start fw-bold ms-3">{{t 'PAGE_SETTINGS_ECO_MODE_POPUP_NAME'}}</div>
+      <div class="col-8 d-flex flex-column align-items-end">
+        <Input @type="text" class="form-control" @value={{changeset-get this.modelChangeset "parameters.Name"}} {{on "input" (fn this.updateChangeset this.modelChangeset "parameters.Name")}} />
+      
+        {{#each this.modelChangeset.error.parameters.Name.validation as |message|}}
+          <div class="invalid-feedback">{{message}}</div>
+        {{/each}}
+      </div>
+    </div>
+
+    {{!-- Select time --}}
+    <div class="row align-items-center">
+      <div class="col text-start fw-bold ms-3">{{t 'PAGE_SETTINGS_ECO_MODE_POPUP_TIME'}}</div>
+      <div class="col-8 d-flex flex-column align-items-end">
+        <div class="d-flex align-items-center gap-2">
+          <span>{{t 'PAGE_SETTINGS_ECO_MODE_POPUP_FROM'}}</span>
+          <Input
+            @type="time"
+            class="form-control"
+            @value={{changeset-get this.modelChangeset "parameters.StartTime"}}
+            {{on "input" (fn this.updateChangeset this.modelChangeset "parameters.StartTime")}}
+          />
+
+          <span>{{t 'PAGE_SETTINGS_ECO_MODE_POPUP_TO'}}</span>
+          <Input
+            @type="time"
+            class="form-control"
+            @value={{changeset-get this.modelChangeset "parameters.EndTime"}}
+            {{on "input" (fn this.updateChangeset this.modelChangeset "parameters.EndTime")}}
+          />
+        </div>
+
+        {{#each this.modelChangeset.error.parameters.StartTime.validation as |message|}}
+          <div class="invalid-feedback">{{message}}</div>
+        {{/each}}
+
+        {{#each this.modelChangeset.error.parameters.EndTime.validation as |message|}}
+          <div class="invalid-feedback">{{message}}</div>
+        {{/each}}
+        {{#if this.errorMessage}}
+          <div class="invalid-feedback">{{this.errorMessage}}</div>
+        {{/if}}
+      </div>
+    </div>    
+
+  </modal.body>
+
+  <modal.footer>
+    <BsButton @onClick={{modal.close}}>{{t 'PAGE_SETTINGS_CANCEL'}}</BsButton>
+    <BsButton @type="success" @onClick={{modal.submit}}>{{t 'PAGE_SETTINGS_ECO_MODE_POPUP_BTN_SAVE'}}</BsButton>
+  </modal.footer>
+</BsModal>
+
+<BsModal
+  @open={{this.isApplying}}
+  @onSubmit={{this.apply}}
+  @onHide={{this.hideApplyChanges}}
+  as |modal|
+>
+  <modal.header></modal.header>
+  <modal.body>
+    <p>{{t 'PAGE_SETTINGS_ECO_MODE_POPUP_APPLY_WARNING_MESSAGE'}}</p>
+  </modal.body>
+  <modal.footer>
+    <BsButton @onClick={{modal.close}}>{{t 'PAGE_SETTINGS_CANCEL'}}</BsButton>
+    <BsButton @type="success" @onClick={{modal.submit}}>{{t 'PAGE_SETTINGS_ECO_MODE_CONFIRM_CHANGE'}}</BsButton>
+  </modal.footer>
+</BsModal>
+
+
+
+

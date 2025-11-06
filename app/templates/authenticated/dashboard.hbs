@@ -1,0 +1,414 @@
+{{page-title "Overview"}}
+{{!-- <div class="card mb-3" style="margin-top: 10px;">
+  <div class="card-header sc">Internet Status</div>
+  <div class="card-body">
+    Mobile
+  </div>
+</div> --}}
+{{#if (or (eq this.modelType 'Neutral') (eq this.modelType 'FG4278Bv3'))}}
+<div class="row">
+  <div class="col-md-12">
+    <div class="card mb-3">
+      <div class="card-header sc">
+        <svg xmlns="http://www.w3.org/2000/svg" aria-label="{{t 'PAGE_MESSAGES_SVG_IMAGE_ARIA_LABEL'}}" width="20" height="20" fill="currentColor" class="bi bi-info-circle" viewBox="0 0 20 20">
+          <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"/>
+          <path d="m8.93 6.588-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533zM9 4.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0"/>
+        </svg>
+        <span tabindex="0" aria-label="{{t 'SUB_OVERVIEW_ITEM_SYSTEM_INFO'}}">{{t 'SUB_OVERVIEW_ITEM_SYSTEM_INFO'}}</span>
+        {{#if (eq this.modelType 'FG4278Bv3')}}
+        <span class="conn-status conn-active float-end conn-btn" role="button" {{on "click" this.openACSURL}} {{on "keyup" this.eaactrl.btnTrigger}} tabindex="0" aria-label="{{t 'PAGE_OVERVIEW_REMOTE_MANAGEMENT_TITLE'}}">
+            {{t "PAGE_OVERVIEW_REMOTE_MANAGEMENT_TITLE"}}
+        </span>
+        <span class="conn-status conn-active float-end conn-btn" role="button" {{on "click" this.startWizardFlow}} {{on "keyup" this.eaactrl.btnTrigger}} tabindex="0" aria-label="Setup Wizard">
+            {{!-- {{t "PAGE_OVERVIEW_WIZARD"}} --}} Setup Wizard
+        </span>
+        {{/if}}
+      </div>
+      <div class="card-body">
+        <div class="row">
+          <div class="col-md-3">
+            <div class="row">
+              <div class="col-md-12" tabindex="0" aria-label="{{t 'PAGE_STATUS_SYSTEM_PRODUCT'}}">{{t 'PAGE_STATUS_SYSTEM_PRODUCT'}}</div>
+            </div>
+            <div class="row">
+              <div class="col-md-12" tabindex="0" aria-label="{{@model.deviceinfo.ProductClass}} {{@model.deviceinfo.HardwareVersion}}">
+                <h6>{{@model.deviceinfo.ProductClass}} {{@model.deviceinfo.HardwareVersion}}</h6>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-3">
+            <div class="row">
+              <div class="col-md-12" tabindex="0" aria-label="{{t 'PAGE_STATUS_SYSTEM_SOFTWARE'}}">{{t 'PAGE_STATUS_SYSTEM_SOFTWARE'}}</div>
+            </div>
+            <div class="row">
+              <div class="col-md-12" tabindex="0" aria-label="{{@model.deviceinfo.SoftwareVersion}}">
+                <h6>{{@model.deviceinfo.SoftwareVersion}}</h6>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-3">
+            <div class="row">
+              <div class="col-md-12" tabindex="0" aria-label="{{t 'PAGE_STATUS_SYSTEM_CPU_USAGE'}}">{{t 'PAGE_STATUS_SYSTEM_CPU_USAGE'}}</div>
+            </div>
+            <div class="row">
+              <div class="col-md-12" tabindex="0" aria-label="{{@model.deviceinfo.ProcessStatus.CPUUsage}}%">
+                <h6>{{@model.deviceinfo.ProcessStatus.CPUUsage}}%</h6>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-3">
+            <div class="row">
+              <div class="col-md-12" tabindex="0" aria-label="{{t 'PAGE_STATUS_SYSTEM_MEMORY_USAGE'}}">{{t 'PAGE_STATUS_SYSTEM_MEMORY_USAGE'}}</div>
+            </div>
+            <div class="row">
+              <div class="col-md-12" tabindex="0" aria-label="{{divide @model.deviceinfo.MemoryStatus.Total @model.deviceinfo.MemoryStatus.Free}}%">
+                <h6>{{divide @model.deviceinfo.MemoryStatus.Total @model.deviceinfo.MemoryStatus.Free}}%</h6>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-3">
+            <div class="row">
+              <div class="col-md-12" tabindex="0" aria-label="{{t 'PAGE_STATUS_SYSTEM_UPTIME'}}">{{t 'PAGE_STATUS_SYSTEM_UPTIME'}}</div>
+            </div>
+            <div class="row">
+              <div class="col-md-12" tabindex="0" aria-label="{{this.formatTime @model.deviceinfo.UpTime}}">
+                <h6>{{this.formatTime @model.deviceinfo.UpTime}}</h6>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-3">
+            <div class="row">
+              <div class="col-md-12" tabindex="0" aria-label="{{t 'PAGE_STATUS_SYSTEM_CURRENT_LOCAL_TIME'}}">{{t 'PAGE_STATUS_SYSTEM_CURRENT_LOCAL_TIME'}}</div>
+            </div>
+            <div class="row">
+              <div class="col-md-12" tabindex="0" aria-label="{{@model.time.CurrentLocalTime}}">
+                <h6>{{@model.time.CurrentLocalTime}}</h6>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-3">
+            <div class="row">
+              <div class="col-md-12" tabindex="0" aria-label="{{t 'PAGE_STATUS_SYSTEM_SERIAL_NUMBER'}}">{{t 'PAGE_STATUS_SYSTEM_SERIAL_NUMBER'}}</div>
+            </div>
+            <div class="row">
+              <div class="col-md-12" tabindex="0" aria-label="{{@model.deviceinfo.SerialNumber}}">
+                <h6>{{@model.deviceinfo.SerialNumber}}</h6>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-3">
+            <div class="row">
+              <div class="col-md-12" tabindex="0" aria-label="Internet IP Address">Internet IP Address</div>
+            </div>
+            <div class="row">
+              {{#each @model.ip.Interface as |interface|}}
+              {{#if (eq interface.Alias "wan")}}
+              {{#each interface.IPv4Address as |ipv4addr|}}
+              {{#if (eq ipv4addr.Alias "primary")}}
+              <div class="col-md-12" tabindex="0" aria-label="{{ipv4addr.IPAddress}}">
+                <h6>{{ipv4addr.IPAddress}}</h6>
+              </div>
+              {{/if}}
+              {{/each}}
+              {{/if}}
+              {{/each}}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{{/if}}
+
+<div class="row">
+  <div class="col-md-12">
+    <div class="card mb-3">
+      <div class="card-header sc">
+        <svg xmlns="http://www.w3.org/2000/svg" aria-label="{{t 'PAGE_MESSAGES_SVG_IMAGE_ARIA_LABEL'}}" width="20" height="20" fill="currentColor" class="bi bi-activity" viewBox="0 0 20 20">
+          <path fill-rule="evenodd" d="M6 2a.5.5 0 0 1 .47.33L10 12.036l1.53-4.208A.5.5 0 0 1 12 7.5h3.5a.5.5 0 0 1 0 1h-3.15l-1.88 5.17a.5.5 0 0 1-.94 0L6 3.964 4.47 8.171A.5.5 0 0 1 4 8.5H.5a.5.5 0 0 1 0-1h3.15l1.88-5.17A.5.5 0 0 1 6 2"/>
+        </svg>
+        <span tabindex="0" aria-label="{{t 'SUB_OVERVIEW_ITEM_SYSTEM_INFO'}}">{{t 'SUB_OVERVIEW_ITEM_INTERNET_STATUS'}}</span>
+      </div>
+      <div class="card-body">
+        <Dashboard::InternetStatus @wan_interface={{@model.wan_interface}} />
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="row">
+  {{!-- WiFi --}}
+  <div class="col-md-6">
+    <div class="card mb-3">
+      <div class="card-header sc">
+        <svg xmlns="http://www.w3.org/2000/svg" aria-label="{{t 'PAGE_MESSAGES_SVG_IMAGE_ARIA_LABEL'}}" width="20" height="20" fill="currentColor" class="bi bi-wifi" viewBox="0 0 20 20">
+          <path d="M15.384 6.115a.485.485 0 0 0-.047-.736A12.44 12.44 0 0 0 8 3C5.259 3 2.723 3.882.663 5.379a.485.485 0 0 0-.048.736.52.52 0 0 0 .668.05A11.45 11.45 0 0 1 8 4c2.507 0 4.827.802 6.716 2.164.205.148.49.13.668-.049"/>
+          <path d="M13.229 8.271a.482.482 0 0 0-.063-.745A9.46 9.46 0 0 0 8 6c-1.905 0-3.68.56-5.166 1.526a.48.48 0 0 0-.063.745.525.525 0 0 0 .652.065A8.46 8.46 0 0 1 8 7a8.46 8.46 0 0 1 4.576 1.336c.206.132.48.108.653-.065m-2.183 2.183c.226-.226.185-.605-.1-.75A6.5 6.5 0 0 0 8 9c-1.06 0-2.062.254-2.946.704-.285.145-.326.524-.1.75l.015.015c.16.16.407.19.611.09A5.5 5.5 0 0 1 8 10c.868 0 1.69.201 2.42.56.203.1.45.07.61-.091zM9.06 12.44c.196-.196.198-.52-.04-.66A2 2 0 0 0 8 11.5a2 2 0 0 0-1.02.28c-.238.14-.236.464-.04.66l.706.706a.5.5 0 0 0 .707 0l.707-.707z"/>
+        </svg>
+        <span tabindex="0" aria-label="WiFi">WiFi</span>
+      </div>
+      <div class="card-body">
+        <div class="row mb-2">
+          <div class="row mb-2">
+           {{#if this.show_WiFiSSID}}
+            {{#each this.activeSSIDs as |ssid|}}
+              <div class="col-md-12">{{ssid}}</div>
+            {{/each}}
+           {{/if}}
+          </div>
+          {{#each @model.wifi.AccessPoint as |ap index|}}
+          {{#if (eq index 0)}} {{!-- only show AccessPoint 1 --}}
+          {{#if (eq ap.WPS.Enable 1)}}
+          <div class="col-md-12">
+            <svg xmlns="http://www.w3.org/2000/svg" aria-label="{{t 'PAGE_MESSAGES_SVG_IMAGE_ARIA_LABEL'}}" width="20" height="20" fill="currentColor" class="bi bi-wifi" viewBox="0 0 20 20">
+              <path d="M15.384 6.115a.485.485 0 0 0-.047-.736A12.44 12.44 0 0 0 8 3C5.259 3 2.723 3.882.663 5.379a.485.485 0 0 0-.048.736.52.52 0 0 0 .668.05A11.45 11.45 0 0 1 8 4c2.507 0 4.827.802 6.716 2.164.205.148.49.13.668-.049"/>
+              <path d="M13.229 8.271a.482.482 0 0 0-.063-.745A9.46 9.46 0 0 0 8 6c-1.905 0-3.68.56-5.166 1.526a.48.48 0 0 0-.063.745.525.525 0 0 0 .652.065A8.46 8.46 0 0 1 8 7a8.46 8.46 0 0 1 4.576 1.336c.206.132.48.108.653-.065m-2.183 2.183c.226-.226.185-.605-.1-.75A6.5 6.5 0 0 0 8 9c-1.06 0-2.062.254-2.946.704-.285.145-.326.524-.1.75l.015.015c.16.16.407.19.611.09A5.5 5.5 0 0 1 8 10c.868 0 1.69.201 2.42.56.203.1.45.07.61-.091zM9.06 12.44c.196-.196.198-.52-.04-.66A2 2 0 0 0 8 11.5a2 2 0 0 0-1.02.28c-.238.14-.236.464-.04.66l.706.706a.5.5 0 0 0 .707 0l.707-.707z"/>
+            </svg>
+            <span tabindex="0" aria-label="{{t 'PAGE_OVERVIEW_WPS'}}">{{t 'PAGE_OVERVIEW_WPS'}}</span>
+          </div>
+          {{/if}}
+          {{/if}}
+          {{/each}}
+        </div>
+        <div class="row mb-2">
+          {{!-- only show AccessPoint 1 --}}
+          {{#if (eq @model.wifi_radio.IntelligentAirtimeSchedulingEnable 1)}}
+          <div class="col-md-12">
+            <svg xmlns="http://www.w3.org/2000/svg" aria-label="{{t 'PAGE_MESSAGES_SVG_IMAGE_ARIA_LABEL'}}" width="20" height="20" fill="currentColor" class="bi bi-calendar3" viewBox="0 0 20 20">
+              <path d="M14 0H2a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2M1 3.857C1 3.384 1.448 3 2 3h12c.552 0 1 .384 1 .857v10.286c0 .473-.448.857-1 .857H2c-.552 0-1-.384-1-.857z"/>
+              <path d="M6.5 7a1 1 0 1 0 0-2 1 1 0 0 0 0 2m3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2m3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2m-9 3a1 1 0 1 0 0-2 1 1 0 0 0 0 2m3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2m3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2m3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2m-9 3a1 1 0 1 0 0-2 1 1 0 0 0 0 2m3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2m3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2"/>
+            </svg>
+            <span tabindex="0" aria-label="{{t 'PAGE_OVERVIEW_SCHEDULE'}}">{{t 'PAGE_OVERVIEW_SCHEDULE'}}</span>
+          </div>
+          {{/if}}
+        </div>
+        {{#each this.mainWifiDevices as |host|}}
+          <div class="row mb-2">
+              <div class="col-md-12">
+                <svg xmlns="http://www.w3.org/2000/svg" aria-label="{{t 'PAGE_MESSAGES_SVG_IMAGE_ARIA_LABEL'}}" width="20" height="20" fill="currentColor" class="bi bi-phone" viewBox="0 0 20 20">
+                  <path d="M11 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1zM5 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2z"/>
+                  <path d="M8 14a1 1 0 1 0 0-2 1 1 0 0 0 0 2"/>
+                </svg>
+                <Dashboard::Hosts @host={{host}} />
+              </div>
+          </div>
+        {{/each}}
+      </div>
+    </div>
+  </div>
+  {{!-- Guest WiFi --}}
+  <div class="col-md-6">
+    <div class="card mb-3">
+      <div class="card-header sc">
+        <svg xmlns="http://www.w3.org/2000/svg" aria-label="{{t 'PAGE_MESSAGES_SVG_IMAGE_ARIA_LABEL'}}" width="20" height="20" fill="currentColor" class="bi bi-wifi" viewBox="0 0 20 20">
+          <path d="M15.384 6.115a.485.485 0 0 0-.047-.736A12.44 12.44 0 0 0 8 3C5.259 3 2.723 3.882.663 5.379a.485.485 0 0 0-.048.736.52.52 0 0 0 .668.05A11.45 11.45 0 0 1 8 4c2.507 0 4.827.802 6.716 2.164.205.148.49.13.668-.049"/>
+          <path d="M13.229 8.271a.482.482 0 0 0-.063-.745A9.46 9.46 0 0 0 8 6c-1.905 0-3.68.56-5.166 1.526a.48.48 0 0 0-.063.745.525.525 0 0 0 .652.065A8.46 8.46 0 0 1 8 7a8.46 8.46 0 0 1 4.576 1.336c.206.132.48.108.653-.065m-2.183 2.183c.226-.226.185-.605-.1-.75A6.5 6.5 0 0 0 8 9c-1.06 0-2.062.254-2.946.704-.285.145-.326.524-.1.75l.015.015c.16.16.407.19.611.09A5.5 5.5 0 0 1 8 10c.868 0 1.69.201 2.42.56.203.1.45.07.61-.091zM9.06 12.44c.196-.196.198-.52-.04-.66A2 2 0 0 0 8 11.5a2 2 0 0 0-1.02.28c-.238.14-.236.464-.04.66l.706.706a.5.5 0 0 0 .707 0l.707-.707z"/>
+        </svg>
+        <span tabindex="0" aria-label="{{t 'PAGE_OVERVIEW_GUEST_WIFI'}}">{{t 'PAGE_OVERVIEW_GUEST_WIFI'}}</span>
+      </div>
+      <div class="card-body">
+        <div class="row mb-2">
+          {{#if this.show_WiFiSSID_Guest}}
+            {{#each this.activeGuestSSIDs as |ssid|}}
+              <div class="col-md-12">{{ssid}}</div>
+            {{/each}}
+          {{/if}}
+        </div>
+        {{#each this.guestWifiDevices as |host|}}
+          <div class="row mb-2">
+              <div class="col-md-12">
+                <svg xmlns="http://www.w3.org/2000/svg" aria-label="{{t 'PAGE_MESSAGES_SVG_IMAGE_ARIA_LABEL'}}" width="20" height="20" fill="currentColor" class="bi bi-phone" viewBox="0 0 20 20">
+                  <path d="M11 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1zM5 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2z"/>
+                  <path d="M8 14a1 1 0 1 0 0-2 1 1 0 0 0 0 2"/>
+                </svg>
+                <Dashboard::Hosts @host={{host}} />
+              </div>
+          </div>
+        {{/each}}
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="row">
+  {{!-- Network --}}
+  <div class="col-md-6">
+    <div class="card mb-3">
+      <div class="card-header sc">
+          <svg xmlns="http://www.w3.org/2000/svg" aria-label="{{t 'PAGE_MESSAGES_SVG_IMAGE_ARIA_LABEL'}}" width="20" height="20" fill="currentColor" class="bi bi-ethernet" viewBox="0 0 20 20">
+            <path d="M14 13.5v-7a.5.5 0 0 0-.5-.5H12V4.5a.5.5 0 0 0-.5-.5h-1v-.5A.5.5 0 0 0 10 3H6a.5.5 0 0 0-.5.5V4h-1a.5.5 0 0 0-.5.5V6H2.5a.5.5 0 0 0-.5.5v7a.5.5 0 0 0 .5.5h11a.5.5 0 0 0 .5-.5M3.75 11h.5a.25.25 0 0 1 .25.25v1.5a.25.25 0 0 1-.25.25h-.5a.25.25 0 0 1-.25-.25v-1.5a.25.25 0 0 1 .25-.25m2 0h.5a.25.25 0 0 1 .25.25v1.5a.25.25 0 0 1-.25.25h-.5a.25.25 0 0 1-.25-.25v-1.5a.25.25 0 0 1 .25-.25m1.75.25a.25.25 0 0 1 .25-.25h.5a.25.25 0 0 1 .25.25v1.5a.25.25 0 0 1-.25.25h-.5a.25.25 0 0 1-.25-.25zM9.75 11h.5a.25.25 0 0 1 .25.25v1.5a.25.25 0 0 1-.25.25h-.5a.25.25 0 0 1-.25-.25v-1.5a.25.25 0 0 1 .25-.25m1.75.25a.25.25 0 0 1 .25-.25h.5a.25.25 0 0 1 .25.25v1.5a.25.25 0 0 1-.25.25h-.5a.25.25 0 0 1-.25-.25z"/>
+            <path d="M2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2zM1 2a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1z"/>
+          </svg>
+          <span tabindex="0" aria-label="{{t 'PAGE_OVERVIEW_ETHERNET'}}">{{t 'PAGE_OVERVIEW_ETHERNET'}}</span>
+          {{#if (eq this.hasNetDisabled 1)}}
+            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                {{this.numNetDisabled}}
+                <span class="visually-hidden" tabindex="0" aria-label="{{t 'PAGE_OVERVIEW_ETHERNET_NUMBER_DISABLED'}}">{{t "PAGE_OVERVIEW_ETHERNET_NUMBER_DISABLED"}}</span>
+            </span>
+          {{/if}}
+      </div>
+      <div class="card-body">
+        {{#each @model.hosts.Host as |host|}}
+          {{#if (eq host.InterfaceType "Ethernet")}}
+            {{#if (eq host.Active 1)}}
+              {{#unless (eq host.IPAddress "")}}
+                <div class="row mb-2">
+                  <div class="col-md-12">
+                    <svg xmlns="http://www.w3.org/2000/svg" aria-label="{{t 'PAGE_MESSAGES_SVG_IMAGE_ARIA_LABEL'}}" width="20" height="20" fill="currentColor" class="bi bi-laptop" viewBox="0 0 20 20">
+                      <path d="M13.5 3a.5.5 0 0 1 .5.5V11H2V3.5a.5.5 0 0 1 .5-.5zm-11-1A1.5 1.5 0 0 0 1 3.5V12h14V3.5A1.5 1.5 0 0 0 13.5 2zM0 12.5h16a1.5 1.5 0 0 1-1.5 1.5h-13A1.5 1.5 0 0 1 0 12.5"/>
+                    </svg>
+                    <Dashboard::HostsNetwork @host={{host}} />
+                  </div>
+                </div>
+              {{/unless}}
+            {{/if}}
+          {{/if}}
+        {{/each}}
+      </div>
+    </div>
+  </div>
+
+  {{!-- USB --}}
+  {{#if (or (eq this.modelType 'FG4278Av2') (eq this.modelType 'FG4278Av2_VD'))}}
+  <div class="col-md-6">
+    <div class="card mb-3">
+      
+      <div class="card-header sc">
+      <svg xmlns="http://www.w3.org/2000/svg" aria-label="{{t 'PAGE_MESSAGES_SVG_IMAGE_ARIA_LABEL'}}" width="20" height="20" fill="currentColor" class="bi bi-usb-symbol" viewBox="0 0 20 20">
+        <path d="m7.792.312-1.533 2.3A.25.25 0 0 0 6.467 3H7.5v7.319a2.5 2.5 0 0 0-.515-.298L5.909 9.56A1.5 1.5 0 0 1 5 8.18v-.266a1.5 1.5 0 1 0-1 0v.266a2.5 2.5 0 0 0 1.515 2.298l1.076.461a1.5 1.5 0 0 1 .888 1.129 2.001 2.001 0 1 0 1.021-.006v-.902a1.5 1.5 0 0 1 .756-1.303l1.484-.848A2.5 2.5 0 0 0 11.995 7h.755a.25.25 0 0 0 .25-.25v-2.5a.25.25 0 0 0-.25-.25h-2.5a.25.25 0 0 0-.25.25v2.5c0 .138.112.25.25.25h.741a1.5 1.5 0 0 1-.747 1.142L8.76 8.99a3 3 0 0 0-.26.17V3h1.033a.25.25 0 0 0 .208-.389L8.208.312a.25.25 0 0 0-.416 0"/>
+      </svg>
+        <span tabindex="0" aria-label="USB">USB</span>
+      </div>
+      
+      <div class="card-body">
+        {{#each @model.ip.Interface as |interface|}}
+        {{#if (eq interface.Alias "iptv")}}
+        {{#each interface.IPv4Address as |ipv4addr|}}
+        {{#if (eq ipv4addr.Alias "primary")}}
+        <div class="row mb-2">
+          <div class="col-md-12" style="align-items: center;">
+            {{!-- {{t "PAGE_OVERVIEW_IP_ADDRESS"}}: {{ipv4addr.IPAddress}} --}}
+          </div>
+        </div>
+        {{/if}}
+        {{/each}}
+        {{/if}}
+        {{/each}}
+      </div>
+    </div>
+  </div>
+  {{/if}}
+
+  {{!-- VOIP --}}
+  {{#each @model.ip.Interface as |interface|}}
+  {{#if (eq interface.Alias "voip")}}
+  {{#if (eq interface.Enable 1)}}
+  <div class="col-md-6">
+    <div class="card mb-3">
+      <div class="card-header sc">
+        <svg xmlns="http://www.w3.org/2000/svg" aria-label="{{t 'PAGE_MESSAGES_SVG_IMAGE_ARIA_LABEL'}}" width="20" height="20" fill="currentColor" class="bi bi-telephone" viewBox="0 0 20 20">
+          <path d="M3.654 1.328a.678.678 0 0 0-1.015-.063L1.605 2.3c-.483.484-.661 1.169-.45 1.77a17.6 17.6 0 0 0 4.168 6.608 17.6 17.6 0 0 0 6.608 4.168c.601.211 1.286.033 1.77-.45l1.034-1.034a.678.678 0 0 0-.063-1.015l-2.307-1.794a.68.68 0 0 0-.58-.122l-2.19.547a1.75 1.75 0 0 1-1.657-.459L5.482 8.062a1.75 1.75 0 0 1-.46-1.657l.548-2.19a.68.68 0 0 0-.122-.58zM1.884.511a1.745 1.745 0 0 1 2.612.163L6.29 2.98c.329.423.445.974.315 1.494l-.547 2.19a.68.68 0 0 0 .178.643l2.457 2.457a.68.68 0 0 0 .644.178l2.189-.547a1.75 1.75 0 0 1 1.494.315l2.306 1.794c.829.645.905 1.87.163 2.611l-1.034 1.034c-.74.74-1.846 1.065-2.877.702a18.6 18.6 0 0 1-7.01-4.42 18.6 18.6 0 0 1-4.42-7.009c-.362-1.03-.037-2.137.703-2.877z"/>
+        </svg>
+        <span tabindex="0" aria-label="VOIP">VOIP</span>
+        {{#unless (or (eq this.modelType 'FG4278Av2') (eq this.modelType 'FG4278Av2_VD'))}}
+        {{#if (eq this.hasVOIPDisabled 1)}}
+        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+            <span tabindex="0" aria-label="{{this.numVOIPDisabled}} {{t 'PAGE_OVERVIEW_VOIP_NUMBER_DISABLED'}}">
+              {{this.numVOIPDisabled}}
+              <span class="visually-hidden">{{t "PAGE_OVERVIEW_VOIP_NUMBER_DISABLED"}}</span>
+            </span>
+        </span>
+        {{/if}}
+        {{/unless}}
+      </div>
+      <div class="card-body">
+        {{#each @model.ip.Interface as |interface|}}
+        {{#if (eq interface.Alias "voip")}}
+        {{#each interface.IPv4Address as |ipv4addr|}}
+        {{#if (eq ipv4addr.Alias "primary")}}
+        {{#unless (or (eq this.modelType 'FG4278Av2') (eq this.modelType 'FG4278Av2_VD'))}}
+        <div class="row mb-2">
+          <div class="col-md-12" style="align-items: center;" tabindex="0" aria-label="{{t "PAGE_OVERVIEW_IP_ADDRESS"}}: {{ipv4addr.IPAddress}}">
+            {{t "PAGE_OVERVIEW_IP_ADDRESS"}}: {{ipv4addr.IPAddress}}
+          </div>
+        </div>
+        {{/unless}}
+        {{/if}}
+        {{/each}}
+        {{/if}}
+        {{/each}}
+        <Dashboard::Voip @client={{@model.client}} @model={{this.modelType}}/>
+      </div>
+    </div>
+  </div>
+  {{/if}}
+  {{/if}}
+  {{/each}}
+
+  {{!-- IPTV --}}
+  {{#each @model.ip.Interface as |interface|}}
+  {{#if (eq interface.Alias "iptv")}}
+  {{#if (eq interface.Enable 1)}}
+  <div class="col-md-6">
+    <div class="card mb-3">
+      <div class="card-header sc">
+        <svg xmlns="http://www.w3.org/2000/svg" aria-label="{{t 'PAGE_MESSAGES_SVG_IMAGE_ARIA_LABEL'}}" width="20" height="20" fill="currentColor" class="bi bi-tv" viewBox="0 0 20 20">
+          <path d="M2.5 13.5A.5.5 0 0 1 3 13h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5M13.991 3l.024.001a1.5 1.5 0 0 1 .538.143.76.76 0 0 1 .302.254c.067.1.145.277.145.602v5.991l-.001.024a1.5 1.5 0 0 1-.143.538.76.76 0 0 1-.254.302c-.1.067-.277.145-.602.145H2.009l-.024-.001a1.5 1.5 0 0 1-.538-.143.76.76 0 0 1-.302-.254C1.078 10.502 1 10.325 1 10V4.009l.001-.024a1.5 1.5 0 0 1 .143-.538.76.76 0 0 1 .254-.302C1.498 3.078 1.675 3 2 3zM14 2H2C0 2 0 4 0 4v6c0 2 2 2 2 2h12c2 0 2-2 2-2V4c0-2-2-2-2-2"/>
+        </svg>
+        <span tabindex="0" aria-label="IPTV">IPTV</span>
+      </div>
+      <div class="card-body">
+        {{#each @model.ip.Interface as |interface|}}
+        {{#if (eq interface.Alias "iptv")}}
+        {{#each interface.IPv4Address as |ipv4addr|}}
+        {{#if (eq ipv4addr.Alias "primary")}}
+        <div class="row mb-2">
+          <div class="col-md-12" style="align-items: center;" tabindex="0" aria-label="{{t "PAGE_OVERVIEW_IP_ADDRESS"}}: {{ipv4addr.IPAddress}}">
+            {{t "PAGE_OVERVIEW_IP_ADDRESS"}}: {{ipv4addr.IPAddress}}
+          </div>
+        </div>
+        {{/if}}
+        {{/each}}
+        {{/if}}
+        {{/each}}
+      </div>
+    </div>
+  </div>
+  {{/if}}
+  {{/if}}
+  {{/each}}
+</div>
+
+<BsModal
+  @open={{this.acsModalOpen}}
+  @onHidden={{fn (mut this.acsModalOpen) false}}
+as |modal|>
+
+  <modal.header>
+    <h4 class="modal-title" tabindex="0" aria-label="{{t 'PAGE_OVERVIEW_REMOTE_MANAGEMENT_TITLE'}}">{{t 'PAGE_OVERVIEW_REMOTE_MANAGEMENT_TITLE'}}</h4>
+  </modal.header>
+  <modal.body>
+    <div class="container-fluid text-start">
+      <div class="container-fluid text-start">
+        {{#each @model.ip.Interface as |interface|}}
+        {{#if (eq interface.Alias "mgmt")}}
+        {{#each interface.IPv4Address as |ipv4addr|}}
+        {{#if (eq ipv4addr.Alias "primary")}}
+        <div tabindex="0" aria-label="{{t "PAGE_OVERVIEW_ACS_URL"}}: {{@model.managementserver.URL}}">{{t "PAGE_OVERVIEW_ACS_URL"}}: <a href={{@model.managementserver.URL}}>{{@model.managementserver.URL}}</a></div>
+        <div tabindex="0" aria-label="{{t "PAGE_OVERVIEW_MANAGEMENT_IP_ADDRESS"}}: {{ipv4addr.IPAddress}}">{{t "PAGE_OVERVIEW_MANAGEMENT_IP_ADDRESS"}}: {{ipv4addr.IPAddress}}</div>
+        {{/if}}
+        {{/each}}
+        {{/if}}
+        {{/each}}
+      </div>
+    </div>
+  </modal.body>
+
+  <modal.footer>
+    <BsButton @onClick={{modal.close}}>{{t 'PAGE_OVERVIEW_MODAL_CLOSE'}}</BsButton>
+  </modal.footer>
+
+</BsModal>

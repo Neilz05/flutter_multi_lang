@@ -1,0 +1,35 @@
+<div class="main-submenu">
+  <ul>
+    <LinkTo @route="authenticated.status-and-support.status">
+      <li class="submenu-header {{if (eq this.submenuTab 'status') 'submenu-active'}}" {{on 'click' (fn this.setSubmenuTab 'status')}}>{{t 'SUB_NAVIGATION_ITEM_STATUS'}}</li>
+    </LinkTo>
+    {{#if (eq this.submenuTab 'status')}}
+      <Subsubmenu::StatusSubsubmenu @voipEnabled={{@voipEnabled}}/>
+    {{/if}}
+    {{!-- <li class="submenu-header {{if (eq this.submenuTab 'diag-util') 'submenu-active'}}" {{on 'click' (fn this.setSubmenuTab 'diag-util')}}>Diagnostic Utility</li>
+    {{#if (eq this.submenuTab 'diag-util')}}
+      <Subsubmenu::DiagSubsubmenu />
+    {{/if}} --}} 
+    <LinkTo @route="authenticated.status-and-support.diagnostic-utility">
+      <li class="non-header {{if (eq this.submenuTab 'diagnostic-utility') 'submenu-active'}}" {{on 'click' (fn this.setSubmenuTab 'diagnostic-utility')}}>{{t 'SUB_NAVIGATION_ITEM_DIAGNOSTIC_UTILITY'}}</li>
+    </LinkTo>
+    <LinkTo @route="authenticated.status-and-support.eventlog">
+      <li class="non-header {{if (eq this.submenuTab 'event-log') 'submenu-active'}}" {{on 'click' (fn this.setSubmenuTab 'event-log')}}>{{t 'SUB_NAVIGATION_ITEM_EVENT_LOG'}}</li>
+    </LinkTo>
+    <LinkTo @route="authenticated.status-and-support.restart">
+      <li class="non-header {{if (eq this.submenuTab 'restart') 'submenu-active'}}" {{on 'click' (fn this.setSubmenuTab 'restart')}}>{{t 'SUB_NAVIGATION_ITEM_RESTART'}}</li>
+    </LinkTo>
+    <LinkTo @route="authenticated.status-and-support.config">
+      <li class="non-header {{if (eq this.submenuTab 'config') 'submenu-active'}}" {{on 'click' (fn this.setSubmenuTab 'config')}}>{{t 'SUB_NAVIGATION_ITEM_BACKUP_RESTORE'}}</li>
+    </LinkTo>
+    <LinkTo @route="authenticated.status-and-support.upgrade">
+      <li class="non-header {{if (eq this.submenuTab 'firmware-update') 'submenu-active'}}" {{on 'click' (fn this.setSubmenuTab 'firmware-update')}}>{{t 'SUB_NAVIGATION_ITEM_FIRMWARE_UPDATE'}}</li>
+    </LinkTo>
+    <LinkTo @route="authenticated.status-and-support.about">
+      <li class="non-header {{if (eq this.submenuTab 'about') 'submenu-active'}}" {{on 'click' (fn this.setSubmenuTab 'about')}}>{{t 'SUB_NAVIGATION_ITEM_ABOUT'}}</li>
+    </LinkTo>
+	<LinkTo @route="authenticated.status-and-support.lcm">
+      <li class="non-header {{if (eq this.submenuTab 'lcm') 'submenu-active'}}" {{on 'click' (fn this.setSubmenuTab 'lcm')}}>{{t 'SUB_NAVIGATION_ITEM_LCM'}}</li>
+    </LinkTo>
+  </ul>
+</div>

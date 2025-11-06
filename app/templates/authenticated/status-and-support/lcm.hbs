@@ -1,0 +1,112 @@
+<h2 tabindex="0" aria-label="{{t 'PAGE_LCM_TITLE'}}"><span>{{t 'PAGE_LCM_TITLE'}}</span></h2>
+<!-- <div class="mb-5 fs-5">{{t 'PAGE_LCM_SUBTITLE'}}</div>  -->
+
+<!-- License Management Section -->
+<!--<div class="card mb-4">
+    <div class="card-header">
+        <h5 class="mb-0">License Management</h5>
+    </div>
+    <div class="card-body">
+        
+        <div class="input-group mb-3">
+            <Input 
+                @type="text" 
+                class="form-control" 
+                placeholder="Enter license title"
+                @value={{this.newLicenseTitle}}
+                {{on "keydown" this.handleKeyPress}}
+            />
+            <button 
+                class="btn btn-primary" 
+                type="button"
+                {{on "click" this.addLicense}}
+                disabled={{not this.newLicenseTitle}}
+            >
+                Add License
+            </button>
+        </div>
+
+        
+        <div class="list-group">
+            {{#each this.licenses as |license|}}
+                <div class="list-group-item d-flex justify-content-between align-items-center">
+                    <div class="flex-grow-1">
+                        <h6 class="mb-0">{{license.title}}</h6>
+                        <small class="text-muted">Version: {{license.id}}</small>
+                        <small class="text-muted">Status: {{license.status}}</small>
+                    </div>
+                    {{#unless (or (eq license.id 'about') (eq license.id 'gnu') (eq license.id 'licenses'))}}
+                        <button 
+                            class="btn btn-sm btn-outline-danger"
+                            type="button"
+                            {{on "click" (fn this.removeLicense license.id)}}
+                        >
+                            <i class="bi bi-trash"></i> Delete
+                        </button>
+                    {{/unless}}
+                </div>
+            {{/each}}
+        </div>
+    </div>
+</div> -->
+
+<!-- License Content Section -->
+<div class="card">
+    <div class="card-header">
+        <h5 class="mb-0"  tabindex="0" aria-label="{{t 'PAGE_LCM_LICENSE_INFORMATION'}}">{{t 'PAGE_LCM_LICENSE_INFORMATION'}}</h5>
+    </div>
+    <div class="card-body">
+        <div class="accordion" id="licenseAccordion">
+            {{#each this.licenses as |license index|}}
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="heading{{index}}">
+                        <button 
+                            class="accordion-button {{if (eq selected license.id) '' 'collapsed'}}" 
+                            type="button" 
+                            data-bs-toggle="collapse" 
+                            data-bs-target="#collapse{{index}}" 
+                            aria-expanded="{{if (eq selected license.id) 'true' 'false'}}" 
+                            aria-controls="collapse{{index}}"
+                            {{on "click" (fn this.accordionChange license.id)}}
+                        >
+                            {{license.title}}
+                        </button>
+                    </h2>
+                    <div 
+                        id="collapse{{index}}" 
+                        class="accordion-collapse collapse {{if (eq selected license.id) 'show'}}" 
+                        aria-labelledby="heading{{index}}" 
+                        data-bs-parent="#licenseAccordion"
+                    >
+                        <div class="accordion-body">
+                            {{#if (eq license.id 'about')}}
+                                <!-- About Content -->
+                                <p><span>{{t 'PAGE_ABOUT_FIRMWARE'}}</span>&nbsp;<span>{{@model.deviceinfo.SoftwareVersion}}</span></p>
+                                <p><span>{{t 'PAGE_ABOUT_PRODUCTNAME'}}</span>&nbsp;<span>{{@model.deviceinfo.ModelName}}</span></p>
+                            {{else if (eq license.id 'gnu')}}
+                                <!-- GNU Code Requests Content -->
+                                <p>This product contains code subject to the GNU General Public License (GPL) and Lesser General Public License (LGPL). If you would like a copy of the GPL and LGPL source code container in this product, please refer to:</p>
+                                <p><strong><a href="mailto:GlobalSupport@sercomm.com" class="link">Global Support Sercomm</a></strong></p>
+                            {{else if (eq license.id 'licenses')}}
+                                <!-- Licenses Content -->
+                                <p>Below please find the texts of the following Open Source licenses:</p>
+                                <ul>
+                                    <li>GNU General Public License Version 2 (GPLv2)</li>
+                                    <li>GNU General Public License Version 3 (GPLv3)</li>
+                                    <li>GNU Lesser General Public License Version 2.1 (LGPLv2.1)</li>
+                                    <li>GNU Lesser General Public License Version 3 (LGPL v3.0)</li>
+                                    <li>Apache Version 2.0</li>
+                                </ul>
+                            {{else}}
+                                <!-- Custom License Content -->
+                                <p tabindex="0" aria-label="{{t 'PAGE_PHONE_NUMBERS_TABLE_1_COLTITLE_2'}}: {{license.title}}">{{t 'PAGE_PHONE_NUMBERS_TABLE_1_COLTITLE_2'}}: {{license.title}}</p>
+                                <p tabindex="0" aria-label="{{t 'SUB_NAVIGATION_ITEM_STATUS'}}: {{license.status}}">{{t 'SUB_NAVIGATION_ITEM_STATUS'}}: {{license.status}}</p>
+                                <p tabindex="0" aria-label="{{t 'PAGE_LCM_VERSION'}}: {{license.id}}">{{t 'PAGE_LCM_VERSION'}}: {{license.id}}</p>                               
+                            {{/if}}
+                        </div>
+                    </div>
+                </div>
+            {{/each}}
+        </div>
+    </div>
+</div>

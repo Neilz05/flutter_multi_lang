@@ -1,0 +1,30 @@
+<div class="table-responsive">
+  <table class="table table-bordered">
+    <thead>
+      <tr>
+        <th rowspan="2" tabindex="0" aria-label={{t 'PAGE_GPON_STATUS_GEM_PORT_ID'}}>{{t 'PAGE_GPON_STATUS_GEM_PORT_ID'}}</th>
+        <th colspan="2" tabindex="0" aria-label={{t 'PAGE_GPON_STATUS_EGRESS'}}>{{t 'PAGE_GPON_STATUS_EGRESS'}}</th>
+        <th colspan="3" tabindex="0" aria-label={{t 'PAGE_GPON_STATUS_INGRESS'}}>{{t 'PAGE_GPON_STATUS_INGRESS'}}</th>
+      </tr>
+      <tr>
+        <th tabindex="0" aria-label={{t 'PAGE_GPON_STATUS_GEM_FRAMES'}}>{{t 'PAGE_GPON_STATUS_GEM_FRAMES'}}</th>
+        <th tabindex="0" aria-label={{t 'PAGE_GPON_STATUS_GEM_BYTES'}}>{{t 'PAGE_GPON_STATUS_GEM_BYTES'}}</th>
+        <th tabindex="0" aria-label={{t 'PAGE_GPON_STATUS_GEM_FRAMES'}}>{{t 'PAGE_GPON_STATUS_GEM_FRAMES'}}</th>
+        <th tabindex="0" aria-label={{t 'PAGE_GPON_STATUS_DISCARD_GEM_FRAMES'}}>{{t 'PAGE_GPON_STATUS_DISCARD_GEM_FRAMES'}}</th>
+        <th tabindex="0" aria-label={{t 'PAGE_GPON_STATUS_GEM_BYTES'}}>{{t 'PAGE_GPON_STATUS_GEM_BYTES'}}</th>
+      </tr>
+    </thead>
+    <tbody class="border border-top">
+      {{#each @gem.Port as |gemPort|}}
+        <tr>
+          <td tabindex="0" aria-label={{gemPort.PortID}}>{{gemPort.PortID}}</td>
+          <td tabindex="0" aria-label={{gemPort.PM.FramesSent}}>{{gemPort.PM.FramesSent}}</td>
+          <td tabindex="0" aria-label={{gemPort.PM.TxBytes}}>{{gemPort.PM.TxBytes}}</td>
+          <td tabindex="0" aria-label={{gemPort.PM.FramesReceived}}>{{gemPort.PM.FramesReceived}}</td>
+          <td tabindex="0" aria-label={{gemPort.PM.DiscardPacketsReceived}}>{{gemPort.PM.DiscardPacketsReceived}}</td>
+          <td tabindex="0" aria-label={{gemPort.PM.RxBytes}}>{{gemPort.PM.RxBytes}}</td>
+        </tr>
+      {{/each}}
+    </tbody>
+  </table>
+</div>

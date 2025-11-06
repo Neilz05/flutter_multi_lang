@@ -1,0 +1,4 @@
+{{page-title "Config"}}
+{{#each @model.persistentconfiguration.BackupFile as |bf|}}
+{{/each}}
+<Support::Config @ip={{@model.ip}} @deviceinfo={{@model.deviceinfo}} @persistentconfiguration={{@model.persistentconfiguration}}/>

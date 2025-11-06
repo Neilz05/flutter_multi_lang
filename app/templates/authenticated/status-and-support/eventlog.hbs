@@ -1,0 +1,68 @@
+<h2 tabindex="0" aria-label="{{t 'PAGE_EVENT_LOG_TITLE'}}">{{t 'PAGE_EVENT_LOG_TITLE'}}</h2>
+
+<div class="mb-5 fs-5" tabindex="0" aria-label="{{t 'PAGE_EVENT_LOG_SUBTITLE'}}">
+  {{t 'PAGE_EVENT_LOG_SUBTITLE'}}
+</div>
+
+<div class="mb-2 fs-5" tabindex="0" aria-label="{{t 'PAGE_EVENT_LOG_CATEGORIES'}}">
+  {{t 'PAGE_EVENT_LOG_CATEGORIES'}}
+</div>
+
+<div class="container ms-1">
+    <div class="row row-cols-3" style="width: 50vw">
+        {{#each this.categories as |cat|}}
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" value="" id="{{cat}}" {{on "change" (fn this.toggleCategory cat)}} checked={{includes cat this.selected_categories}} tabindex="0" aria-label="{{cat}}" {{on "keyup" this.eaactrl.checkboxTrigger}}>
+                <label class="form-check-label" for="{{cat}}">
+                    {{cat}}
+                </label>
+            </div>
+        {{/each}}
+    </div>
+</div>
+
+
+<div class="card my-3">
+    <div class="card-header sc p-3">
+        <div class="btn-group" role="group" aria-label="{{t 'PAGE_EVENT_LOG_EVENTS_ALL'}} / {{t 'PAGE_EVENT_LOG_EVENTS_ONLY_ERRORS'}}">
+            <input type="radio" class="btn-check" name="btnradio" id="btnradio1" autocomplete="off" onclick={{action (fn this.toggleDisplayMode "All")}} checked={{(eq this.display_mode "All")}} tabindex="-1">
+            <label class="btn btn-outline-primary" for="btnradio1" tabindex="0" aria-label="{{t 'PAGE_EVENT_LOG_EVENTS_ALL'}}" {{on "keyup" this.eaactrl.radioTrigger}}>{{t 'PAGE_EVENT_LOG_EVENTS_ALL'}}</label>
+
+            <input type="radio" class="btn-check" name="btnradio" id="btnradio2" autocomplete="off" onclick={{action (fn this.toggleDisplayMode "Error_Only")}} checked={{(eq this.display_mode "Error_Only")}} tabindex="-1">
+            <label class="btn btn-outline-primary" for="btnradio2" tabindex="0" aria-label="{{t 'PAGE_EVENT_LOG_EVENTS_ONLY_ERRORS'}}" {{on "keyup" this.eaactrl.radioTrigger}}>{{t 'PAGE_EVENT_LOG_EVENTS_ONLY_ERRORS'}}</label>
+        </div>
+    </div>
+
+    
+    <div class="card-body">
+        <div class="container-fluid mb-3">
+            <div class="row row-cols-3">
+                <div class="col-2 fs-5" tabindex="0" aria-label="{{t 'PAGE_EVENT_LOG_TABLE_DATE'}} & {{t 'PAGE_EVENT_LOG_TABLE_TIME'}}">{{t 'PAGE_EVENT_LOG_TABLE_DATE'}} & {{t 'PAGE_EVENT_LOG_TABLE_TIME'}}</div>
+                <div class="col-8 fs-5" tabindex="0" aria-label="{{t 'PAGE_EVENT_LOG_TABLE_LOG_DETAILS'}}">{{t 'PAGE_EVENT_LOG_TABLE_LOG_DETAILS'}}</div>
+                <div class="col-2 fs-5" tabindex="0" aria-label="{{t 'PAGE_EVENT_LOG_TABLE_CATEGORY'}}">{{t 'PAGE_EVENT_LOG_TABLE_CATEGORY'}}</div>
+            </div>
+        </div>
+
+        {{#if this.loading}}
+            <div class="reset-loading"></div>
+        {{else}}
+            {{#each this.logdata as |entry|}}
+                <div class="container-fluid">
+                    <div class="row row-cols-3 {{if (eq entry.logtype 'we') 'text-danger'}}">
+                        <div class="col-2 fw-normal" tabindex="0" aria-label="{{entry.timestamp}}">{{entry.timestamp}}</div>
+                        <div class="col-8 fw-normal" tabindex="0" aria-label="{{entry.logdata}}">{{entry.logdata}}</div>
+                        <div class="col-2 fw-normal" tabindex="0" aria-label="{{entry.category}}">{{entry.category}}</div>
+                    </div>
+                </div>
+            {{/each}}
+        {{/if}}
+        
+    </div>
+</div>
+
+<div class="text-end mb-4">
+    <button type="button" class="btn btn-primary" onclick={{action (fn this.clickDisplayMore)}}>Show More</button>
+    <button type="button" class="btn btn-primary" onclick={{action (fn this.clickDownloadLog)}}>Download</button>
+    {{!-- <button type="button" class="btn btn-primary" onclick={{action (fn this.clickDeleteLog)}}>Delete</button> --}}
+</div>
+

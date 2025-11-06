@@ -1,0 +1,31 @@
+{{page-title "UPnP"}}
+
+<div class="card mb-3">
+  <div class="card-header sc" tabindex="0" aria-label="{{t 'PAGE_PAGE_UPNP_TITLE'}}">{{t 'PAGE_PAGE_UPNP_TITLE'}}</div>
+  <div class="card-body container">
+    <div class="row">
+      <div class="col-md-12" tabindex="0" aria-label="{{t 'PAGE_PAGE_UPNP_SUBTITLE'}}">
+        <p>{{t 'PAGE_PAGE_UPNP_SUBTITLE'}}</p>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-6">
+        <p class="fw-bold" tabindex="0" aria-label="{{t 'PAGE_PAGE_UPNP_UPNP'}}">{{t 'PAGE_PAGE_UPNP_UPNP'}}</p>
+      </div>
+      <div class="col-md-6">
+        <label class="switch" for="upnp-enable" tabindex="0" aria-label="{{t 'PAGE_PAGE_UPNP_UPNP'}}" role="button" {{on "keyup" this.eaactrl.onoffTrigger}}>
+          <Input id="upnp-enable" tabindex="-1" @type="checkbox" class="form-check-input" @value={{@model.Upnp.UPnPIGD}} @checked={{this.enabled}}/>
+          <span class="slider round"></span>
+        </label>
+      </div>
+    </div>
+  </div>
+</div>
+
+<Internet::PortMapping @portMapping={{@model.PortMapping}} @host={{@model.Hosts}} @readOnly={{true}} @upnp={{true}}/>
+
+<div class="d-flex justify-content-end">
+    <div class="flex-container">{{this.errorMsgText}}</div>
+    <button type="button" class="btn btn-primary" style="width: fit-content;" onClick={{this.UpdateUPnP}} disabled={{unless this.hasChanges "disabled"}}>{{t 'PAGE_SETTINGS_APPLY'}}</button>
+    <button type="button" class="btn btn-secondary ms-2" style="width: fit-content;" onClick={{this.cancelUPnP}}>{{t 'PAGE_SETTINGS_CANCEL'}}</button>
+</div>

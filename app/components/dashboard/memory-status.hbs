@@ -1,0 +1,14 @@
+<div class="card">
+  <div class="card-body">
+    <div class="row">
+      <div class="col">
+        <h5 class="card-title">Memory</h5>
+        Total: <Number @number={{@status.Total}} @dividers="1,1024,1024,1024" @labels=",kB,MB,GB" @precision="2" /><br />
+        Free: <Number @number={{@status.Free}} @dividers="1,1024,1024,1024" @labels=",kB,MB,GB" @precision="2" />
+      </div>
+      <div class="col-5">
+        <Chart::DonutChart @data={{this.data}} @color="#782572 #be93B9" @width="75" @height="75" />
+      </div>
+    </div>
+  </div>
+</div>

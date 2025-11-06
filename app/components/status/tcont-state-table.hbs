@@ -1,0 +1,20 @@
+<div class="table-responsive">
+  <table class="table table-bordered">
+    <thead>
+      <tr>
+        <th scope="col" tabindex="0" aria-label={{t 'PAGE_GPON_STATUS_TCONT_ID'}}>{{t 'PAGE_GPON_STATUS_TCONT_ID'}}</th>
+        <th scope="col" tabindex="0" aria-label={{t 'PAGE_GPON_STATUS_ALLOC_ID'}}>{{t 'PAGE_GPON_STATUS_ALLOC_ID'}}</th>
+        <th scope="col" tabindex="0" aria-label={{t 'PAGE_GPON_STATUS_TX_GEM_FRAMES'}}>{{t 'PAGE_GPON_STATUS_TX_GEM_FRAMES'}}</th>
+      </tr>
+    </thead>
+    <tbody class="border border-top">
+      {{#each @tc.Tcont as |tcont|}}
+        <tr>
+          <td tabindex="0" aria-label={{tcont.ID}}>{{tcont.ID}}</td>
+          <td tabindex="0" aria-label={{tcont.AllocID}}>{{tcont.AllocID}}</td>
+          <td tabindex="0" aria-label={{tcont.TxGemFrames}}>{{tcont.TxGemFrames}}</td>
+        </tr>
+      {{/each}}
+    </tbody>
+  </table>
+</div>

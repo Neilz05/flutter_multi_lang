@@ -1,0 +1,54 @@
+<div class="col-md-12">
+  {{#let (file-queue name="files" onFileAdded=this.uploadFile) as |queue|}}
+    <FileDropzone class="file-dropzone" @queue={{queue}} as |dropzone|>
+      <div class="{{if dropzone.active "background: #fff"}}">
+        <Icon::Download @width=50 @height=43 />
+        {{#if dropzone.active}}
+          {{t 'PAGE_FIRMWARE_UPDATE_MANUAL_FIRMWARE_UPDATE_SUBTITLE_THREE'}}
+        {{else if queue.files.length}}
+          {{t 'PAGE_FIRMWARE_UPDATE_UPLOAD_FIRMWARE_FILE_POPUP_TITLE'}} ... ({{queue.progress}}%)
+        {{else if dropzone.supported}}
+          {{t 'PAGE_FIRMWARE_UPDATE_MANUAL_FIRMWARE_UPDATE_SUBTITLE_TWO'}}
+        {{/if}}
+      </div>
+    </FileDropzone>
+  {{/let}}
+
+  {{#if this.uploaded}}
+    <BsModal @onSubmit={{this.upgrade}} @open={{this.modalIsOpen}} @closeButton={{false}} @backdropClose={{false}} as |Modal|>
+      <Modal.header>
+        <h4 class="modal-title"><i class="glyphicon glyphicon-alert"></i> {{t 'PAGE_FIRMWARE_UPDATE_UPLOAD_FIRMWARE_FILE_POPUP_DESCRIPTION'}}</h4>
+      </Modal.header>
+      <Modal.body>
+        {{#if this.errorCode}}
+          Error: {{this.errorCode}}
+        {{else}}
+          {{t 'PAGE_FIRMWARE_UPDATE_MANUAL_FIRMWARE_UPDATE_CONFIRM'}}
+        {{/if}}
+      </Modal.body>
+      <Modal.footer as |footer|>
+        <BsButton @onClick={{action Modal.submit}} {{on "click" this.proceedFWUpdate}} @type="primary">
+          {{t 'PAGE_FIRMWARE_UPDATE_INSTAL_UPDATED_FIRMWARE_POPUP_APPLY_BUTTON'}}
+        </BsButton>
+        <BsButton @onClick={{action Modal.close}} @type="Light">
+          {{t 'PAGE_FIRMWARE_UPDATE_INSTAL_UPDATED_FIRMWARE_POPUP_CANCEL_BUTTON'}}
+        </BsButton>
+      </Modal.footer>
+    </BsModal>
+  {{/if}}
+</div>
+
+<BsModal 
+  @open={{this.fwUpdateModalOpen}} 
+  @closeButton={{false}} 
+  @backdropClose={{false}} 
+  class="{{if this.fwUpdateModalOpen "hide-close-button"}}" 
+  as |Modal|
+>
+  <Modal.header>
+    {{t 'PAGE_FIRMWARE_UPDATE_UPLOAD_FIRMWARE_FILE_INSTALLING_POPUP_TITLE'}}
+  </Modal.header>
+  <Modal.body>
+    <div class="reset-loading"></div>
+  </Modal.body>
+</BsModal>

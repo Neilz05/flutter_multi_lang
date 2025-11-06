@@ -1,0 +1,28 @@
+<div class="row ps-3 mt-3">
+  <div class="col">
+    <label class="col-form-label">{{t 'PAGE_GENERAL_PROTECTION_MODE'}}</label>
+  </div>
+  <div class="col">
+    <Helper::Select class="form-select w-75" @options={{this.encryptionModes}} @value={{@security.ModeEnabled}}
+      @optValue="key" @optLabel="label" @onChange={{this.setEncryptionMode}} />
+  </div>
+</div>
+
+{{#unless (eq @security.ModeEnabled 'None')}}
+
+<div class="row ps-3 mt-3">
+  <div class="col">
+    <label class="col-form-label">{{t 'PAGE_GENERAL_WIFI_PASSWORD'}}</label>
+  </div>
+  <div class="col">
+    <Inputpwd @class="w-75" @value={{@security.KeyPassPhrase}}/>
+    {{#each @security.error.KeyPassPhrase.validation as |message|}}
+    <div class="invalid-feedback">{{message}}</div>
+    {{/each}}
+    
+  </div>
+</div>
+
+
+
+{{/unless}}

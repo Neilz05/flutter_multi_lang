@@ -1,0 +1,125 @@
+<Ui::CardSection @header={{t 'PAGE_PHONE_RINGING_SCHEDULE_TITLE'}} @subtitle={{t 'PAGE_PHONE_RINGING_SCHEDULE_SUBTITLE'}}>
+
+  <Ui::RenderIf @data={{this.model.ring}}>
+      <Ui::ToggleButton @label={{t 'PAGE_PHONE_RINGING_SCHEDULE_TOGGLE_LABEL'}} @checked={{this.Enable}}/>
+      <Ui::RadioButton
+        @label={{t 'PAGE_PHONE_RINGING_SCHEDULE_RADIO_LABEL'}}
+        @rad1={{t 'STATUS_ENABLED'}}
+        @rad2={{t 'STATUS_DISABLED'}}
+        @get_param={{this.RingEnable}}
+        @set_param={{this.setRingEnable}}
+      />
+  </Ui::RenderIf>
+
+  <Ui::Table
+    @columns={{this.columns}}
+    @rows={{this.ringSchedulesData}}
+    @onDelete={{this.delete}}
+    @onEdit={{this.edit}}
+    @onAdd={{fn this.open null "add"}}
+    @onToggle={{this.toggle}}
+    @model={{this.model.ring_schedules}}
+  />
+
+</Ui::CardSection>
+
+<BsModal
+  @open={{or (eq this.modalOpen "add") (eq this.modalOpen "edit")}}
+  @onSubmit={{this.submitModal}}
+  @onHide={{this.hideModal}}
+  as |modal|
+>
+  <modal.header>
+    <h4 class="modal-title" tabindex="0" aria-label="{{this.modalHeaderText}}">{{this.modalHeaderText}}</h4>
+  </modal.header>
+
+  <modal.body>
+    <div class="row align-items-center">
+      <div class="col text-start fw-bold ms-3" tabindex="0" aria-label="{{t 'PAGE_RINGING_SCHEDULE_EDIT_POPUP_ASSIGN_TO'}}">{{t 'PAGE_RINGING_SCHEDULE_EDIT_POPUP_ASSIGN_TO'}}</div>
+
+      <div class="col-8 d-flex flex-column align-items-end">
+        {{#each this.assignNumbers as |num index|}}
+          <div class="d-flex align-items-center mb-2 gap-2">
+            <Input
+              @type="text"
+              class="form-control"
+              @value={{num}}
+              {{on "input" (fn this.updateAssignNumber index)}}
+            />
+            <button 
+              type="button" 
+              class="btn btn-danger btn-sm py-2 px-3"
+              {{on "click" (fn this.removeAssignNumber index)}}
+            >
+              <i class="bi bi-trash"></i>
+            </button>
+          </div>
+        {{/each}}
+
+        <button 
+          type="button" 
+          class="btn btn-primary px-2 py-1" 
+          {{on "click" this.addAssignNumber}}
+        >
+          <i class="bi bi-plus-square fs-5"></i>
+        </button>
+
+        {{!-- {{#each this.modelChangeset.error.parameters.AssignNumber.validation as |message|}}
+          <div class="invalid-feedback">{{message}}</div>
+        {{/each}} --}}
+      </div>
+    </div>
+
+    <Ui::DaySelector 
+      @modelChangeset={{this.modelChangeset}} 
+      @param="TimeFrame" 
+       @allSchedules={{this.model.ring_schedules}}
+    />
+
+    <div class="row align-items-center">
+      <div class="col text-start fw-bold ms-3" tabindex="0" aria-label="{{t 'PAGE_RINGING_SCHEDULE_EDIT_POPUP_TIME'}}">{{t 'PAGE_RINGING_SCHEDULE_EDIT_POPUP_TIME'}}</div>
+      <div class="col-8 d-flex flex-column align-items-end">
+        <div class="d-flex align-items-center gap-2">
+          <span tabindex="0" aria-label="{{t 'PAGE_RINGING_SCHEDULE_EDIT_POPUP_FROM'}}">{{t 'PAGE_RINGING_SCHEDULE_EDIT_POPUP_FROM'}}</span>
+          <Input
+            @type="time"
+            class="form-control"
+            @value={{changeset-get this.modelChangeset "parameters.TimeFrom"}}
+            {{on "input" (fn this.updateChangeset this.modelChangeset "parameters.TimeFrom")}}
+          />
+
+          <span tabindex="0" aria-label="{{t 'PAGE_RINGING_SCHEDULE_EDIT_POPUP_TO'}}">{{t 'PAGE_RINGING_SCHEDULE_EDIT_POPUP_TO'}}</span>
+          <Input
+            @type="time"
+            class="form-control"
+            @value={{changeset-get this.modelChangeset "parameters.TimeTo"}}
+            {{on "input" (fn this.updateChangeset this.modelChangeset "parameters.TimeTo")}}
+          />
+        </div>
+
+        {{#each this.modelChangeset.error.parameters.TimeFrom.validation as |message|}}
+          <div class="invalid-feedback" tabindex="0" aria-label="{{message}}">{{message}}</div>
+        {{/each}}
+
+        {{#each this.modelChangeset.error.parameters.TimeTo.validation as |message|}}
+          <div class="invalid-feedback" tabindex="0" aria-label="{{message}}">{{message}}</div>
+        {{/each}}
+        {{#if this.errorMessage}}
+          <div class="invalid-feedback" tabindex="0" aria-label="{{this.errorMessage}}">{{this.errorMessage}}</div>
+        {{/if}}
+      </div>
+    </div>
+  </modal.body>
+
+  <modal.footer>
+    <BsButton @onClick={{modal.close}} {{on 'keyup' this.eaactrl.btnCancel}}>{{t 'PAGE_RINGING_SCHEDULE_EDIT_POPUP_CANCEL'}}</BsButton>
+    <BsButton @type="success" @onClick={{modal.submit}} {{on 'keyup' this.eaactrl.btnApply}}>{{t 'PAGE_RINGING_SCHEDULE_EDIT_POPUP_SAVE'}}</BsButton>
+  </modal.footer>
+</BsModal>
+
+
+<Ui::UpdateButton 
+  @onApply={{this.apply}} 
+  @onCancel={{this.cancel}} 
+  @disabled={{unless this.hasChanges "disabled"}}
+/>

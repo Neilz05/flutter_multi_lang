@@ -1,0 +1,33 @@
+<div class="row mb-4">
+      <div class="col-md-5 d-flex align-items-center">
+          <p class="fw-bold ms-3" tabindex="0" aria-label="{{@label}}">{{@label}}</p>
+      </div>
+      <div class="col-md-7">
+          <div class="form-check">
+              <input  
+                class="form-check-input radio-large" 
+                type="radio" name="inlineRadioOptions" 
+                id="{{this.componentId}}--Radio1" 
+                autocomplete="off"
+                value={{1}} 
+                checked={{eq @get_param 1}}
+                {{on "click" (fn @set_param 1)}}
+                tabindex="-1"
+                  >
+              <label class="form-check-label" for="{{this.componentId}}--Radio1" tabindex="0" aria-label="{{@rad1}}" {{on "keyup" this.eaactrl.radioTrigger}}>{{@rad1}}</label>
+          </div>
+
+          <div class="form-check">
+              <input  
+                 class="form-check-input radio-large"
+                 type="radio" name="inlineRadioOptions" 
+                 id="{{this.componentId}}--Radio2" 
+                 autocomplete="off"
+                 value={{0}} 
+                 checked={{eq @get_param 0}}
+                 {{on "click" (fn @set_param 0)}} 
+                 tabindex="-1">
+              <label class="form-check-label" for="{{this.componentId}}--Radio2" tabindex="0" aria-label="{{@rad2}}" {{on "keyup" this.eaactrl.radioTrigger}}>{{@rad2}}</label>
+          </div>
+      </div>
+</div>

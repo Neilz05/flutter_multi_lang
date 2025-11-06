@@ -1,0 +1,195 @@
+<h2 tabindex="0" aria-label="{{t 'PAGE_MAC_FILTER_TITLE'}}">{{t 'PAGE_MAC_FILTER_TITLE'}}</h2>
+<div class="mb-5 fs-5" tabindex="0" aria-label="{{t 'PAGE_MAC_FILTER_SUBTITLE'}}">
+    {{t 'PAGE_MAC_FILTER_SUBTITLE'}}
+</div>
+
+<ul class="nav nav-pills">
+    <li class="nav-item">
+        <a class="nav-link {{if (eq this.interface 'wl0') " active"}}" href="#" {{on 'click' (fn this.setInterface 'wl0'
+            )}}>5G</a>
+        {{!-- <input type="radio" class="btn-check" name="interface-select" id="wl0" {{on 'click' (fn
+            this.setInterface 'wl0' )}} checked>
+        <label class="btn btn-outline-primary" for="wl0">5G</label> --}}
+    </li>
+    <li class="nav-item">
+        <a class="nav-link {{if (eq this.interface 'wl1') " active"}}" href="#" {{on 'click' (fn this.setInterface 'wl1'
+            )}}>2G</a>
+        {{!-- <input type="radio" class="btn-check" name="interface-select" id="wl1" {{on 'click' (fn
+            this.setInterface 'wl1' )}}>
+        <label class="btn btn-outline-primary" for="wl1">2G</label> --}}
+    </li>
+</ul>
+
+
+<div class="card mb-3">
+    <div class="card-body ms-3">
+        <div class="row align-items-center">
+            <div class="col" tabindex="0" aria-label="{{t 'PAGE_MAC_FILTER_MAC_FILTERING'}}">
+                {{t 'PAGE_MAC_FILTER_MAC_FILTERING'}}
+            </div>
+            {{#let this.accesspoint as |ap|}}
+            <div class="col">
+                <label class="switch" for="{{this.componentId}}-filter-enable" tabindex="0"
+                    aria-label="{{t 'PAGE_MAC_FILTER_MAC_FILTERING'}}" role="button" {{on "keyup"
+                    this.eaactrl.onoffTrigger}}>
+                    <Input id="{{this.componentId}}-filter-enable" tabindex="-1" @type="checkbox"
+                        class="form-check-input" @checked={{eq ap.MACAddressControlEnabled 1}} {{on "change" (fn
+                        this.toggleMACAccessControl ap)}} />
+                    <span class="slider round"></span>
+                </label>
+            </div>
+            {{/let}}
+        </div>
+
+        <div class="row align-items-center">
+            <div class="col" tabindex="0" aria-label="{{t 'PAGE_MAC_FILTER_MAC_FILTERING_MODE'}}">
+                {{t 'PAGE_MAC_FILTER_MAC_FILTERING_MODE'}}
+            </div>
+            {{#let this.filter as |fl|}}
+            <div class="col">
+                <select class="form-select" {{on "change" (fn this.selectMACFilteringMode fl)}}>
+                    <option value="WhiteList" selected={{(eq fl.Mode 'WhiteList' )}}>{{t 'PAGE_MAC_FILTER_WHITELIST'}}
+                    </option>
+                    <option value="BlackList" selected={{(eq fl.Mode 'BlackList' )}}>{{t 'PAGE_MAC_FILTER_BLACKLIST'}}
+                    </option>
+                </select>
+            </div>
+            {{/let}}
+        </div>
+    </div>
+</div>
+
+
+<div class="card mb-3">
+    <div class="card-header sc">
+        <label class="fs-5 ms-3" tabindex="0" aria-label="{{t 'PAGE_MAC_FILTER_TABLE'}}">{{t
+            'PAGE_MAC_FILTER_TABLE'}}</label>
+    </div>
+    <div class="card-body">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col" tabindex="0" aria-label="{{t 'PAGE_MAC_FILTER_DEVICE_NAME'}}">{{t
+                        'PAGE_MAC_FILTER_DEVICE_NAME'}}</th>
+                    <th scope="col" tabindex="0" aria-label="{{t 'PAGE_MAC_FILTER_MAC_ADDRESS'}}">{{t
+                        'PAGE_MAC_FILTER_MAC_ADDRESS'}}</th>
+                    <th scope="col"></th>
+                </tr>
+            </thead>
+            <tbody>
+                {{#each this.entries as |entry entryidx|}}
+
+                {{log this.interface}}
+                <tr class="align-middle">
+                    {{#if (eq entry.dirtyType 'created')}}
+                    <td><Input class="form-control py-1" @value={{entry.Alias}} style="max-width: 200px;"></Input></td>
+                    {{else}}
+                    <td><span tabindex="0" aria-label="{{entry.Alias}}" style="max-width: 200px;">{{entry.Alias}}</span>
+                    </td>
+                    {{/if}}
+                    
+                    <td class="d-flex align-items-center">
+                        {{#each (range 0 6) as |index|}}
+                        <Input id="mac-input-{{this.interface}}-{{entryidx}}-{{index}}" type="text" maxlength="2"
+                            class="form-control text-center mx-1 p-1" style="width: 5ch;" @value={{get (split
+                            entry.MACAddress ":" ) index}} {{on "input" (fn this.MacInputChange entry entryidx index)}} />
+                        {{#if (lt index 5)}}
+                        <span class="mx-1 fw-bold">:</span>
+                        {{/if}}
+                        {{/each}}
+                    </td>
+                    <td>
+                        <button class="btn btn-danger btn-sm ms-auto py-2 px-3"
+                            aria-label="{{t 'PAGE_MAC_FILTER_DELETE'}}" {{on 'click' (fn this.DeleteMacFilterEntry
+                            entry)}} {{on 'keyup' this.eaactrl.btnClick}}><i class="bi bi-trash"></i></button>
+                    </td>
+                </tr>
+
+                {{/each}}
+            </tbody>
+        </table>
+        <div class="row align-items-center justify-content-end px-3">
+            <div class="col-auto">
+                <button type="button" class="btn btn-primary px-2 py-1" aria-label="{{t 'PAGE_MAC_FILTER_ADD'}}"
+                    {{on 'click' this.AddMacFilterEntry}} {{on 'keyup' this.eaactrl.btnClick}}><i
+                        class="bi bi-plus-square fs-5"></i></button>
+            </div>
+        </div>
+        <div class="row align-items-center justify-content-end px-3">
+            <div class="col-auto">
+                <span class="me-3" tabindex="0" aria-label="{{t 'PAGE_MAC_FILTER_ADD_ALL_KNOWN_DEVICES'}}">{{t
+                    "PAGE_MAC_FILTER_ADD_ALL_KNOWN_DEVICES"}}</span>
+                <button type="button" class="btn btn-primary px-2 py-1"
+                    aria-label="{{t 'PAGE_MAC_FILTER_ADD_ALL_KNOWN_DEVICES'}}" {{on 'click' this.AddKnownDevices}}
+                    {{on 'keyup' this.eaactrl.btnClick}}><i class="bi bi-plus-square fs-5"></i></button>
+            </div>
+        </div>
+    </div>
+</div>
+
+{{#if this.errorMessages.length}}
+{{#each this.errorMessages as |error|}}
+<div class="alert alert-danger" role="alert" tabindex="0" aria-label="{{error}}">
+    {{error}}
+</div>
+{{/each}}
+{{/if}}
+
+<div class="d-flex justify-content-end mb-4">
+    <button type="button" class="btn btn-primary" style="width: fit-content;" disabled={{not this.HasChanges}}
+         {{on 'click' (fn this.Apply)}} {{on 'keyup' this.eaactrl.btnApply}}>{{t 'PAGE_SETTINGS_APPLY'}}</button>
+    <button type="button" class="btn btn-secondary ms-2" style="width: fit-content;" disabled={{not this.HasChanges}}
+        {{!-- {{on 'keyup' this.eaactrl.btnCancel}} --}}>{{t 'PAGE_SETTINGS_CANCEL'}}</button>
+</div>
+
+
+
+<BsModal @open={{this.modalopen}} @size="lg" as |modal|>
+    <modal.header>
+        <h4 class="modal-title mx-3" tabindex="0" aria-label="{{t 'PAGE_MAC_FILTER_POPUP_SELECT_DEVICES'}}">
+            {{t 'PAGE_MAC_FILTER_POPUP_SELECT_DEVICES'}}
+        </h4>
+    </modal.header>
+    <modal.body>
+        <table class="table text-start table-hover">
+            <thead>
+                <tr>
+                    <th class="col"></th>
+                    <th class="col" tabindex="0" aria-label="{{t 'PAGE_MAC_FILTER_DEVICE_NAME'}}">{{t
+                        'PAGE_MAC_FILTER_DEVICE_NAME'}}</th>
+                    <th class="col" tabindex="0" aria-label="{{t 'PAGE_MAC_FILTER_MAC_ADDRESS'}}">{{t
+                        'PAGE_MAC_FILTER_MAC_ADDRESS'}}</th>
+                </tr>
+            </thead>
+            <tbody>
+                {{#each this.hosts as |host idx|}}
+                <tr {{!-- class="{{if host.selected " table-active"}}" --}} {{on 'click' (fn this.toggleSelectedHost
+                    host)}}>
+                    <td>
+                        <input class="form-check-input" type="checkbox" id="check-{{idx}}" checked={{if
+                            host.selected "table-active" }} tabindex="0" aria-label="{{host.data.HostName}}"
+                            {{on "keyup" this.eaactrl.checkboxTrigger}}>
+                    </td>
+                    <td tabindex="0" aria-label="{{host.data.HostName}}">
+                        {{host.data.HostName}}
+                    </td>
+                    <td tabindex="0" aria-label="{{host.data.PhysAddress}}">
+                        {{host.data.PhysAddress}}
+                    </td>
+                </tr>
+                {{/each}}
+            </tbody>
+        </table>
+    </modal.body>
+    <modal.footer>
+        <button type="button" class="btn btn-primary me-auto" {{on 'click' this.SelectAll}} {{on 'keyup'
+            this.eaactrl.btnClick}} tabindex="0" aria-label="{{t 'PAGE_MAC_FILTER_SELECT_ALL'}}">{{t
+            'PAGE_MAC_FILTER_SELECT_ALL'}}</button>
+        <button type="button" class="btn btn-primary" {{on 'click' this.AddSelectedKnownDevices}} {{on 'keyup'
+            this.eaactrl.btnClick}} tabindex="0" aria-label="{{t 'PAGE_MAC_FILTER_ADD'}}">{{t
+            'PAGE_MAC_FILTER_ADD'}}</button>
+        <button type="button" class="btn btn-secondary" {{on 'click' modal.close}} {{on 'keyup' this.eaactrl.btnClick}}
+            tabindex="0" aria-label="{{t 'PAGE_MAC_FILTER_CANCEL'}}">{{t 'PAGE_MAC_FILTER_CANCEL'}}</button>
+    </modal.footer>
+
+</BsModal>

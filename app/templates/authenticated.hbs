@@ -1,0 +1,210 @@
+{{page-title "Authenticated"}}
+<main class="main container">
+    {{#if (eq this.modelType "FG4278Av2_VD")}}
+      <div class="right-container">
+        {{#if this.isEndUser}}
+          <select class="form-select w-auto pe-5 me-3"  id="lang-select" aria-label="lang-select" {{on "change" (fn this.UpdateUiMode)}}>
+            <option value="Basic" selected={{(eq this.uiMode "Basic")}}>Basic</option>
+            <option value="Expert" selected={{(eq this.uiMode "Expert")}}>Expert</option>
+          </select>
+        {{/if}}
+        <button class="btn btn-primary btn-lg ms-3" {{on "click" this.invalidateSession}}>Logout</button>
+      </div>
+    {{/if}}
+  
+    <!-- -->
+    {{#if this.session.isAuthenticated}}
+    {{#if this.isMobile}}
+      <MobileTopNavigation
+        @menu={{this.menu}} 
+        @isMenuItemShow={{this.isMenuItemShow}} 
+        @activeTopMenu={{this.setActiveTopMenu}}
+        @activeSubMenu={{this.activeSubMenu}}
+      />
+    {{/if}}
+    {{#if (eq this.modelType "FG4278Av2_VD")}}
+      {{#if (not this.isMobile)}}
+        <TopNavigation
+          @menu={{this.menu}} 
+          @isMenuItemShow={{this.isMenuItemShow}} 
+          @activeTopMenu={{this.setActiveTopMenu}}
+          @activeSubMenu={{this.activeSubMenu}}
+          @activeTopMenuRoute={{this.activeTopMenuRoute}}
+        />
+      {{/if}}
+    {{/if}}
+    <!-- Global messages -->
+    <GlobalMessages @active="0" />
+    <!-- Global messages end -->
+    {{/if}}
+    <!-- -->
+    {{!--<div id="top-header" class="container-fluid fixed-top">
+        <header class="container navbar navbar-expand-lg bd-navbar sticky-top">
+            <nav class="container-xxl bd-gutter flex-wrap flex-lg-nowrap">
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                    aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="">
+                    prplOS
+                    {{#if this.softwareVersion}}
+                    r{{this.softwareVersion}}
+                    {{/if}}
+                </div>
+                {{#if this.session.isAuthenticated}}
+                {{/if}}
+            </nav>
+        </header>
+    </div>--}}
+    <div id="main" class={{unless this.session.isAuthenticated "d-block" }}>
+    {{#if this.session.isAuthenticated}}
+      {{#if (eq this.modelType "FG4278Av2_VD")}}
+          {{#if (not-eq this.activeTopMenu "overview")}}
+                  <div id="menu-left" class="sidebar navbar navbar-vertical navbar-expand-xl">
+                      <div class="container collapse navbar-collapse">
+                          <div class="navbar-vertical-content scrollbar">
+                              <ul class="navbar-nav flex-column mb-3">
+
+                            {{#each this.menu as |menuobj index|}}
+                              {{#if (this.isMenuItemShow menuobj)}}
+                                {{#if (eq this.activeTopMenu menuobj.id)}}
+                                  {{#if (gt menuobj.submenu.length 0)}}
+                                    <div class="main-submenu">
+                                      <ul>
+                                        {{#each menuobj.submenu as |submenuobj subindex|}}
+                                          {{#if (this.isMenuItemShow submenuobj)}}
+                                            <LinkTo @route={{submenuobj.route}}>
+                                              <li class="non-header {{if (eq this.activeSubMenu submenuobj.id) 'submenu-active'}}" {{on 'click' (fn this.setActiveSubmenu submenuobj)}}>{{t submenuobj.str}}</li>
+                                            </LinkTo>
+                                            {{#if (eq this.activeSubMenu submenuobj.id)}}
+                                              {{#if (gt submenuobj.submenu.length 0)}}
+                                                <div class="subsubmenu">
+                                                  <ul>    
+                                                    {{#each submenuobj.submenu as |subsubobj subsubindex|}}
+                                                      {{#if (this.isMenuItemShow subsubobj)}}
+                                                        <LinkTo @route={{subsubobj.route}}>
+                                                          <li class="non-header {{if (eq this.activeSubsubMenu subsubobj.id) 'submenu-active'}}" {{on 'click' (fn this.setActiveSubsubMenu subsubobj)}}>{{t subsubobj.str}}</li>
+                                                        </LinkTo>
+                                                      {{/if}}
+                                                    {{/each}}
+                                                  </ul>
+                                                </div>									  
+                                              {{/if}}
+                                            {{/if}}							  
+                                          {{/if}}
+                                        {{/each}}
+                                      </ul>
+                                    </div> 
+                                  {{/if}}
+                                {{/if}}
+                              {{/if}}
+                            {{/each}}                   
+
+                            </ul>
+                          </div>
+                      </div>
+                  </div>
+          {{/if}}
+      {{else}}
+        <div id="menu-left" class="sidebar navbar navbar-vertical navbar-expand-xl">
+            <div class="container collapse navbar-collapse">
+                <div class="navbar-vertical-content scrollbar">
+                    <ul class="navbar-nav flex-column mb-3">
+                        <div class="navbar-brand">
+                            <div class="logo" tabindex="0" aria-label="logo"><span class="label">prpl</span></div>
+                        </div>
+                        <li>
+                            <div class="separator" style="margin-bottom: 2px;">Menu <span class="line"
+                                    style="margin-right: 6px;">
+                                    <hr />
+                                </span></div>
+                        </li>
+                      {{#each this.menu as |menuobj index|}}
+                        {{#if (this.isMenuItemShow menuobj)}}
+                          <li class="nav-item non-header {{if (eq this.activeTopMenu menuobj.id) "menu-active" }}">
+                            <LinkTo @route={{menuobj.route}} {{on 'click' (fn this.setActiveTopMenu menuobj )}}
+                                class="overview {{menuobj.icon}}">{{t menuobj.str}}</LinkTo>
+                          </li>  
+                          {{#if (eq this.activeTopMenu menuobj.id)}}
+                            {{#if (gt menuobj.submenu.length 0)}}
+                              <div class="main-submenu">
+                                <ul>
+                                  {{#each menuobj.submenu as |submenuobj subindex|}}
+                                    {{#if (this.isMenuItemShow submenuobj)}}
+                                      <LinkTo @route={{submenuobj.route}}>
+                                        <li class="non-header {{if (eq this.activeSubMenu submenuobj.id) 'submenu-active'}}" {{on 'click' (fn this.setActiveSubmenu submenuobj)}}>{{t submenuobj.str}}</li>
+                                      </LinkTo>
+                                      {{#if (eq this.activeSubMenu submenuobj.id)}}
+                                        {{#if (gt submenuobj.submenu.length 0)}}
+                                          <div class="subsubmenu">
+                                            <ul>    
+                                              {{#each submenuobj.submenu as |subsubobj subsubindex|}}
+                                                {{#if (this.isMenuItemShow subsubobj)}}
+                                                  <LinkTo @route={{subsubobj.route}}>
+                                                    <li class="non-header {{if (eq this.activeSubsubMenu subsubobj.id) 'submenu-active'}}" {{on 'click' (fn this.setActiveSubsubMenu subsubobj)}}>{{t subsubobj.str}}</li>
+                                                  </LinkTo>
+                                                {{/if}}
+                                              {{/each}}
+                                            </ul>
+                                          </div>									  
+                                        {{/if}}
+                                      {{/if}}							  
+                                    {{/if}}
+                                  {{/each}}
+                                </ul>
+                              </div> 
+                            {{/if}}
+                          {{/if}}
+                        {{/if}}
+                      {{/each}}                   
+                    </ul>
+                </div>
+            </div>
+        </div>
+      {{/if}}
+        <div id="top-header" class="d-flex align-items-center mb-3">
+            <span class="me-auto fs-2 fw-bold" tabindex="0" aria-label="{{t this.pageHeader}}">{{t this.pageHeader}}</span>
+            {{!-- <select class="form-select w-auto pe-5 me-3" id="lang-select" aria-label="lang-select" {{on "change" (fn this.UpdateLanguage)}}>
+                <option value="en-us" selected={{(eq this.lang_locale 'en-us' )}}>English</option>
+                <option value="it-it" selected={{(eq this.lang_locale 'it-it' )}}>Italian</option>
+            </select> --}}
+            {{!-- {{this.activeTopMenu}} --}}
+            {{#if (not-eq this.modelType "FG4278Av2_VD")}}
+              {{#if (not-eq this.modelType "FG4278Bv3")}}
+              <button class="btn btn-link px-2" {{on "click" (fn this.UpdateLanguage 'en-us' )}}>English</button> 
+              <button class="btn btn-link px-2" {{on "click" (fn this.UpdateLanguage 'it-it' )}}>Italian</button>
+                  {{#if this.isEndUser}}
+                    <select class="form-select w-auto pe-5 me-3" id="lang-select" aria-label="lang-select" {{on "change" (fn this.UpdateUiMode)}}>
+                      <option value="Basic" selected={{(eq this.uiMode "Basic")}}>Basic</option>
+                      <option value="Expert" selected={{(eq this.uiMode "Expert")}}>Expert</option>
+                    </select>
+                  {{/if}}
+              {{/if}}
+              <button class="btn btn-primary btn-lg ms-3" {{on "click" this.invalidateSession}}>Logout</button>
+            {{/if}}
+            {{!-- <h2 style="flex: 12; font-weight: bold; padding-left: 10px;">{{t this.pageHeader}}</h2>
+            <button type="button" class="btn btn-primary" style="float: right; flex: 1; width: 80px; height: 40px"
+                {{on "click" this.invalidateSession}}>Logout</button> --}}
+        </div>
+        <div class="content d-flex flex-column">
+            {{outlet}}
+            {{#if (or (eq this.modelType 'Neutral') (eq this.modelType 'FG4278Bv3'))}}
+            <div class="row justify-content-end mt-auto">
+                <!--background-image: url('/assets/images/prpl-pwd-logo.png'); -->
+                <img alt="prpl logo" src="/assets/images/prpl-pwd-logo.png" class="prpl-pwd-logo" tabindex="0" aria-label="prpl logo">
+                {{!-- <div class="prpl-pwd-logo"><span class="label"></span></div> --}}
+            </div>
+            {{/if}}
+        </div>
+        {{#if (eq this.modelType "FG4278Av2_VD")}}
+          <div class="row">
+            <div class="col">
+              <button class="btn btn-link px-2" {{on "click" (fn this.UpdateLanguage 'it-it' )}}>Italian</button>
+              <button class="btn btn-link px-2" {{on "click" (fn this.UpdateLanguage 'en-us' )}}>English</button>
+            </div>
+          </div>
+        {{/if}}
+    {{/if}}
+    </div>
+</main>

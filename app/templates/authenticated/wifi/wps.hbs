@@ -1,0 +1,17 @@
+{{page-title "WPS"}}
+<Ui::CardSection 
+    @header={{t 'PAGE_WPS_TITLE'}} 
+    @subtitle={{t 'PAGE_WPS_SUBTITLE'}}>
+</Ui::CardSection>
+
+<Wifi::Wps @accesspoint={{@model.AccessPoint}}/>
+
+{{!-- <UpdateButton
+    @onClick={{this.updateWiFiWps}}
+    @disabled={{unless this.hasChanges 'disabled'}}>
+</UpdateButton> --}}
+
+<div class="d-flex justify-content-end">
+  <button type="button" class="btn btn-primary" tabindex="0" aria-label="{{t 'PAGE_SETTINGS_APPLY'}}" style="width: fit-content;" {{on "click" this.updateWiFiWps}} disabled={{unless this.hasChanges "disabled"}}>{{t 'PAGE_SETTINGS_APPLY'}}</button>
+  <button type="button" class="btn btn-secondary ms-2" tabindex="0" aria-label="{{t 'PAGE_SETTINGS_CANCEL'}}" style="width: fit-content;" onClick={{this.cancelWps}}>{{t 'PAGE_SETTINGS_CANCEL'}}</button>
+</div>

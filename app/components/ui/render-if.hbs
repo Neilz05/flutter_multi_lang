@@ -1,0 +1,7 @@
+{{#if (is-empty @data)}}
+<div class="alert alert-warning"><i>No Data Found</i></div>
+{{else}}
+  {{#unless @onHide}}
+    {{yield}}
+{{/unless}}
+{{/if}}

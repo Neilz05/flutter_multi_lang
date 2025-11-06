@@ -1,0 +1,17 @@
+<div class="card mb-3">
+  {{#if @title}}
+    <div class="card-header sc" tabindex="0" aria-label="{{@title}}">
+      {{@title}}
+    </div>
+  {{else if @header}}
+    <div class="card-header">
+        <span tabindex="0" aria-label="{{@header}}" class="fs-5">{{@header}}</span>
+    </div>
+  {{/if}}
+  <div class="card-body">
+    {{#if @subtitle}}
+      <p tabindex="0" aria-label="{{@subtitle}}">{{@subtitle}}</p>
+    {{/if}}
+    {{yield}} <!-- Allows dynamic rows inside -->
+  </div>
+</div>

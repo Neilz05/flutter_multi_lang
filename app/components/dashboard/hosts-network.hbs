@@ -1,0 +1,47 @@
+{{#if (eq @host.HostName "")}}
+  <span tabindex="0" aria-label="{{@host.PhysAddress}} {{@host.IPAddress}}">{{@host.PhysAddress}} ({{@host.IPAddress}})</span>
+  <span id="dropdown-arrow" class="float-end" role="button" {{on "click" this.showInfo}} tabindex="0" aria-label="Dropdown Button">
+    {{#if this.isRotated}}
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+          <path d="M6 9l6-6 6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      {{else}}
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+          <path d="M6 15l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      {{/if}}
+  </span>
+  <div id="show_info" class="row pt-2" hidden={{this.isHidden}}>
+    <span tabindex="0" aria-label="{{t 'PAGE_OVERVIEW_INFO_NAME'}}: N/A">{{t 'PAGE_OVERVIEW_INFO_NAME'}}: {{@host.PhysAddress}}</span><br>
+    <span tabindex="0" aria-label="{{t 'PAGE_OVERVIEW_INFO_MAC_ADDRESS'}}: {{@host.PhysAddress}}">{{t 'PAGE_OVERVIEW_INFO_MAC_ADDRESS'}}: {{@host.PhysAddress}}</span><br>
+    <span tabindex="0" aria-label="{{t 'PAGE_OVERVIEW_INFO_INTERFACE_TYPE'}}: {{@host.InterfaceType}}">{{t 'PAGE_OVERVIEW_INFO_INTERFACE_TYPE'}}: {{@host.InterfaceType}}</span><br>
+    {{#if (eq @host.Active 1)}}
+      <span tabindex="0" aria-label="{{t 'PAGE_OVERVIEW_INFO_STATUS'}}: {{t 'PAGE_OVERVIEW_INFO_STATUS_ACTIVE'}}">{{t 'PAGE_OVERVIEW_INFO_STATUS'}}: {{t 'PAGE_OVERVIEW_INFO_STATUS_ACTIVE'}}</span>
+    {{else}}
+      <span tabindex="0" aria-label="{{t 'PAGE_OVERVIEW_INFO_STATUS'}}: {{t 'PAGE_OVERVIEW_INFO_STATUS_INACTIVE'}}">{{t 'PAGE_OVERVIEW_INFO_STATUS'}}: {{t 'PAGE_OVERVIEW_INFO_STATUS_INACTIVE'}}</span>
+    {{/if}}
+  </div>
+{{else}}
+  <span tabindex="0" aria-label="{{@host.HostName}} {{@host.IPAddress}}">{{@host.HostName}} ({{@host.IPAddress}})</span>
+  <span id="dropdown-arrow" class="float-end" role="button" {{on "click" this.showInfo}} tabindex="0" aria-label="Dropdown Button">
+    {{#if this.isRotated}}
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+          <path d="M6 15l6-6 6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      {{else}}
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+          <path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      {{/if}}
+  </span>
+  <div id="show_info" class="row pt-2" hidden={{this.isHidden}}>
+    <span tabindex="0" aria-label="{{t 'PAGE_OVERVIEW_INFO_NAME'}}: {{@host.HostName}}">{{t 'PAGE_OVERVIEW_INFO_NAME'}}: {{@host.HostName}}</span><br>
+    <span tabindex="0" aria-label="{{t 'PAGE_OVERVIEW_INFO_MAC_ADDRESS'}}: {{@host.PhysAddress}}">{{t 'PAGE_OVERVIEW_INFO_MAC_ADDRESS'}}: {{@host.PhysAddress}}</span><br>
+    <span tabindex="0" aria-label="{{t 'PAGE_OVERVIEW_INFO_INTERFACE_TYPE'}}: {{@host.InterfaceType}}">{{t 'PAGE_OVERVIEW_INFO_INTERFACE_TYPE'}}: {{@host.InterfaceType}}</span><br>
+    {{#if (eq @host.Active 1)}}
+      <span tabindex="0" aria-label="{{t 'PAGE_OVERVIEW_INFO_STATUS'}}: {{t 'PAGE_OVERVIEW_INFO_STATUS_ACTIVE'}}">{{t 'PAGE_OVERVIEW_INFO_STATUS'}}: {{t 'PAGE_OVERVIEW_INFO_STATUS_ACTIVE'}}</span>
+    {{else}}
+      <span tabindex="0" aria-label="{{t 'PAGE_OVERVIEW_INFO_STATUS'}}: {{t 'PAGE_OVERVIEW_INFO_STATUS_INACTIVE'}}">{{t 'PAGE_OVERVIEW_INFO_STATUS'}}: {{t 'PAGE_OVERVIEW_INFO_STATUS_INACTIVE'}}</span>
+    {{/if}}
+  </div>
+{{/if}}

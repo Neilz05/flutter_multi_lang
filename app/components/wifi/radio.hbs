@@ -1,0 +1,41 @@
+<div class="row ps-3 mt-3 align-items-center">
+  <div class="col-6">
+    <label>{{t 'PAGE_GENERAL_WIFI_CHANNEL_CURRENT_CHANNEL'}} {{@freq}}</label>
+  </div>
+  <div class="col">
+    {{!-- <Helper::Select class="form-select" @options={{this.channels}} @optValue="key" @optLabel="label" @onChange={{this.setChannel}} @disabled={{this.autoChannelEnabled}} @value={{@radio.Channel}}/> --}}
+    <select class="form-select w-75" {{on "change" this.setChannel}} disabled={{@radio.AutoChannelEnable}}>
+      {{#each this.channels as |channel|}}
+        <option value={{channel}} selected={{(eq @radio.Channel channel)}}>{{channel}}</option>
+      {{/each}}
+    </select>
+
+  </div>
+  <div class="col">
+    <label class="col-form-label">{{t 'PAGE_GENERAL_PAGE_GENERAL_SELECT_AUTO'}} </label>
+    <label class="switch ms-3">
+      <Input @type="checkbox" @checked={{eq @radio.AutoChannelEnable 1}} class="form-check-input" {{on 'input' (fn this.Toggle @radio 'AutoChannelEnable')}}/>
+      <span class="slider round"></span>
+    </label>
+  </div>
+</div>
+
+<div class="row ps-3 mt-3">
+  <div class="col">
+    <label>{{t 'PAGE_GENERAL_WIFI_MAX_DATA_RATE'}} {{@freq}}</label>
+  </div>
+  <div class="col">
+    <label>{{@radio.MaxBitRate}} Mbit/s</label>
+  </div>
+</div>
+
+<div class="row ps-3 mt-3">
+  <div class="col">
+    <label>{{t 'PAGE_GENERAL_WIFI_BASE_MAC_ADDRESS'}} {{@freq}}</label>
+  </div>
+  <div class="col">
+    <label>{{@radio.BaseMACAddress}}</label>
+  </div>
+</div>
+
+

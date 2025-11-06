@@ -1,0 +1,30 @@
+<div class="table-responsive">
+  <table class="table table-bordered">
+    <thead>
+      <tr>
+        <th colspan="3" tabindex="0" aria-label={{t 'PAGE_GPON_STATUS_UPSTREAM'}}>{{t 'PAGE_GPON_STATUS_UPSTREAM'}}</th>
+        <th colspan="4" tabindex="0" aria-label={{t 'PAGE_GPON_STATUS_DOWNSTREAM'}}>{{t 'PAGE_GPON_STATUS_DOWNSTREAM'}}</th>
+      </tr>
+      <tr>
+        <th scope="col" tabindex="0" aria-label={{t 'PAGE_GPON_STATUS_FRAMES'}}>{{t 'PAGE_GPON_STATUS_FRAMES'}}</th>
+        <th scope="col" tabindex="0" aria-label={{t 'PAGE_GPON_STATUS_OMCI_FRAMES'}}>{{t 'PAGE_GPON_STATUS_OMCI_FRAMES'}}</th>
+        <th scope="col" tabindex="0" aria-label={{t 'PAGE_GPON_STATUS_DROPS'}}>{{t 'PAGE_GPON_STATUS_DROPS'}}</th>
+        <th scope="col" tabindex="0" aria-label={{t 'PAGE_GPON_STATUS_FRAMES'}}>{{t 'PAGE_GPON_STATUS_FRAMES'}}</th>
+        <th scope="col" tabindex="0" aria-label={{t 'PAGE_GPON_STATUS_OMCI_FRAMES'}}>{{t 'PAGE_GPON_STATUS_OMCI_FRAMES'}}</th>
+        <th scope="col" tabindex="0" aria-label={{t 'PAGE_GPON_STATUS_CRC_ERRORS'}}>{{t 'PAGE_GPON_STATUS_CRC_ERRORS'}}</th>
+        <th scope="col" tabindex="0" aria-label={{t 'PAGE_GPON_STATUS_DROPS'}}>{{t 'PAGE_GPON_STATUS_DROPS'}}</th>
+      </tr>
+    </thead>
+    <tbody class="border border-top">
+      <tr>
+        <td tabindex="0" aria-label={{@ani.Stats.PacketsSent}}>{{@ani.Stats.PacketsSent}}</td>
+        <td tabindex="0" aria-label={{@ani.TC.PM.OMCI.TxFrames}}>{{@ani.TC.PM.OMCI.TxFrames}}</td>
+        <td tabindex="0" aria-label={{@ani.Stats.DiscardPacketsSent}}>{{@ani.Stats.DiscardPacketsSent}}</td>
+        <td tabindex="0" aria-label={{@ani.Stats.PacketsReceived}}>{{@ani.Stats.PacketsReceived}}</td>
+        <td tabindex="0" aria-label={{@ani.TC.PM.OMCI.RxFrames}}>{{@ani.TC.PM.OMCI.RxFrames}}</td>
+        <td tabindex="0" aria-label={{@ani.Stats.ErrorsReceived}}>{{@ani.Stats.ErrorsReceived}}</td>
+        <td tabindex="0" aria-label={{@ani.Stats.DiscardPacketsReceived}}>{{@ani.Stats.DiscardPacketsReceived}}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>

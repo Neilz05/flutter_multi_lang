@@ -1,0 +1,171 @@
+<h2>{{t 'PAGE_GENERAL_TITLE'}}</h2>
+
+<div class="mb-5 px-5 fs-5">
+  {{#if this.enable6g}}
+    {{t 'PAGE_GENERAL_SUBTITLE_6_GHZ'}}
+  {{else}}
+    {{t 'PAGE_GENERAL_SUBTITLE'}}
+  {{/if}}
+</div>
+
+
+
+<div class="card mb-3">
+  <div class="card-body">
+    <div class="row py-1 ps-3">
+      <div class="col">
+        <label>{{t 'PAGE_BAND_STEERING_TITLE'}}</label>
+      </div>
+      <div class="col">
+        <label class="switch">
+          <Input @type="checkbox" class="form-check-input" @checked={{(eq this.BandSteering.BandSteeringEnable 1)}} class="form-check-input" {{on 'input'
+            (fn this.Toggle this.BandSteering 'BandSteeringEnable' )}} disabled={{this.SSIDSplitOn}}/>
+          <span class="slider round"></span>
+        </label>
+      </div>
+    </div>
+    <div class="row py-1 ps-3">
+      <div class="col">
+        <label>{{t 'PAGE_GENERAL_SSID_ISOLATION'}}</label>
+      </div>
+      <div class="col">
+        <label class="switch">
+          <Input @type="checkbox" @checked={{(eq @model.X_SC_SSIDIsolation 1)}} class="form-check-input" {{on 'input'
+            (fn this.Toggle @model 'X_SC_SSIDIsolation' )}} />
+          <span class="slider round"></span>
+        </label>
+      </div>
+    </div>
+
+    {{#each this.wifiRadioArray as |radio|}}
+    {{#if (or (eq radio.OperatingFrequencyBand "2.4GHz") (eq radio.OperatingFrequencyBand "5GHz") (eq radio.OperatingFrequencyBand "6GHz"))}}
+    <div class="row py-1 ps-3">
+      <div class="col">
+        <label>Radio {{radio.OperatingFrequencyBand}}</label>
+      </div>
+      <div class="col">
+        <label class="switch">
+          <Input @type="checkbox" @checked={{(eq radio.Enable 1)}} class="form-check-input" {{on 'input' (fn this.Toggle
+            radio 'Enable' )}} />
+          <span class="slider round"></span>
+        </label>
+      </div>
+    </div>
+    {{/if}}
+    {{/each}}
+
+    <div class="row py-1 ps-3">
+      <div class="col">
+        <label>{{t 'PAGE_GENERAL_SPLIT_SSID'}}</label>
+      </div>
+      <div class="col">
+        <label class="switch">
+          <Input @type="checkbox" @checked={{(eq @model.X_SC_SSIDSplit 1)}} class="form-check-input" {{on 'input' (fn
+            this.Toggle @model 'X_SC_SSIDSplit' )}} />
+          <span class="slider round"></span>
+        </label>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+{{#if (eq @model.X_SC_SSIDSplit 1)}}
+
+{{#each this.splitwifiArray as |wifi|}}
+<div class="card mb-3">
+  <div class="card-header sc p-3">
+    <div class="row">
+      <div class="col">
+        <label class="fs-5 fw-bold ms-3">
+          {{wifi.header}}
+        </label>
+      </div>
+      <div class="col ms-3">
+        <label class="switch">
+          <Input @type="checkbox" @checked={{(eq wifi.ssid.Enable 1)}} class="form-check-input" {{on 'input' (fn
+            this.Toggle wifi.ssid 'Enable' )}} />
+          <span class="slider round"></span>
+        </label>
+      </div>
+    </div>
+  </div>
+  {{#if (eq wifi.ssid.Enable 1)}}
+  <div class="card-body">
+    <Wifi::Ssid @ssid={{wifi.ssidChangeSet}} @alias={{wifi.ssid.Alias}}/>
+    {{#if wifi.radio}}
+    <Wifi::Radio @radio={{wifi.radio}} />
+    {{/if}}
+    {{#if wifi.accesspoint}}
+    <Wifi::Accesspoint @accesspoint={{wifi.accesspoint}} />
+    {{/if}}
+    <Wifi::Accesspoint::Security @security={{wifi.securityChangeSet}}/>
+  </div>
+  {{/if}}
+</div>
+{{/each}}
+
+{{else}}
+
+{{#each this.wifiArray as |wifi|}}
+<div class="card mb-3">
+  <div class="card-header sc p-3">
+    <div class="row">
+      <div class="col">
+        <label class="fs-5 fw-bold ms-3">
+          {{wifi.header}}
+        </label>
+      </div>
+      <div class="col ms-3">
+        <label class="switch">
+          <Input @type="checkbox" @checked={{(eq wifi.ssid.Enable 1)}} class="form-check-input" {{on 'input' (fn
+            this.Toggle wifi.ssid 'Enable' )}} />
+          <span class="slider round"></span>
+        </label>
+      </div>
+    </div>
+  </div>
+  {{#if (eq wifi.ssid.Enable 1)}}
+  <div class="card-body">
+    <Wifi::Ssid @ssid={{wifi.ssidChangeSet}} @alias={{wifi.ssid.Alias}}/>
+    {{#if wifi.radio}}
+    <Wifi::Radio @radio={{wifi.radio}} @freq="2.4GHz"/>
+    <Wifi::Accesspoint @accesspoint={{wifi.accesspoint}} @freq="2.4GHz"/>
+    <Wifi::Radio @radio={{this.radio5gMain}} @freq="5GHz"/>
+    <Wifi::Accesspoint @accesspoint={{this.accesspoint5gMain}} @freq="5GHz"/>
+    {{#if this.enable6g}}
+    <Wifi::Radio @radio={{this.radio6gMain}} @freq="6GHz"/>
+    <Wifi::Accesspoint @accesspoint={{this.accesspoint6gMain}} @freq="6GHz"/>
+    {{/if}}
+    {{else}}
+    <Wifi::Accesspoint @accesspoint={{wifi.accesspoint}} @freq="2.4GHz"/>
+    <Wifi::Accesspoint @accesspoint={{this.accesspoint5gGuest}} @freq="5GHz"/>
+    {{#if this.enable6g}}
+    <Wifi::Accesspoint @accesspoint={{this.accesspoint6gGuest}} @freq="6GHz"/>
+    {{/if}}
+    {{/if}}
+    
+    <Wifi::Accesspoint::Security @security={{wifi.securityChangeSet}}/>
+  </div>
+  {{/if}}
+
+</div>
+{{/each}}
+
+{{/if}}
+
+
+
+
+
+
+<div class="d-flex justify-content-end mb-4">
+  <button type="button" class="btn btn-primary" style="width: fit-content;" disabled={{not this.HasChanges}}
+    {{on 'click' (fn this.Apply)}}>
+    {{t 'PAGE_SETTINGS_APPLY'}}
+  </button>
+  <button type="button" class="btn btn-secondary ms-2" style="width: fit-content;" disabled={{not this.HasChanges}}
+    {{on 'click' (fn this.Cancel)}}>
+    {{t 'PAGE_SETTINGS_CANCEL'}}
+  </button>
+</div>

@@ -1,0 +1,17 @@
+{{!-- <select ...attributes disabled="{{this.disabled}}" {{on "change" this.update}} >
+{{#each this.selOptions as |opt|}}
+  <option value="{{opt.key}}" selected={{is-equal opt.key this.args.value}}><pre>{{opt.label}}</pre></option>
+{{/each}}
+</select> --}}
+
+<select ...attributes disabled={{this.disabled}} {{on "change" this.update}}>
+  {{#unless this.hasValidSelection}}
+    <option value="" disabled selected>{{t 'PAGE_HELPER_SELECT_OPTION'}}</option>
+  {{/unless}}
+
+  {{#each this.selOptions as |opt|}}
+    <option value={{opt.key}} selected={{eq opt.key this.args.value}}>
+      {{opt.label}}
+    </option>
+  {{/each}}
+</select>

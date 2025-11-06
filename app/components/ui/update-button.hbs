@@ -1,0 +1,4 @@
+<div class="d-flex justify-content-end">
+  <button type="button" class="btn btn-primary" style="width: fit-content;" {{on "click" @onApply }} disabled={{if @disabled "disabled"}} {{on 'keyup' this.eaactrl.btnApply}}>{{t 'PAGE_SETTINGS_APPLY'}}</button>
+  <button type="button" class="btn btn-secondary ms-2" style="width: fit-content;" {{on "click" @onCancel}} disabled={{if @disabled "disabled"}} {{on 'keyup' this.eaactrl.btnCancel}}>{{t 'PAGE_SETTINGS_CANCEL'}}</button>
+</div>

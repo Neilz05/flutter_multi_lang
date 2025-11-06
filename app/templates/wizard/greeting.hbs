@@ -1,0 +1,32 @@
+<div class="container py-5">
+    <div class="text-center mb-4">
+        <h2 class="fw-bold" tabindex="0" aria-label="{{t 'WIZARD_GREETING_TITLE'}}">
+            {{t 'WIZARD_GREETING_TITLE'}}
+        </h2>
+        <p class="lead" tabindex="0" aria-label="{{t 'WIZARD_GREETING_SUBTITLE'}}">
+            {{{t 'WIZARD_GREETING_SUBTITLE'}}}
+        </p>
+    </div>
+
+    <div class="row justify-content-center">
+        <div class="col-md-10 text-center">
+            <p class="mb-4 fw-semibold" tabindex="0" aria-label="{{t 'WIZARD_GREETING_OPERATION_MODE'}}">{{t 'WIZARD_GREETING_OPERATION_MODE'}}</p>
+
+            <div class="d-flex justify-content-center gap-3 flex-wrap">
+                <LinkTo @route="wizard.pppoe" class="btn btn-primary btn-lg shadow-sm" {{on 'click' (fn this.setOperationMode 'stand-alone')}}>
+                {{t 'WIZARD_GREETING_STAND_ALONE_ROUTER'}}
+                </LinkTo>
+                <LinkTo @route="wizard.pppoe" class="btn btn-success btn-lg shadow-sm" {{on 'click' (fn this.setOperationMode 'pnp-router')}}>
+                {{t 'WIZARD_GREETING_PNP_ROUTER'}}
+                </LinkTo>
+                <LinkTo @route="wizard.networkvlan" class="btn btn-warning btn-lg shadow-sm"  {{on 'click' (fn this.setOperationMode 'triple-play')}}>
+                {{t 'WIZARD_GREETING_TRIPLE_PLAY_GATEWAY'}}
+                </LinkTo>
+            </div>
+
+            <div class="d-flex justify-content-center gap-3 flex-wrap mt-3">
+                <LinkTo @route="wizard.wanMode" class="btn btn-outline-secondary me-3" id="back">Back</LinkTo>
+            </div>
+        </div>
+    </div>
+</div>

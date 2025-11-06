@@ -1,0 +1,54 @@
+<div class="table-responsive">
+  <table class="table table-bordered">
+    <thead>
+      <tr>
+        <th scope="col" tabindex="0" aria-label={{t 'PAGE_LAN_STATUS_MAC_ADDRESS'}}>{{t 'PAGE_LAN_STATUS_MAC_ADDRESS'}}</th>
+        <th scope="col" tabindex="0" aria-label={{t 'PAGE_IPV4_STATIC_DHCP_IP_ADDRESS'}}>{{t 'PAGE_IPV4_STATIC_DHCP_IP_ADDRESS'}}</th>
+        <th scope="col" tabindex="0" aria-label={{t 'PAGE_LAN_STATUS_TYPE'}}>{{t 'PAGE_LAN_STATUS_TYPE'}}</th>
+        <th scope="col" tabindex="0" aria-label={{t 'PAGE_LAN_STATUS_STATUS'}}>{{t 'PAGE_LAN_STATUS_STATUS'}}</th>
+        <th scope="col" tabindex="0" aria-label={{t 'PAGE_LAN_STATUS_EXPIRES_IN'}}>{{t 'PAGE_LAN_STATUS_EXPIRES_IN'}}</th>
+      </tr>
+    </thead>
+    <tbody class="border border-top">
+      {{#each @pool as |p|}}
+        {{did-insert (fn this.findDHCPHosts p.Client)}}
+      {{/each}}
+      {{#each @hostshost as |host|}}
+        <tr>
+          <td tabindex="0" aria-label={{host.PhysAddress}}>{{host.PhysAddress}}</td>
+          <td tabindex="0" aria-label={{host.IPAddress}}>
+            {{host.IPAddress}}
+          </td>
+          <td tabindex="0" aria-label={{this.isHostDHCP host.PhysAddress}}>{{this.isHostDHCP host.PhysAddress}}</td>
+          <td tabindex="0" aria-label={{if (eq host.Active 1) (t 'PAGE_LAN_STATUS_ACTIVE') (t 'PAGE_LAN_STATUS_INACTIVE')}}>
+            {{#if (eq host.Active 1)}}
+              {{t 'PAGE_LAN_STATUS_ACTIVE'}}
+            {{else}}
+              {{t 'PAGE_LAN_STATUS_INACTIVE'}}
+            {{/if}}
+          </td>
+          <td tabindex="0" aria-label="Expires In">
+            {{#if (eq (this.isHostDHCP host.PhysAddress) "Static")}}
+              {{#if (eq host.Active 1)}}
+                {{t 'PAGE_LAN_STATUS_EXPIRES_FOREVER'}}
+              {{else}}
+                00:00:00
+              {{/if}}
+            {{else}}
+              {{#each @pool as |p|}}
+                {{did-insert (fn this.findDHCPHosts p.Client)}}
+                {{#each p.Client as |client|}}
+                  {{#each client.IPv4Address as |ip ind|}}
+                    {{#if (and (eq ind 0) (is-str-equal-no-case client.Chaddr host.PhysAddress))}}
+                      {{this.getTimeDifference ip.LeaseTimeRemaining @localTime}}
+                    {{/if}}
+                  {{/each}}
+                {{/each}}
+              {{/each}}
+            {{/if}}
+          </td>
+        </tr>
+      {{/each}}
+    </tbody>
+  </table>
+</div>

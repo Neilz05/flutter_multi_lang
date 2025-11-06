@@ -1,0 +1,26 @@
+
+  <div class="row align-items-center ps-3">
+    <label>{{t 'PAGE_GENERAL_WIFI_NAME'}}</label>
+  </div>
+  <div class="row align-items-center ps-3">
+    <Input class="form-control w-75 mb-0" type="text" @value={{changeset-get @ssid "SSID" }} {{on "input" (fn
+      this.updateChangesetField @ssid "SSID" )}} />
+    {{!-- {{#if @ssid.error.SSID}}
+    <small class="text-danger">
+      {{#if (is-array @ssid.error.SSID.validation)}}
+      {{#each @ssid.error.SSID.validation as |msg|}}
+      {{msg}}<br />
+      {{/each}}
+      {{else}}
+      {{@ssid.error.SSID.validation}}
+      {{/if}}
+    </small>
+    {{/if}} --}}
+
+    {{#if @ssid.error.SSID}}
+
+    {{#each @ssid.error.SSID.validation as |message|}}
+    <div class="invalid-feedback">{{message}}</div>
+    {{/each}}
+    {{/if}}
+  </div>

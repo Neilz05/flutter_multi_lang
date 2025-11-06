@@ -1,0 +1,55 @@
+{{page-title "GPON"}}
+{{!-- <Network::Gpon @wanmanager={{@model.wanmanager}} @deviceinfo={{@model.deviceinfo}} /> --}}
+
+<div class="card mb-3">
+  <div class="card-header sc" tabindex="0" aria-label="{{t 'PAGE_DIAGNOSTIC_UTILITY_POPUP_DIAGNOSIS_GPON'}}">{{t 'PAGE_DIAGNOSTIC_UTILITY_POPUP_DIAGNOSIS_GPON'}}</div>
+  <div class="card-body">
+    <div class="row">
+      <div class="col-md-6">
+        <div class="row mb-2 table-entry attr-name" tabindex="0" aria-label="{{t 'PAGE_STATUS_SYSTEM_SERIAL_NUMBER'}}">{{t 'PAGE_STATUS_SYSTEM_SERIAL_NUMBER'}}</div>
+      </div>
+      <div class="col-md-6" style="display: flex;">
+        {{#each @model.xpon.ONU as |onu ind|}}
+          {{#if (eq ind 0)}}
+            {{#each onu.ANI as |ani i|}}
+              {{#if (eq i 0)}}
+                <div class="row mb-2" tabindex="0" aria-label="{{ani.TC.ONUActivation.SerialNumber}}">
+                  {{ani.TC.ONUActivation.SerialNumber}}
+                </div>
+              {{/if}}
+            {{/each}}
+          {{/if}}
+        {{/each}}     
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-6">
+        <div class="row mb-2 table-entry attr-name" tabindex="0" aria-label="{{t 'PAGE_GPON_PLOAM_PASSWORD'}}">{{t 'PAGE_GPON_PLOAM_PASSWORD'}}</div>
+      </div>
+      <div class="col-md-6" style="display: flex;">
+        <div class="row mb-2 w-50">
+          {{#each @model.xpon.ONU as |onu ind|}}
+            {{#if (eq ind 0)}}
+              {{#each onu.ANI as |ani i|}}
+                {{#if (eq i 0)}}
+                  <Inputpwd @class="p-0" @value={{ani.TC.Authentication.Password}} />
+                  <div class="invalid-feedback">
+                    {{this.GPONPasswordMsg}}
+                  </div>
+                {{/if}}
+              {{/each}}
+            {{/if}}
+          {{/each}}         
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{{!-- <button type="button" class="btn btn-primary" {{on "click" this.updateGpon}} disabled={{unless this.hasChanges "disabled"}} style="width: fit-content;">{{t 'UPDATE'}}</button> --}}
+
+<div class="d-flex justify-content-end">
+  <div class="flex-container">{{this.errorMsgText}}</div>
+  <button type="button" class="btn btn-primary" style="width: fit-content;" {{on "click" this.updateGpon}} {{on "keyup" this.eaactrl.btnApply}} disabled={{unless this.hasChanges "disabled"}}>{{t 'PAGE_SETTINGS_APPLY'}}</button>
+  <button type="button" class="btn btn-secondary ms-2" style="width: fit-content;" onClick={{this.cancelGpon}} {{on "keyup" this.eaactrl.btnCancel}}>{{t 'PAGE_SETTINGS_CANCEL'}}</button>
+</div>

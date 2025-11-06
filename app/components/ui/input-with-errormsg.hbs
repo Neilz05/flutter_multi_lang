@@ -1,0 +1,11 @@
+{{!-- 
+    Arguments:
+    @value - value
+    @id - ID attribute
+    @disabled - if true, the input is disabled, else enabled. Enclose in {{}} when using in templates.
+    @onUpdate - function to call when the input changes
+    @obj - object to pass to caller when the input changes
+ --}}
+
+<input type="text" value="{{@value}}" class="ember-text-field ember-view form-control mx-1 {{ this.errorClass }}"  disabled={{if @disabled "disabled"}} {{on "change" (fn @onUpdate @obj) }}  {{on "input" (fn @onUpdate @obj) }}/>
+<div class="invalid-feedback d-block errMsg" tabindex="0" aria-label="{{@errorMessage}}">{{@errorMessage}}</div>

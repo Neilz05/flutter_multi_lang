@@ -1,0 +1,15 @@
+{{!-- 
+    Arguments:
+    @ip - IP address
+    @id - ID attribute
+    @disabled - if true, the input is disabled, else enabled. Enclose in {{}} when using in templates.
+    @onUpdate - function to call when the input changes
+ --}}
+<input type="text" id="{{@id}}-1" value="{{get this.splitIp 0}}" tabindex="0" aria-label="{{get this.splitIp 0}}" class="ember-text-field ember-view form-control text-center mx-1 p-1" maxlength="3" style="width: 5ch;" disabled={{if (or @disabled1 @disabled) "disabled"}} {{on "change" (fn @onUpdate @id 1)}}/>.
+
+<input type="text" id="{{@id}}-2" value="{{get this.splitIp 1}}" tabindex="0" aria-label="{{get this.splitIp 1}}" class="ember-text-field ember-view form-control text-center mx-1 p-1" maxlength="3" style="width: 5ch;" disabled={{if (or @disabled2 @disabled) "disabled"}} {{on "change" (fn @onUpdate @id 2)}}/>.
+
+<input type="text" id="{{@id}}-3" value="{{get this.splitIp 2}}" tabindex="0" aria-label="{{get this.splitIp 2}}" class="ember-text-field ember-view form-control text-center mx-1 p-1" maxlength="3" style="width: 5ch;" disabled={{if (or @disabled3 @disabled) "disabled"}} {{on "change" (fn @onUpdate @id 3)}}/>.
+
+<input type="text" id="{{@id}}-4" value="{{get this.splitIp 3}}" tabindex="0" aria-label="{{get this.splitIp 3}}" class="ember-text-field ember-view form-control text-center mx-1 p-1" maxlength="3" style="width: 5ch;" disabled={{if (or @disabled4 @disabled) "disabled"}} {{on "change" (fn @onUpdate @id 4)}}/>
+<div id="{{@id}}ErrMsg" class="invalid-feedback fw-normal d-block errMsg"></div>

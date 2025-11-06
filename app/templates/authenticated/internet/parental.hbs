@@ -1,0 +1,482 @@
+{{page-title "Parental Control"}}
+
+<div class="card mb-3">
+    <div class="card-header sc fs-4" tabindex="0" aria-label="{{t 'PAGE_PAGE_PARENTAL_CONTROL_TITLE'}}">{{t
+        'PAGE_PAGE_PARENTAL_CONTROL_TITLE'}}</div>
+    <div class="card-body container">
+        <div class="row">
+            <div class="col-md-12" tabindex="0" aria-label="{{t 'PAGE_PAGE_PARENTAL_CONTROL_SUBTITLE'}}">
+                <p>{{t 'PAGE_PAGE_PARENTAL_CONTROL_SUBTITLE'}}</p>
+            </div>
+        </div>
+
+        <div class="container-fluid table-responsive">
+            <table class="table table-fixed">
+                <thead>
+                    <tr>
+                        <th tabindex="0" aria-label="{{t 'PAGE_PARENTAL_CONTROL_RULE_NAME'}}">{{t
+                            'PAGE_PARENTAL_CONTROL_RULE_NAME'}}</th>
+                        {{!-- <th tabindex="0" aria-label="{{t 'PAGE_PARENTAL_CONTROL_ACCESS_POLICY'}}">{{t
+                            'PAGE_PARENTAL_CONTROL_ACCESS_POLICY'}}</th> --}}
+                        <th>Client</th>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody class="table-group-divider">
+                    {{#if (eq this.entries.length 0)}}
+                    <tr class="align-middle" tabindex="0" aria-label="{{t 'PAGE_PARENTAL_CONTROL_NO_ENTRIES'}}">
+                        <i>{{t 'PAGE_PARENTAL_CONTROL_NO_ENTRIES'}}</i>
+                    </tr>
+                    {{else}}
+                    {{#each this.entries as |md idx|}}
+                    <tr class="align-middle {{if (eq md.Enable 0) 'text-secondary'}}">
+                        <td tabindex="0" aria-label="{{md.Alias}}">{{md.Alias}}</td>
+                        {{!-- <td tabindex="0" aria-label="{{md.AccessPolicy}}">{{md.AccessPolicy}}</td> --}}
+                        <td tabindex="0" aria-label="{{contains-host this.AvailableHosts md.PhysAddress}}">
+                            {{contains-host this.AvailableHosts md.PhysAddress}}
+                        </td>
+                        <td style="width: 1%">
+                            <div class="d-flex gap-1 justify-content-start">
+                                <button class="btn btn-secondary btn-sm py-2 px-3" {{on 'click' (fn this.Edit md)}}>
+                                    <i class="bi bi-gear"></i>
+                                </button>
+                                <button class="btn btn-danger btn-sm py-2 px-3" {{on 'click' (fn this.Delete md)}}>
+                                    <i class="bi bi-trash"></i>
+                                </button>
+                            </div>
+                        </td>
+                        <td style="width: 1%">
+                            <label class="switch ms-3" for="enable{{idx}}" tabindex="0"
+                                aria-label="enable rule button {{idx}}" role="button" {{on "keyup"
+                                this.eaactrl.onoffTrigger}}>
+                                <Input id="enable{{idx}}" tabindex="-1" @type="checkbox" class="form-check-input"
+                                    @checked={{(eq md.Enable 1)}} {{on 'input' (fn this.toggle md 'Enable' )}} />
+                                <span class="slider round"></span>
+                            </label>
+                        </td>
+                    </tr>
+                    {{/each}}
+                    {{/if}}
+                </tbody>
+            </table>
+        </div>
+        <div class="row align-items-center justify-content-end px-3">
+            <div class="col flex-grow-0">
+                <button type="button" class="btn btn-primary px-2 py-1" {{on 'click' this.AddAccessControl}}>
+                    <i class="bi bi-plus-square fs-5"></i></button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<BsModal @open={{or (eq this.Mode "add" ) (eq this.Mode "edit" )}} @onSubmit={{this.SubmitChanges}}
+    @onHide={{this.CancelChanges}} @size="lg" as |modal|>
+    <modal.header>
+        <h4 class="modal-title" tabindex="0" aria-label="{{this.ModalHeaderText}}">
+            {{this.ModalHeaderText}}
+        </h4>
+    </modal.header>
+    <modal.body>
+        <div class="text-start fw-bold ms-3 fs-4"></div>
+        <div class="row align-items-center mb-2">
+            <div class="col text-start fw-bold ms-3" tabindex="0" aria-label="{{t 'PAGE_PARENTAL_CONTROL_RULE_NAME'}}">
+                {{t 'PAGE_PARENTAL_CONTROL_RULE_NAME'}}</div>
+            {{#if (eq this.SelectedModel.dirtyType 'created')}}
+            <div class="col-8 d-flex flex-column align-items-end">
+                <Input @type="text"
+                    class="form-control {{if this.AccessControlErrors.error.Alias.validation 'is-invalid'}}"
+                    @value={{this.SelectedModel.Alias}} />
+
+                {{#each this.AccessControlErrors.error.Alias.validation as |message idx|}}
+                {{#if (eq idx 0)}}
+                <div class="invalid-feedback" tabindex="0" aria-label="{{message}}">{{t message}}</div>
+                {{/if}}
+                {{/each}}
+            </div>
+            {{else}}
+            <div class="col-8 d-flex flex-column align-items-end" tabindex="0"
+                aria-label="{{this.SelectedModel.Alias}}">
+                {{this.SelectedModel.Alias}}
+            </div>
+            {{/if}}
+        </div>
+
+        <div class="row align-items-center mb-2">
+            <div class="col text-start fw-bold ms-3" tabindex="0" aria-label="{{t 'PAGE_PARENTAL_CONTROL_DEVICE'}}">{{t
+                'PAGE_PARENTAL_CONTROL_DEVICE'}}</div>
+
+            <div class="col-8 d-flex flex-column align-items-end">
+                <select class="form-select" {{on "change" (fn this.select this.SelectedModel 'PhysAddress' )}}>
+                    <option value="">{{t 'PAGE_PORT_MAPPING_POPUP_EDIT_NO_SPECIFIC'}}</option>
+                    {{#each this.AvailableHosts as |host|}}
+                    <option value="{{host.PhysAddress}}" selected={{(eq this.SelectedModel.PhysAddress
+                        host.PhysAddress)}}>
+                        {{if (not (eq host.HostName "")) host.HostName host.PhysAddress}}
+                    </option>
+                    {{/each}}
+                </select>
+            </div>
+        </div>
+
+        <div class="row align-items-center mb-2">
+            <div class="col text-start fw-bold ms-3" tabindex="0"
+                aria-label="{{t 'PAGE_PARENTAL_CONTROL_MAC_ADDRESS'}}">{{t 'PAGE_PARENTAL_CONTROL_MAC_ADDRESS'}}</div>
+
+            <div class="col-8 d-flex flex-column align-items-end">
+                <div class="d-flex">
+                    {{!-- border-color: #dc3545 --}}
+                    {{#each (range 0 6) as |index|}}
+                    <Input @type="text" maxlength="2" class="form-control text-center mx-1 p-1" @value={{get (split
+                        this.SelectedModel.PhysAddress ":" ) index}} {{on 'input' (fn this.UpdateMAC index)}}
+                        id="macinput-{{index}}"
+                        style="max-width:5ch;{{if this.AccessControlErrors.error.PhysAddress.validation 'border-color: #dc3545;'}}" />
+                    {{#if (lt index 5)}}
+                    <span class="fw-bold">:</span>
+                    {{/if}}
+                    {{/each}}
+                </div>
+
+
+                {{!-- {{if this.SelectedModel.accesscontrol.error.parameters.PhysAddress.validation 'border-color:
+                #dc3545;'}} --}}
+
+                {{!-- {{#each this.SelectedCS.error.parameters.PhysAddress.validation as |message|}} --}}
+                {{#each this.AccessControlErrors.error.PhysAddress.validation as |message idx|}}
+                {{#if (eq idx 0)}}
+                <div class="invalid-feedback" tabindex="0" aria-label="{{message}}">{{t message}}</div>
+                {{/if}}
+                {{/each}}
+            </div>
+        </div>
+
+        <div class="row align-items-center mb-4">
+            <div class="col text-start fw-bold ms-3" tabindex="0"
+                aria-label="{{t 'PAGE_PARENTAL_CONTROL_ACCESS_POLICY'}}">{{t 'PAGE_PARENTAL_CONTROL_ACCESS_POLICY'}}
+            </div>
+            <div class="col-8 d-flex flex-column align-items-end">
+                <select class="form-select" {{on "change" (fn this.select this.SelectedModel 'AccessPolicy' )}}>
+                    <option value="Allow" selected={{(eq this.SelectedModel.AccessPolicy 'Allow' )}}>Allow</option>
+                    <option value="Deny" selected={{(eq this.SelectedModel.AccessPolicy 'Deny' )}}>Deny</option>
+                </select>
+            </div>
+        </div>
+
+        {{!-- URL FILTER SECTION --}}
+
+        {{#if (not-eq this.SelectedModel.AccessPolicy 'Allow')}}
+        <div class="row py-2 mb-3" style="color: #e00800; background-color: #f4f4f4;">
+            <div class="col fw-bold ms-3" tabindex="0" aria-label="{{t 'PAGE_PARENTAL_CONTROL_URL_FILTER'}}">{{t
+                'PAGE_PARENTAL_CONTROL_URL_FILTER'}}</div>
+            <div class="col">
+                <label class="switch ms-3" for="url-enable" tabindex="0"
+                    aria-label="{{t 'PAGE_PARENTAL_CONTROL_URL_FILTER'}}" role="button" {{on "keyup"
+                    this.eaactrl.onoffTrigger}}>
+                    <Input id="url-enable" tabindex="-1" @type="checkbox" class="form-check-input" @checked={{(eq
+                        this.SelectedModel.X_PRPLWARE-COM_URLFilter.Enable 1)}} {{on "change" (fn this.toggle
+                        this.SelectedModel.X_PRPLWARE-COM_URLFilter 'Enable' )}} />
+                    <span class="slider round"></span>
+                </label>
+            </div>
+        </div>
+
+        {{#if (eq this.SelectedModel.X_PRPLWARE-COM_URLFilter.Enable 1)}}
+        <div class="container-fluid table-responsive">
+            <table class="table table-fixed">
+                <thead>
+                    <tr>
+                        <th tabindex="0" aria-label="{{t 'PAGE_PARENTAL_CONTROL_URL_FILTER_URL'}}">{{t
+                            'PAGE_PARENTAL_CONTROL_URL_FILTER_URL'}}</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody class="table-group-divider">
+                    {{#each this.FilteredURLs as |filter idx|}}
+                    {{#let (get this.URLErrors idx) as |urlError|}}
+                    <tr class="align-middle">
+                        <td>
+                            <Input @type="text" class="form-control {{if urlError.URL.validation 'is-invalid'}}"
+                                @value={{filter.URL}} />
+
+                            {{#each urlError.URL.validation as |message|}}
+                            <div class="invalid-feedback">{{t message}}</div>
+                            {{/each}}
+
+                        </td>
+                        <td style="width: 1%">
+                            <button class="btn btn-danger btn-sm py-2 px-3" {{on 'click' (fn this.DeleteURLFilter
+                                filter)}}>
+                                <i class="bi bi-trash"></i>
+                            </button>
+                        </td>
+                    </tr>
+                    {{/let}}
+                    {{/each}}
+                </tbody>
+            </table>
+        </div>
+
+        <div class="row align-items-center justify-content-end px-3">
+            <div class="col flex-grow-0">
+                <button type="button" class="btn btn-primary px-2 py-1" {{on 'click' this.AddUrlFilter}}><i
+                        class="bi bi-plus-square fs-5"></i></button>
+            </div>
+        </div>
+
+
+        {{/if}}
+        {{/if}}
+
+        {{!-- APPLICATION FILTER SECTION --}}
+
+        <div class="row py-2 my-2" style="color: #e00800; background-color: #f4f4f4;">
+            <div class="col fw-bold ms-3" tabindex="0" aria-label="{{t 'PAGE_PARENTAL_CONTROL_APPLICATION_FILTER'}}">{{t
+                'PAGE_PARENTAL_CONTROL_APPLICATION_FILTER'}}</div>
+            <div class="col">
+                <label class="switch ms-3" for="app-enable" tabindex="0"
+                    aria-label="{{t 'PAGE_PARENTAL_CONTROL_APPLICATION_FILTER'}}" role="button" {{on "keyup"
+                    this.eaactrl.onoffTrigger}}>
+                    <Input id="app-enable" tabindex="-1" @type="checkbox" class="form-check-input" @checked={{(eq
+                        this.SelectedModel.X_PRPLWARE-COM_ApplicationFilter.Enable 1)}} {{on "change" (fn this.toggle
+                        this.SelectedModel.X_PRPLWARE-COM_ApplicationFilter 'Enable' )}} />
+                    <span class="slider round"></span>
+                </label>
+            </div>
+        </div>
+
+        {{#if (eq this.SelectedModel.X_PRPLWARE-COM_ApplicationFilter.Enable 1)}}
+        <div class="container-fluid table-responsive">
+            <table class="table table-fixed">
+                <thead>
+                    <tr>
+
+                        <th tabindex="0" aria-label="{{t 'PAGE_PARENTAL_CONTROL_APPLICATION_FILTER_TYPE'}}">{{t
+                            'PAGE_PARENTAL_CONTROL_APPLICATION_FILTER_TYPE'}}</th>
+                        <th tabindex="0" aria-label="{{t 'PAGE_PARENTAL_CONTROL_APPLICATION_FILTER_NAME'}}">{{t
+                            'PAGE_PARENTAL_CONTROL_APPLICATION_FILTER_NAME'}}</th>
+                        <th tabindex="0" aria-label="{{t 'PAGE_PARENTAL_CONTROL_APPLICATION_FILTER_PORT'}}">{{t
+                            'PAGE_PARENTAL_CONTROL_APPLICATION_FILTER_PORT'}}</th>
+                        <th tabindex="0" aria-label="{{t 'PAGE_PARENTAL_CONTROL_APPLICATION_FILTER_PROTOCOL'}}">{{t
+                            'PAGE_PARENTAL_CONTROL_APPLICATION_FILTER_PROTOCOL'}}</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody class="table-group-divider">
+                    {{#each this.FilteredApplications as |filter idx|}}
+                    {{#let (get this.ApplicationErrors idx) as |appError|}}
+                    <tr class="align-middle">
+                        <td>
+                            <select class="form-select" style="max-width: 150px;" {{on "change" (fn this.select
+                                filter 'Name' )}}>
+                                <option value="" port="">User Defined</option>
+                                <option value="HTTP" port="80" selected={{(eq filter.Name "HTTP" )}}>HTTP
+                                </option>
+                                <option value="HTTPS" port="443" selected={{(eq filter.Name "HTTPS" )}}>HTTPS
+                                </option>
+                                {{!-- <option value="IPSEC_IKE" port="500">IPSEC_IKE</option> --}}
+                                <option value="NetMeeting" port="1720" selected={{(eq filter.Name "NetMeeting" )}}>
+                                    NetMeeting</option>
+                                <option value="POP3" port="110" selected={{(eq filter.Name "POP3" )}}>POP3
+                                </option>
+                                <option value="PPTP" port="1723" selected={{(eq filter.Name "PPTP" )}}>PPTP
+                                </option>
+                                <option value="SMTP" port="25" selected={{(eq filter.Name "SMTP" )}}>SMTP
+                                </option>
+                                <option value="SSH" port="22" selected={{(eq filter.Name "SSH" )}}>SSH
+                                </option>
+                                {{!-- <option value="5500">VNC</option> --}}
+                            </select>
+                        </td>
+
+                        <td>
+                            <Input @type="text" class="form-control w-auto {{if appError.Name.validation 'is-invalid'}}"
+                                @value={{filter.Name}} />
+
+                            {{#each appError.Name.validation as |message idx|}}
+                            {{#if (eq idx 0)}}
+                            <div class="invalid-feedback">{{t message}}</div>
+                            {{/if}}
+                            {{/each}}
+                        </td>
+                        <td>
+                            <Input @type="text" class="form-control 
+                                {{if appError.Port.validation 'is-invalid'}}" style="max-width: 100px;"
+                                @value={{filter.Port}} />
+
+                            {{#each appError.Port.validation as |message idx|}}
+                            {{#if (eq idx 0)}}
+                            <div class="invalid-feedback">{{t message}}</div>
+                            {{/if}}
+                            {{/each}}
+                        </td>
+                        <td>
+                            {{!-- {{filter.parameters.Protocol}} --}}
+                            <select class="form-select" style="max-width: 150px;" {{on "change" (fn this.select
+                                filter 'Protocol' )}}>
+                                <option value="TCP" selected={{(eq filter.Protocol 'TCP' )}}>TCP</option>
+                                <option value="UDP" selected={{(eq filter.Protocol 'UDP' )}}>UDP</option>
+                                <option value="TCP/UDP" selected={{(eq filter.Protocol 'TCP/UDP' )}}>TCP &
+                                    UDP</option>
+                            </select>
+                        </td>
+
+                        <td style="width: 1%">
+                            <button class="btn btn-danger btn-sm py-2 px-3" {{on 'click' (fn
+                                this.DeleteApplicationFilter filter)}}>
+                                <i class="bi bi-trash"></i>
+                            </button>
+                        </td>
+                    </tr>
+                    {{/let}}
+                    {{/each}}
+                </tbody>
+            </table>
+        </div>
+
+        <div class="row align-items-center justify-content-end px-3">
+            <div class="col flex-grow-0">
+                <button type="button" class="btn btn-primary px-2 py-1" {{on 'click' this.AddApplicationFilter}}>
+                    <i class="bi bi-plus-square fs-5"></i>
+                </button>
+            </div>
+        </div>
+
+
+        {{/if}}
+
+
+        {{!-- schedule section --}}
+
+        {{!-- <div class="text-start fw-bold ms-3 fs-4">Schedule</div> --}}
+        {{#if (eq this.SelectedModel.AccessPolicy 'Allow')}}
+
+        <div class="container-fluid table-responsive">
+            <table class="table table-fixed">
+                <thead>
+                    <tr>
+                        <th tabindex="0" aria-label="{{t 'PAGE_PARENTAL_CONTROL_DAYS_OF_WEEK'}}">{{t
+                            'PAGE_PARENTAL_CONTROL_DAYS_OF_WEEK'}}</th>
+                        <th tabindex="0" aria-label="{{t 'PAGE_PARENTAL_CONTROL_TIME'}}">{{t
+                            'PAGE_PARENTAL_CONTROL_TIME'}}</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody class="table-group-divider">
+                    {{#if (or (eq this.FilteredSchedules.length 0) (not this.FilteredSchedules))}}
+                    <div class="align-middle" tabindex="0" aria-label="{{t 'PAGE_PARENTAL_CONTROL_NO_ENTRIES'}}">
+                        <i>{{t 'PAGE_PARENTAL_CONTROL_NO_ENTRIES'}}</i>
+                    </div>
+                    {{/if}}
+                    {{#each this.FilteredSchedules as |schedule idx|}}
+                    {{#let (get this.ScheduleErrors idx) as |scheduleError|}}
+                    <tr class="align-middle">
+                        <td>
+                            <div class="d-flex flex-column">
+                                <select class="form-select" {{on "change" (fn this.select schedule 'Day' )}}>
+                                    <option value="Monday,Tuesday,Wednesday,Thursday,Friday,Saturday,Sunday"
+                                        selected={{(eq
+                                        schedule.Day 'Monday,Tuesday,Wednesday,Thursday,Friday,Saturday,Sunday' )}}>
+                                        Every Day</option>
+                                    <option value="Monday,Tuesday,Wednesday,Thursday,Friday" selected={{(eq
+                                        schedule.Day 'Monday,Tuesday,Wednesday,Thursday,Friday' )}}>Every
+                                        Workday</option>
+                                    <option value="Saturday,Sunday" selected={{(eq schedule.Day 'Saturday,Sunday' )}}>
+                                        All Weekends</option>
+                                    <option value="Monday" selected={{(and (not-eq
+                                        schedule.Day 'Monday,Tuesday,Wednesday,Thursday,Friday,Saturday,Sunday' )
+                                        (not-eq schedule.Day 'Monday,Tuesday,Wednesday,Thursday,Friday' ) (not-eq
+                                        schedule.Day 'Saturday,Sunday' ))}}>Selected Days</option>
+                                </select>
+
+
+                                {{!-- Individual Days --}}
+                                <div class="d-flex mt-2 gap-0">
+                                    {{#each this.static_days_list as |day|}}
+                                    <input type="checkbox" class="btn-check" tabindex="-1" id="{{idx}}{{day}}"
+                                        value="{{day}}" checked={{if (contains schedule.Day day) true false}}
+                                        {{on 'change' (fn this.UpdateDays schedule)}}>
+                                    <label tabindex="0" aria-label="{{shortday day}}" class="btn btn-outline-primary"
+                                        for="{{idx}}{{day}}" value="{{day}}"
+                                        style="border:1px solid; padding: 0.275rem 0.55rem; margin:0%" {{on "keyup"
+                                        this.eaactrl.btnTrigger}}>
+                                        {{shortday day}}
+                                    </label>
+                                    {{/each}}
+                                </div>
+
+                                {{#each scheduleError.Day.validation as |message idx|}}
+                                {{#if (eq idx 0)}}
+                                <div class="invalid-feedback" tabindex="0" aria-label="{{message}}">{{t message}}</div>
+                                {{/if}}
+                                {{/each}}
+
+                            </div>
+                        </td>
+                        <td>
+                            <div class="d-flex align-items-center gap-1 justify-content-center">
+                                <Input @type="time"
+                                    class="form-control {{if schedule.error.StartTime.validation 'is-invalid'}}"
+                                    @value={{schedule.StartTime}} style="max-width: 110px;" />
+                                <span>-</span>
+                                <input type="time"
+                                    class="form-control {{if scheduleError.Duration.validation 'is-invalid'}}"
+                                    style="max-width: 110px;" value={{end-time schedule.StartTime schedule.Duration}}
+                                    {{on 'input' (fn this.UpdateDuration schedule)}}>
+                            </div>
+
+                            {{#each scheduleError.StartTime.validation as |message idx|}}
+                            {{#if (eq idx 0)}}
+                            <div class="invalid-feedback" tabindex="0" aria-label="{{message}}">{{t message}}</div>
+                            {{/if}}
+                            {{/each}}
+
+                            {{#each scheduleError.Duration.validation as |message idx|}}
+                            {{#if (eq idx 0)}}
+                            <div class="invalid-feedback" tabindex="0" aria-label="{{message}}">{{t message}}</div>
+                            {{/if}}
+                            {{/each}}
+
+
+                        </td>
+                        <td style="width: 1%">
+                            <button class="btn btn-danger btn-sm py-2 px-3" {{on 'click' (fn this.DeleteSchedule
+                                schedule)}}>
+                                <i class="bi bi-trash"></i>
+                            </button>
+                        </td>
+                    </tr>
+                    {{/let}}
+                    {{/each}}
+                </tbody>
+            </table>
+        </div>
+
+        <div class="row align-items-center justify-content-end px-3">
+            <div class="col flex-grow-0">
+                <button type="button" class="btn btn-primary px-2 py-1" {{on 'click' this.AddSchedule}}>
+                    <i class="bi bi-calendar-plus"></i></button>
+            </div>
+        </div>
+
+        {{/if}}
+
+
+
+    </modal.body>
+    <modal.footer>
+        <BsButton @onClick={{this.CancelChanges}}>Cancel</BsButton>
+        <BsButton @type="success" @onClick={{this.SubmitChanges}}>Save</BsButton>
+    </modal.footer>
+</BsModal>
+
+
+<div class="d-flex justify-content-end mb-4">
+    <button type="button" class="btn btn-primary" style="width: fit-content;" disabled={{not this.HasChanges}}
+        {{on 'click' (fn this.Apply)}}>
+        {{t 'PAGE_SETTINGS_APPLY'}}
+    </button>
+    <button type="button" class="btn btn-secondary ms-2" style="width: fit-content;" disabled={{not this.HasChanges}}
+        {{!-- {{on 'click' (fn this.Cancel)}} --}}>
+        {{t 'PAGE_SETTINGS_CANCEL'}}
+    </button>
+</div>

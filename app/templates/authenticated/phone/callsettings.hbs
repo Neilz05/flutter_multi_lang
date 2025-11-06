@@ -1,0 +1,16 @@
+{{page-title "Call Settings"}}
+<h2>Call Settings</h2>
+{{log @model}}
+
+
+<Phone::CallSettingsLine @model={{@model.line1}} @line={{1}} @openModal={{this.openModal}}/>
+<Phone::CallSettingsLine @model={{@model.line2}} @line={{2}} @openModal={{this.openModal}}/>
+
+
+<div class="d-flex justify-content-end">
+    <button type="button" class="btn btn-primary" style="width: fit-content;" {{on "click" this.updateVoice}}
+        disabled={{unless this.hasChanges "disabled" }}>{{t 'PAGE_SETTINGS_APPLY'}}</button>
+    <button type="button" class="btn btn-secondary ms-2" style="width: fit-content;" onClick={{this.cancelPhone}}
+        disabled={{unless this.hasChanges "disabled" }}>{{t
+        'PAGE_SETTINGS_CANCEL'}}</button>
+</div>

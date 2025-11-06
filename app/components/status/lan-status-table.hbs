@@ -1,0 +1,35 @@
+<div class="table-responsive">
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th scope="col">Host Name</th>
+                <th scope="col">MAC Address</th>
+                <th scope="col">IP Address</th>
+                <th scope="col">Type</th>
+                <th scope="col">Interface</th>
+                <th scope="col">Status</th>
+                <th scope="col">Received Bytes</th>
+                <th scope="col">Received Packets</th>
+                <th scope="col">Transformed Bytes</th>
+                <th scope="col">Transformed Packets</th>
+            </tr>
+        </thead>
+        <tbody class="border border-top">
+            {{#each @hosts.Host as |host|}}
+            <tr>
+                <td>{{host.HostName}}</td>
+                {{!-- <td>{{get host "HostName"}}</td> --}}
+                <td>{{host.PhysAddress}}</td>
+                <td>{{host.IPAddress}}</td>
+                <td>{{host.DHCPClient}}</td>
+                <td>{{this.getInterface host.Layer1Interface}}</td>
+                <td>{{host.Active}}</td>
+                <td>{{host.WANStats.RxBytes}}</td>
+                <td>{{host.WANStats.RxPackets}}</td>
+                <td>{{host.WANStats.TxBytes}}</td>
+                <td>{{host.WANStats.TxPackets}}</td>
+            </tr>
+            {{/each}}
+        </tbody>
+    </table>
+</div>

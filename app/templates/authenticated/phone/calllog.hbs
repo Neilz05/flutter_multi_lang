@@ -1,0 +1,178 @@
+{{page-title "Call Log"}}
+
+<h2 tabindex="0" aria-label="{{t 'PAGE_CALL_LOG_PAGETITLE'}}">{{t 'PAGE_CALL_LOG_PAGETITLE'}}</h2>
+
+<div class="container">
+    <div class="row align-items-center mb-2">
+        <div class="col" tabindex="0" aria-label="{{t 'PAGE_CALLLOG_SHOW_NUMBERS_FOR'}}">
+            {{t 'PAGE_CALLLOG_SHOW_NUMBERS_FOR'}}
+        </div>
+        <div class="col d-flex justify-content-end">
+            <select class="form-select" {{on 'change' this.setSelectedPhoneNumber}} style="max-width: 300px;">
+                <option value="all">{{t 'PAGE_CALLLOG_ALL_NUMBERS'}}</option>
+                {{!-- {{#each @model.sipclient as |client|}}
+                <option>{{client.X_PRPLWARE-COM_DisplayName}}</option>
+                {{/each}} --}}
+                {{#each this.Clients as |client| }}
+                <option value={{client}}>{{client}}</option>
+                {{/each}}
+            </select>
+        </div>
+    </div>
+
+    {{!-- {{this.selectedNumber}} --}}
+
+    {{!-- <div class="card-header sc p-3">
+        <div class="btn-group" role="group">
+            <input type="radio" class="btn-check" name="btnradio" id="btnradio1" autocomplete="off">
+            <label class="btn btn-outline-primary" for="btnradio1">All</label>
+
+            <input type="radio" class="btn-check" name="btnradio" id="btnradio2" autocomplete="off">
+            <label class="btn btn-outline-primary" for="btnradio2">Dialled</label>
+
+            <input type="radio" class="btn-check" name="btnradio" id="btnradio3" autocomplete="off">
+            <label class="btn btn-outline-primary" for="btnradio3">Received</label>
+
+            <input type="radio" class="btn-check" name="btnradio" id="btnradio4" autocomplete="off">
+            <label class="btn btn-outline-primary" for="btnradio4">Missed</label>
+            {{!-- <input type="radio" class="btn-check" name="btnradio" id="btnradio2" autocomplete="off">
+            <label class="btn btn-outline-primary" for="btnradio2">{{t 'PAGE_EVENT_LOG_EVENTS_ONLY_ERRORS'}}</label>
+
+        </div>
+    </div> --}}
+</div>
+
+<div class="container">
+    <ul class="nav nav-tabs nav-fill mb-0">
+        <li class="nav-item">
+            <a class="d-flex align-items-center justify-content-center nav-link {{if (eq this.filter 'all') " active"}}"
+                href="#" {{on 'click' (fn this.setFilter 'all' )}}>{{t 'PAGE_CALLLOG_ALL'}}</a>
+        </li>
+        <li class="nav-item">
+            <a class="d-flex align-items-center justify-content-center nav-link {{if (eq this.filter 'dialled') "
+                active"}}" href="#" {{on 'click' (fn this.setFilter 'dialled' )}}> <Svg::telephone-outbound @width="25"
+                    @height="25" @class="me-2" /> {{t 'PAGE_CALLLOG_DIALLED'}}</a>
+        </li>
+        <li class="nav-item">
+            <a class="d-flex align-items-center justify-content-center nav-link {{if (eq this.filter 'received') "
+                active"}}" href="#" {{on 'click' (fn this.setFilter 'received' )}}><Svg::telephone-inbound @width="25"
+                    @height="25" @class="me-2" /> {{t 'PAGE_CALLLOG_RECEIVED'}}</a>
+        </li>
+        <li class="nav-item">
+            <a class="d-flex align-items-center justify-content-center nav-link {{if (eq this.filter 'missed') "
+                active"}}" href="#" {{on 'click' (fn this.setFilter 'missed' )}}> <Svg::x-lg @width="25" @height="25"
+                    @class="text-danger me-1" /> {{t 'PAGE_CALLLOG_MISSED'}}</a>
+        </li>
+    </ul>
+
+    <div class="container-fluid table-responsive call-log-table pt-3 border">
+        <table class="table">
+            <thead>
+                <th></th>
+                <th class="ps-2" tabindex="0" aria-label="{{t 'PAGE_CALLLOG_DATE'}}">{{t 'PAGE_CALLLOG_DATE'}}</th>
+                <th class="ps-2" tabindex="0" aria-label="{{t 'PAGE_CALLLOG_TIME'}}">{{t 'PAGE_CALLLOG_TIME'}}</th>
+                <th class="ps-2" tabindex="0" aria-label="{{t 'PAGE_CALLLOG_YOUR_PHONE_NUMBER'}}">{{t
+                    'PAGE_CALLLOG_YOUR_PHONE_NUMBER'}}</th>
+                <th class="ps-2" tabindex="0" aria-label="{{t 'PAGE_CALLLOG_EXTERNAL_NUMBER'}}">{{t
+                    'PAGE_CALLLOG_EXTERNAL_NUMBER'}}</th>
+                <th class="ps-2" tabindex="0" aria-label="{{t 'PAGE_CALLLOG_DURATION'}}">{{t 'PAGE_CALLLOG_DURATION'}}
+                </th>
+                <th class="">
+                    <Input @type="checkbox" @checked={{this.checkAll}} class="form-check-input mb-2 ms-2" {{on 'input'
+                        (fn this.toggleSelectAllCalls)}} />
+                </th>
+            </thead>
+            <tbody class="table-group-divider">
+                {{#each this.PaginatedFilterLogs as |call idx|}}
+                <tr>
+                    {{#if (eq call.Direction "Outgoing")}}
+                    <td tabindex="0" aria-label="{{t 'PAGE_CALLLOG_OUTGOING_CALL'}}">
+                        <Svg::telephone-outbound @width="16" @height="16" @class="" tabindex="0" />
+                    </td>
+                    {{/if}}
+                    {{#if (and (eq call.Direction "Incoming") (not-eq call.Duration '0'))}}
+                    <td tabindex="0" aria-label="{{t 'PAGE_CALLLOG_INCOMING_CALL'}}">
+                        <Svg::telephone-inbound @width="16" @height="16" @class="" tabindex="0" />
+                    </td>
+                    {{/if}}
+                    {{#if (and (eq call.Direction "Incoming") (eq call.Duration '0'))}}
+                    <td tabindex="0" aria-label="{{t 'PAGE_CALLLOG_MISSED_CALL'}}">
+                        <Svg::x-lg @width="16" @height="16" @class="text-danger" tabindex="0" />
+                    </td>
+                    {{/if}}
+                    <td tabindex="0" aria-label="{{format-call-date call.Start}}">{{format-call-date call.Start}}</td>
+                    <td tabindex="0" aria-label="{{call.X_PRPLWARE-COM_Time}}">{{call.X_PRPLWARE-COM_Time}}</td>
+                    <td tabindex="0" aria-label="{{call.CalledPartyNumber}}">{{call.CalledPartyNumber}}</td>
+                    <td tabindex="0" aria-label="{{call.CallingPartyNumber}}">{{call.CallingPartyNumber}}</td>
+                    <td tabindex="0" aria-label="{{format-duration call.Duration}}">{{format-duration call.Duration}}</td>
+                    <td>
+                        <Input @type="checkbox" @checked={{contains this.index call.id}} class="form-check-input ms-1"
+                            {{on 'input' (fn this.toggleCallSelection call)}} />
+                    </td>
+                </tr>
+                {{/each}}
+            </tbody>
+        </table>
+    </div>
+    {{log @model}}
+</div>
+
+<div class="container mt-3">
+    <div class="d-flex justify-content-end">
+
+        <button class="btn btn-primary btn-sm w-auto" {{on 'click' (fn this.decrementPage)}} disabled={{(or (eq
+            this.page 1) (eq this.TotalPages 0))}}>
+            <i class="bi bi-chevron-left"></i>
+        </button>
+
+        <div class="d-flex align-items-center mx-3">
+            <select class="form-select form-select-sm page-select" {{on 'input' (fn this.jumpPage)}}>
+                {{#each (range 0 this.TotalPages) as |pageNum idx|}}
+                <option value="{{inc pageNum}}" selected={{eq this.page (inc pageNum)}}>{{inc pageNum}}</option>
+                {{/each}}
+            </select>
+            <span class="ms-3">/ {{this.TotalPages}}</span>
+        </div>
+
+        <button class="btn btn-primary btn-sm w-auto" {{on 'click' (fn this.incrementPage)}} disabled={{(or (eq
+            this.page this.TotalPages) (eq this.TotalPages 0))}}>
+            <i class="bi bi-chevron-right"></i>
+        </button>
+    </div>
+
+    {{!-- <div class="row align-items-center justify-content-end">
+        <div class="col-1 text-center">
+            <button class="btn btn-primary btn-sm w-auto" {{on 'click' (fn this.decrementPage)}}>
+                <i class="bi bi-chevron-left"></i>
+            </button>
+        </div>
+        <div class="col-md-auto d-flex align-items-center">
+            <select class="form-select form-select-sm page-select" {{on 'input' (fn this.jumpPage)}}>
+                {{#each (range 0 this.TotalPages) as |pageNum idx|}}
+                <option value="{{inc pageNum}}" selected={{eq this.page (inc pageNum)}}>{{inc pageNum}}</option>
+                {{/each}}
+            </select>
+            <span class="ms-3">/ {{this.TotalPages}}</span>
+        </div>
+        <div class="col-1 text-center">
+            <button class="btn btn-primary btn-sm w-auto" {{on 'click' (fn this.incrementPage)}}>
+                <i class="bi bi-chevron-right"></i>
+            </button>
+        </div>
+    </div> --}}
+</div>
+
+<div class="container mt-3">
+    <div class="d-flex justify-content-end">
+        <button class="btn btn-danger me-1" {{on 'click' (fn this.deleteSelectedCalls)}} disabled={{(eq
+            this.index.length 0)}} {{on 'keyup' this.eaactrl.btnClick}} tabindex="0" aria-label="{{t 'PAGE_CALLLOG_DELETE'}}">
+            {{!--
+            <Svg::trash @width="16" @height="16" class="me-2" /> --}} {{t 'PAGE_CALLLOG_DELETE'}}
+        </button>
+
+        <button class="btn btn-secondary" {{on 'click' (fn this.refreshCallLog)}} {{on 'keyup' this.eaactrl.btnClick}} tabindex="0" aria-label="{{t 'PAGE_CALLLOG_REFRESH'}}">
+            {{!--
+            <Svg::archive @width="16" @height="16" class="me-2" /> --}} {{t 'PAGE_CALLLOG_REFRESH'}}
+        </button>
+    </div>
+</div>

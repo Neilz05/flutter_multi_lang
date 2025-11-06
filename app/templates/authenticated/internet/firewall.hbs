@@ -1,0 +1,73 @@
+
+<div class="card mb-3">
+  <div class="card-header sc">
+    <label class="fs-4 fw-bold ms-3" tabindex="0" aria-label="{{t 'PAGE_FIREWALL_TITLE'}}">{{t 'PAGE_FIREWALL_TITLE'}}</label>
+  </div>
+  <div class="card-body">
+    <div class="row py-1 ps-3">
+      <div class="col">
+          <label tabindex="0" aria-label="{{t 'PAGE_FIREWALL_ENABLE'}}">{{t 'PAGE_FIREWALL_ENABLE'}}</label>
+      </div>
+      <div class="col">
+        <label class="switch" for="fw-enable" tabindex="0" aria-label="{{t 'PAGE_FIREWALL_ENABLE'}}" role="button" {{on "keyup" this.eaactrl.onoffTrigger}}>
+          <Input id="fw-enable" tabindex="-1" @type="checkbox" class="form-check-input" @checked={{this.firewallEnabled}}/>
+          <span class="slider round"></span>
+        </label>
+      </div>
+    </div>
+    {{#if (eq @model.firewall.Enable 1)}}
+    <div class="row py-1 ps-3">
+      <div class="col">
+          <label tabindex="0" aria-label="{{t 'PAGE_FIREWALL_LEVEL'}}">{{t 'PAGE_FIREWALL_LEVEL'}}</label>
+      </div>
+      <div class="col">
+        <select class="form-select" {{on "change" (fn this.updateSelection)}}>
+          <option value="Firewall.Level.Low." selected={{(eq @model.firewall.PolicyLevel 'Firewall.Level.Low.' )}}>{{t 'PAGE_FIREWALL_LEVEL_LOW'}}</option>
+          <option value="Firewall.Level.Medium." selected={{(eq @model.firewall.PolicyLevel 'Firewall.Level.Medium.' )}}>{{t 'PAGE_FIREWALL_LEVEL_MEDIUM'}}</option>
+          <option value="Firewall.Level.High." selected={{(eq @model.firewall.PolicyLevel 'Firewall.Level.High.' )}}>{{t 'PAGE_FIREWALL_LEVEL_HIGH'}}</option>
+        </select>
+      </div>
+    </div>
+    {{/if}}
+    <div class="row py-1 ps-3">
+      <div class="col">
+          <label tabindex="0" aria-label="{{t 'PAGE_FIREWALL_ALLOW_PING'}}">{{t 'PAGE_FIREWALL_ALLOW_PING'}}</label>
+      </div>
+      <div class="col">
+        <label class="switch" for="fw-allow-enable" tabindex="0" aria-label="{{t 'PAGE_FIREWALL_ENABLE'}}" role="button" {{on "keyup" this.eaactrl.onoffTrigger}}>
+          <Input id="fw-allow-enable" tabindex="-1" @type="checkbox" class="form-check-input" @checked={{this.pingEnabled}}/>
+          <span class="slider round"></span>
+        </label>
+      </div>
+    </div>
+    {{#if this.isFirewallDisabled}}
+    <div class="row p-4">
+      <div class="alert alert-warning border border-danger rounded-3 d-flex align-items-start p-3 mb-0" role="alert">
+          <div class="me-2">
+            <i class="bi bi-exclamation-circle-fill text-danger fs-4"></i>
+          </div>
+          <div tabindex="0" aria-label="{{t 'PAGE_FIREWALL_WARNING_MESSAGE'}}">{{t 'PAGE_FIREWALL_WARNING_MESSAGE'}}</div>
+      </div>
+    </div>
+    {{/if}}
+    {{#if this.isFirewallLevelChanged}}
+    <div class="row p-4">
+      <div class="alert alert-warning border border-danger rounded-3 d-flex align-items-start p-3 mb-0" role="alert">
+          <div class="me-2">
+            <i class="bi bi-exclamation-circle-fill text-danger fs-4"></i>
+          </div>
+          {{#if (eq this.firewallLevel 'Firewall.Level.Low.')}}
+          <div tabindex="0" aria-label="{{t 'PAGE_FIREWALL_WARNING_MESSAGE_POLICY_LEVEL_LOW'}}">{{t 'PAGE_FIREWALL_WARNING_MESSAGE_POLICY_LEVEL_LOW'}}</div>
+          {{else if (or (eq this.firewallLevel 'Firewall.Level.Medium.') (eq this.firewallLevel 'Firewall.Level.High.'))}}
+          <div tabindex="0" aria-label="{{t 'PAGE_FIREWALL_WARNING_MESSAGE_POLICY_LEVEL_HIGH_MED'}}">{{t 'PAGE_FIREWALL_WARNING_MESSAGE_POLICY_LEVEL_HIGH_MED'}}</div>
+          {{/if}}
+      </div>
+    </div>
+    {{/if}}
+  </div>
+</div>
+
+<div class="d-flex justify-content-end">
+  <button type="button" class="btn btn-primary" style="width: fit-content;" {{on "click" this.updateFirewall}} disabled={{unless this.hasChanges "disabled"}}>{{t 'PAGE_SETTINGS_APPLY'}}</button>
+  <button type="button" class="btn btn-secondary ms-2" style="width: fit-content;" onClick={{this.cancelFirewall}}>{{t 'PAGE_SETTINGS_CANCEL'}}</button>
+</div>

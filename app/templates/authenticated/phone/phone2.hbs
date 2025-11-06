@@ -1,0 +1,7 @@
+<Phone::PhoneSettingsEtisalat @network={{@model.network}} @clients={{@model.clients}} @onError={{this.updateComponentErrors}}/>
+
+  <Ui::UpdateButton 
+  @onApply={{this.updateVoice}} 
+  @onCancel={{this.cancelPhone}} 
+  @disabled={{unless this.hasChanges "disabled"}}
+/>

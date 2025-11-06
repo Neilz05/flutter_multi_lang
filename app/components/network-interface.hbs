@@ -1,0 +1,44 @@
+<div class="card mb-3">
+  <div class="card-header">
+   <StatusIndicator @status={{@interface.Status}} @statusKey="Up"/> {{@interface.Alias}}
+  </div>
+  <div class="card-body">
+    <div class="row">
+      <div class="col-md-6">
+        <div class="row mb-2">
+          <div class="col-md-3"><strong>IPv4</strong></div>
+        </div>
+        {{#each @interface.IPv4Address as |IPv4Address|}}
+          <Ipv4Address @address={{IPv4Address}}/>
+        {{/each}}
+      </div>
+      <div class="col-md-6">
+        <div class="row mb-2">
+          <div class="col-md-3"><strong>IPv6</strong></div>
+        </div>
+        <div class="row mb-2">
+          <div class="col-md-6"><strong style="color: #888;">Addresses</strong></div>
+          <div class="col-md-6"><strong style="color: #888;">Prefixes</strong></div>
+        </div>
+        <div class="row mb-2">
+          <div class="col-md-6">
+            {{#each @interface.IPv6Address as |IPv6Address|}}
+              <div class="row mb-2">
+                <div class="col-md-6">{{IPv6Address.Alias}}</div>
+                <div class="col-md-6">{{IPv6Address.IPv6Address}}</div>
+              </div>
+            {{/each}}
+          </div>
+          <div class="col-md-6">
+            {{#each @interface.IPv6Prefix as |IPv6Prefix|}}
+              <div class="row mb-2">
+                <div class="col-md-6">{{IPv6Prefix.Alias}}</div>
+                <div class="col-md-6">{{IPv6Prefix.Prefix}}</div>
+              </div>
+            {{/each}}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

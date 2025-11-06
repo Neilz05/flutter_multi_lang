@@ -1,0 +1,73 @@
+<h2 tabindex="0" aria-label="{{t 'PAGE_ROUTING_TITLE'}}">{{t 'PAGE_ROUTING_TITLE'}}</h2>
+
+<div class="card mb-3">
+    <div class="card-header sc" tabindex="0" aria-label="{{t 'PAGE_ROUTING_IPV4'}}">
+        {{t 'PAGE_ROUTING_IPV4'}}
+    </div>
+
+    <div class="card-body">
+        <div class="container">
+            <div class="container-fluid table-responsive call-log-table pt-3 border">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>{{t 'PAGE_ROUTING_IP_DESTINO'}}</th>
+                            <th>{{t 'PAGE_ROUTING_DESTINATION_SUBNET_MASK'}}</th>
+                            <th>{{t 'PAGE_ROUTING_METRIC'}}</th>
+                            <th>{{t 'PAGE_ROUTING_GATEWAY_IP'}}</th>
+                            <th>{{t 'PAGE_ROUTING_INTERFACE'}}</th>
+                        </tr>
+                    </thead>
+                    <tbody class="table-group-divider">
+                        {{#each this.ipv4routes as |route|}}
+                        <tr>
+                            <td tabindex="0" aria-label={{route.DestIPAddress}}>{{route.DestIPAddress}}</td>
+                            <td tabindex="0" aria-label={{route.DestSubnetMask}}>{{route.DestSubnetMask}}</td>
+                            <td tabindex="0" aria-label={{route.ForwardingMetric}}>
+                                {{route.ForwardingMetric}}</td>
+                            <td tabindex="0" aria-label={{route.GatewayIPAddress}}>{{route.GatewayIPAddress}}</td>
+                            <td tabindex="0" aria-label={{route.Interface}}>{{route.Interface}}</td>
+                        </tr>
+                        {{/each}}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="card mb-3">
+    <div class="card-header sc" tabindex="0" aria-label="{{t 'PAGE_ROUTING_IPV6'}}">
+        {{t 'PAGE_ROUTING_IPV6'}}
+    </div>
+
+    <div class="card-body">
+        <div class="container">
+            <div class="container-fluid table-responsive call-log-table pt-3 border">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>{{t 'PAGE_ROUTING_IP_DESTINO'}}</th>
+                            {{!-- <th>{{t 'PAGE_ROUTING_DESTINATION_SUBNET_MASK'}}</th> --}}
+                            <th>{{t 'PAGE_ROUTING_METRIC'}}</th>
+                            <th>{{t 'PAGE_ROUTING_GATEWAY_IP'}}</th>
+                            <th>{{t 'PAGE_ROUTING_INTERFACE'}}</th>
+                        </tr>
+                    </thead>
+                    <tbody class="table-group-divider">
+                        {{#each this.ipv6routes as |route|}}
+                        <tr>
+                            <td tabindex="0" aria-label={{route.DestIPPrefix}}>{{route.DestIPPrefix}}</td>
+                            {{!-- <td tabindex="0" aria-label={{route.DestSubnetMask}}>{{route.DestSubnetMask}}</td> --}}
+                            <td tabindex="0" aria-label={{route.ForwardingMetric}}>
+                                {{route.ForwardingMetric}}</td>
+                            <td tabindex="0" aria-label={{route.NextHop}}>{{route.NextHop}}</td>
+                            <td tabindex="0" aria-label={{route.Interface}}>{{route.Interface}}</td>
+                        </tr>
+                        {{/each}}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

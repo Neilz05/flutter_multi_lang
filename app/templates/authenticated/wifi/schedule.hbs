@@ -1,0 +1,260 @@
+{{page-title "Schedule"}}
+
+<div class="card mb-3">
+    <div class="card-header sc fs-4" tabindex="0" aria-label="{{t 'PAGE_SCHEDULE_TITLE'}}">{{t 'PAGE_SCHEDULE_TITLE'}}</div>
+    <div class="card-body container">
+        <div class="row">
+            <div class="col-md-12">
+                <p class="ms-3" tabindex="0" aria-label="{{t 'PAGE_SCHEDULE_SUBTITLE'}}">{{t 'PAGE_SCHEDULE_SUBTITLE'}}</p>
+            </div>
+        </div>
+
+        {{#if (not-eq this.modelType 'FG4278Av2_VD')}}
+        <div class="row mb-2">
+            <div class="col-md-5">
+                <p class="fw-bold ms-3" tabindex="0" aria-label="{{t 'PAGE_SCHEDULE_SCHEDULE_FUNCTION'}}">{{t 'PAGE_SCHEDULE_SCHEDULE_FUNCTION'}}</p>
+            </div>
+            <div class="col-md-7">
+                <label class="switch" for="schedule-enable" tabindex="0" aria-label="{{t 'PAGE_SCHEDULE_SCHEDULE_FUNCTION'}}" role="button" {{on "keyup" this.eaactrl.onoffTrigger}}>
+                    <Input id="schedule-enable" tabindex="-1" @type="checkbox" class="form-check-input" @checked={{(eq
+                        @model.wifischeduler.parameters.Enable 1)}} {{on 'input' (fn this.UpdateChangeset
+                        @model.wifischeduler 'parameters.Enable' )}} />
+                    <span class="slider round"></span>
+                </label>
+            </div>
+        </div>
+
+        <div class="row mb-4">
+            <div class="col-md-5 d-flex align-items-center">
+                <p class="fw-bold ms-3" tabindex="0" aria-label="{{t 'PAGE_SCHEDULE_DURING_THIS_TIME'}}">{{t 'PAGE_SCHEDULE_DURING_THIS_TIME'}}</p>
+            </div>
+            <div class="col-md-7">
+                <div class="form-check">
+                    <input class="form-check-input radio-large" type="radio" name="inlineRadioOptions" id="inlineRadio1"
+                        value={{1}} checked={{(eq (changeset-get @model.x_sc_schedule 'parameters.WiFiEnable' ) 1)}}
+                        {{on 'input' (fn this.UpdateChangeset @model.x_sc_schedule 'parameters.WiFiEnable' )}} tabindex="-1">
+                    <label class="form-check-label" for="inlineRadio1" tabindex="0" aria-label="{{t 'PAGE_SCHEDULE_OPTION_ENABLED'}}" {{on "keyup" this.eaactrl.radioTrigger}}>{{t 'PAGE_SCHEDULE_OPTION_ENABLED'}}</label>
+                </div>
+
+                <div class="form-check">
+                    <input class="form-check-input radio-large" type="radio" name="inlineRadioOptions" id="inlineRadio2"
+                        value={{0}} checked={{(eq (changeset-get @model.x_sc_schedule 'parameters.WiFiEnable' ) 0)}}
+                        {{on 'input' (fn this.UpdateChangeset @model.x_sc_schedule 'parameters.WiFiEnable' )}} tabindex="-1">
+                    <label class="form-check-label" for="inlineRadio2" tabindex="0" aria-label="{{t 'PAGE_SCHEDULE_OPTION_DISABLED'}}" {{on "keyup" this.eaactrl.radioTrigger}}>{{t 'PAGE_SCHEDULE_OPTION_DISABLED'}}</label>
+                </div>
+            </div>
+        </div>
+        {{/if}}
+
+        <div class="container-fluid table-responsive">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th tabindex="0" aria-label="{{t 'PAGE_SCHEDULE_TABLE_SCHEDULE_NAME'}}">{{t "PAGE_SCHEDULE_TABLE_SCHEDULE_NAME"}}</th>
+                        <th tabindex="0" aria-label="{{t 'PAGE_SCHEDULE_TABLE_DAY'}}">{{t "PAGE_SCHEDULE_TABLE_DAY"}}</th>
+                        <th tabindex="0" aria-label="{{t 'PAGE_SCHEDULE_TABLE_TIME'}}">{{t "PAGE_SCHEDULE_TABLE_TIME"}}</th>
+                        <th tabindex="0" aria-label="{{t 'PAGE_SCHEDULE_TABLE_STATUS'}}">{{t "PAGE_SCHEDULE_TABLE_STATUS"}}</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody class="table-group-divider">
+                    {{#if (eq this.Schedules.length 0)}}
+                    <tr class="align-middle">
+                        <td colspan="5" class="text-center text-muted">
+                            <i tabindex="0" aria-label="{{t 'PAGE_SCHEDULE_TABLE_NO_ENTRIES_FOUND'}}">{{t "PAGE_SCHEDULE_TABLE_NO_ENTRIES_FOUND"}}</i>
+                        </td>
+                    </tr>
+                    {{else}}
+                    {{#each this.Schedules as |md idx|}}
+                    {{#unless md.data.isDeleted}}
+                    <tr class="align-middle {{if (eq md.parameters.Enable 0) 'text-secondary'}}">
+                        <td tabindex="0" aria-label="{{changeset-get md "parameters.Alias"}}">{{changeset-get md "parameters.Alias"}}</td>
+                        <td tabindex="0" aria-label="{{this.DaysList (changeset-get md "parameters.Day")}}">
+                            {{this.DaysList (changeset-get md "parameters.Day")}}
+                        </td>
+                        <td tabindex="0" 
+                        aria-label="{{changeset-get md 'parameters.StartTime'}} to {{end-time (changeset-get md 'parameters.StartTime') (changeset-get md 'parameters.Duration')}}">
+                            {{changeset-get md 'parameters.StartTime'}} 
+                            to 
+                            {{end-time (changeset-get md 'parameters.StartTime') (changeset-get md 'parameters.Duration')}}
+                        </td>
+                        <td style="width: 10%;">
+                            <div class="d-flex gap-3 justify-content-start">
+                                {{#if (eq (changeset-get md 'parameters.Enable') 1)}}
+                                <span tabindex="0" aria-label="{{t "PAGE_SCHEDULE_OPTION_ENABLED"}}">{{t "PAGE_SCHEDULE_OPTION_ENABLED"}}</span>
+                                {{else}}
+                                <span tabindex="0" aria-label="{{t "PAGE_SCHEDULE_OPTION_DISABLED"}}">{{t "PAGE_SCHEDULE_OPTION_DISABLED"}}</span>
+                                {{/if}}
+                                <label class="switch" for="list-enable{{idx}}" tabindex="0" role="button" {{on "keyup" this.eaactrl.onoffTrigger}}>
+                                    <Input id="list-enable{{idx}}" tabindex="-1"
+                                    @type="checkbox" 
+                                    class="form-check-input" 
+                                    @checked={{(eq (changeset-get md 'parameters.Enable' ) 1)}} 
+                                    {{on 'input' (fn this.UpdateChangeset md 'parameters.Enable' )}} />
+                                    <span class="slider round"></span>
+                                </label>
+                            </div>
+                        </td>
+                        <td style="width: 1%;">
+                            <div class="d-flex gap-1 justify-content-start w-auto">
+                                <button class="btn btn-secondary btn-sm py-2 px-3" 
+                                tabindex="0" 
+                                aria-label="{{t "MESSAGES_EDIT_BUTTON"}}" 
+                                {{on "keyup" this.eaactrl.btnClick}}
+                                {{on 'click' (fn this.Open md 'edit' )}}>
+                                    <i class="bi bi-gear"></i>
+                                </button>
+                                <button class="btn btn-danger btn-sm py-2 px-3" 
+                                tabindex="0" 
+                                aria-label="{{t "MESSAGES_DELETE_BUTTON"}}" 
+                                {{on "keyup" this.eaactrl.btnClick}}
+                                {{on 'click' (fn this.Delete md)}}>
+                                    <i class="bi bi-trash"></i>
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                    {{/unless}}
+                    {{/each}}
+                    {{/if}}
+                </tbody>
+            </table>
+        </div>
+
+        <div class="row align-items-center justify-content-end px-3">
+            <div class="col flex-grow-0">
+                <button type="button" class="btn btn-primary px-2 py-1" 
+                tabindex="0" 
+                aria-label="{{t "MESSAGES_ADD_BUTTON"}}" 
+                {{on "keyup" this.eaactrl.btnClick}}
+                {{on 'click' (fn this.Open null 'add' )}}>
+                    <i class="bi bi-plus-square fs-5"></i>
+                </button>
+            </div>
+        </div>
+
+
+
+    </div>
+</div>
+
+<BsModal @open={{or (eq this.ModalOpen "add" ) (eq this.ModalOpen "edit" )}} @onSubmit={{this.SubmitModal}}
+    @onHide={{this.HideModal}} as |modal|>
+    <modal.header>
+        <h4 class="modal-title" tabindex="0" aria-label="{{this.ModalHeaderText}}">
+            {{this.ModalHeaderText}}
+        </h4>
+    </modal.header>
+    <modal.body>
+        
+        <div class="row align-items-center">
+            <div class="col text-start fw-bold ms-3" tabindex="0" aria-label="{{t 'PAGE_SCHEDULE_TABLE_SCHEDULE_NAME'}}">{{t 'PAGE_SCHEDULE_TABLE_SCHEDULE_NAME'}}</div>
+            {{#if (eq this.ModalOpen 'add')}}
+            <div class="col-8 d-flex flex-column align-items-end">    
+                <Input @type="text" class="form-control" @value={{changeset-get this.ModelChangeset "parameters.Alias"
+                    }} {{on 'input' (fn this.UpdateChangeset this.ModelChangeset "parameters.Alias" )}} />
+
+                {{#each this.ModelChangeset.error.parameters.Alias.validation as |message|}}
+                <div class="invalid-feedback" tabindex="0" aria-label="{{message}}">{{message}}</div>
+                {{/each}}
+
+            </div>
+            {{else}}
+            <div class="col-8 d-flex flex-column align-items-start" tabindex="0" aria-label="{{changeset-get this.ModelChangeset 'parameters.Alias'}}">
+                {{changeset-get this.ModelChangeset 'parameters.Alias'}}
+            </div>
+            {{/if}}
+            
+        </div>
+
+        <div class="row align-items-center">
+            <div class="col text-start fw-bold ms-3" tabindex="0" aria-label="{{t 'PAGE_SCHEDULE_TIME_FRAME'}}">{{t 'PAGE_SCHEDULE_TIME_FRAME'}}</div>
+            <div class="col-8 d-flex flex-column align-items-end">
+                <select class="form-select w-100" {{on "change" (fn this.UpdateDayFromSelect)}}>
+                    <option value="individual_days" selected={{(eq this.ModelTimeFrame 'individual_days' )}}>
+                        {{t 'PAGE_SCHEDULE_OPTION_INDIVIDUAL_DAYS'}}
+                    </option>
+                    <option value="every_day" selected={{(eq this.ModelTimeFrame 'every_day' )}}>
+                        {{t 'PAGE_SCHEDULE_OPTION_EVERY_DAY'}}
+                    </option>
+                    <option value="every_workday" selected={{(eq this.ModelTimeFrame 'every_workday' )}}>
+                        {{t 'PAGE_SCHEDULE_OPTION_EVERY_WORKDAY'}}
+                    </option>
+                    <option value="all_weekend" selected={{(eq this.ModelTimeFrame 'all_weekend' )}}>
+                        {{t 'PAGE_SCHEDULE_OPTION_ALL_WEEKEND'}}
+                    </option>
+                </select>
+
+                {{#if (eq this.ModelTimeFrame 'individual_days')}}
+                <div class="row mt-2">
+                    {{#each this.static_days_list as |day|}}
+                    <div class="col-6">
+                        <label class="form-check-label d-flex align-items-start gap-1">
+                            <input 
+                                class="form-check-input" 
+                                type="checkbox" 
+                                value="{{day}}" 
+                                id="{{day}}"
+                                checked={{includes (split (changeset-get this.ModelChangeset "parameters.Day" ) ',') day}} 
+                                {{on "change" (fn this.ToggleDays)}} 
+                                tabindex="0" 
+                                aria-label="{{day}}" 
+                                {{on "keyup" this.eaactrl.checkboxTrigger}}>
+                            <label class="form-check-label" for="{{day}}">
+                                {{capitalize day}}
+                            </label>
+                        </label>
+                    </div>
+                    {{/each}}
+                </div>
+                {{/if}}
+
+                {{#each this.ModelChangeset.error.parameters.Day.validation as |message|}}
+                <div class="invalid-feedback" tabindex="0" aria-label="{{message}}">{{message}}</div>
+                {{/each}}
+
+            </div>
+
+        </div>
+
+        <div class="row align-items-center">
+            <div class="col text-start fw-bold ms-3" tabindex="0" aria-label="{{t 'PAGE_SCHEDULE_SELECT_INDIVIDUALS_DAYS_TIME_LABEL'}}">
+                {{t 'PAGE_SCHEDULE_SELECT_INDIVIDUALS_DAYS_TIME_LABEL'}}
+            </div>
+            <div class="col-8 d-flex flex-column align-items-end">
+                <div class="d-flex align-items-center gap-2">
+                    <span tabindex="0" aria-label="{{t 'PAGE_SCHEDULE_FROM'}}">{{t 'PAGE_SCHEDULE_FROM'}}</span>
+                    <Input @type="time" @value={{changeset-get this.ModelChangeset "parameters.StartTime" }}
+                        {{on 'input' (fn this.UpdateChangeset this.ModelChangeset "parameters.StartTime" )}}
+                        class="form-control" />
+                    <span tabindex="0" aria-label="{{t 'PAGE_SCHEDULE_TO'}}">{{t 'PAGE_SCHEDULE_TO'}}</span>
+                    <Input class="form-control" @type="time" @value={{this.ModelEndTime}}/>
+                    {{!-- <input type="time" value={{this.ModelEndTime}} {{on 'input' (fn this.UpdateDuration)}}
+                        class="form-control"> --}}
+                </div>
+                {{#each this.ModelChangeset.error.parameters.Duration.validation as |message|}}
+                <div class="invalid-feedback" tabindex="0" aria-label="{{message}}">{{message}}</div>
+                {{/each}}
+
+            </div>
+        </div>
+
+    </modal.body>
+    <modal.footer>
+        <BsButton @onClick={{modal.close}} {{on 'keyup' this.eaactrl.btnCancel}}>{{t 'MESSAGES_CANCEL_BUTTON'}}</BsButton>
+        <BsButton @type="success" @onClick={{modal.submit}} {{on 'keyup' this.eaactrl.btnApply}} {{!-- disabled={{not this.ValidModelChangeset}} --}}>{{t 'MESSAGES_SAVE_BUTTON'}}</BsButton>
+    </modal.footer>
+</BsModal>
+
+<div class="d-flex justify-content-end mb-4">
+    <button type="button" class="btn btn-primary" style="width: fit-content;" disabled={{not this.HasChanges}}
+        {{on 'click' (fn this.Apply)}} 
+        {{on 'keyup' this.eaactrl.btnApply}}>
+        {{t 'PAGE_SETTINGS_APPLY'}}
+    </button>
+    <button type="button" class="btn btn-secondary ms-2" style="width: fit-content;" disabled={{not this.HasChanges}}
+        {{on 'click' (fn this.Cancel)}} 
+        {{on 'keyup' this.eaactrl.btnCancel}}>
+        {{t 'PAGE_SETTINGS_CANCEL'}}
+    </button>
+</div>

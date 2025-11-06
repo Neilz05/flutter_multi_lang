@@ -1,0 +1,59 @@
+{{!-- {{yield}} --}}
+<div class="card mb-3">
+  <div class="card-header" tabindex="0" aria-label="{{t 'PAGE_PHONE_SETTINGS_USER_ACCOUNT_TITLE' count=@userCount }}">{{t 'PAGE_PHONE_SETTINGS_USER_ACCOUNT_TITLE' count=@userCount }}</div>
+  <div class="card-body">
+    <div class="row">
+      <div class="col-md-6">
+        <div class="row mb-2 p-2" tabindex="0" aria-label="{{t 'PAGE_PHONE_SETTINGS_USER_ACCOUNT_LINE'}}">{{t 'PAGE_PHONE_SETTINGS_USER_ACCOUNT_LINE'}}</div>
+      </div>
+      <div class="col-md-6" style="display: flex;">
+        <div class="row mb-2">
+          <label class="switch" for="{{this.componentId}}-switch1" tabindex="0" aria-label="{{t 'PAGE_PHONE_SETTINGS_USER_ACCOUNT_LINE'}}" role="button" {{on "keyup" this.eaactrl.onoffTrigger}}>
+            <Input id="{{this.componentId}}-switch1" tabindex="-1" @type="checkbox" @value={{@telClient.Enable}} @checked={{this.enabled}} class="form-check-input" />
+            <span class="slider round"></span>
+          </label>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-6">
+        <div class="row mb-2 p-2" tabindex="0" aria-label="{{t 'PAGE_PHONE_SETTINGS_USER_ACCOUNT_CALLER_ID_NAME'}}">{{t 'PAGE_PHONE_SETTINGS_USER_ACCOUNT_CALLER_ID_NAME'}}</div>
+      </div>
+      <div class="col-md-6">
+        <div class="row mb-2">
+            <Input class="form-control w-50" type="text" @value={{@telClient.X_PRPLWARE-COM_DisplayName}}/>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-6">
+        <div class="row mb-2 p-2" tabindex="0" aria-label="{{t 'PAGE_PHONE_SETTINGS_USER_ACCOUNT_PHONE_NUMBER'}}">{{t 'PAGE_PHONE_SETTINGS_USER_ACCOUNT_PHONE_NUMBER'}}</div>
+      </div>
+      <div class="col-md-6">
+        <div class="row mb-2">
+          <Input class="form-control w-50" type="text" @value={{@telClient.RegisterURI}}/>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-6">
+        <div class="row mb-2 p-2" tabindex="0" aria-label="{{t 'PAGE_PHONE_SETTINGS_USER_ACCOUNT_USERNAME'}}">{{t 'PAGE_PHONE_SETTINGS_USER_ACCOUNT_USERNAME'}}</div>
+      </div>
+      <div class="col-md-6">
+        <div class="row mb-2">
+          <Input class="form-control w-50" type="text" @value={{@telClient.AuthUserName}}/> 
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-6">
+        <div class="row mb-2 p-2" tabindex="0" aria-label="{{t 'PAGE_PHONE_SETTINGS_USER_ACCOUNT_PASSWORD'}}">{{t 'PAGE_PHONE_SETTINGS_USER_ACCOUNT_PASSWORD'}}</div>
+      </div>
+      <div class="col-md-6">
+        <div class="row mb-2">
+          <Inputpwd @class="p-0 w-50" @value={{@telClient.AuthPassword}} />
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

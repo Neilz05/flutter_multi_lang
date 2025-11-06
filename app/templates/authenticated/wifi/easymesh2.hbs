@@ -1,0 +1,47 @@
+{{page-title "Easy Mesh"}}
+
+<div class="card mb-3">
+    <div class="card-header sc">
+        <label class="fs-4 fw-bold ms-3" tabindex="0" aria-label="{{t 'PAGE_EASY_MESH_TITLE'}}">{{t 'PAGE_EASY_MESH_TITLE'}}</label>
+    </div>
+    <div class="card-body">
+        <div class="row py-1 ps-3">
+            <div class="col">
+                <label tabindex="0" aria-label="{{t 'PAGE_EASY_MESH_ENABLE'}}">{{t 'PAGE_EASY_MESH_ENABLE'}}</label>
+            </div>
+            <div class="col">
+                <label class="switch" for="{{this.componentId}}-switch1" tabindex="0" aria-label="{{t 'PAGE_EASY_MESH_ENABLE'}}" role="button" {{on "keyup" this.eaactrl.onoffTrigger}}>
+                <Input  id="{{this.componentId}}-switch1" tabindex="-1" @type="checkbox" class="form-check-input" @checked={{this.easymeshEnable}}/>
+                <span class="slider round"></span>
+                </label>
+            </div>
+        </div>
+        {{#if this.easymeshEnable}}
+        <hr>
+        <div class="row py-1 ps-3">
+            <div class="col">
+                <label tabindex="0" aria-label="{{t 'PAGE_EASY_MESH_NAME'}}">{{t 'PAGE_EASY_MESH_NAME'}}</label>
+            </div>
+            <div class="col">
+                <Input class="form-control w-50" type="text" @value={{@model.easymesh.Name}} {{on "change" this.onChange_EasymeshName}} {{on "input" this.onChange_EasymeshName }}/>
+                <div class="invalid-feedback" tabindex="0" aria-label="{{this.errorMsg_EasymeshName}}">
+                    {{this.errorMsg_EasymeshName}}
+                </div>
+            </div>
+        </div>
+        {{/if}}
+    </div>
+</div>
+
+{{#if this.easymeshEnable}}
+<Wifi::EasymeshNodeList @nodelist={{this.arNodes}} @updateName={{(fn this.updateName)}} />
+
+<Wifi::EasymeshDeviceList @nodelist={{this.arDevices}} />
+
+{{/if}}
+
+
+  <div class="d-flex justify-content-end">
+    <button type="button" class="btn btn-primary" style="width: fit-content;" {{on "click" this.Apply}} {{on 'keyup' this.eaactrl.btnApply}} >{{t 'PAGE_SETTINGS_APPLY'}}</button>
+    <button type="button" class="btn btn-secondary ms-2" style="width: fit-content;" onClick={{this.Cancel}} {{on 'keyup' this.eaactrl.btnCancel}} >{{t 'PAGE_SETTINGS_CANCEL'}}</button>
+  </div>
