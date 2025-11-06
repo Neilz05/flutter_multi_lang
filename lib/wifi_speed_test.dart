@@ -3,7 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/widgets/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_speed_test_plus/flutter_speed_test_plus.dart';
+// import 'package:flutter_speed_test_plus/flutter_speed_test_plus.dart';
 import 'package:syncfusion_flutter_gauges/gauges.dart';
 import 'package:flutter_application_1/constants.dart';
 import 'package:flutter_application_1/utils/utils.dart';
@@ -20,35 +20,27 @@ class WifiSpeedTest extends ConsumerStatefulWidget {
 class _WifiSpeedTestState extends ConsumerState<WifiSpeedTest> {
   // class _WifiSpeedTestState extends State<WifiSpeedTest> {
   double speed = 0;
-  double finalDownloadSpeed = 0;
-  double finalUploadSpeed = 0;
-
-  void clearState() {
-    setState(() {
-      speed = 0.0;
-      finalDownloadSpeed = 0.0;
-      finalUploadSpeed = 0.0;
-    });
-  }
-
-  void getDownloadAndUploadSpeed(WidgetRef ref) {
-    final speedTest = ref.watch(speedTestProvider);
-    switch (speedTest) {
-      case AsyncData(:final value):
-        speed = value.speed;
-        finalDownloadSpeed = value.downloadSpeed;
-        finalUploadSpeed = value.uploadSpeed;
-      case AsyncLoading():
-        finalDownloadSpeed = 0;
-        finalUploadSpeed = 0;
-      case AsyncError():
-        finalDownloadSpeed = 0;
-        finalUploadSpeed = 0;
-    }
-  }
+  double downloadSpeed = 0;
+  double uploadSpeed = 0;
 
   @override
   Widget build(BuildContext context) {
+    final speedTest = ref.watch(speedTestProvider);
+    speed = speedTest.when(
+      data: (value) => value.speed,
+      loading: () => 0.0,
+      error: (_, __) => 0.0,
+    );
+    downloadSpeed = speedTest.when(
+      data: (value) => value.downloadSpeed,
+      loading: () => 0.0,
+      error: (_, __) => 0.0,
+    );
+    uploadSpeed = speedTest.when(
+      data: (value) => value.uploadSpeed,
+      loading: () => 0.0,
+      error: (_, __) => 0.0,
+    );
     return Scaffold(
       appBar: AppBar(title: Text(context.lang.wifiSpeedTest)),
       body: Center(
@@ -70,7 +62,7 @@ class _WifiSpeedTestState extends ConsumerState<WifiSpeedTest> {
                         ],
                       ),
                       Text(
-                        "$finalDownloadSpeed Mbps",
+                        "$downloadSpeed Mbps",
                         style: TextStyle(fontSize: 24),
                       ),
                     ],
@@ -85,10 +77,7 @@ class _WifiSpeedTestState extends ConsumerState<WifiSpeedTest> {
                           Text(context.lang.wifiUploadSpeed),
                         ],
                       ),
-                      Text(
-                        "$finalUploadSpeed Mbps",
-                        style: TextStyle(fontSize: 24),
-                      ),
+                      Text("$uploadSpeed Mbps", style: TextStyle(fontSize: 24)),
                     ],
                   ),
                 ],
@@ -97,10 +86,8 @@ class _WifiSpeedTestState extends ConsumerState<WifiSpeedTest> {
             VerticalSpacing(height: spacing16),
             PrimaryElevatedButton(
               onPressed: () {
-                clearState();
+                ref.read(speedTestProvider.notifier).resetSpeedTest();
                 ref.read(speedTestProvider.notifier).startSpeedTest();
-                getDownloadAndUploadSpeed(ref);
-                // startSpeedTest();
               },
               text: context.lang.wifiStartSpeedTest,
             ),

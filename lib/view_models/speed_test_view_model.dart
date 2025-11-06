@@ -27,6 +27,12 @@ class SpeedTestViewModel extends StateNotifier<AsyncValue<SpeedTest>> {
     );
   }
 
+  void resetSpeedTest() {
+    state = AsyncValue.data(
+      SpeedTest(downloadSpeed: 0.0, uploadSpeed: 0.0, speed: 0.0),
+    );
+  }
+
   Future<void> startSpeedTest() async {
     final speedTest = FlutterInternetSpeedTest();
     speedTest.startTesting(

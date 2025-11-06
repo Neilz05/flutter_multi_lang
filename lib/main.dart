@@ -153,7 +153,6 @@ class _MyHomePageState extends ConsumerState<MyHomePage> {
     }
 
     getDownloadAndUploadSpeed(ref);
-    print("SPEED: $downloadSpeed");
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.primary,

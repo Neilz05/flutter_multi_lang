@@ -13,6 +13,9 @@ import 'package:flutter_application_1/widgets/widgets.dart';
 
 import 'package:firebase_auth/firebase_auth.dart';
 
+import 'package:flutter_application_1/view_models/ap_status_view_model.dart';
+import 'package:flutter_application_1/models/api_status.dart';
+
 bool _isPasswordVisible = false;
 
 Future<String?> signIn(String email, String password) async {
@@ -70,6 +73,8 @@ String decryptJson(String encryptedJson, String keyString) {
 
 class _LoginPageState extends State<LoginPage> {
   String? message;
+  late Future<ApiStatus> _futureStatus;
+
   final TextEditingController _usernameController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   @override
@@ -77,19 +82,24 @@ class _LoginPageState extends State<LoginPage> {
     super.initState();
     _isPasswordVisible = false;
     _fetchData();
+    final viewModel = ApiStatusViewModel(http.Client());
+    _futureStatus = viewModel.fetchRouterStatus();
   }
 
   Future<void> _fetchData() async {
     try {
       final response = await http.get(
-        Uri.parse('https://dog.ceo/api/breeds/image/random'),
+        Uri.parse('http://localhost:4000/api/users'),
       );
       if (response.statusCode == 200) {
         var data = jsonDecode(response.body); // data is now a Dart Map or List
+        print('data is: $data');
         // Use 'data' as needed
         setState(() {
-          message = data['message'];
+          // message = data['message'];
         });
+      } else {
+        print('Request faile with status: ${response.statusCode}.');
       }
     } catch (e) {}
   }
