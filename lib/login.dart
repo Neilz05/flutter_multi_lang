@@ -89,8 +89,10 @@ class _LoginPageState extends State<LoginPage> {
   Future<void> _fetchData() async {
     try {
       final response = await http.get(
-        Uri.parse('http://localhost:4000/api/users'),
+        // Uri.parse('http://localhost:4000/api/users'),
+        Uri.parse('http://localhost:5000/serviceElements/Device.DeviceInfo.'),
       );
+      // Fetch all logical interfaces
       if (response.statusCode == 200) {
         var data = jsonDecode(response.body); // data is now a Dart Map or List
         print('data is: $data');

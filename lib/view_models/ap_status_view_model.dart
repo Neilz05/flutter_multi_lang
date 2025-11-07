@@ -40,7 +40,7 @@ class ApiStatusViewModel {
   final http.Client client;
   ApiStatusViewModel(this.client);
   // final String baseUrl = 'http://192.168.1.1';
-  final String baseUrl = 'http://localhost:4000';
+  final String baseUrl = 'http://localhost:5000';
   Future<ApiStatus> fetchRouterStatus() async {
     // Future<ApiStatus> fetchRouterStatus(http.Client client) async {
     //   final response = await client.get(
@@ -59,8 +59,8 @@ class ApiStatusViewModel {
     //   throw Exception('Failed to load ApiStatus');
     // }
     // final uri = Uri.parse('$baseUrl/api/status');
-    // final uri = Uri.parse('$baseUrl/serviceElements/DeviceInfo.');
-    final uri = Uri.parse('$baseUrl/api/users');
+    final uri = Uri.parse('$baseUrl/serviceElements/Device.DeviceInfo.');
+    // final uri = Uri.parse('$baseUrl/api/users');
     // final uri = Uri.parse('/serviceElements/DeviceInfo.');
     final response = await client.get(uri);
     if (response.statusCode == 200) {
