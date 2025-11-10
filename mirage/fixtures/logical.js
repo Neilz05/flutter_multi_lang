@@ -2,7 +2,7 @@ const data = [
   { 
     parameters: {
         Alias: 'wan',
-        LowerLayers: 'Device.IP.Interface.1????.'
+        LowerLayers: 'Device.IP.Interface.1.'
     },
     path: 'Logical.Interface.1.',
   },

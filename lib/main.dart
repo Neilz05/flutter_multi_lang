@@ -1,3 +1,6 @@
+import 'package:http/http.dart' as http;
+import 'dart:convert';
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/widgets/widgets.dart';
@@ -26,6 +29,14 @@ import 'package:firebase_auth/firebase_auth.dart';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import 'package:flutter_application_1/view_models/api_status_view_model.dart';
+import 'package:flutter_application_1/view_models/deviceinfo_view_model.dart';
+import 'package:flutter_application_1/models/api_status.dart';
+import 'package:flutter_application_1/models/deviceinfo.dart';
+
+//Global variables
+String interfaceText = '';
+
 Future<bool> isAdminUser() async {
   final uid = FirebaseAuth.instance.currentUser?.uid;
   bool isAdmin = false;
@@ -44,6 +55,7 @@ Future<bool> isAdminUser() async {
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  interfaceText = await _fetchInterface();
   runApp(ProviderScope(child: MyApp()));
 }
 
@@ -113,6 +125,14 @@ class MyHomePage extends ConsumerStatefulWidget {
 
   @override
   ConsumerState<MyHomePage> createState() => _MyHomePageState();
+}
+
+Future<String> _fetchInterface() async {
+  //fetching interface info from the api status view model
+  //TODO: use riverpod to fetch this data instead of doing it here
+  final response = await ApiStatusViewModel(http.Client()).fetchRouterStatus();
+  print('response is: ${response.alias}');
+  return response.alias;
 }
 
 class _MyHomePageState extends ConsumerState<MyHomePage> {
@@ -237,6 +257,10 @@ class _MyHomePageState extends ConsumerState<MyHomePage> {
       body: ListView(
         padding: EdgeInsets.all(16),
         children: [
+          SummaryCard(
+            title: 'Interface Summary',
+            subtitles: [SubtitleLine('Interface', interfaceText)],
+          ),
           SummaryCard(
             title: 'Did you know?',
             subtitles: [

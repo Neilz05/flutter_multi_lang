@@ -13,8 +13,10 @@ import 'package:flutter_application_1/widgets/widgets.dart';
 
 import 'package:firebase_auth/firebase_auth.dart';
 
-import 'package:flutter_application_1/view_models/ap_status_view_model.dart';
+import 'package:flutter_application_1/view_models/api_status_view_model.dart';
+import 'package:flutter_application_1/view_models/deviceinfo_view_model.dart';
 import 'package:flutter_application_1/models/api_status.dart';
+import 'package:flutter_application_1/models/deviceinfo.dart';
 
 bool _isPasswordVisible = false;
 
@@ -73,7 +75,6 @@ String decryptJson(String encryptedJson, String keyString) {
 
 class _LoginPageState extends State<LoginPage> {
   String? message;
-  late Future<ApiStatus> _futureStatus;
 
   final TextEditingController _usernameController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
@@ -82,15 +83,16 @@ class _LoginPageState extends State<LoginPage> {
     super.initState();
     _isPasswordVisible = false;
     _fetchData();
-    final viewModel = ApiStatusViewModel(http.Client());
-    _futureStatus = viewModel.fetchRouterStatus();
   }
 
   Future<void> _fetchData() async {
     try {
       final response = await http.get(
         // Uri.parse('http://localhost:4000/api/users'),
-        Uri.parse('http://localhost:5000/serviceElements/Device.DeviceInfo.'),
+        // Uri.parse('http://localhost:5000/serviceElements/Device.DeviceInfo.'),
+        Uri.parse(
+          'http://localhost:5000/serviceElements/Device.Logical.Interface.',
+        ),
       );
       // Fetch all logical interfaces
       if (response.statusCode == 200) {
@@ -103,6 +105,12 @@ class _LoginPageState extends State<LoginPage> {
       } else {
         print('Request faile with status: ${response.statusCode}.');
       }
+    } catch (e) {}
+
+    try {
+      final deviceInfoViewModel = DeviceInfoViewModel(http.Client());
+      final deviceInfo = await deviceInfoViewModel.fetchRouterStatus();
+      print("Device Model Name: ${deviceInfo.ModelName}");
     } catch (e) {}
   }
 
